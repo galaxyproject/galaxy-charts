@@ -1,0 +1,17 @@
+NodeA	"phosphorylation"	NodeB
+NodeA	"binding"	NodeC
+NodeB	"phosphorylation"	NodeC
+NodeD	"binding"	NodeC
+NodeE	"binding"	NodeC
+NodeC	"phosphorylation"	NodeE
+NodeF	"phosphorylation"	NodeA
+NodeA	"phosphorylation"	NodeE
+NodeD	"binding"	NodeE
+NodeG	"ubiquitinisation"	NodeF
+NodeG	"ubiquitinisation"	NodeD
+NodeE	"phosphorylation"	NodeG
+NodeH	"ubiquitinisation"	NodeG
+NodeH	"ubiquitinisation"	NodeJ
+NodeE	"phosphorylation"	NodeJ
+NodeC	"ubiquitinisation"	NodeG
+NodeB	"binding"		NodeG

@@ -4,7 +4,6 @@ import {
     ChevronDoubleRightIcon,
     CloudArrowUpIcon,
     PresentationChartLineIcon,
-    QuestionMarkCircleIcon,
 } from "@heroicons/vue/24/outline";
 import { NButton, NIcon, NInputNumber, NSelect, NSlider } from "naive-ui";
 
@@ -52,7 +51,7 @@ watch(
 <template>
     <div class="overflow-auto">
         <div class="flex p-2">
-            <div class="flex-1 font-thin md:text-lg p-1 md:p-2">Galaxy Charts</div>
+            <div class="flex-1 font-thin text-lg p-1 md:p-2">Galaxy Charts</div>
             <div>
                 <n-button strong secondary circle class="bg-sky-100 m-1">
                     <template #icon>

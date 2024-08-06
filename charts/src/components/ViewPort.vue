@@ -41,20 +41,23 @@ const root = ref(incoming.root || "/");
 const logoUrl = computed(() => `${root.value}${logo.value}`);
 
 // collect visualization details
-const visualizationConfig = incoming.visualization_config || props.config;
+const visualizationConfig = incoming.visualization_config?.chart_dict || incoming.visualization_config || props.config;
 const visualizationPlugin = incoming.visualization_plugin;
-const visualizationSettings = visualizationConfig.settings || visualizationConfig.chart_dict?.settings || {};
+
+// get visualization title
+const datasetId = visualizationConfig.dataset_id;
+const visualizationSettings = visualizationConfig.settings || {};
+const title = visualizationConfig.title || "New Chart";
 
 // build dataset url
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
     console.debug(`ViewPort: Found dataset url: ${datasetUrl.value}.`);
 } else {
-    const datasetId = visualizationConfig.dataset_id;
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
-        datasetUrl.value = `${root.value}api/datasets/${visualizationConfig.dataset_id}/display`;
+        datasetUrl.value = `${root.value}api/datasets/${datasetId}/display`;
         console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }
@@ -120,10 +123,14 @@ function updateValues(newValues) {
         </div>
         <SidePanel
             v-else
+            :dataset-id="datasetId"
             :description="description"
             :html="html"
             :inputs="inputs"
             :logo-url="logoUrl"
+            :name="name"
+            :root="root"
+            :title="title"
             :values="values"
             @update:values="updateValues"
             @toggle="onToggle" />

@@ -5,7 +5,7 @@ const config = {
     dataset_url: "test-data/1ACB.pdb",
     settings: {
         mode: "contact",
-        radius: 0.62,
+        radius: 0.2,
     },
 };
 </script>

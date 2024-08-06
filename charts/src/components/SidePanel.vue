@@ -95,9 +95,9 @@ watch(
 </script>
 
 <template>
-    <div class="overflow-auto">
+    <div class="overflow-auto select-none">
         <div class="flex p-2">
-            <div class="flex-1 font-thin text-lg p-1 md:p-2">Galaxy Charts</div>
+            <div class="flex-1 font-thin text-lg p-1 p-2">Charts</div>
             <div>
                 <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
                     <template #icon>
@@ -130,7 +130,7 @@ watch(
         </div>
         <div class="px-4 pb-2">
             <div class="font-bold">Title</div>
-            <div class="text-xs py-1">Specify a visualization title</div>
+            <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
         <div v-for="input in inputs" class="px-4 pb-2">

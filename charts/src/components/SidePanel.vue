@@ -4,6 +4,7 @@ import { ChevronDoubleRightIcon, CloudArrowUpIcon, PresentationChartLineIcon } f
 import { NAlert, NButton, NIcon, NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
 
+const MESSAGE_TIMEOUT = 2000;
 const NUMBER_STEP_SIZE = 0.01;
 
 const props = defineProps({
@@ -92,6 +93,13 @@ watch(
     },
     { deep: true },
 );
+
+// Watch and clear messages
+let clearMessage = null;
+watch(message, () => {
+    clearMessage && clearTimeout(clearMessage);
+    clearMessage = setTimeout(() => (message.value = ""), MESSAGE_TIMEOUT);
+});
 </script>
 
 <template>

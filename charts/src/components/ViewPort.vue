@@ -5,6 +5,7 @@ import SidePanel from "@/components/SidePanel.vue";
 import { parseXML } from "@/utilities/parseXML";
 import { computed, ref, nextTick } from "vue";
 import { NAlert, NFloatButton, NIcon } from "naive-ui";
+import { getDatasetUrl } from "@/api/datasets";
 
 // props
 const props = defineProps({
@@ -58,7 +59,7 @@ if (visualizationConfig.dataset_url) {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
-        datasetUrl.value = `${root.value}api/datasets/${datasetId}/display`;
+        datasetUrl.value = getDatasetUrl(root.value, datasetId);
         console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }

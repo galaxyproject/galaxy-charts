@@ -34,16 +34,12 @@ const values = ref({});
 const element = document.getElementById("app");
 const incoming = JSON.parse(element.getAttribute("data-incoming")) || {};
 
-// parse root
+// parse incoming data
 const root = ref(incoming.root || "/");
-const visualizationTitle = incoming.visualization_title || "New Chart";
-const visualizationId = incoming.visualization_id;
-
-// evaluated computed values
-const logoUrl = computed(() => `${root.value}${logo.value}`);
-
-// get stored visualization config
 let visualizationConfig = incoming.visualization_config || props.config;
+const visualizationId = incoming.visualization_id;
+const visualizationPlugin = incoming.visualization_plugin;
+const visualizationTitle = incoming.visualization_title || props.config?.title || "New Chart";
 
 // parse chart dict
 if (incoming.visualization_config?.chart_dict) {
@@ -53,13 +49,8 @@ if (incoming.visualization_config?.chart_dict) {
     delete visualizationConfig["chartDict"];
 }
 
-// get visualization plugin details
-const visualizationPlugin = incoming.visualization_plugin;
-
-// get visualization title
+// get visualization dataset id (required)
 const datasetId = visualizationConfig.dataset_id;
-
-// build dataset url
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
     console.debug(`ViewPort: Found dataset url: ${datasetUrl.value}.`);
@@ -84,6 +75,16 @@ if (visualizationPlugin) {
     errorMessage.value = "Visualization requires configuration from XML or attached `visualization_plugin` details.";
 }
 
+// determine logo url
+const logoUrl = computed(() => `${root.value}${logo.value}`);
+
+// toggle side panel
+async function onToggle() {
+    embedded.value = !embedded.value;
+    await nextTick();
+    window.dispatchEvent(new Event("resize"));
+}
+
 // Parse plugin configuration
 function parseConfig(plugin, settings) {
     name.value = plugin.name;
@@ -101,12 +102,6 @@ function parseConfig(plugin, settings) {
         });
     }
     isLoading.value = false;
-}
-
-async function onToggle() {
-    embedded.value = !embedded.value;
-    await nextTick();
-    window.dispatchEvent(new Event("resize"));
 }
 
 // Event handler for updating values

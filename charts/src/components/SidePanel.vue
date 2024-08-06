@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { ChevronDoubleRightIcon, CloudArrowUpIcon, PresentationChartLineIcon } from "@heroicons/vue/24/outline";
 import { NAlert, NButton, NIcon, NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
-import { create, save } from "@/utilities/services";
+import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
 
 const NUMBER_STEP_SIZE = 0.01;
 
@@ -35,19 +35,24 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    title: {
-        type: String,
-        required: true,
-    },
     values: {
         type: Object,
         default: () => {},
     },
+    visualizationId: {
+        type: String,
+        default: null,
+    },
+    visualizationTitle: {
+        type: String,
+        required: true,
+    },
 });
 
 // Create a local copy of the values prop
-const currentTitle = ref(props.title);
+const currentTitle = ref(props.visualizationTitle);
 const currentValues = ref({ ...props.values });
+const currentVisualizationId = ref(props.visualizationId);
 
 // Error message
 const message = ref("");
@@ -58,14 +63,21 @@ const emit = defineEmits(["update:values", "toggle"]);
 
 async function onSave() {
     try {
-        await create(props.root, props.name, {
-            dataset_id: props.datasetId,
-            title: currentTitle.value,
-            type: props.type,
-            settings: props.values,
-        });
-        message.value = "Successfully saved.";
-        messageType.value = "success";
+        if (currentVisualizationId.value) {
+            await visualizationsSave(props.root, currentVisualizationId.value, currentTitle.value, {
+                dataset_id: props.datasetId,
+                settings: props.values,
+            });
+            message.value = "Successfully saved.";
+            messageType.value = "success";
+        } else {
+            currentVisualizationId.value = await visualizationsCreate(props.root, props.name, currentTitle.value, {
+                dataset_id: props.datasetId,
+                settings: props.values,
+            });
+            message.value = "Successfully created.";
+            messageType.value = "success";
+        }
     } catch (err) {
         message.value = err;
         messageType.value = "error";

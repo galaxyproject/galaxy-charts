@@ -2,6 +2,7 @@
 import ViewPort from "@/components/ViewPort.vue";
 import ngl from "@/plugins/ngl.vue";
 const config = {
+    dataset_id: "1ACB",
     dataset_url: "test-data/1ACB.pdb",
     settings: {
         mode: "contact",

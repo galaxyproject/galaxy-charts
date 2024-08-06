@@ -36,18 +36,28 @@ const incoming = JSON.parse(element.getAttribute("data-incoming")) || {};
 
 // parse root
 const root = ref(incoming.root || "/");
+const visualizationTitle = incoming.visualization_title || "New Chart";
+const visualizationId = incoming.visualization_id;
 
 // evaluated computed values
 const logoUrl = computed(() => `${root.value}${logo.value}`);
 
-// collect visualization details
-const visualizationConfig = incoming.visualization_config?.chart_dict || incoming.visualization_config || props.config;
+// get stored visualization config
+let visualizationConfig = incoming.visualization_config || props.config;
+
+// parse chart dict
+if (incoming.visualization_config?.chart_dict) {
+    const chartDict = incoming.visualization_config.chart_dict;
+    visualizationConfig.groups = chartDict.groups;
+    visualizationConfig.settings = chartDict.settings;
+    delete visualizationConfig["chartDict"];
+}
+
+// get visualization plugin details
 const visualizationPlugin = incoming.visualization_plugin;
 
 // get visualization title
 const datasetId = visualizationConfig.dataset_id;
-const visualizationSettings = visualizationConfig.settings || {};
-const title = visualizationConfig.title || "New Chart";
 
 // build dataset url
 if (visualizationConfig.dataset_url) {
@@ -63,6 +73,7 @@ if (visualizationConfig.dataset_url) {
 }
 
 // parse plugin either from incoming object or xml
+const visualizationSettings = visualizationConfig.settings || {};
 if (visualizationPlugin) {
     parseConfig(visualizationPlugin, visualizationSettings);
 } else if (props.xml) {
@@ -130,8 +141,9 @@ function updateValues(newValues) {
             :logo-url="logoUrl"
             :name="name"
             :root="root"
-            :title="title"
             :values="values"
+            :visualization-id="visualizationId"
+            :visualization-title="visualizationTitle"
             @update:values="updateValues"
             @toggle="onToggle" />
     </div>

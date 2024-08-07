@@ -5,12 +5,12 @@ export function parseIncoming(config) {
 
     // parse incoming data
     const root = incoming.root || "/";
-    let visualizationConfig = incoming.visualization_config || config;
     const visualizationId = incoming.visualization_id;
     const visualizationPlugin = incoming.visualization_plugin;
     const visualizationTitle = incoming.visualization_title || config?.title || "New Chart";
 
     // parse chart dict
+    let visualizationConfig = incoming.visualization_config || config;
     if (incoming.visualization_config?.chart_dict) {
         const chartDict = incoming.visualization_config.chart_dict;
         visualizationConfig.groups = chartDict.groups;

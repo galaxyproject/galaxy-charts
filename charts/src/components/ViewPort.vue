@@ -1,8 +1,7 @@
 <script setup>
-import axios from "axios";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
-import { parseXML } from "@/utilities/parseXML";
+import { parsePlugin } from "@/utilities/parsePlugin";
 import { computed, ref, nextTick } from "vue";
 import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { getDatasetUrl } from "@/api/datasets";
@@ -28,7 +27,7 @@ const html = ref(null);
 const inputs = ref([]);
 const isLoading = ref(true);
 const logo = ref(null);
-const name = ref(null);
+const name = ref("");
 const embedded = ref(false);
 const values = ref({});
 
@@ -36,6 +35,17 @@ const values = ref({});
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
     props.config,
 );
+
+// collect plugin details and parse incoming settings
+parsePlugin(props.xml, visualizationPlugin, visualizationConfig.settings).then(({ plugin, settings }) => {
+    description.value = plugin.description;
+    html.value = plugin.html;
+    inputs.value = plugin.settings;
+    isLoading.value = false;
+    logo.value = plugin.logo;
+    name.value = plugin.name;
+    values.value = settings;
+});
 
 // get visualization dataset id (required)
 const datasetId = visualizationConfig.dataset_id;
@@ -49,42 +59,6 @@ if (visualizationConfig.dataset_url) {
         datasetUrl.value = getDatasetUrl(root, datasetId);
         console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
-}
-
-// collect plugin details and parse incoming setting values
-parsePlugin(visualizationPlugin, visualizationConfig.settings);
-
-// parse plugin either from incoming object or xml
-async function parsePlugin(visualizationPlugin, visualizationSettings) {
-    if (visualizationPlugin) {
-        parseConfig(visualizationPlugin, visualizationSettings);
-    } else if (props.xml) {
-        const response = await axios.get(props.xml);
-        parseConfig(parseXML(props.xml, response.data), visualizationSettings);
-    } else {
-        errorMessage.value =
-            "Visualization requires configuration from XML or attached `visualization_plugin` details.";
-    }
-}
-
-// Parse plugin configuration
-function parseConfig(plugin, settings) {
-    settings = settings || {};
-    name.value = plugin.name;
-    html.value = plugin.html;
-    description.value = plugin.description;
-    logo.value = plugin.logo;
-    if (plugin.settings) {
-        inputs.value = plugin.settings;
-        inputs.value.forEach((input) => {
-            let value = settings[input.name] ?? input.value;
-            if (input.type === "float") {
-                value = Number(value);
-            }
-            values.value[input.name] = value;
-        });
-    }
-    isLoading.value = false;
 }
 
 // determine logo url

@@ -148,7 +148,7 @@ watch(message, () => {
                 <div v-if="input.type === 'select'">
                     <n-select v-model:value="currentValues[input.name]" :options="input.data" />
                 </div>
-                <div v-if="input.type === 'float'">
+                <div v-else-if="input.type === 'float'">
                     <n-slider
                         v-if="input.min !== undefined && input.max !== undefined"
                         class="mb-2"
@@ -162,6 +162,9 @@ watch(message, () => {
                         :min="Number(input.min)"
                         :max="Number(input.max)"
                         :step="NUMBER_STEP_SIZE" />
+                </div>
+                <div v-else>
+                    <n-input v-model:value="currentValues[input.name]" />
                 </div>
             </div>
         </div>

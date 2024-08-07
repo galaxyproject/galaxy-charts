@@ -27,7 +27,7 @@ export function parseXML(xmlFileName, xmlString) {
     }
 
     // parse inputs from groups and settings sections
-    ["groups", "settings"].forEach((key) => {
+    ["settings", "tracks"].forEach((key) => {
         const xmlNode = xmlDoc.documentElement.getElementsByTagName(key);
         if (xmlNode.length === 1) {
             result[key] = new ListParser(xmlNode[0]);

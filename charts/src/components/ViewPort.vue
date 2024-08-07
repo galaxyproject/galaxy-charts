@@ -37,7 +37,7 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 );
 
 // collect plugin details and parse incoming settings
-parsePlugin(props.xml, visualizationPlugin, visualizationConfig.settings).then(({ plugin, settings }) => {
+parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, tracks }) => {
     description.value = plugin.description;
     html.value = plugin.html;
     inputs.value = plugin.settings;

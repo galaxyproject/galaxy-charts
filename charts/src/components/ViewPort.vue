@@ -51,11 +51,11 @@ if (visualizationConfig.dataset_url) {
     }
 }
 
-const visualizationSettings = visualizationConfig.settings || {};
-parseSettings(visualizationPlugin, visualizationSettings);
+// collect plugin details and parse incoming setting values
+parsePlugin(visualizationPlugin, visualizationConfig.settings);
 
 // parse plugin either from incoming object or xml
-async function parseSettings(visualizationPlugin, visualizationSettings) {
+async function parsePlugin(visualizationPlugin, visualizationSettings) {
     if (visualizationPlugin) {
         parseConfig(visualizationPlugin, visualizationSettings);
     } else if (props.xml) {
@@ -69,6 +69,7 @@ async function parseSettings(visualizationPlugin, visualizationSettings) {
 
 // Parse plugin configuration
 function parseConfig(plugin, settings) {
+    settings = settings || {};
     name.value = plugin.name;
     html.value = plugin.html;
     description.value = plugin.description;

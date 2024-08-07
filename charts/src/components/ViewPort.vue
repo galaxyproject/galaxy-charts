@@ -6,6 +6,7 @@ import { parseXML } from "@/utilities/parseXML";
 import { computed, ref, nextTick } from "vue";
 import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { getDatasetUrl } from "@/api/datasets";
+import { parseIncoming } from "@/utilities/parseIncoming";
 
 // props
 const props = defineProps({
@@ -31,24 +32,10 @@ const name = ref(null);
 const embedded = ref(false);
 const values = ref({});
 
-// access attached data
-const element = document.getElementById("app");
-const incoming = JSON.parse(element.getAttribute("data-incoming")) || {};
-
-// parse incoming data
-const root = ref(incoming.root || "/");
-let visualizationConfig = incoming.visualization_config || props.config;
-const visualizationId = incoming.visualization_id;
-const visualizationPlugin = incoming.visualization_plugin;
-const visualizationTitle = incoming.visualization_title || props.config?.title || "New Chart";
-
-// parse chart dict
-if (incoming.visualization_config?.chart_dict) {
-    const chartDict = incoming.visualization_config.chart_dict;
-    visualizationConfig.groups = chartDict.groups;
-    visualizationConfig.settings = chartDict.settings;
-    delete visualizationConfig["chartDict"];
-}
+// parse incoming visualization details
+const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
+    props.config,
+);
 
 // get visualization dataset id (required)
 const datasetId = visualizationConfig.dataset_id;
@@ -59,31 +46,25 @@ if (visualizationConfig.dataset_url) {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
-        datasetUrl.value = getDatasetUrl(root.value, datasetId);
+        datasetUrl.value = getDatasetUrl(root, datasetId);
         console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }
 
-// parse plugin either from incoming object or xml
 const visualizationSettings = visualizationConfig.settings || {};
-if (visualizationPlugin) {
-    parseConfig(visualizationPlugin, visualizationSettings);
-} else if (props.xml) {
-    axios.get(props.xml).then((response) => {
+parseSettings(visualizationPlugin, visualizationSettings);
+
+// parse plugin either from incoming object or xml
+async function parseSettings(visualizationPlugin, visualizationSettings) {
+    if (visualizationPlugin) {
+        parseConfig(visualizationPlugin, visualizationSettings);
+    } else if (props.xml) {
+        const response = await axios.get(props.xml);
         parseConfig(parseXML(props.xml, response.data), visualizationSettings);
-    });
-} else {
-    errorMessage.value = "Visualization requires configuration from XML or attached `visualization_plugin` details.";
-}
-
-// determine logo url
-const logoUrl = computed(() => `${root.value}${logo.value}`);
-
-// toggle side panel
-async function onToggle() {
-    embedded.value = !embedded.value;
-    await nextTick();
-    window.dispatchEvent(new Event("resize"));
+    } else {
+        errorMessage.value =
+            "Visualization requires configuration from XML or attached `visualization_plugin` details.";
+    }
 }
 
 // Parse plugin configuration
@@ -103,6 +84,16 @@ function parseConfig(plugin, settings) {
         });
     }
     isLoading.value = false;
+}
+
+// determine logo url
+const logoUrl = computed(() => `${root}${logo.value}`);
+
+// toggle side panel
+async function onToggle() {
+    embedded.value = !embedded.value;
+    await nextTick();
+    window.dispatchEvent(new Event("resize"));
 }
 
 // Event handler for updating values

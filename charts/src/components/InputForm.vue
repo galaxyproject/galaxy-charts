@@ -15,19 +15,23 @@ const props = defineProps({
     },
 });
 
-// Create a local copy of the values prop
+// create a local copy of the values prop
 const currentValues = ref({ ...props.values });
 
-// Emit an event when currentValues changes
+// emit an event when values changes
 const emit = defineEmits(["update:values"]);
 
-// Watch and update values
+// trigger update of values
+function onUpdate() {
+    emit("update:values", currentValues.value);
+}
+
+// watch incoming values
 watch(
-    currentValues,
-    (newValues) => {
-        emit("update:values", newValues);
+    () => props.values,
+    () => {
+        currentValues.value = { ...props.values };
     },
-    { deep: true },
 );
 </script>
 
@@ -38,7 +42,10 @@ watch(
             <div v-if="input.help" class="text-xs py-1">{{ input.help }}</div>
             <div v-if="input.name in currentValues">
                 <div v-if="input.type === 'select'">
-                    <n-select v-model:value="currentValues[input.name]" :options="input.data" />
+                    <n-select
+                        v-model:value="currentValues[input.name]"
+                        :options="input.data"
+                        @update:value="onUpdate()" />
                 </div>
                 <div v-else-if="input.type === 'float'">
                     <n-slider
@@ -47,16 +54,18 @@ watch(
                         v-model:value="currentValues[input.name]"
                         :min="Number(input.min)"
                         :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE" />
+                        :step="NUMBER_STEP_SIZE"
+                        @update:value="onUpdate()" />
                     <n-input-number
                         v-model:value="currentValues[input.name]"
                         size="small"
                         :min="Number(input.min)"
                         :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE" />
+                        :step="NUMBER_STEP_SIZE"
+                        @update:value="onUpdate()" />
                 </div>
                 <div v-else>
-                    <n-input v-model:value="currentValues[input.name]" />
+                    <n-input v-model:value="currentValues[input.name]" @update:value="onUpdate()" />
                 </div>
             </div>
         </div>

@@ -301,4 +301,28 @@
             <value>1.0</value>
         </input>
     </settings>
+    <tracks>
+        <input>
+            <label>Quality</label>
+            <name>quality</name>
+            <help>Select the rendering quality</help>
+            <type>select</type>
+            <display>radio</display>
+            <value>medium</value>
+            <data>
+                <data>
+                    <label>High</label>
+                    <value>high</value>
+                </data>
+                <data>
+                    <label>Medium</label>
+                    <value>medium</value>
+                </data>
+                <data>
+                    <label>Low</label>
+                    <value>low</value>
+                </data>
+            </data>
+        </input>
+    </tracks>
 </visualization>

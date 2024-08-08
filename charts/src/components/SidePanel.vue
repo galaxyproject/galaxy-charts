@@ -16,10 +16,6 @@ const props = defineProps({
         type: String,
         default: "This visualization has no description.",
     },
-    inputs: {
-        type: Array,
-        default: () => [],
-    },
     logoUrl: {
         type: String,
         default: "",
@@ -36,7 +32,11 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    values: {
+    settingInputs: {
+        type: Array,
+        default: () => [],
+    },
+    settingValues: {
         type: Object,
         default: () => {},
     },
@@ -84,8 +84,8 @@ async function onSave() {
     }
 }
 
-function onUpdateValues(newValues) {
-    emit("update:values", newValues);
+function onUpdateSettings(newValues) {
+    emit("update:settings", newValues);
 }
 
 // Watch and clear messages
@@ -135,6 +135,6 @@ watch(message, () => {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
-        <InputForm :inputs="inputs" :values="values" @update:values="onUpdateValues" />
+        <InputForm :inputs="settingInputs" :values="settingValues" @update:values="onUpdateSettings" />
     </div>
 </template>

@@ -20,16 +20,16 @@ const props = defineProps({
 });
 
 // references
+const embedded = ref(false);
 const errorMessage = ref("");
 const datasetUrl = ref(null);
 const description = ref(null);
 const html = ref(null);
-const inputs = ref([]);
 const isLoading = ref(true);
 const logo = ref(null);
 const name = ref("");
-const embedded = ref(false);
-const values = ref({});
+const settingInputs = ref([]);
+const settingValues = ref({});
 
 // parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
@@ -40,18 +40,18 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, tracks }) => {
     description.value = plugin.description;
     html.value = plugin.html;
-    inputs.value = plugin.settings;
     isLoading.value = false;
     logo.value = plugin.logo;
     name.value = plugin.name;
-    values.value = settings;
+    settingInputs.value = plugin.settings;
+    settingValues.value = settings;
 });
 
 // get visualization dataset id (required)
 const datasetId = visualizationConfig.dataset_id;
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
-    console.debug(`ViewPort: Found dataset url: ${datasetUrl.value}.`);
+    console.debug(`ViewPort: Evaluating dataset url: ${datasetUrl.value}.`);
 } else {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
@@ -72,8 +72,8 @@ async function onToggle() {
 }
 
 // Event handler for updating values
-function updateValues(newValues) {
-    values.value = { ...newValues };
+function updateSettings(newSettings) {
+    settingValues.value = { ...newSettings };
 }
 </script>
 
@@ -88,7 +88,7 @@ function updateValues(newValues) {
         <span class="text-xs">Please wait...</span>
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !embedded }">
-        <slot :settings="values" :dataset-url="datasetUrl" :embedded="embedded" />
+        <slot :embedded="embedded" :dataset-url="datasetUrl" :settings="settingValues" />
         <div v-if="embedded">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
                 <n-icon><ChevronDoubleLeftIcon /></n-icon>
@@ -99,14 +99,14 @@ function updateValues(newValues) {
             :dataset-id="datasetId"
             :description="description"
             :html="html"
-            :inputs="inputs"
             :logo-url="logoUrl"
             :name="name"
             :root="root"
-            :values="values"
+            :setting-inputs="settingInputs"
+            :setting-values="settingValues"
             :visualization-id="visualizationId"
             :visualization-title="visualizationTitle"
-            @update:values="updateValues"
+            @update:settings="updateSettings"
             @toggle="onToggle" />
     </div>
 </template>

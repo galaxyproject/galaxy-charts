@@ -135,17 +135,17 @@ function onUpdateSettings(newValues) {
                 </div>
             </div>
         </div>
+        <div class="px-4 pb-2">
+            <div class="font-bold">Title</div>
+            <div class="text-xs py-1">Specify a visualization title.</div>
+            <n-input v-model:value="currentTitle" />
+        </div>
         <n-tabs type="line" animated class="px-4">
             <n-tab-pane name="settings">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
                 </template>
-                <div class="pb-2">
-                    <div class="font-bold">Title</div>
-                    <div class="text-xs py-1">Specify a visualization title.</div>
-                    <n-input v-model:value="currentTitle" />
-                </div>
                 <InputForm :inputs="settingInputs" :values="settingValues" @update:values="onUpdateSettings" />
             </n-tab-pane>
             <n-tab-pane name="tracks">

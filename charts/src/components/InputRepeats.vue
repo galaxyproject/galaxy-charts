@@ -1,5 +1,5 @@
 <script setup>
-import { PlusCircleIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
 import InputForm from "./InputForm.vue";
 import { computed } from "vue";
@@ -49,7 +49,7 @@ function onUpdate(index, values) {
 
 <template>
     <n-button size="tiny" type="primary" class="mb-2" @click="onAdd">
-        <n-icon><PlusCircleIcon /></n-icon>
+        <n-icon><PlusIcon /></n-icon>
         <span class="mx-1">Add New Track</span>
     </n-button>
     <div v-for="(values, index) of valuesArray" :key="index" class="my-2">

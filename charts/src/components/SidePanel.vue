@@ -1,7 +1,13 @@
 <script setup>
 import { ref } from "vue";
-import { ChevronDoubleRightIcon, CloudArrowUpIcon, PresentationChartLineIcon } from "@heroicons/vue/24/outline";
-import { NButton, NIcon, NInput } from "naive-ui";
+import {
+    AdjustmentsHorizontalIcon,
+    ChevronDoubleRightIcon,
+    CloudArrowUpIcon,
+    PresentationChartLineIcon,
+    Square3Stack3DIcon,
+} from "@heroicons/vue/24/outline";
+import { NButton, NIcon, NInput, NTabs, NTabPane } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
@@ -129,11 +135,26 @@ function onUpdateSettings(newValues) {
                 </div>
             </div>
         </div>
-        <div class="px-4 pb-2">
-            <div class="font-bold">Title</div>
-            <div class="text-xs py-1">Specify a visualization title.</div>
-            <n-input v-model:value="currentTitle" />
-        </div>
-        <InputForm :inputs="settingInputs" :values="settingValues" @update:values="onUpdateSettings" />
+        <n-tabs type="line" animated class="px-4">
+            <n-tab-pane name="settings">
+                <template #tab>
+                    <n-icon><AdjustmentsHorizontalIcon /></n-icon>
+                    <span class="mx-1">Settings</span>
+                </template>
+                <div class="pb-2">
+                    <div class="font-bold">Title</div>
+                    <div class="text-xs py-1">Specify a visualization title.</div>
+                    <n-input v-model:value="currentTitle" />
+                </div>
+                <InputForm :inputs="settingInputs" :values="settingValues" @update:values="onUpdateSettings" />
+            </n-tab-pane>
+            <n-tab-pane name="tracks">
+                <template #tab>
+                    <n-icon><Square3Stack3DIcon /></n-icon>
+                    <span class="mx-1">Tracks</span>
+                </template>
+                Tracks
+            </n-tab-pane>
+        </n-tabs>
     </div>
 </template>

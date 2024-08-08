@@ -1,11 +1,11 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { ChevronDoubleRightIcon, CloudArrowUpIcon, PresentationChartLineIcon } from "@heroicons/vue/24/outline";
-import { NAlert, NButton, NIcon, NInput } from "naive-ui";
+import { NButton, NIcon, NInput } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
+import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
-
-const MESSAGE_TIMEOUT = 2000;
+import AlertNotify from "@/components/AlertNotify.vue";
 
 const props = defineProps({
     datasetId: {
@@ -40,6 +40,14 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    trackInputs: {
+        type: Array,
+        default: () => [],
+    },
+    trackValues: {
+        type: Object,
+        default: () => [],
+    },
     visualizationId: {
         type: String,
         default: null,
@@ -59,7 +67,7 @@ const message = ref("");
 const messageType = ref("");
 
 // Emit an event when values changes
-const emit = defineEmits(["update:values", "toggle"]);
+const emit = defineEmits(["update:settings", "toggle"]);
 
 async function onSave() {
     try {
@@ -79,7 +87,7 @@ async function onSave() {
             messageType.value = "success";
         }
     } catch (err) {
-        message.value = err;
+        message.value = errorMessageAsString(err);
         messageType.value = "error";
     }
 }
@@ -87,13 +95,6 @@ async function onSave() {
 function onUpdateSettings(newValues) {
     emit("update:settings", newValues);
 }
-
-// Watch and clear messages
-let clearMessage = null;
-watch(message, () => {
-    clearMessage && clearTimeout(clearMessage);
-    clearMessage = setTimeout(() => (message.value = ""), MESSAGE_TIMEOUT);
-});
 </script>
 
 <template>
@@ -113,9 +114,7 @@ watch(message, () => {
                 </n-button>
             </div>
         </div>
-        <n-alert v-if="message" :type="messageType" class="m-4">
-            {{ message }}
-        </n-alert>
+        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-4" />
         <div class="m-4 mt-0 p-2 bg-sky-50 text-sky-900 rounded">
             <div class="md:flex">
                 <div class="flex justify-center center-items">

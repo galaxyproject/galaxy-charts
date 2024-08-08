@@ -75,9 +75,14 @@ async function onToggle() {
     window.dispatchEvent(new Event("resize"));
 }
 
-// Event handler for updating values
+// event handler for updating settings
 function updateSettings(newSettings) {
     settingValues.value = { ...newSettings };
+}
+
+// event handler for updating tracks
+function updateTracks(newTracks) {
+    trackValues.value = { ...newTracks };
 }
 </script>
 
@@ -113,6 +118,7 @@ function updateSettings(newSettings) {
             :visualization-id="visualizationId"
             :visualization-title="visualizationTitle"
             @update:settings="updateSettings"
+            @update:tracks="updateTracks"
             @toggle="onToggle" />
     </div>
 </template>

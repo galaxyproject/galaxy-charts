@@ -74,7 +74,7 @@ const message = ref("");
 const messageType = ref("");
 
 // Emit an event when values changes
-const emit = defineEmits(["update:settings", "toggle"]);
+const emit = defineEmits(["update:tracks", "update:settings", "toggle"]);
 
 async function onSave() {
     try {
@@ -101,6 +101,10 @@ async function onSave() {
 
 function onUpdateSettings(newValues) {
     emit("update:settings", newValues);
+}
+
+function onUpdateTracks(newValues) {
+    emit("update:tracks", newValues);
 }
 </script>
 
@@ -154,7 +158,7 @@ function onUpdateSettings(newValues) {
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                <InputRepeats :inputs="trackInputs" :values-array="trackValues" />
+                <InputRepeats :inputs="trackInputs" :values-array="trackValues" @update:values-array="onUpdateTracks" />
             </n-tab-pane>
         </n-tabs>
     </div>

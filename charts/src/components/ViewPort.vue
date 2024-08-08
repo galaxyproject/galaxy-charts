@@ -82,7 +82,7 @@ function updateSettings(newSettings) {
 
 // event handler for updating tracks
 function updateTracks(newTracks) {
-    trackValues.value = { ...newTracks };
+    trackValues.value = [...newTracks];
 }
 </script>
 

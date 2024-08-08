@@ -63,7 +63,7 @@ function onUpdate(index, values) {
                     :disabled="valuesArray.length <= 1"
                     @click="onRemove(index)">
                     <n-icon><TrashIcon /></n-icon>
-                    <span class="mx-1">Remove Track {{ index + 1 }}</span>
+                    <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
                 </n-button>
             </div>
         </div>

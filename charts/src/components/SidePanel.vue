@@ -1,11 +1,11 @@
 <script setup>
 import { ref, watch } from "vue";
 import { ChevronDoubleRightIcon, CloudArrowUpIcon, PresentationChartLineIcon } from "@heroicons/vue/24/outline";
-import { NAlert, NButton, NIcon, NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
+import { NAlert, NButton, NIcon, NInput } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
+import InputForm from "@/components/InputForm.vue";
 
 const MESSAGE_TIMEOUT = 2000;
-const NUMBER_STEP_SIZE = 0.01;
 
 const props = defineProps({
     datasetId: {
@@ -52,14 +52,13 @@ const props = defineProps({
 
 // Create a local copy of the values prop
 const currentTitle = ref(props.visualizationTitle);
-const currentValues = ref({ ...props.values });
 const currentVisualizationId = ref(props.visualizationId);
 
 // Error message
 const message = ref("");
 const messageType = ref("");
 
-// Emit an event when currentValues changes
+// Emit an event when values changes
 const emit = defineEmits(["update:values", "toggle"]);
 
 async function onSave() {
@@ -85,14 +84,9 @@ async function onSave() {
     }
 }
 
-// Watch and update values
-watch(
-    currentValues,
-    (newValues) => {
-        emit("update:values", newValues);
-    },
-    { deep: true },
-);
+function onUpdateValues(newValues) {
+    emit("update:values", newValues);
+}
 
 // Watch and clear messages
 let clearMessage = null;
@@ -141,32 +135,6 @@ watch(message, () => {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
-        <div v-for="input in inputs" class="px-4 pb-2">
-            <div class="font-bold">{{ input.label || input.name }}</div>
-            <div v-if="input.help" class="text-xs py-1">{{ input.help }}</div>
-            <div v-if="input.name in currentValues">
-                <div v-if="input.type === 'select'">
-                    <n-select v-model:value="currentValues[input.name]" :options="input.data" />
-                </div>
-                <div v-else-if="input.type === 'float'">
-                    <n-slider
-                        v-if="input.min !== undefined && input.max !== undefined"
-                        class="mb-2"
-                        v-model:value="currentValues[input.name]"
-                        :min="Number(input.min)"
-                        :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE" />
-                    <n-input-number
-                        v-model:value="currentValues[input.name]"
-                        size="small"
-                        :min="Number(input.min)"
-                        :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE" />
-                </div>
-                <div v-else>
-                    <n-input v-model:value="currentValues[input.name]" />
-                </div>
-            </div>
-        </div>
+        <InputForm :inputs="inputs" :values="values" @update:values="onUpdateValues" />
     </div>
 </template>

@@ -30,6 +30,8 @@ const logo = ref(null);
 const name = ref("");
 const settingInputs = ref([]);
 const settingValues = ref({});
+const trackInputs = ref([]);
+const trackValues = ref([]);
 
 // parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
@@ -45,6 +47,8 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
     name.value = plugin.name;
     settingInputs.value = plugin.settings;
     settingValues.value = settings;
+    trackInputs.value = plugin.tracks;
+    trackValues.value = tracks;
 });
 
 // get visualization dataset id (required)
@@ -104,6 +108,8 @@ function updateSettings(newSettings) {
             :root="root"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
+            :track-inputs="trackInputs"
+            :track-values="trackValues"
             :visualization-id="visualizationId"
             :visualization-title="visualizationTitle"
             @update:settings="updateSettings"

@@ -33,7 +33,7 @@ watch(
 
 <template>
     <div class="overflow-auto select-none">
-        <div v-for="input in inputs" class="pb-2">
+        <div v-for="(input, inputIndex) in inputs" :key="inputIndex" class="pb-2">
             <div class="font-bold">{{ input.label || input.name }}</div>
             <div v-if="input.help" class="text-xs py-1">{{ input.help }}</div>
             <div v-if="input.name in currentValues">

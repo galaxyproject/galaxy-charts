@@ -11,6 +11,7 @@ import { NButton, NIcon, NInput, NTabs, NTabPane } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
+import InputRepeats from "./InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 
 const props = defineProps({
@@ -153,7 +154,7 @@ function onUpdateSettings(newValues) {
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                Tracks
+                <InputRepeats :inputs="trackInputs" :values-array="trackValues" />
             </n-tab-pane>
         </n-tabs>
     </div>

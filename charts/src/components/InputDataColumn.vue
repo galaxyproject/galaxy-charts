@@ -29,31 +29,26 @@ const props = defineProps({
         type: String,
         default: "/",
     },
-    value: {
-        type: String | undefined,
-        required: false,
-    },
 });
 
 // emit an event when adding or removing repeat blocks
-const emit = defineEmits([]);
-const currentValue = ref(props.value);
 const currentOptions = ref([]);
+const currentValue = defineModel("value");
 
-async function getColumns() {
+async function loadColumns() {
     try {
         const dataset = await datasetsGet(props.root, props.datasetId);
         const columns = parseColumns(dataset, props.isAuto, props.isLabel, props.isNumeric, props.isZero);
-        if (columns.length > 0) {
+        currentOptions.value = columns;
+        if (columns.length > 0 && currentValue.value === undefined) {
             currentValue.value = columns[0].value;
         }
-        currentOptions.value = columns;
     } catch (err) {
         console.log(err);
     }
 }
 
-getColumns();
+loadColumns();
 </script>
 
 <template>

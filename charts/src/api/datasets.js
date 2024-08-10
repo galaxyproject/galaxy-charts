@@ -6,8 +6,9 @@ export function getDatasetUrl(root, datasetId) {
 }
 
 export async function datasetsGet(root, id) {
+    const url = `${root}api/datasets/${id}`;
     try {
-        const { data } = await axios.get(`${root}api/datasets/${id}`);
+        const { data } = await axios.get(url);
         return data;
     } catch (err) {
         rethrowSimple(err);

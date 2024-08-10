@@ -15,7 +15,7 @@ const props = defineProps({
     },
     root: {
         type: String,
-        default: "/",
+        required: true,
     },
     valuesArray: {
         type: Array,
@@ -65,6 +65,7 @@ function onUpdate(index, values) {
             <InputForm
                 :dataset-id="datasetId"
                 :inputs="inputs"
+                :root="root"
                 :values="values"
                 @update:values="onUpdate(index, $event)" />
             <div class="flex text-green-600 my-1">

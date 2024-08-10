@@ -4,7 +4,7 @@ export function parseIncoming(config) {
     const incoming = JSON.parse(element.getAttribute("data-incoming")) || {};
 
     // parse incoming data
-    const root = incoming.root || "/";
+    const root = incoming.root || config?.root || "/";
     const visualizationId = incoming.visualization_id;
     const visualizationPlugin = incoming.visualization_plugin;
     const visualizationTitle = incoming.visualization_title || config?.title || "New Chart";

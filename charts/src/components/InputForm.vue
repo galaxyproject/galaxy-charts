@@ -54,6 +54,10 @@ watch(
                     <InputDataColumn
                         v-model:value="currentValues[input.name]"
                         :dataset-id="datasetId"
+                        :is-auto="input.is_auto === 'true'"
+                        :is-label="input.is_label === 'true'"
+                        :is-numeric="input.is_numeric === 'true'"
+                        :is-zero="input.is_zero === 'true'"
                         :root="root"
                         @update:value="onUpdate()" />
                 </div>

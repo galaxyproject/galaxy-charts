@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { NSelect } from "naive-ui";
 import { datasetsGet } from "@/api/datasets";
+import { parseColumns } from "@/utilities/parseColumns";
 
 const props = defineProps({
     datasetId: {
@@ -37,33 +38,16 @@ const props = defineProps({
 // emit an event when adding or removing repeat blocks
 const emit = defineEmits([]);
 const currentValue = ref(props.value);
-const currentOptions = ref([
-    {
-        label: "test",
-        value: "ok",
-    },
-]);
+const currentOptions = ref([]);
 
 async function getColumns() {
     try {
         const dataset = await datasetsGet(props.root, props.datasetId);
-        var columns = [];
-        if (props.isAuto) {
-            columns.push({ label: "Column: Row Number", value: "auto" });
-        }
-        if (props.isZero) {
-            columns.push({ label: "Column: None", value: "zero" });
-        }
-        var meta = dataset.metadata_column_types;
-        for (var key in meta) {
-            if ((["int", "float"].indexOf(meta[key]) != -1 && props.isNumeric) || props.isLabel) {
-                columns.push({ label: "Column: " + (parseInt(key) + 1), value: key });
-            }
-        }
-        currentOptions.value = columns;
+        const columns = parseColumns(dataset, props.isAuto, props.isLabel, props.isNumeric, props.isZero);
         if (columns.length > 0) {
             currentValue.value = columns[0].value;
         }
+        currentOptions.value = columns;
     } catch (err) {
         console.log(err);
     }

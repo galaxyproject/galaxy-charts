@@ -303,10 +303,17 @@
     </settings>
     <tracks>
         <input>
-            <label>My Column</label>
-            <name>cols</name>
-            <help>Select the rendering quality</help>
+            <name>x</name>
+            <label>Column of x-axis values</label>
             <type>data_column</type>
+            <is_label>true</is_label>
+            <is_auto>true</is_auto>
+        </input>
+        <input>
+            <name>y</name>
+            <label>Column of y-axis values</label>
+            <type>data_column</type>
+            <is_numeric>true</is_numeric>
         </input>
         <input>
             <label>Quality</label>

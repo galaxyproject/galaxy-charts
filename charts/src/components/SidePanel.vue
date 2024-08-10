@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import {
     AdjustmentsHorizontalIcon,
     ChevronDoubleRightIcon,
@@ -13,6 +13,7 @@ import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
 import InputRepeats from "./InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
+import ApiStatus from "@/components/ApiStatus.vue";
 
 const props = defineProps({
     datasetId: {
@@ -111,7 +112,10 @@ function onUpdateTracks(newValues) {
 <template>
     <div class="overflow-auto select-none">
         <div class="flex p-2">
-            <div class="flex-1 font-thin text-lg p-1 p-2">Charts</div>
+            <div class="flex-1 font-thin text-lg p-1 p-2">
+                <span>Charts</span>
+                <ApiStatus :root="root" />
+            </div>
             <div>
                 <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
                     <template #icon>

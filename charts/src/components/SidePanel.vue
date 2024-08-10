@@ -151,14 +151,24 @@ function onUpdateTracks(newValues) {
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
                 </template>
-                <InputForm :inputs="settingInputs" :values="settingValues" @update:values="onUpdateSettings" />
+                <InputForm
+                    :dataset-id="datasetId"
+                    :inputs="settingInputs"
+                    :root="root"
+                    :values="settingValues"
+                    @update:values="onUpdateSettings" />
             </n-tab-pane>
             <n-tab-pane name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                <InputRepeats :inputs="trackInputs" :values-array="trackValues" @update:values-array="onUpdateTracks" />
+                <InputRepeats
+                    :dataset-id="datasetId"
+                    :inputs="trackInputs"
+                    :root="root"
+                    :values-array="trackValues"
+                    @update:values-array="onUpdateTracks" />
             </n-tab-pane>
         </n-tabs>
     </div>

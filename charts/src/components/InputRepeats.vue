@@ -5,9 +5,17 @@ import InputForm from "./InputForm.vue";
 import { computed } from "vue";
 
 const props = defineProps({
+    datasetId: {
+        type: String,
+        required: true,
+    },
     inputs: {
         type: Array,
         required: true,
+    },
+    root: {
+        type: String,
+        default: "/",
     },
     valuesArray: {
         type: Array,
@@ -54,7 +62,11 @@ function onUpdate(index, values) {
     </n-button>
     <div v-for="(values, index) of valuesArray" :key="index" class="my-2">
         <div class="border border-dotted border-green-600 rounded p-2">
-            <InputForm :inputs="inputs" :values="values" @update:values="onUpdate(index, $event)" />
+            <InputForm
+                :dataset-id="datasetId"
+                :inputs="inputs"
+                :values="values"
+                @update:values="onUpdate(index, $event)" />
             <div class="flex text-green-600 my-1">
                 <n-button
                     class="text-green-600 w-full"

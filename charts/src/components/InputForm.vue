@@ -1,13 +1,22 @@
 <script setup>
 import { ref, watch } from "vue";
 import { NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
+import InputDataColumn from "@/components/InputDataColumn.vue";
 
 const NUMBER_STEP_SIZE = 0.01;
 
 const props = defineProps({
+    datasetId: {
+        type: String,
+        required: true,
+    },
     inputs: {
         type: Array,
         default: () => [],
+    },
+    root: {
+        type: String,
+        default: "/",
     },
     values: {
         type: Object,
@@ -41,10 +50,11 @@ watch(
             <div class="font-bold">{{ input.label || input.name }}</div>
             <div v-if="input.help" class="text-xs py-1">{{ input.help }}</div>
             <div v-if="input.name in currentValues">
-                <div v-if="input.type === 'select'">
-                    <n-select
+                <div v-if="input.type === 'data_column'">
+                    <InputDataColumn
                         v-model:value="currentValues[input.name]"
-                        :options="input.data"
+                        :dataset-id="datasetId"
+                        :root="root"
                         @update:value="onUpdate()" />
                 </div>
                 <div v-else-if="input.type === 'float'">
@@ -62,6 +72,12 @@ watch(
                         :min="Number(input.min)"
                         :max="Number(input.max)"
                         :step="NUMBER_STEP_SIZE"
+                        @update:value="onUpdate()" />
+                </div>
+                <div v-else-if="input.type === 'select'">
+                    <n-select
+                        v-model:value="currentValues[input.name]"
+                        :options="input.data"
                         @update:value="onUpdate()" />
                 </div>
                 <div v-else>

@@ -303,6 +303,12 @@
     </settings>
     <tracks>
         <input>
+            <label>My Column</label>
+            <name>cols</name>
+            <help>Select the rendering quality</help>
+            <type>data_column</type>
+        </input>
+        <input>
             <label>Quality</label>
             <name>quality</name>
             <help>Select the rendering quality</help>

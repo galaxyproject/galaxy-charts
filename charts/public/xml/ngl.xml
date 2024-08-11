@@ -9,15 +9,11 @@
             <to_param param_attr="id">dataset_id</to_param>
         </data_source>
     </data_sources>
-    <macros>
-        <import>nvd3_shared.xml</import>
-    </macros>
     <params>
         <param type="dataset" var_name_in_template="hda" required="true">dataset_id</param>
     </params>
     <entry_point entry_point_type="script" src="https://cdn.jsdelivr.net/gh/guerler/jse@59bcda58715a932b9f594e37aed11ab0cd3f3d54/plain/script.js"/>
     <settings>
-        <expand macro="groups"/>
         <input>
             <label>Quality</label>
             <name>quality</name>
@@ -305,41 +301,4 @@
             <value>1.0</value>
         </input>
     </settings>
-    <tracks>
-        <input>
-            <name>x</name>
-            <label>Column of x-axis values</label>
-            <type>data_column</type>
-            <is_label>true</is_label>
-            <is_auto>true</is_auto>
-        </input>
-        <input>
-            <name>y</name>
-            <label>Column of y-axis values</label>
-            <type>data_column</type>
-            <is_numeric>true</is_numeric>
-        </input>
-        <input>
-            <label>Quality</label>
-            <name>quality</name>
-            <help>Select the rendering quality</help>
-            <type>select</type>
-            <display>radio</display>
-            <value>medium</value>
-            <data>
-                <data>
-                    <label>High</label>
-                    <value>high</value>
-                </data>
-                <data>
-                    <label>Medium</label>
-                    <value>medium</value>
-                </data>
-                <data>
-                    <label>Low</label>
-                    <value>low</value>
-                </data>
-            </data>
-        </input>
-    </tracks>
 </visualization>

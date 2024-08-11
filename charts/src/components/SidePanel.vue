@@ -149,7 +149,15 @@ function onUpdateTracks(newValues) {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
-        <n-tabs type="line" animated class="px-4">
+        <InputForm
+            v-if="trackInputs.length === 0"
+            class="px-4"
+            :dataset-id="datasetId"
+            :inputs="settingInputs"
+            :root="root"
+            :values="settingValues"
+            @update:values="onUpdateSettings" />
+        <n-tabs v-else type="line" animated class="px-4">
             <n-tab-pane name="settings">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>

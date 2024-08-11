@@ -16,7 +16,7 @@ const config = {
 </script>
 
 <template>
-    <ViewPort :config="config" xml="xml/ngl.xml">
+    <ViewPort :config="config" xml="xml/nvd3_bar.xml">
         <template #default="{ datasetUrl, settings }">
             <ngl :dataset-url="datasetUrl" :settings="settings" />
         </template>

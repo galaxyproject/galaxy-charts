@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import { NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
+import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/InputConditional.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 import { toBoolean } from "@/utilities/toBoolean";
@@ -52,7 +52,17 @@ watch(
             <div class="font-bold pb-1">{{ input.label || input.name }}</div>
             <div v-if="input.help" class="text-xs pb-1">{{ input.help }}</div>
             <div>
-                <div v-if="input.type === 'conditional'">
+                <n-switch
+                    v-if="input.type === 'boolean'"
+                    v-model:value="currentValues[input.name]"
+                    @update:value="onUpdate()" />
+                <n-color-picker
+                    v-else-if="input.type === 'color'"
+                    v-model:value="currentValues[input.name]"
+                    :modes="['hex']"
+                    :show-alpha="false"
+                    @update:value="onUpdate()" />
+                <div v-else-if="input.type === 'conditional'">
                     <InputConditional
                         v-model:value="currentValues[input.name]"
                         :dataset-id="datasetId"

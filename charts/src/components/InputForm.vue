@@ -2,6 +2,7 @@
 import { ref, watch } from "vue";
 import { NInput, NInputNumber, NSelect, NSlider } from "naive-ui";
 import InputDataColumn from "@/components/InputDataColumn.vue";
+import { toBoolean } from "@/utilities/toBoolean";
 
 const NUMBER_STEP_SIZE = 0.01;
 
@@ -54,10 +55,10 @@ watch(
                     <InputDataColumn
                         v-model:value="currentValues[input.name]"
                         :dataset-id="datasetId"
-                        :is-auto="input.is_auto === 'true'"
-                        :is-label="input.is_label === 'true'"
-                        :is-numeric="input.is_numeric === 'true'"
-                        :is-zero="input.is_zero === 'true'"
+                        :is-auto="toBoolean(input.is_auto)"
+                        :is-label="toBoolean(input.is_label)"
+                        :is-numeric="toBoolean(input.is_numeric)"
+                        :is-zero="toBoolean(input.is_zero)"
                         :root="root"
                         @update:value="onUpdate()" />
                 </div>

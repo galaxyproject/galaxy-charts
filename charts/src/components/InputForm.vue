@@ -42,7 +42,6 @@ watch(
     () => props.values,
     () => {
         currentValues.value = { ...props.values };
-        console.log(currentValues.value);
     },
 );
 </script>

@@ -35,11 +35,19 @@ for (const inputCase of props.input.cases) {
     inputDefaults[inputCase.value][testName] = inputCase.value;
 }
 
+// update values if test value changes or conditional input elements are modified
+function onUpdate(newValues) {
+    currentValue.value = { ...inputDefaults[currentTestValue.value] };
+    if (newValues) {
+        currentValue.value = { ...currentValue.value, ...newValues };
+    }
+}
+
 // load defaults if test value changes
 watch(
     () => currentTestValue.value,
     () => {
-        currentValue.value = { ...inputDefaults[currentTestValue.value] };
+        onUpdate();
     },
 );
 </script>
@@ -47,6 +55,11 @@ watch(
 <template>
     <n-select v-model:value="currentTestValue" :options="input.test_param.data" />
     <div v-if="inputCases[currentTestValue]" class="border border-dotted border-green-600 rounded mt-2 p-2">
-        <InputForm :dataset-id="datasetId" :inputs="inputCases[currentTestValue]" :root="root" :values="currentValue" />
+        <InputForm
+            :dataset-id="datasetId"
+            :inputs="inputCases[currentTestValue]"
+            :root="root"
+            :values="currentValue"
+            @update:values="onUpdate" />
     </div>
 </template>

@@ -9,6 +9,7 @@ const config = {
         radius: 0.2,
         x_axis_type: {
             type: "f",
+            precision: "3",
         },
     },
 };

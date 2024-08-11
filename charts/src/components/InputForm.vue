@@ -62,25 +62,23 @@ watch(
                     :modes="['hex']"
                     :show-alpha="false"
                     @update:value="onUpdate()" />
-                <div v-else-if="input.type === 'conditional'">
-                    <InputConditional
-                        v-model:value="currentValues[input.name]"
-                        :dataset-id="datasetId"
-                        :input="input"
-                        :root="root"
-                        @update:value="onUpdate()" />
-                </div>
-                <div v-else-if="input.type === 'data_column'">
-                    <InputDataColumn
-                        v-model:value="currentValues[input.name]"
-                        :dataset-id="datasetId"
-                        :is-auto="toBoolean(input.is_auto)"
-                        :is-label="toBoolean(input.is_label)"
-                        :is-numeric="toBoolean(input.is_numeric)"
-                        :is-zero="toBoolean(input.is_zero)"
-                        :root="root"
-                        @update:value="onUpdate()" />
-                </div>
+                <InputConditional
+                    v-else-if="input.type === 'conditional'"
+                    v-model:value="currentValues[input.name]"
+                    :dataset-id="datasetId"
+                    :input="input"
+                    :root="root"
+                    @update:value="onUpdate()" />
+                <InputDataColumn
+                    v-else-if="input.type === 'data_column'"
+                    v-model:value="currentValues[input.name]"
+                    :dataset-id="datasetId"
+                    :is-auto="toBoolean(input.is_auto)"
+                    :is-label="toBoolean(input.is_label)"
+                    :is-numeric="toBoolean(input.is_numeric)"
+                    :is-zero="toBoolean(input.is_zero)"
+                    :root="root"
+                    @update:value="onUpdate()" />
                 <div v-else-if="input.type === 'float'">
                     <n-slider
                         v-if="input.min !== undefined && input.max !== undefined"
@@ -98,15 +96,12 @@ watch(
                         :step="NUMBER_STEP_SIZE"
                         @update:value="onUpdate()" />
                 </div>
-                <div v-else-if="input.type === 'select'">
-                    <n-select
-                        v-model:value="currentValues[input.name]"
-                        :options="input.data"
-                        @update:value="onUpdate()" />
-                </div>
-                <div v-else>
-                    <n-input v-model:value="currentValues[input.name]" @update:value="onUpdate()" />
-                </div>
+                <n-select
+                    v-else-if="input.type === 'select'"
+                    v-model:value="currentValues[input.name]"
+                    :options="input.data"
+                    @update:value="onUpdate()" />
+                <n-input v-else v-model:value="currentValues[input.name]" @update:value="onUpdate()" />
             </div>
         </div>
     </div>

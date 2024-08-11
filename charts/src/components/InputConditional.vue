@@ -21,13 +21,18 @@ const props = defineProps({
 
 // get test parameter name
 const testName = props.input.test_param.name;
+if (!testName) {
+    console.error(`Test parameter has no name: ${props.input.name}.`);
+}
 
 // reference current test and conditional values
 const currentValue = defineModel("value");
-const currentTestValue = ref(currentValue.value[testName]);
-if (!currentTestValue.value) {
-    console.error(`Test value of conditional not available: ${input.name}.`);
+if (!currentValue.value || !(testName in currentValue.value)) {
+    console.error(`Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
 }
+
+// reference current test parameter value
+const currentTestValue = ref(currentValue.value[testName]);
 
 // collect input cases and identify defaults
 const inputCases = {};

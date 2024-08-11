@@ -84,7 +84,7 @@ export async function parseXML(xmlFileName) {
     // parse specifications
     const specsNode = xmlDoc.documentElement.getElementsByTagName("specs");
     if (specsNode.length === 1) {
-        result.specs = DictParser(specsNode[0]);
+        result.specs = new DictParser(specsNode[0]);
     }
 
     // parse inputs from groups and settings sections

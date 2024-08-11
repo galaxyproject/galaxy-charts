@@ -31,13 +31,17 @@ function formatConditional(input, values) {
     const result = values || {};
     const testName = input.test_param.name;
     if (!testName) {
-        console.error(`Test condition has no name: ${input.name}.`);
-    }
-    const testValue = result[testName] ?? input.test_param.value;
-    for (const inputCase of input.cases) {
-        if (inputCase.value === testValue) {
-            for (const input of inputCase.inputs) {
-                result[input.name] = formatValue(input, result[input.name]);
+        console.error(`Test parameter has no name: ${input.name}.`);
+    } else {
+        const testValue = result[testName] ?? input.test_param.value;
+        for (const inputCase of input.cases) {
+            if (inputCase.value === testValue) {
+                result[testName] = testValue;
+                if (inputCase.inputs?.length > 0) {
+                    for (const input of inputCase.inputs) {
+                        result[input.name] = formatValue(input, result[input.name]);
+                    }
+                }
             }
         }
     }

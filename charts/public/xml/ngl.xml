@@ -9,11 +9,15 @@
             <to_param param_attr="id">dataset_id</to_param>
         </data_source>
     </data_sources>
+    <macros>
+        <import>nvd3_shared.xml</import>
+    </macros>
     <params>
         <param type="dataset" var_name_in_template="hda" required="true">dataset_id</param>
     </params>
     <entry_point entry_point_type="script" src="https://cdn.jsdelivr.net/gh/guerler/jse@59bcda58715a932b9f594e37aed11ab0cd3f3d54/plain/script.js"/>
     <settings>
+        <expand macro="groups"/>
         <input>
             <label>Quality</label>
             <name>quality</name>

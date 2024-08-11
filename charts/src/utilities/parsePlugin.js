@@ -1,4 +1,3 @@
-import axios from "axios";
 import { rethrowSimple } from "@/utilities/simpleError";
 import { parseXML } from "@/utilities/parseXML";
 
@@ -7,8 +6,7 @@ export async function parsePlugin(xml, plugin, config) {
     // build plugin from xml if not provided through attached dom data
     if (!plugin) {
         try {
-            const response = await axios.get(xml);
-            plugin = parseXML(xml, response.data);
+            plugin = await parseXML(xml);
         } catch (err) {
             console.error("Visualization requires configuration from XML or attached `visualization_plugin` details.");
             rethrowSimple(err);

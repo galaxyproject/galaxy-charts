@@ -53,7 +53,12 @@ watch(
             <div v-if="input.help" class="text-xs pb-1">{{ input.help }}</div>
             <div>
                 <div v-if="input.type === 'conditional'">
-                    <InputConditional :dataset-id="datasetId" :input="input" :root="root" @update:value="onUpdate()" />
+                    <InputConditional
+                        v-model:value="currentValues[input.name]"
+                        :dataset-id="datasetId"
+                        :input="input"
+                        :root="root"
+                        @update:value="onUpdate()" />
                 </div>
                 <div v-else-if="input.type === 'data_column'">
                     <InputDataColumn

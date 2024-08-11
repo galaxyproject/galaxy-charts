@@ -7,6 +7,9 @@ const config = {
     settings: {
         mode: "contact",
         radius: 0.2,
+        x_axis_type: {
+            type: "f",
+        },
     },
 };
 </script>

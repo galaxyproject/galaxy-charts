@@ -27,15 +27,33 @@ function formatValue(input, inputValue) {
     return value;
 }
 
+function formatConditional(input, values) {
+    const result = values || {};
+    const testName = input.test_param.name;
+    const testValue = result[testName] ?? input.test_param.value;
+    for (const inputCase of input.cases) {
+        if (inputCase.value === testValue) {
+            for (const input of inputCase.inputs) {
+                result[input.name] = formatValue(input, result[input.name]);
+            }
+        }
+    }
+    return result;
+}
+
 // parse values
-function parseValues(inputs, settings) {
-    const values = settings || {};
+function parseValues(inputs, values) {
+    const result = values || {};
     if (inputs) {
         inputs.forEach((input) => {
-            values[input.name] = formatValue(input, values[input.name]);
+            if (input.type === "conditional") {
+                result[input.name] = formatConditional(input, result[input.name]);
+            } else {
+                result[input.name] = formatValue(input, result[input.name]);
+            }
         });
     }
-    return values;
+    return result;
 }
 
 // parse tracks

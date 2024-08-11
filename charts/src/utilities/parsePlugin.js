@@ -30,6 +30,9 @@ function formatValue(input, inputValue) {
 function formatConditional(input, values) {
     const result = values || {};
     const testName = input.test_param.name;
+    if (!testName) {
+        console.error(`Test condition has no name: ${input.name}.`);
+    }
     const testValue = result[testName] ?? input.test_param.value;
     for (const inputCase of input.cases) {
         if (inputCase.value === testValue) {

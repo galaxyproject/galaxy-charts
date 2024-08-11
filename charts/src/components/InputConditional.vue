@@ -25,6 +25,9 @@ const testName = props.input.test_param.name;
 // reference current test and conditional values
 const currentValue = defineModel("value");
 const currentTestValue = ref(currentValue.value[testName]);
+if (!currentTestValue.value) {
+    console.error(`Test value of conditional not available: ${input.name}.`);
+}
 
 // collect input cases and identify defaults
 const inputCases = {};

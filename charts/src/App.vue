@@ -1,6 +1,6 @@
 <script setup>
 import ViewPort from "@/components/ViewPort.vue";
-import ngl from "@/plugins/ngl.vue";
+import Plotly from "@/plugins/plotly.vue";
 const config = {
     dataset_id: "8a81cf6f989c4467",
     dataset_url: "test-data/1ACB.pdb",
@@ -18,7 +18,7 @@ const config = {
 <template>
     <ViewPort :config="config" xml="xml/nvd3_bar.xml">
         <template #default="{ datasetUrl, settings }">
-            <ngl :dataset-url="datasetUrl" :settings="settings" />
+            <Plotly :dataset-url="datasetUrl" :settings="settings" />
         </template>
     </ViewPort>
 </template>

@@ -19,7 +19,7 @@ const layout = {
     title: "My graph",
 };
 
-var config = { responsive: false };
+var config = { responsive: true };
 
 onMounted(() => {
     //Plotly.newPlot(viewport.value, [{ y: [1, 2, 3] }])

@@ -110,7 +110,7 @@ function onUpdateTracks(newValues) {
 </script>
 
 <template>
-    <div class="overflow-auto select-none">
+    <div class="overflow-auto select-none bg-white z-10">
         <div class="flex p-2">
             <div class="flex-1 font-thin text-lg p-1 p-2">
                 <span>Charts</span>

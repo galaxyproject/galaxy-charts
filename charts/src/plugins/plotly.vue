@@ -19,6 +19,8 @@ const layout = {
     title: "My graph",
 };
 
+var config = { responsive: false };
+
 onMounted(() => {
     //Plotly.newPlot(viewport.value, [{ y: [1, 2, 3] }])
     var data = [
@@ -32,7 +34,7 @@ onMounted(() => {
         },
     ];
 
-    Plotly.newPlot(viewport.value, data);
+    Plotly.newPlot(viewport.value, data, layout, config);
 });
 </script>
 

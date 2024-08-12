@@ -16,7 +16,7 @@ const config = {
 </script>
 
 <template>
-    <ViewPort :config="config" xml="xml/nvd3_bar.xml">
+    <ViewPort :config="config" xml="xml/plotly.xml">
         <template #default="{ datasetUrl, settings }">
             <Plotly :dataset-url="datasetUrl" :settings="settings" />
         </template>

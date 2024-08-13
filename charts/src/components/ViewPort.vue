@@ -97,7 +97,13 @@ function updateTracks(newTracks) {
         <span class="text-xs">Please wait...</span>
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !embedded }">
-        <slot :embedded="embedded" :dataset-url="datasetUrl" :settings="settingValues" />
+        <slot
+            :embedded="embedded"
+            :dataset-id="datasetId"
+            :dataset-url="datasetUrl"
+            :root="root"
+            :settings="settingValues"
+            :tracks="trackValues" />
         <div v-if="embedded">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
                 <n-icon><ChevronDoubleLeftIcon /></n-icon>

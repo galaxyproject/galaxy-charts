@@ -40,5 +40,5 @@ watch(
 </script>
 
 <template>
-    <div ref="viewport" class="h-screen"/>
+    <div ref="viewport" class="h-screen" />
 </template>

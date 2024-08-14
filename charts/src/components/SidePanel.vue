@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import {
     AdjustmentsHorizontalIcon,
     ChevronDoubleRightIcon,
@@ -73,6 +73,9 @@ const currentVisualizationId = ref(props.visualizationId);
 // Error message
 const message = ref("");
 const messageType = ref("");
+
+// Hide tabs
+const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackInputs.length === 0);
 
 // Emit an event when values changes
 const emit = defineEmits(["update:tracks", "update:settings", "toggle"]);
@@ -149,15 +152,7 @@ function onUpdateTracks(newValues) {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
-        <InputForm
-            v-if="trackInputs.length === 0"
-            class="px-4"
-            :dataset-id="datasetId"
-            :inputs="settingInputs"
-            :root="root"
-            :values="settingValues"
-            @update:values="onUpdateSettings" />
-        <n-tabs v-else type="line" animated class="px-4">
+        <n-tabs type="line" animated class="px-4" :class="{ 'n-tabs-hide': hideTabs }">
             <n-tab-pane name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
@@ -185,3 +180,9 @@ function onUpdateTracks(newValues) {
         </n-tabs>
     </div>
 </template>
+
+<style>
+.n-tabs-hide .n-tabs-nav {
+    display: none;
+}
+</style>

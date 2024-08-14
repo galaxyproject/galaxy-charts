@@ -158,18 +158,6 @@ function onUpdateTracks(newValues) {
             :values="settingValues"
             @update:values="onUpdateSettings" />
         <n-tabs v-else type="line" animated class="px-4">
-            <n-tab-pane name="settings">
-                <template #tab>
-                    <n-icon><AdjustmentsHorizontalIcon /></n-icon>
-                    <span class="mx-1">Settings</span>
-                </template>
-                <InputForm
-                    :dataset-id="datasetId"
-                    :inputs="settingInputs"
-                    :root="root"
-                    :values="settingValues"
-                    @update:values="onUpdateSettings" />
-            </n-tab-pane>
             <n-tab-pane name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
@@ -181,6 +169,18 @@ function onUpdateTracks(newValues) {
                     :root="root"
                     :values-array="trackValues"
                     @update:values-array="onUpdateTracks" />
+            </n-tab-pane>
+            <n-tab-pane name="settings">
+                <template #tab>
+                    <n-icon><AdjustmentsHorizontalIcon /></n-icon>
+                    <span class="mx-1">Settings</span>
+                </template>
+                <InputForm
+                    :dataset-id="datasetId"
+                    :inputs="settingInputs"
+                    :root="root"
+                    :values="settingValues"
+                    @update:values="onUpdateSettings" />
             </n-tab-pane>
         </n-tabs>
     </div>

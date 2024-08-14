@@ -2,6 +2,8 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import { datasetsGetColumns } from "@/api/datasets";
 
+const SPECIAL_KEYS = ["auto", "zero", undefined];
+
 export const useColumnsStore = defineStore("columns", () => {
     const columns = ref({});
 
@@ -10,7 +12,7 @@ export const useColumnsStore = defineStore("columns", () => {
         for (const track of tracks) {
             for (const key of keys) {
                 const column = track[key];
-                if (![...columnsList, "auto", "zero", undefined].includes(column)) {
+                if (![...columnsList, ...SPECIAL_KEYS].includes(column)) {
                     columnsList.push(column);
                 }
             }
@@ -33,7 +35,7 @@ export const useColumnsStore = defineStore("columns", () => {
             const trackEntry = {};
             keys.forEach((key) => {
                 const column = track[key];
-                if (!["auto", "zero", undefined].includes(column)) {
+                if (!SPECIAL_KEYS.includes(column)) {
                     trackEntry[key] = columns.value[datasetId][column];
                 }
             });

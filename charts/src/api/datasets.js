@@ -15,7 +15,7 @@ export async function datasetsGet(root, id) {
     }
 }
 
-export async function datasetColumns(root, datasetId, columnList) {
+export async function datasetsGetColumns(root, datasetId, columnList) {
     const url = `${root}api/datasets/${datasetId}`;
     const params = new URLSearchParams({
         data_type: "raw_data",

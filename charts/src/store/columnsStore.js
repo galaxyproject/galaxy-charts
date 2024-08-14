@@ -1,0 +1,48 @@
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import { datasetsGetColumns } from "@/api/datasets";
+
+export const useColumnsStore = defineStore("columns", () => {
+    const columns = ref({});
+
+    function getColumns(tracks, keys) {
+        const columnsList = [];
+        for (const track of tracks) {
+            for (const key of keys) {
+                const column = track[key];
+                if (![...columnsList, "auto", "zero", undefined].includes(column)) {
+                    columnsList.push(column);
+                }
+            }
+        }
+        return columnsList;
+    }
+
+    async function fetchColumns(root, datasetId, tracks, keys) {
+        columns.value[datasetId] = columns.value[datasetId] || {};
+        const columnsAvailable = Object.keys(columns.value[datasetId]);
+        const columnsList = getColumns(tracks, keys).filter((x) => !columnsAvailable.includes(x));
+        if (columnsList.length > 0) {
+            const columnsData = await datasetsGetColumns(root, datasetId, columnsList);
+            for (const [index, column] of columnsList.entries()) {
+                columns.value[datasetId][column] = columnsData[index];
+            }
+        }
+        const results = [];
+        tracks.forEach((track) => {
+            const trackEntry = {};
+            keys.forEach((key) => {
+                const column = track[key];
+                if (!["auto", "zero", undefined].includes(column)) {
+                    trackEntry[key] = columns.value[datasetId][column];
+                }
+            });
+            results.push(trackEntry);
+        });
+        return results;
+    }
+
+    return {
+        fetchColumns,
+    };
+});

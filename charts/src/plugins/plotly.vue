@@ -1,7 +1,7 @@
 <script setup>
 import Plotly from "plotly.js-dist";
 import { onMounted, ref, watch } from "vue";
-import { datasetColumns } from "@/api/datasets";
+import { useColumnsStore } from "@/store/columnsStore";
 
 const props = defineProps({
     datasetId: String,
@@ -12,33 +12,20 @@ const props = defineProps({
 });
 
 const viewport = ref(null);
+const columnsStore = useColumnsStore();
 
-function getColumns(tracks, keys) {
-    const columnsList = [];
-    for (const track of tracks) {
-        for (const column of keys) {
-            if (![...columnsList, "auto", "zero"].includes(track[column])) {
-                columnsList.push(parseInt(track[column]));
-            }
-        }
-    }
-    return columnsList;
-}
-
-function render() {
+async function render() {
     const layout = {};
     const config = { responsive: true };
-    const columnsList = getColumns(props.tracks, ["x", "y"]);
-    console.log(columnsList);
-    datasetColumns(props.root, props.datasetId, columnsList).then((columns) => {
-        const plotData = [
-            {
-                x: columns[0],
-                y: columns[1],
-            },
-        ];
-        Plotly.newPlot(viewport.value, plotData, layout, config);
+    const columnsList = await columnsStore.fetchColumns(props.root, props.datasetId, props.tracks, ["x", "y"]);
+    const plotData = [];
+    columnsList.forEach((columns) => {
+        plotData.push({
+            x: columns.x,
+            y: columns.y,
+        });
     });
+    Plotly.newPlot(viewport.value, plotData, layout, config);
 }
 
 onMounted(() => {

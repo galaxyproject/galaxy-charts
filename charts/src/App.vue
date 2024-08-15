@@ -17,12 +17,13 @@ const config = {
 
 <template>
     <ViewPort :config="config" xml="xml/plotly.xml">
-        <template #default="{ datasetId, datasetUrl, root, settings, tracks }">
+        <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
             <Plotly
                 :dataset-id="datasetId"
                 :dataset-url="datasetUrl"
                 :root="root"
                 :settings="settings"
+                :specs="specs"
                 :tracks="tracks" />
         </template>
     </ViewPort>

@@ -14,8 +14,9 @@ export async function parsePlugin(xml, plugin, config) {
     }
     // filter, format and add defaults to incoming settings and track values
     const settings = parseValues(plugin.settings, config.settings);
+    const specs = plugin.specs;
     const tracks = parseTracks(plugin.tracks, config.tracks);
-    return { plugin, settings, tracks };
+    return { plugin, settings, specs, tracks };
 }
 
 // format value according to input type

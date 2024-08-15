@@ -30,6 +30,7 @@ const logo = ref(null);
 const name = ref("");
 const settingInputs = ref([]);
 const settingValues = ref({});
+const specValues = ref({});
 const trackInputs = ref([]);
 const trackValues = ref([]);
 
@@ -39,7 +40,7 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 );
 
 // collect plugin details and parse incoming settings
-parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, tracks }) => {
+parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
     description.value = plugin.description;
     html.value = plugin.html;
     isLoading.value = false;
@@ -47,6 +48,7 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
     name.value = plugin.name;
     settingInputs.value = plugin.settings;
     settingValues.value = settings;
+    specValues.value = specs;
     trackInputs.value = plugin.tracks;
     trackValues.value = tracks;
 });
@@ -103,6 +105,7 @@ function updateTracks(newTracks) {
             :dataset-url="datasetUrl"
             :root="root"
             :settings="settingValues"
+            :specs="specValues"
             :tracks="trackValues" />
         <div v-if="embedded">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">

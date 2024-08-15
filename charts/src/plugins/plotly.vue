@@ -8,6 +8,7 @@ const props = defineProps({
     datasetUrl: String,
     root: String,
     settings: Object,
+    specs: Object,
     tracks: Array,
 });
 
@@ -23,6 +24,7 @@ async function render() {
         plotData.push({
             x: columns.x,
             y: columns.y,
+            type: props.specs?.type,
         });
     });
     Plotly.newPlot(viewport.value, plotData, layout, config);

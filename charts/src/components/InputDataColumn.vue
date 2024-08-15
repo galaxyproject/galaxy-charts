@@ -13,15 +13,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    isLabel: {
+    isText: {
         type: Boolean,
         default: false,
     },
-    isNumeric: {
-        type: Boolean,
-        default: false,
-    },
-    isZero: {
+    isNumber: {
         type: Boolean,
         default: false,
     },
@@ -38,7 +34,7 @@ const currentValue = defineModel("value");
 async function loadColumns() {
     try {
         const dataset = await datasetsGet(props.root, props.datasetId);
-        const columns = parseColumns(dataset, props.isAuto, props.isLabel, props.isNumeric, props.isZero);
+        const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
         currentOptions.value = columns;
         if (columns.length > 0 && currentValue.value === undefined) {
             currentValue.value = columns[0].value;

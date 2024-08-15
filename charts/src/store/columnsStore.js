@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import { datasetsGetColumns } from "@/api/datasets";
 
-const SPECIAL_KEYS = ["auto", "zero", undefined];
+const SPECIAL_KEYS = ["auto", undefined];
 
 export const useColumnsStore = defineStore("columns", () => {
     const columns = ref({});

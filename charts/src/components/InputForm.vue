@@ -74,9 +74,8 @@ watch(
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
                     :is-auto="toBoolean(input.is_auto)"
-                    :is-label="toBoolean(input.is_label)"
-                    :is-numeric="toBoolean(input.is_numeric)"
-                    :is-zero="toBoolean(input.is_zero)"
+                    :is-text="toBoolean(input.is_text)"
+                    :is-number="toBoolean(input.is_number)"
                     :root="root"
                     @update:value="onUpdate()" />
                 <div v-else-if="input.type === 'float'">

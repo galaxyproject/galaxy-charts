@@ -32,14 +32,14 @@
             <name>x</name>
             <label>Column of x-axis values</label>
             <type>data_column</type>
-            <is_label>true</is_label>
             <is_auto>true</is_auto>
+            <is_text>true</is_text>
         </input>
         <input>
             <name>y</name>
             <label>Column of y-axis values</label>
             <type>data_column</type>
-            <is_numeric>true</is_numeric>
+            <is_number>true</is_number>
         </input>
     </tracks>
     <settings>

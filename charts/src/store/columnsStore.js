@@ -20,12 +20,12 @@ export const useColumnsStore = defineStore("columns", () => {
         return columnsList;
     }
 
-    async function fetchColumns(root, datasetId, tracks, keys) {
+    async function fetchColumns(datasetId, tracks, keys) {
         columns.value[datasetId] = columns.value[datasetId] || {};
         const columnsAvailable = Object.keys(columns.value[datasetId]);
         const columnsList = getColumns(tracks, keys).filter((x) => !columnsAvailable.includes(x));
         if (columnsList.length > 0) {
-            const columnsData = await datasetsGetColumns(root, datasetId, columnsList);
+            const columnsData = await datasetsGetColumns(datasetId, columnsList);
             for (const [index, column] of columnsList.entries()) {
                 columns.value[datasetId][column] = columnsData[index];
             }

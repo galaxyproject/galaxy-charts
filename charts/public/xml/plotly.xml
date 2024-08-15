@@ -15,7 +15,7 @@
     </params>
     <entry_point entry_point_type="chart" src="nvd3.js" css="nvd3.css" load="nvd3_bar"/>
     <specs>
-        <type>line</type>
+        <type>bar</type>
     </specs>
     <tracks>
         <input>

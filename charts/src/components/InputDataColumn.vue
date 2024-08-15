@@ -33,7 +33,7 @@ const currentValue = defineModel("value");
 
 async function loadColumns() {
     try {
-        const dataset = await datasetsGet(props.root, props.datasetId);
+        const dataset = await datasetsGet(props.datasetId);
         const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
         currentOptions.value = columns;
         if (columns.length > 0 && currentValue.value === undefined) {

@@ -18,7 +18,7 @@ const columnsStore = useColumnsStore();
 async function plotlyDefault() {
     const layout = {};
     const config = { responsive: true };
-    const columnsList = await columnsStore.fetchColumns(props.root, props.datasetId, props.tracks, ["x", "y"]);
+    const columnsList = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y"]);
     const plotData = [];
     columnsList.forEach((columns, index) => {
         const track = props.tracks[index];

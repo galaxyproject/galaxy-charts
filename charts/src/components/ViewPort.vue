@@ -4,8 +4,9 @@ import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { computed, ref, nextTick } from "vue";
 import { NAlert, NFloatButton, NIcon } from "naive-ui";
-import { getDatasetUrl } from "@/api/datasets";
+import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
+import { useConfigStore } from "@/store/configStore";
 
 // props
 const props = defineProps({
@@ -39,6 +40,10 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
     props.config,
 );
 
+// store values in config
+const configStore = useConfigStore();
+configStore.setRoot(root);
+
 // collect plugin details and parse incoming settings
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
     description.value = plugin.description;
@@ -62,7 +67,7 @@ if (visualizationConfig.dataset_url) {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
-        datasetUrl.value = getDatasetUrl(root, datasetId);
+        datasetUrl.value = datasetsGetUrl(datasetId);
         console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }

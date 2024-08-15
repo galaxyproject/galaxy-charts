@@ -26,7 +26,7 @@
         </input>
         <input>
             <label>Provide a label</label>
-            <name>key</name>
+            <name>name</name>
             <type>text</type>
             <placeholder>Data label</placeholder>
             <value>Data label</value>

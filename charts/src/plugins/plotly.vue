@@ -15,19 +15,28 @@ const props = defineProps({
 const viewport = ref(null);
 const columnsStore = useColumnsStore();
 
-async function render() {
+async function plotlyDefault() {
     const layout = {};
     const config = { responsive: true };
     const columnsList = await columnsStore.fetchColumns(props.root, props.datasetId, props.tracks, ["x", "y"]);
     const plotData = [];
-    columnsList.forEach((columns) => {
+    columnsList.forEach((columns, index) => {
+        const track = props.tracks[index];
         plotData.push({
+            marker: {
+                color: track.color,
+            },
+            name: track.name,
+            type: props.specs?.type,
             x: columns.x,
             y: columns.y,
-            type: props.specs?.type,
         });
     });
     Plotly.newPlot(viewport.value, plotData, layout, config);
+}
+
+function render() {
+    plotlyDefault();
 }
 
 onMounted(() => {

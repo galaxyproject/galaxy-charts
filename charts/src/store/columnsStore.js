@@ -1,12 +1,11 @@
 import { ref } from "vue";
-import { defineStore } from "pinia";
 import { datasetsGetColumns } from "@/api/datasets";
 
 const SPECIAL_KEYS = ["auto", undefined];
 
-export const useColumnsStore = defineStore("columns", () => {
-    const columns = ref({});
+const columns = ref({});
 
+export function useColumnsStore() {
     function getColumns(tracks, keys) {
         const columnsList = [];
         for (const track of tracks) {
@@ -47,4 +46,4 @@ export const useColumnsStore = defineStore("columns", () => {
     return {
         fetchColumns,
     };
-});
+}

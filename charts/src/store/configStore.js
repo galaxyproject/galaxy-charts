@@ -1,9 +1,9 @@
 import { ref } from "vue";
-import { defineStore } from "pinia";
 
-export const useConfigStore = defineStore("config", () => {
-    const apiKey = ref("");
-    const root = ref("/");
+const apiKey = ref("");
+const root = ref("/");
+
+export function useConfigStore() {
 
     function getApiKey() {
         return apiKey.value;
@@ -27,4 +27,4 @@ export const useConfigStore = defineStore("config", () => {
         setApiKey,
         setRoot,
     };
-});
+}

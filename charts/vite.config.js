@@ -28,6 +28,9 @@ export default defineConfig({
             name: "GalaxyCharts",
             fileName: "galaxy-charts",
         },
+        rollupOptions: {
+            external: ['vue']
+        },
         /*rollupOptions: {
             output: {
                 manualChunks: () => "app.js",

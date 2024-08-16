@@ -1,5 +1,6 @@
 <script setup>
-import ViewPort from "@/components/ViewPort.vue";
+//import ViewPort from "@/components/ViewPort.vue";
+import { ViewPort } from "galaxy-charts";
 import Plotly from "@/plugins/plotly.vue";
 const config = {
     dataset_id: "8a81cf6f989c4467",

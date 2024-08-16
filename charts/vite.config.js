@@ -23,14 +23,19 @@ export default defineConfig({
         },
     },
     build: {
-        rollupOptions: {
+        lib: {
+            entry: path.resolve(__dirname, "lib/galaxy-charts.js"),
+            name: "GalaxyCharts",
+            fileName: "galaxy-charts",
+        },
+        /*rollupOptions: {
             output: {
                 manualChunks: () => "app.js",
                 entryFileNames: "assets/[name].js",
                 chunkFileNames: "assets/[name].js",
                 assetFileNames: "assets/[name][extname]",
             },
-        },
+        },*/
     },
     server: {
         proxy: {

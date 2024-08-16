@@ -27,10 +27,21 @@ const props = defineProps({
 });
 
 // create a local copy of the values prop
-const currentValues = ref({ ...props.values });
+const currentValues = ref(initialValues());
 
 // emit an event when values changes
 const emit = defineEmits(["update:values"]);
+
+// ensure reactivity by initializing all values
+function initialValues() {
+    const values = { ...props.values };
+    props.inputs.forEach((input) => {
+        if (values[input.name] === undefined) {
+            values[input.name] = null;
+        }
+    });
+    return values;
+}
 
 // trigger update of values
 function onUpdate() {
@@ -41,7 +52,7 @@ function onUpdate() {
 watch(
     () => props.values,
     () => {
-        currentValues.value = { ...props.values };
+        currentValues.value = initialValues();
     },
 );
 </script>

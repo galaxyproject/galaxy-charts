@@ -33,7 +33,7 @@ const defaultValues = computed(() => parseDefaults(props.inputs));
 // add a new repeat block
 function onAdd() {
     const newValuesArray = [...props.valuesArray];
-    newValuesArray.push(defaultValues.value);
+    newValuesArray.unshift(defaultValues.value);
     emit("update:values-array", newValuesArray);
 }
 

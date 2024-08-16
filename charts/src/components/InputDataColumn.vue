@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { NSelect } from "naive-ui";
 import { datasetsGet } from "@/api/datasets";
 import { parseColumns } from "@/utilities/parseColumns";
@@ -36,15 +36,24 @@ async function loadColumns() {
         const dataset = await datasetsGet(props.datasetId);
         const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
         currentOptions.value = columns;
-        if (columns.length > 0 && currentValue.value === undefined) {
-            currentValue.value = columns[0].value;
-        }
+        initializeValue();
     } catch (err) {
         console.log(err);
     }
 }
 
+function initializeValue() {
+    if (currentOptions.value.length > 0 && currentValue.value === null) {
+        currentValue.value = currentOptions.value[0].value;
+    }
+}
+
 loadColumns();
+
+watch(
+    () => currentValue.value,
+    () => initializeValue(),
+);
 </script>
 
 <template>

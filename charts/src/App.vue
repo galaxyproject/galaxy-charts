@@ -12,7 +12,7 @@ const config = {
 </script>
 
 <template>
-    <ViewPort :config="config" xml="test.xml">
+    <ViewPort :config="config" xml="galaxy-charts.xml">
         <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
             <Plugin
                 :dataset-id="datasetId"

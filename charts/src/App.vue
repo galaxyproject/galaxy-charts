@@ -1,25 +1,20 @@
 <script setup>
-//import ViewPort from "@/components/ViewPort.vue";
 import { ViewPort } from "galaxy-charts";
-import Plotly from "@/plugins/plotly.vue";
+import Plugin from "@/plugins/plugin.vue";
 const config = {
-    dataset_id: "8a81cf6f989c4467",
-    dataset_url: "test-data/1ACB.pdb",
+    dataset_id: "dataset_id",
+    dataset_url: "test.txt",
     settings: {
-        mode: "contact",
-        radius: 0.2,
-        x_axis_type: {
-            type: "f",
-            precision: "3",
-        },
+        setting_text: "my test text",
+        setting_boolean: true,
     },
 };
 </script>
 
 <template>
-    <ViewPort :config="config" xml="xml/plotly.xml">
+    <ViewPort :config="config" xml="test.xml">
         <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
-            <Plotly
+            <Plugin
                 :dataset-id="datasetId"
                 :dataset-url="datasetUrl"
                 :root="root"

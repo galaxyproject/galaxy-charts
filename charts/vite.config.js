@@ -30,15 +30,10 @@ export default defineConfig({
         },
         rollupOptions: {
             external: ["vue"],
-        },
-        /*rollupOptions: {
             output: {
-                manualChunks: () => "app.js",
-                entryFileNames: "assets/[name].js",
-                chunkFileNames: "assets/[name].js",
-                assetFileNames: "assets/[name][extname]",
+                globals: { vue: "vue" },
             },
-        },*/
+        },
     },
     server: {
         proxy: {

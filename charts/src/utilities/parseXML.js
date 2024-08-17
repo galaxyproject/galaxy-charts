@@ -5,7 +5,7 @@ const DEFAULT_LOGO = "charts.svg";
 const parser = new DOMParser();
 
 // populates base xml with nodes from linked macro files
-async function parseMacros(xmlBaseString, xmlPath = "xml") {
+async function parseMacros(xmlBaseString, xmlPath = "") {
     // parse base xml
     const xmlDoc = parser.parseFromString(xmlBaseString, "text/xml");
 
@@ -24,7 +24,7 @@ async function parseMacros(xmlBaseString, xmlPath = "xml") {
     // load and collect macro entries
     const xmlEntries = {};
     for (const macroFile of macroFiles) {
-        const { data } = await axios.get(`${xmlPath}/${macroFile}`);
+        const { data } = await axios.get(`${xmlPath}${macroFile}`);
         const xmlMacro = parser.parseFromString(data, "text/xml");
         const xmlNode = xmlMacro.documentElement.getElementsByTagName("xml");
         if (xmlNode.length > 0) {

@@ -1,6 +1,5 @@
 {
   "name": "galaxy-charts",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "main": "./dist/galaxy-charts.umd.cjs",

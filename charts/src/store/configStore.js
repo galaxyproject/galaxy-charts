@@ -4,7 +4,6 @@ const apiKey = ref("");
 const root = ref("/");
 
 export function useConfigStore() {
-
     function getApiKey() {
         return apiKey.value;
     }

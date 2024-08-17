@@ -1,7 +1,7 @@
 <script setup>
 import Plotly from "plotly.js-dist";
 import { onMounted, ref, watch } from "vue";
-import { useColumnsStore } from "@/store/columnsStore";
+import { useColumnsStore } from "galaxy-charts";
 
 const props = defineProps({
     datasetId: String,

@@ -29,7 +29,7 @@ export default defineConfig({
             fileName: "galaxy-charts",
         },
         rollupOptions: {
-            external: ['vue']
+            external: ["vue"],
         },
         /*rollupOptions: {
             output: {

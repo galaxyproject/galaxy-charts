@@ -136,3 +136,7 @@ function updateTracks(newTracks) {
             @toggle="onToggle" />
     </div>
 </template>
+
+<style>
+@import "@/style.css";
+</style>

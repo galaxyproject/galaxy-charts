@@ -152,7 +152,7 @@ function onUpdateTracks(newValues) {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input v-model:value="currentTitle" />
         </div>
-        <n-tabs type="line" animated class="px-4" :tab-class="{ '!hidden': hideTabs }">
+        <n-tabs type="line" animated class="px-4" :tab-class="hideTabs && '!hidden'">
             <n-tab-pane name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

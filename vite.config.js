@@ -3,6 +3,7 @@ import tailwindcss from "tailwindcss";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import serverConfig from "./server.config";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 // determine server route
 let GALAXY_API = "";
@@ -16,7 +17,7 @@ if (process.env.GALAXY_API) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), tailwindcss()],
+    plugins: [vue(), tailwindcss(), libInjectCss()],
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "src"),

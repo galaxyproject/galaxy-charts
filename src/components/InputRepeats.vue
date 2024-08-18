@@ -1,7 +1,7 @@
 <script setup>
 import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
-import InputForm from "./InputForm.vue";
+import InputForm from "@/components/InputForm.vue";
 import { computed } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
 

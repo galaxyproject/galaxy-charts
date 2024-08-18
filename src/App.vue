@@ -1,11 +1,11 @@
 <script setup>
 import { ViewPort } from "galaxy-charts";
-import Plugin from "@/plugins/plugin.vue";
+import Plugin from "@/Plugin.vue";
 const config = {
-    dataset_id: "dataset_id",
-    dataset_url: "test.txt",
+    dataset_id: "galaxy-charts.txt",
+    dataset_url: "galaxy-charts.txt",
     settings: {
-        setting_text: "my test text",
+        setting_text: "My Test Setting",
         setting_boolean: true,
     },
 };

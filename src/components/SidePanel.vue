@@ -11,7 +11,7 @@ import { NButton, NIcon, NInput, NTabs, NTabPane } from "naive-ui";
 import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
-import InputRepeats from "./InputRepeats.vue";
+import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
 

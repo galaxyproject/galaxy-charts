@@ -7,7 +7,7 @@ import { parseColumns } from "@/utilities/parseColumns";
 const props = defineProps({
     datasetId: {
         type: String,
-        required: true,
+        default: "",
     },
     isAuto: {
         type: Boolean,
@@ -32,13 +32,17 @@ const currentOptions = ref([]);
 const currentValue = defineModel("value");
 
 async function loadColumns() {
-    try {
-        const dataset = await datasetsGet(props.datasetId);
-        const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
-        currentOptions.value = columns;
-        initializeValue();
-    } catch (err) {
-        console.log(err);
+    if (props.datasetId) {
+        try {
+            const dataset = await datasetsGet(props.datasetId);
+            const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
+            currentOptions.value = columns;
+            initializeValue();
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        console.log("InputDataColumn disabled, since `datasetId` unavailable.");
     }
 }
 

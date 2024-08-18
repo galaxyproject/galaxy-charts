@@ -2,7 +2,7 @@
 import { ViewPort } from "galaxy-charts";
 import Plugin from "@/Plugin.vue";
 const config = {
-    dataset_id: "galaxy-charts.txt",
+    dataset_id: "",
     dataset_url: "galaxy-charts.txt",
     settings: {
         setting_text: "My Test Setting",

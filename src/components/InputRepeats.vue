@@ -8,7 +8,7 @@ import { parseDefaults } from "@/utilities/parseDefaults";
 const props = defineProps({
     datasetId: {
         type: String,
-        required: true,
+        default: "",
     },
     inputs: {
         type: Array,

@@ -18,7 +18,7 @@ import ApiStatus from "@/components/ApiStatus.vue";
 const props = defineProps({
     datasetId: {
         type: String,
-        required: true,
+        default: "",
     },
     description: {
         type: String,

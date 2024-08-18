@@ -42,7 +42,7 @@ async function loadColumns() {
             console.log(err);
         }
     } else {
-        console.log("InputDataColumn disabled, since `datasetId` unavailable.");
+        console.log("Data column input disabled, since `datasetId` is unavailable.");
     }
 }
 

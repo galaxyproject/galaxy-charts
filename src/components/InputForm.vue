@@ -10,7 +10,7 @@ const NUMBER_STEP_SIZE = 0.01;
 const props = defineProps({
     datasetId: {
         type: String,
-        required: true,
+        default: "",
     },
     inputs: {
         type: Array,

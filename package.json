@@ -1,38 +1,43 @@
 {
-  "name": "galaxy-charts",
-  "version": "0.0.2",
-  "type": "module",
-  "main": "./dist/galaxy-charts.umd.cjs",
-  "module": "./dist/galaxy-charts.js",
-  "exports": {
-    ".": {
-      "import": "./dist/galaxy-charts.js",
-      "require": "./dist/galaxy-charts.js"
+    "name": "galaxy-charts",
+    "description": "Galaxy Charts Framework",
+    "keywords": [
+        "galaxy", "charts"
+    ],
+    "license": "MIT",
+    "version": "0.0.2",
+    "type": "module",
+    "main": "./dist/galaxy-charts.umd.cjs",
+    "module": "./dist/galaxy-charts.js",
+    "exports": {
+        ".": {
+            "import": "./dist/galaxy-charts.js",
+            "require": "./dist/galaxy-charts.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "prettier": "prettier --write 'src/**/*.vue' 'src/**/*.js' '*.js' 'package.json'"
+    },
+    "dependencies": {
+        "@heroicons/vue": "^2.1.5",
+        "axios": "^1.7.2",
+        "naive-ui": "^2.39.0",
+        "vue": "^3.4.31"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^5.0.5",
+        "autoprefixer": "^10.4.19",
+        "prettier": "^3.3.3",
+        "postcss": "^8.4.40",
+        "tailwindcss": "^3.4.7",
+        "typescript": "^5.5.4",
+        "vite-plugin-lib-inject-css": "^2.1.1",
+        "vite": "^5.3.4"
     }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "prettier": "prettier --write 'src/**/*.vue' 'src/**/*.js' '*.js'"
-  },
-  "dependencies": {
-    "@heroicons/vue": "^2.1.5",
-    "axios": "^1.7.2",
-    "naive-ui": "^2.39.0",
-    "vue": "^3.4.31"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.5",
-    "autoprefixer": "^10.4.19",
-    "prettier": "^3.3.3",
-    "postcss": "^8.4.40",
-    "tailwindcss": "^3.4.7",
-    "typescript": "^5.5.4",
-    "vite-plugin-lib-inject-css": "^2.1.1",
-    "vite": "^5.3.4"
-  }
 }

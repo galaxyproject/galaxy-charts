@@ -4,6 +4,14 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Galaxy Charts",
   description: "Documentation for Galaxy Charts",
+  head: [
+    [
+        'link', {
+            rel: 'stylesheet',
+            href: 'https://unpkg.com/tailwindcss@2.0.4/dist/tailwind.min.css'
+        }
+    ]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Getting Started
-      link: /markdown-examples
+      link: /getting-started
     - theme: alt
       text: API Examples
       link: /api-examples
@@ -22,4 +22,3 @@ features:
   - title: Deployment
     details: Once ready, deploy your visualization to Galaxy, where it can be used by researchers around the world.
 ---
-

@@ -7,6 +7,7 @@ import {
   shallowRef,
   watch
 } from "./chunk-45KCXATN.js";
+import "./chunk-BUSYA2B4.js";
 
 // node_modules/vitepress/dist/client/theme-default/index.js
 import "/Users/guerler/galaxy-charts/docs/node_modules/vitepress/dist/client/theme-default/styles/fonts.css";

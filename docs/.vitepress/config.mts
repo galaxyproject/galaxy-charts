@@ -16,17 +16,42 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Examples', link: '/content/markdown-examples' }
     ],
 
     sidebar: [
       {
         text: 'Getting Started',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'What is Galaxy Charts?', link: '/content//what-is-charts' },
+          { text: 'Installation', link: '/content/installation' },
+          { text: 'Configuration', link: '/content/configuration' },
         ]
-      }
+      },
+      {
+        text: 'Plugin XML Wrapper',
+        items: [
+            { text: 'Introduction', link: '/content//getting-started' },
+            { text: 'Available Sections', link: '/content/getting-started' },
+            { text: 'Available Inputs', link: '/content/input-elements' }
+        ]
+      },
+      {
+        text: 'Plugin Vue Wrapper',
+        items: [
+            { text: 'Introduction', link: '/content/getting-started' },
+            { text: 'View Port', link: '/content/getting-started' },
+            { text: 'Utilities', link: '/content/input-elements' }
+        ]
+      },
+      {
+        text: 'Deploy to Galaxy',
+        items: [
+            { text: 'Configure Datatype', link: '/content/getting-started' },
+            { text: 'Integrate Plugin', link: '/content/input-elements' },
+            { text: 'Create Pull Request', link: '/content/open-elements' },
+        ]
+      },
     ],
 
     socialLinks: [

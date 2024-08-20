@@ -16,40 +16,40 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/content/markdown-examples' }
+      { text: 'Examples', link: '/content/examples' }
     ],
 
     sidebar: [
       {
         text: 'Getting Started',
         items: [
-          { text: 'What is Galaxy Charts?', link: '/content/what-is-charts' },
-          { text: 'Install Galaxy Charts', link: '/content/installation' },
-          { text: 'Connect to Galaxy', link: '/content/configuration' },
+          { text: 'What is Galaxy Charts?', link: '/content/introduction' },
+          { text: 'Installation', link: '/content/installation' },
+          { text: 'Connect to Galaxy Instance', link: '/content/configuration' },
         ]
       },
       {
         text: 'Visualization XML Wrapper',
         items: [
             { text: 'Introduction', link: '/content/xml-introduction' },
-            { text: 'Available Sections', link: '/content/available-sections' },
-            { text: 'Available Inputs', link: '/content/available-inputs' }
+            { text: 'Available Sections', link: '/content/xml-sections' },
+            { text: 'Available Inputs', link: '/content/xml-inputs' }
         ]
       },
       {
         text: 'Visualization Vue Wrapper',
         items: [
-            { text: 'Introduction', link: '/content/getting-started' },
-            { text: 'View Port', link: '/content/getting-started' },
-            { text: 'Utilities', link: '/content/input-elements' }
+            { text: 'Introduction', link: '/content/vue-introduction' },
+            { text: 'View Port', link: '/content/vue-usage' },
+            { text: 'Utilities', link: '/content/vue-utilities' }
         ]
       },
       {
         text: 'Deploy to Galaxy',
         items: [
-            { text: 'Configure Datatype', link: '/content/getting-started' },
-            { text: 'Integrate Plugin', link: '/content/input-elements' },
-            { text: 'Create Pull Request', link: '/content/open-elements' },
+            { text: 'Configure Datatype', link: '/content/deploy-datatype' },
+            { text: 'Integrate Plugin', link: '/content/deploy-plugin' },
+            { text: 'Create Pull Request', link: '/content/deploy-request' },
         ]
       },
     ],

@@ -316,13 +316,3 @@ const config = {
 </template>
 
 ```
-
-<script setup>
-import { NColorPicker, NInput, NInputNumber, NSlider, NSwitch } from "naive-ui";
-import { ref } from "vue";
-
-const booleanInput = ref(true);
-const colorInput = ref("#0284c7");
-const floatInput = ref(1);
-const textInput = ref("My Text")
-</script>

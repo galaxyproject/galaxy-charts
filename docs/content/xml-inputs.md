@@ -1,5 +1,6 @@
 <script setup>
-import { NColorPicker, NInput, NInputNumber, NSlider, NSwitch } from "naive-ui";
+import pkg from 'naive-ui';
+const { NSwitch, NColorPicker, NSlider, NInputNumber, NInput } = pkg;
 import { ref } from "vue";
 
 const booleanInput = ref(true);

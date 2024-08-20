@@ -134,14 +134,6 @@ Users may also select colors, this can be particular useful to distinguish data 
 ```
 Translates to:
 
-<div class="rounded border p-4">
-    <div class="font-bold pb-1">My Color Label</div>
-    <div class="text-xs pb-1">My Color Help</div>
-    <n-color-picker
-        v-model:value="colorInput"
-        :modes="['hex']"
-        :show-alpha="false"/>
-</div>
 
 `my_color_name`
 <span class="font-thin"> = {{ colorInput }}</span>
@@ -316,13 +308,3 @@ const config = {
 </template>
 
 ```
-
-<script setup>
-import { NColorPicker, NInput, NInputNumber, NSlider, NSwitch } from "naive-ui";
-import { ref } from "vue";
-
-const booleanInput = ref(true);
-const colorInput = ref("#0284c7");
-const floatInput = ref(1);
-const textInput = ref("My Text")
-</script>

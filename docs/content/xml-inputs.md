@@ -1,14 +1,3 @@
-<script setup>
-import pkg from 'naive-ui';
-const { NSwitch, NColorPicker, NSlider, NInputNumber, NInput } = pkg;
-import { ref } from "vue";
-
-const booleanInput = ref(true);
-const colorInput = ref("#0284c7");
-const floatInput = ref(1);
-const textInput = ref("My Text")
-</script>
-
 # Available Inputs
 
 You may specify  `input` elements in the `settings` and `tracks` sections. This will allow users to parameterize and customize their visualization. Currently, Galaxy Charts supports the following input types: `boolean`, `color`, `float`, `integer`, `select`, and `text` input fields.
@@ -47,11 +36,13 @@ Boolean inputs are useful to display yes/no options to the user e.g.
 
 Translates to:
 
+<ClientOnly>
 <div class="rounded border p-4">
     <div class="font-bold pb-1">My Boolean Label</div>
     <div class="text-xs pb-1">My Boolean Help</div>
     <n-switch v-model:value="booleanInput"/>
 </div>
+</ClientOnly>
 
 `my_boolean_name`
 <span class="font-thin"> = {{ booleanInput }}</span>
@@ -70,6 +61,7 @@ Users may also select colors, this can be particular useful to distinguish data 
 ```
 Translates to:
 
+<ClientOnly>
 <div class="rounded border p-4">
     <div class="font-bold pb-1">My Color Label</div>
     <div class="text-xs pb-1">My Color Help</div>
@@ -78,6 +70,7 @@ Translates to:
         :modes="['hex']"
         :show-alpha="false"/>
 </div>
+</ClientOnly>
 
 `my_color_name`
 <span class="font-thin"> = {{ colorInput }}</span>
@@ -97,22 +90,24 @@ Translates to:
 
 Translates to:
 
-<div class="rounded border p-4">
-    <div class="font-bold pb-1">My Float Label</div>
-    <div class="text-xs pb-1">My Float Help</div>
-    <n-slider
-        class="mb-2"
-        v-model:value="floatInput"
-        :min="0"
-        :max="10"
-        :step="0.01" />
-    <n-input-number
-        v-model:value="floatInput"
-        size="small"
-        :min="0"
-        :max="10"
-        :step="0.01" />
-</div>
+<ClientOnly>
+    <div class="rounded border p-4">
+        <div class="font-bold pb-1">My Float Label</div>
+        <div class="text-xs pb-1">My Float Help</div>
+        <n-slider
+            class="mb-2"
+            v-model:value="floatInput"
+            :min="0"
+            :max="10"
+            :step="0.01" />
+        <n-input-number
+            v-model:value="floatInput"
+            size="small"
+            :min="0"
+            :max="10"
+            :step="0.01" />
+    </div>
+</ClientOnly>
 
 `my_float_name`
 <span class="font-thin"> = {{ floatInput }}</span>
@@ -168,11 +163,24 @@ Last but not least, `text` inputs can be declared.
 
 Translates to:
 
-<div class="rounded border p-4">
-    <div class="font-bold pb-1">My Text Label</div>
-    <div class="text-xs pb-1">My Text Help</div>
-    <n-input v-model:value="textInput" />
-</div>
+<ClientOnly>
+    <div class="rounded border p-4">
+        <div class="font-bold pb-1">My Text Label</div>
+        <div class="text-xs pb-1">My Text Help</div>
+        <n-input v-model:value="textInput" />
+    </div>
+</ClientOnly>
 
 `my_text_name`
 <span class="font-thin"> = {{ textInput }}</span>
+
+<script setup>
+import pkg from 'naive-ui';
+const { NSwitch, NColorPicker, NSlider, NInputNumber, NInput } = pkg;
+import { ref } from "vue";
+
+const booleanInput = ref(true);
+const colorInput = ref("#0284c7");
+const floatInput = ref(1);
+const textInput = ref("My Text")
+</script>

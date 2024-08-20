@@ -11,8 +11,8 @@ hero:
       text: Getting Started
       link: /content/introduction
     - theme: alt
-      text: API Examples
-      link: /content/api-examples
+      text: Examples
+      link: /content/examples
 
 features:
   - title: Standalone

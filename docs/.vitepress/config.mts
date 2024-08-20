@@ -2,16 +2,9 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: "/galaxy-charts/",
   title: "Galaxy Charts",
   description: "Documentation for Galaxy Charts",
-  head: [
-    [
-        'link', {
-            rel: 'stylesheet',
-            href: 'https://unpkg.com/tailwindcss@2.0.4/dist/tailwind.min.css'
-        }
-    ]
-  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -40,7 +33,7 @@ export default defineConfig({
         text: 'Visualization Vue Wrapper',
         items: [
             { text: 'Introduction', link: '/content/vue-introduction' },
-            { text: 'View Port', link: '/content/vue-usage' },
+            { text: 'View Port', link: '/content/vue-component' },
             { text: 'Utilities', link: '/content/vue-utilities' }
         ]
       },

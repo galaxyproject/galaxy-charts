@@ -23,21 +23,21 @@ export default defineConfig({
       {
         text: 'Getting Started',
         items: [
-          { text: 'What is Galaxy Charts?', link: '/content//what-is-charts' },
-          { text: 'Installation', link: '/content/installation' },
-          { text: 'Configuration', link: '/content/configuration' },
+          { text: 'What is Galaxy Charts?', link: '/content/what-is-charts' },
+          { text: 'Install Galaxy Charts', link: '/content/installation' },
+          { text: 'Connect to Galaxy', link: '/content/configuration' },
         ]
       },
       {
-        text: 'Plugin XML Wrapper',
+        text: 'Visualization XML Wrapper',
         items: [
-            { text: 'Introduction', link: '/content//getting-started' },
-            { text: 'Available Sections', link: '/content/getting-started' },
-            { text: 'Available Inputs', link: '/content/input-elements' }
+            { text: 'Introduction', link: '/content/xml-introduction' },
+            { text: 'Available Sections', link: '/content/available-sections' },
+            { text: 'Available Inputs', link: '/content/available-inputs' }
         ]
       },
       {
-        text: 'Plugin Vue Wrapper',
+        text: 'Visualization Vue Wrapper',
         items: [
             { text: 'Introduction', link: '/content/getting-started' },
             { text: 'View Port', link: '/content/getting-started' },

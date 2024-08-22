@@ -32,16 +32,15 @@ export default defineConfig({
       {
         text: 'Visualization Vue Wrapper',
         items: [
-            { text: 'Introduction', link: '/content/vue-introduction' },
-            { text: 'View Port', link: '/content/vue-component' },
-            { text: 'Utilities', link: '/content/vue-utilities' }
+            { text: 'Component Usage', link: '/content/vue-component' },
+            { text: 'Additional Utilities', link: '/content/vue-utilities' }
         ]
       },
       {
         text: 'Deploy to Galaxy',
         items: [
-            { text: 'Configure Datatype', link: '/content/deploy-datatype' },
-            { text: 'Integrate Plugin', link: '/content/deploy-plugin' },
+            { text: 'Configure Data Source', link: '/content/deploy-datasource' },
+            { text: 'Build and Link Plugin', link: '/content/deploy-plugin' },
             { text: 'Create Pull Request', link: '/content/deploy-request' },
         ]
       },

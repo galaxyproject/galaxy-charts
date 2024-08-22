@@ -17,6 +17,7 @@ export default defineConfig({
         text: 'Getting Started',
         items: [
           { text: 'What is Galaxy Charts?', link: '/content/introduction' },
+          { text: 'Examples', link: '/content/examples' },
           { text: 'Installation', link: '/content/installation' },
           { text: 'Connect to Galaxy Instance', link: '/content/configuration' },
         ]

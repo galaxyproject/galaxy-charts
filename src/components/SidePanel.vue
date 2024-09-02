@@ -136,7 +136,7 @@ function onUpdateTracks(newValues) {
         <div class="m-4 mt-0 p-2 bg-sky-50 text-sky-900 rounded">
             <div class="md:flex">
                 <div class="flex justify-center center-items">
-                    <div class="m-1">
+                    <div class="m-2">
                         <img v-if="props.logoUrl" :src="props.logoUrl" class="min-w-14 max-w-14 object-contain" />
                         <PresentationChartLineIcon v-else class="size-10" />
                     </div>

@@ -9,7 +9,7 @@
         "prettier": "prettier --write 'src/**/*.vue' 'src/**/*.js' '*.js' 'package.json'"
     },
     "dependencies": {
-        "galaxy-charts": "^0.0.4",
+        "galaxy-charts": "^0.0.5",
         "vue": "^3.4.31"
     },
     "devDependencies": {

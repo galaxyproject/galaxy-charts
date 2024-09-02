@@ -1,12 +1,12 @@
 {
     "name": "galaxy-charts",
-    "description": "Galaxy Charts Framework",
+    "description": "Galaxy Charts",
     "keywords": [
         "galaxy",
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",

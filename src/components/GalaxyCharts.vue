@@ -51,10 +51,10 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
     isLoading.value = false;
     logo.value = plugin.logo;
     name.value = plugin.name;
-    settingInputs.value = plugin.settings;
+    settingInputs.value = plugin.settings || [];
     settingValues.value = settings;
     specValues.value = specs;
-    trackInputs.value = plugin.tracks;
+    trackInputs.value = plugin.tracks || [];
     trackValues.value = tracks;
 });
 

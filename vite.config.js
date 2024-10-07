@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import serverConfig from "./server.config";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
+import { configDefaults } from "vitest/config";
 
 // determine server route
 let GALAXY_API = "";
@@ -44,5 +45,10 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/api/, ""),
             },
         },
+    },
+    test: {
+        globals: true,
+        environment: "jsdom",
+        exclude: configDefaults.exclude,
     },
 });

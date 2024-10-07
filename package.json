@@ -23,7 +23,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "prettier": "prettier --write 'src/**/*.vue' 'src/**/*.js' '*.js' 'package.json'"
+        "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.vue'"
     },
     "dependencies": {
         "@heroicons/vue": "^2.1.5",

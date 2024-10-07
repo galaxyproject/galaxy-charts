@@ -2,12 +2,6 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 100" class="size-6">
-    <defs>
-        <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#C8102E;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FF5F5F;stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    <circle cx="50" cy="50" r="45" stroke="url(#redGradient)" stroke-width="5" fill="#FFFFFF"/>
-    <path d="M 50,5 A 45,45 0 0,1 95,50 L 50,50 Z" fill="url(#redGradient)"/>
+    <circle cx="50" cy="50" r="45" stroke="#E30A17" stroke-width="5" fill="#FFFFFF"/>
+    <path d="M 50,5 A 45,45 0 0,1 95,50 L 50,50 Z" fill="#E30A17"/>
 </svg>

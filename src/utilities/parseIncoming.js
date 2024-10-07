@@ -7,7 +7,7 @@ export function parseIncoming(config) {
     const root = incoming.root || config?.root || "/";
     const visualizationId = incoming.visualization_id;
     const visualizationPlugin = incoming.visualization_plugin;
-    const visualizationTitle = incoming.visualization_title || config?.title || "New Chart";
+    const visualizationTitle = incoming.visualization_title || config?.title || "Unnamed Visualization";
 
     // parse chart dict
     let visualizationConfig = incoming.visualization_config || config;

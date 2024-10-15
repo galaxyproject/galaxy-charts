@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getFileName } from "@/utilities/getFileName";
 
-const DEFAULT_LOGO = "charts.svg";
 const parser = new DOMParser();
 
 // populates base xml with nodes from linked macro files
@@ -74,7 +73,7 @@ export async function parseXML(xmlFileName) {
     result.html = xmlDoc.documentElement.getAttribute("name");
 
     // parse logo
-    result.logo = xmlDoc.documentElement.getAttribute("logo") || DEFAULT_LOGO;
+    result.logo = xmlDoc.documentElement.getAttribute("logo");
 
     // parse description
     const descriptionNode = xmlDoc.documentElement.getElementsByTagName("description");

@@ -73,7 +73,7 @@ if (visualizationConfig.dataset_url) {
 }
 
 // determine logo url
-const logoUrl = computed(() => `${root}${logo.value}`);
+const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 
 // toggle side panel
 async function onToggle() {

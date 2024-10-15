@@ -9,5 +9,5 @@ test("parse defaults", () => {
             { name: "f" },
             { value: "g" },
         ]),
-    ).toEqual({ a: "b", c: "d", "e": null, "f": null });
+    ).toEqual({ a: "b", c: "d", e: null, f: null });
 });

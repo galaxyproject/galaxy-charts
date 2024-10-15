@@ -1,5 +1,5 @@
 <script setup>
-import { GalaxyCharts } from "galaxy-charts";
+import { GalaxyCharts } from "@galaxyproject/galaxy-charts";
 import Plugin from "@/Plugin.vue";
 const config = {
     dataset_url: "galaxy-charts.txt",

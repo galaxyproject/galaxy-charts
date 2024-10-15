@@ -26,18 +26,15 @@
         "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.vue'",
         "test": "vitest"
     },
-    "dependencies": {
-        "@heroicons/vue": "^2.1.5",
-        "axios": "^1.7.2",
-        "naive-ui": "^2.39.0",
-        "vue": "^3.4.31"
-    },
     "devDependencies": {
+        "@heroicons/vue": "^2.1.5",
         "@vitejs/plugin-vue": "^5.0.5",
         "@vitest/ui": "^2.1.2",
         "@vue/test-utils": "^2.4.6",
         "autoprefixer": "^10.4.19",
+        "axios": "^1.7.2",
         "jsdom": "^25.0.1",
+        "naive-ui": "^2.39.0",
         "postcss": "^8.4.40",
         "prettier": "^3.3.3",
         "tailwindcss": "^3.4.7",
@@ -45,6 +42,7 @@
         "vite": "^5.3.4",
         "vite-plugin-lib-inject-css": "^2.1.1",
         "vitepress": "^1.3.3",
-        "vitest": "^2.1.2"
+        "vitest": "^2.1.2",
+        "vue": "^3.4.31"
     }
 }

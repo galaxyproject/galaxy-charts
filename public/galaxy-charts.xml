@@ -37,6 +37,7 @@
             <label>Setting: Text</label>
             <name>setting_text</name>
             <type>textarea</type>
+            <rows>5</rows>
             <optional>true</optional>
         </input>
         <input>

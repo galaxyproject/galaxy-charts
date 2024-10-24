@@ -114,6 +114,7 @@ watch(
                 <n-input
                     v-else-if="input.type === 'textarea'"
                     v-model:value="currentValues[input.name]"
+                    :rows="Number(input.rows)"
                     type="textarea"
                     @update:value="onUpdate()" />
                 <n-input v-else v-model:value="currentValues[input.name]" @update:value="onUpdate()" />

@@ -111,6 +111,11 @@ watch(
                     v-model:value="currentValues[input.name]"
                     :options="input.data"
                     @update:value="onUpdate()" />
+                <n-input
+                    v-else-if="input.type === 'textarea'"
+                    v-model:value="currentValues[input.name]"
+                    type="textarea"
+                    @update:value="onUpdate()" />
                 <n-input v-else v-model:value="currentValues[input.name]" @update:value="onUpdate()" />
             </div>
         </div>

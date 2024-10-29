@@ -3,7 +3,7 @@
 Galaxy Charts can be used to develop Visualizations independently of Galaxy. However, visualization may access to the Galaxy API in order to retrive datasets, metadata or run jobs. In the Galaxy Charts standalone application can be connected to the API of a local or public runnning Galaxy instance by providing the `GALAXY_API` route either as environment variable, when running Galaxy Charts:
 
 ```md
-GALAXY_API="http://127.0.0.1:8080/api" yarn dev
+GALAXY_API="http://127.0.0.1:8080/api" npm run dev
 ```
 
 or by specifying the corresponding route in the `server.config.js` file as show here:

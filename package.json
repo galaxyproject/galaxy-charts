@@ -17,7 +17,8 @@
         }
     },
     "files": [
-        "dist"
+        "dist/galaxy-charts.js",
+        "dist/galaxy-charts.umd.cjs"
     ],
     "scripts": {
         "dev": "vite",

@@ -17,7 +17,9 @@ async function checkVersion() {
     try {
         version.value = await versionGet(props.root);
     } catch (err) {
-        console.error(err);
+        console.log(
+            "Unable to connect to Galaxy. Verify Galaxy is running and properly configured in `server.config.js`.",
+        );
         version.value = "";
     }
 }
@@ -40,6 +42,6 @@ checkVersion();
                 <ExclamationCircleIcon class="text-red-600" />
             </n-icon>
         </template>
-        <span class="text-xs">Galaxy not available</span>
+        <span class="text-xs">Galaxy is not running or not configured: `server.config.js`.</span>
     </n-tooltip>
 </template>

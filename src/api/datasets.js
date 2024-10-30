@@ -1,13 +1,12 @@
-import axios from "axios";
 import { rethrowSimple } from "@/utilities/simpleError";
+import { fetcher } from "@/utilities/fetcher";
 import { useConfigStore } from "@/store/configStore";
 
 export async function datasetsGet(id) {
     const configStore = useConfigStore();
     const url = `${configStore.getRoot()}api/datasets/${id}`;
     try {
-        const { data } = await axios.get(url);
-        return data;
+        return await fetcher(url);
     } catch (err) {
         rethrowSimple(err);
     }
@@ -22,7 +21,7 @@ export async function datasetsGetColumns(datasetId, columnList) {
             provider: "dataset-column",
             indeces: columnList.toString(),
         }).toString();
-        const { data } = await axios.get(`${url}?${params}`);
+        const data = await fetcher(`${url}?${params}`);
         const columnLength = columnList.length;
         const results = new Array(columnLength);
         for (let i = 0; i < results.length; i++) {

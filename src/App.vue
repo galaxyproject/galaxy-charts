@@ -2,7 +2,8 @@
 import { GalaxyCharts } from "galaxy-charts";
 import Plugin from "@/Plugin.vue";
 const config = {
-    dataset_url: "galaxy-charts.txt",
+    dataset_url: null,
+    dataset_id: "unavailable",
     settings: {
         setting_text: "My Test Setting",
         setting_boolean: true,

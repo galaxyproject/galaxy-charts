@@ -21,7 +21,7 @@
         "dist/galaxy-charts.umd.cjs"
     ],
     "scripts": {
-        "dev": "vite",
+        "dev": "vite build && vite",
         "build": "vite build",
         "preview": "vite preview",
         "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.vue'",

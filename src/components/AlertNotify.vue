@@ -1,24 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { watch } from "vue";
 import { NAlert } from "naive-ui";
 
+type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
+
 const MESSAGE_TIMEOUT = 2000;
 
-const props = defineProps({
-    message: {
-        type: String,
-        required: true,
+const props = withDefaults(
+    defineProps<{
+        message: string;
+        messageType?: MessageType;
+    }>(),
+    {
+        messageType: "info",
     },
-    messageType: {
-        type: String,
-        default: "info",
-    },
-});
+);
 
 const emit = defineEmits(["timeout"]);
 
 // Watch and clear messages
-let timeoutMessage = null;
+let timeoutMessage: ReturnType<typeof setTimeout> | null = null;
 watch(
     () => props.message,
     () => {

@@ -40,7 +40,7 @@ export default defineConfig({
         },
     },
     define: {
-        'process.env.GALAXY_KEY': JSON.stringify(GALAXY_KEY),
+        "process.env.GALAXY_KEY": JSON.stringify(GALAXY_KEY),
     },
     plugins: [vue(), tailwindcss(), libInjectCss()],
     resolve: {

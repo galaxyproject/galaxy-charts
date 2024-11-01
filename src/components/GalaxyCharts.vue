@@ -21,10 +21,10 @@ const props = defineProps({
 });
 
 // references
-const embedded = ref(false);
-const errorMessage = ref("");
+const collapsePanel = ref(false);
 const datasetUrl = ref(null);
 const description = ref(null);
+const errorMessage = ref("");
 const html = ref(null);
 const isLoading = ref(true);
 const logo = ref(null);
@@ -75,9 +75,12 @@ if (visualizationConfig.dataset_url) {
 // determine logo url
 const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 
+// hide panel
+const hidePanel = computed(() => settingInputs.value.length === 0 && trackInputs.value.length === 0);
+
 // toggle side panel
 async function onToggle() {
-    embedded.value = !embedded.value;
+    collapsePanel.value = !collapsePanel.value;
     await nextTick();
     window.dispatchEvent(new Event("resize"));
 }
@@ -103,7 +106,7 @@ function updateTracks(newTracks) {
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !embedded }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !collapsePanel && !hidePanel }">
         <slot
             :dataset-id="datasetId"
             :dataset-url="datasetUrl"
@@ -111,7 +114,7 @@ function updateTracks(newTracks) {
             :settings="settingValues"
             :specs="specValues"
             :tracks="trackValues" />
-        <div v-if="embedded">
+        <div v-if="collapsePanel && !hidePanel">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
                 <n-icon><ChevronDoubleLeftIcon /></n-icon>
             </n-float-button>

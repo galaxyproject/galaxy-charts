@@ -105,7 +105,6 @@ function updateTracks(newTracks) {
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !embedded }">
         <slot
-            :embedded="embedded"
             :dataset-id="datasetId"
             :dataset-url="datasetUrl"
             :root="root"

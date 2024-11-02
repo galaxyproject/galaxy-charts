@@ -6,7 +6,7 @@ async function fetchApi(path, options) {
     const routedPath = `${configStore.getRoot()}${path.substring(1)}`;
     try {
         const response = await fetch(routedPath, {
-            credentials: process.env.GALAXY_KEY ? "omit" : "include",
+            credentials: configStore.getCredentials(),
             headers: { "Content-Type": "application/json" },
             ...options,
         });

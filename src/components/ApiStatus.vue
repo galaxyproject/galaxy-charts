@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";
 import { NIcon, NTooltip } from "naive-ui";
-import { versionGet } from "@/api/version";
+import { GalaxyApi } from "@/api/client";
 
 const props = defineProps({
     root: {
@@ -15,7 +15,8 @@ const version = ref("...");
 
 async function checkVersion() {
     try {
-        version.value = await versionGet(props.root);
+        const { data } = await GalaxyApi().GET("/api/version");
+        version.value = data.version_major;
     } catch (err) {
         console.log(
             `Unable to connect to Galaxy. Verify Galaxy is running and properly configured in 'server.config.js'.`,

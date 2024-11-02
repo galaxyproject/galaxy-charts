@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch } from "vue";
 import { NSelect } from "naive-ui";
-import { datasetsGet } from "@/api/datasets";
 import { parseColumns } from "@/utilities/parseColumns";
+import { GalaxyApi } from "@/api/client";
 
 const props = defineProps({
     datasetId: {
@@ -34,7 +34,7 @@ const currentValue = defineModel("value");
 async function loadColumns() {
     if (props.datasetId) {
         try {
-            const dataset = await datasetsGet(props.datasetId);
+            const { data: dataset } = await GalaxyApi().GET(`/api/datasets/${props.datasetId}`);
             const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
             currentOptions.value = columns;
             initializeValue();

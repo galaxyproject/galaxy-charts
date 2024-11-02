@@ -1,0 +1,27 @@
+import { rethrowSimple } from "@/utilities/simpleError";
+import { useConfigStore } from "@/store/configStore";
+
+export async function fetchApi(path, options) {
+    const configStore = useConfigStore();
+    const routedPath = `${configStore.getRoot()}${path.substring(1)}`;
+    try {
+        const response = await fetch(routedPath, {
+            credentials: process.env.GALAXY_KEY ? "omit" : "include",
+            method: "GET",
+            ...options,
+        });
+        const data = await response.json();
+        return { data };
+    } catch (err) {
+        rethrowSimple(err);
+    }
+}
+
+export function GalaxyApi() {
+    async function GET(path, options) {
+        return fetchApi(path, options);
+    }
+    return {
+        GET,
+    };
+}

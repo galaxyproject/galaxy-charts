@@ -9,7 +9,33 @@
     <specs>
         <type>spec_type</type>
     </specs>
+    <settings>
+        <input>
+            <label>Setting: Text</label>
+            <name>setting_text</name>
+            <type>textarea</type>
+            <rows>5</rows>
+            <optional>true</optional>
+        </input>
+        <input>
+            <label>Setting: Boolean</label>
+            <name>setting_boolean</name>
+            <type>boolean</type>
+            <optional>true</optional>
+        </input>
+    </settings>
     <tracks>
+        <input>
+            <name>Track: Data</name>
+            <label>Track: Data</label>
+            <type>data</type>
+            <extension>tabular</extension>
+        </input>
+        <input>
+            <label>Track: Color</label>
+            <name>track_color</name>
+            <type>color</type>
+        </input>
         <input>
             <label>Track: Color</label>
             <name>track_color</name>
@@ -36,19 +62,4 @@
             <is_number>true</is_number>
         </input>
     </tracks>
-    <settings>
-        <input>
-            <label>Setting: Text</label>
-            <name>setting_text</name>
-            <type>textarea</type>
-            <rows>5</rows>
-            <optional>true</optional>
-        </input>
-        <input>
-            <label>Setting: Boolean</label>
-            <name>setting_boolean</name>
-            <type>boolean</type>
-            <optional>true</optional>
-        </input>
-    </settings>
 </visualization>

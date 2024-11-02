@@ -2,6 +2,7 @@
 import { ref, watch } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/InputConditional.vue";
+import InputData from "@/components/InputData.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 import { toBoolean } from "@/utilities/toBoolean";
 
@@ -74,6 +75,10 @@ watch(
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
                     :input="input"
+                    @update:value="onUpdate()" />
+                <InputData
+                    v-else-if="input.type === 'data'"
+                    v-model:value="currentValues[input.name]"
                     @update:value="onUpdate()" />
                 <InputDataColumn
                     v-else-if="input.type === 'data_column'"

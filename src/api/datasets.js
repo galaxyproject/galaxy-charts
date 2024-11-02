@@ -1,15 +1,13 @@
-import { fetchApi } from "@/api/client";
-import { useConfigStore } from "@/store/configStore";
+import { GalaxyApi } from "@/api/client";
 
 export async function datasetsGetColumns(datasetId, columnList) {
     try {
-        const url = `/api/datasets/${datasetId}`;
         const params = new URLSearchParams({
             data_type: "raw_data",
             provider: "dataset-column",
             indeces: columnList.toString(),
         }).toString();
-        const data = await fetchApi(`${url}?${params}`);
+        const data = await GalaxyApi().GET(`/api/datasets/${datasetId}?${params}`);
         const columnLength = columnList.length;
         const results = new Array(columnLength);
         for (let i = 0; i < results.length; i++) {
@@ -30,6 +28,5 @@ export async function datasetsGetColumns(datasetId, columnList) {
 }
 
 export function datasetsGetUrl(datasetId) {
-    const configStore = useConfigStore();
-    return `${configStore.getRoot()}api/datasets/${datasetId}/display`;
+    return `/api/datasets/${datasetId}/display`;
 }

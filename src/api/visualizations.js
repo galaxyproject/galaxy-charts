@@ -1,11 +1,9 @@
-import axios from "axios";
 import { rethrowSimple } from "@/utilities/simpleError";
-import { useConfigStore } from "@/store/configStore";
+import { GalaxyApi } from "@/api/client";
 
 export async function visualizationsCreate(type, title, config) {
-    const configStore = useConfigStore();
     try {
-        const { data } = await axios.post(`${configStore.getRoot()}api/visualizations`, {
+        const { data } = await GalaxyApi().POST("/api/visualizations", {
             type,
             title,
             config,
@@ -17,9 +15,8 @@ export async function visualizationsCreate(type, title, config) {
 }
 
 export async function visualizationsSave(id, title, config) {
-    const configStore = useConfigStore();
     try {
-        const response = await axios.put(`${configStore.getRoot()}api/visualizations/${id}`, {
+        const response = await GalaxyApi().PUT(`/api/visualizations/${id}`, {
             title,
             config,
         });

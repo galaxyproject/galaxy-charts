@@ -35,10 +35,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    root: {
-        type: String,
-        required: true,
-    },
     settingInputs: {
         type: Array,
         default: () => [],
@@ -116,7 +112,7 @@ function onUpdateTracks(newValues) {
         <div class="flex p-2">
             <div class="flex-1 font-thin text-lg p-1 p-2">
                 <span>Charts</span>
-                <ApiStatus :root="root" />
+                <ApiStatus />
             </div>
             <div>
                 <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
@@ -168,7 +164,6 @@ function onUpdateTracks(newValues) {
                 <InputRepeats
                     :dataset-id="datasetId"
                     :inputs="trackInputs"
-                    :root="root"
                     :values-array="trackValues"
                     @update:values-array="onUpdateTracks" />
             </n-tab-pane>
@@ -180,7 +175,6 @@ function onUpdateTracks(newValues) {
                 <InputForm
                     :dataset-id="datasetId"
                     :inputs="settingInputs"
-                    :root="root"
                     :values="settingValues"
                     @update:values="onUpdateSettings" />
             </n-tab-pane>

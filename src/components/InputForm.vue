@@ -16,10 +16,6 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-    root: {
-        type: String,
-        default: "/",
-    },
     values: {
         type: Object,
         default: () => {},
@@ -78,7 +74,6 @@ watch(
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
                     :input="input"
-                    :root="root"
                     @update:value="onUpdate()" />
                 <InputDataColumn
                     v-else-if="input.type === 'data_column'"
@@ -87,7 +82,6 @@ watch(
                     :is-auto="toBoolean(input.is_auto)"
                     :is-text="toBoolean(input.is_text)"
                     :is-number="toBoolean(input.is_number)"
-                    :root="root"
                     @update:value="onUpdate()" />
                 <div v-else-if="input.type === 'float'">
                     <n-slider

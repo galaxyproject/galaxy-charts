@@ -126,7 +126,6 @@ function updateTracks(newTracks) {
             :html="html"
             :logo-url="logoUrl"
             :name="name"
-            :root="root"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
             :track-inputs="trackInputs"

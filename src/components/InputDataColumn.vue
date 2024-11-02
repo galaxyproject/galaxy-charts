@@ -21,10 +21,6 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    root: {
-        type: String,
-        default: "/",
-    },
 });
 
 // emit an event when adding or removing repeat blocks

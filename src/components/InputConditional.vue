@@ -13,10 +13,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    root: {
-        type: String,
-        required: true,
-    },
 });
 
 // get test parameter name
@@ -66,7 +62,6 @@ watch(
         <InputForm
             :dataset-id="datasetId"
             :inputs="inputCases[currentTestValue]"
-            :root="root"
             :values="currentValue"
             @update:values="onUpdate" />
     </div>

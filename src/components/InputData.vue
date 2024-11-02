@@ -17,16 +17,17 @@ const currentOptions = ref([]);
 const currentValue = defineModel("value");
 const isLoading = ref(false);
 
-async function loadColumns(query) {
+async function loadDatasets(query) {
     isLoading.value = true;
     try {
-        const paramString = query ? `q=name-contains&qv=${query}` : "";
-        const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${paramString}`);
+        const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}` : "";
+        const nameFilter = query ? `q=name-contains&qv=${query}` : "";
+        const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}&${nameFilter}`);
         const options = data.map((x) => ({
             label: `${x.name} (${x.extension})`,
             value: x.id,
         }));
-        options.push({ label: "...more", value: null, disabled: true });
+        options.push({ label: "...filter for more", value: null, disabled: true });
         currentOptions.value = options;
         isLoading.value = false;
         initializeValue();
@@ -41,7 +42,7 @@ function initializeValue() {
     }
 }
 
-loadColumns();
+loadDatasets();
 
 watch(
     () => currentValue.value,
@@ -56,5 +57,5 @@ watch(
         :options="currentOptions"
         filterable
         placeholder="Select a Dataset"
-        @search="loadColumns" />
+        @search="loadDatasets" />
 </template>

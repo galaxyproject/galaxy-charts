@@ -80,6 +80,7 @@ watch(
                     v-else-if="input.type === 'data'"
                     v-model:value="currentValues[input.name]"
                     :extension="input.extension"
+                    :optional="toBoolean(input.optional)"
                     @update:value="onUpdate()" />
                 <InputDataColumn
                     v-else-if="input.type === 'data_column'"

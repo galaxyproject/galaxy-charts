@@ -26,15 +26,17 @@
     </settings>
     <tracks>
         <input>
-            <name>Track: Data</name>
             <label>Track: Data</label>
+            <name>track_data</name>
             <type>data</type>
             <extension>tabular</extension>
         </input>
         <input>
-            <label>Track: Color</label>
-            <name>track_color</name>
-            <type>color</type>
+            <label>Track: Data (Optional)</label>
+            <name>track_data_required</name>
+            <type>data</type>
+            <extension>bed</extension>
+            <optional>true</optional>
         </input>
         <input>
             <label>Track: Color</label>

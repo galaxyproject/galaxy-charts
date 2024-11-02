@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { NSelect } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 
-const LIMIT = 20;
+const LIMIT = 100;
 
 const props = defineProps({
     extension: {
@@ -26,6 +26,7 @@ async function loadColumns(query) {
             label: `${x.name} (${x.extension})`,
             value: x.id,
         }));
+        options.push({ label: "...more", value: null, disabled: true });
         currentOptions.value = options;
         isLoading.value = false;
         initializeValue();

@@ -6,7 +6,7 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
@@ -19,8 +19,7 @@
     "files": [
         "dist/galaxy-charts.css",
         "dist/galaxy-charts.js",
-        "dist/galaxy-charts.umd.cjs",
-        "logo.svg"
+        "dist/galaxy-charts.umd.cjs"
     ],
     "scripts": {
         "dev": "vite build && vite",

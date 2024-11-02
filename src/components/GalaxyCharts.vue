@@ -62,13 +62,13 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
 const datasetId = visualizationConfig.dataset_id;
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
-    console.debug(`ViewPort: Evaluating dataset url: ${datasetUrl.value}.`);
+    console.debug(`GalaxyCharts: Evaluating dataset url: ${datasetUrl.value}.`);
 } else {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
         datasetUrl.value = datasetsGetUrl(datasetId);
-        console.debug(`ViewPort: Built dataset url from dataset id: ${datasetUrl.value}.`);
+        console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }
 

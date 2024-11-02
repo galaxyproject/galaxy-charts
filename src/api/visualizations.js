@@ -1,8 +1,11 @@
 import axios from "axios";
 import { rethrowSimple } from "@/utilities/simpleError";
-export async function visualizationsCreate(root, type, title, config) {
+import { useConfigStore } from "@/store/configStore";
+
+export async function visualizationsCreate(type, title, config) {
+    const configStore = useConfigStore();
     try {
-        const { data } = await axios.post(`${root}api/visualizations`, {
+        const { data } = await axios.post(`${configStore.getRoot()}api/visualizations`, {
             type,
             title,
             config,
@@ -13,9 +16,10 @@ export async function visualizationsCreate(root, type, title, config) {
     }
 }
 
-export async function visualizationsSave(root, id, title, config) {
+export async function visualizationsSave(id, title, config) {
+    const configStore = useConfigStore();
     try {
-        const response = await axios.put(`${root}api/visualizations/${id}`, {
+        const response = await axios.put(`${configStore.getRoot()}api/visualizations/${id}`, {
             title,
             config,
         });

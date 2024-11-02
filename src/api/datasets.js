@@ -1,4 +1,5 @@
 import { fetchApi } from "@/api/client";
+import { useConfigStore } from "@/store/configStore";
 
 export async function datasetsGetColumns(datasetId, columnList) {
     try {
@@ -29,5 +30,6 @@ export async function datasetsGetColumns(datasetId, columnList) {
 }
 
 export function datasetsGetUrl(datasetId) {
-    return `/api/datasets/${datasetId}/display`;
+    const configStore = useConfigStore();
+    return `${configStore.getRoot()}api/datasets/${datasetId}/display`;
 }

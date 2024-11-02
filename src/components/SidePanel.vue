@@ -82,14 +82,14 @@ const emit = defineEmits(["update:tracks", "update:settings", "toggle"]);
 async function onSave() {
     try {
         if (currentVisualizationId.value) {
-            await visualizationsSave(props.root, currentVisualizationId.value, currentTitle.value, {
+            await visualizationsSave(currentVisualizationId.value, currentTitle.value, {
                 dataset_id: props.datasetId,
                 settings: props.values,
             });
             message.value = "Successfully saved.";
             messageType.value = "success";
         } else {
-            currentVisualizationId.value = await visualizationsCreate(props.root, props.name, currentTitle.value, {
+            currentVisualizationId.value = await visualizationsCreate(props.name, currentTitle.value, {
                 dataset_id: props.datasetId,
                 settings: props.values,
             });

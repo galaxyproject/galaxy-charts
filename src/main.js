@@ -8,6 +8,10 @@ const config = {
     settings: {
         setting_text: "My Test Setting",
         setting_boolean: true,
+        setting_conditional: {
+            case_false: "something else",
+            test_condition: "false",
+        },
     },
 };
 

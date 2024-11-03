@@ -22,14 +22,16 @@
             <name>setting_boolean</name>
             <type>boolean</type>
             <optional>true</optional>
+            <help>Setting: Boolean Help</help>
         </input>
         <input>
             <name>setting_conditional</name>
+            <label>Setting: Conditional</label>
             <type>conditional</type>
+            <help>Setting: Conditional Help</help>
             <test_param>
                 <name>test_condition</name>
-                <label>Setting: Condition</label>
-                <type>select</type>
+                <type>boolean</type>
                 <value>true</value>
                 <data>
                     <data>
@@ -49,7 +51,8 @@
                         <inputs>
                             <label>Case True: Input</label>
                             <name>case_true</name>
-                            <type>text</type>
+                            <type>textarea</type>
+                            <value>my value</value>
                         </inputs>
                     </inputs>
                 </cases>

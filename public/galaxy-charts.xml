@@ -23,6 +23,48 @@
             <type>boolean</type>
             <optional>true</optional>
         </input>
+        <input>
+            <name>setting_conditional</name>
+            <type>conditional</type>
+            <test_param>
+                <name>test_condition</name>
+                <label>Setting: Condition</label>
+                <type>select</type>
+                <value>true</value>
+                <data>
+                    <data>
+                        <value>true</value>
+                        <label>Condition: True</label>
+                    </data>
+                    <data>
+                        <value>false</value>
+                        <label>Condition: False</label>
+                    </data>
+                </data>
+            </test_param>
+            <cases>
+                <cases>
+                    <value>true</value>
+                    <inputs>
+                        <inputs>
+                            <label>Case True: Input</label>
+                            <name>case_true</name>
+                            <type>text</type>
+                        </inputs>
+                    </inputs>
+                </cases>
+                <cases>
+                    <value>false</value>
+                    <inputs>
+                        <inputs>
+                            <label>Case False: Input</label>
+                            <name>case_false</name>
+                            <type>text</type>
+                        </inputs>
+                    </inputs>
+                </cases>
+            </cases>
+        </input>
     </settings>
     <tracks>
         <input>

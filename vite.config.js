@@ -40,7 +40,7 @@ export default defineConfig({
         },
     },
     define: {
-        "process.env.credentials": GALAXY_KEY ? JSON.stringify("omit") : null,
+        "process.env.credentials": JSON.stringify(GALAXY_KEY ? "omit" : "include"),
     },
     plugins: [vue(), tailwindcss(), libInjectCss()],
     resolve: {

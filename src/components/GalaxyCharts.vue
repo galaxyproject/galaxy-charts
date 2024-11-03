@@ -42,7 +42,8 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 
 // store values in config
 const configStore = useConfigStore();
-configStore.setRoot(root);
+configStore.setCredentials(props.config.credentials || "include");
+configStore.setRoot(root || "/");
 
 // collect plugin details and parse incoming settings
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {

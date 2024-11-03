@@ -30,15 +30,17 @@ async function loadDatasets(query) {
         const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}` : "";
         const nameFilter = query ? `q=name-contains&qv=${query}` : "";
         const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}&${nameFilter}`);
-        const options = data.map((x) => ({
-            label: x.name,
-            value: x,
-        }));
-        options.push({ label: "...filter for more", value: null, disabled: true });
-        if (props.optional) {
-            options.unshift({ label: "-- Clear Selection --", value: null });
+        if (data && data.length > 0) {
+            const options = data.map((x) => ({
+                label: x.name,
+                value: x,
+            }));
+            options.push({ label: "...filter for more", value: null, disabled: true });
+            if (props.optional) {
+                options.unshift({ label: "-- Clear Selection --", value: null });
+            }
+            currentOptions.value = options;
         }
-        currentOptions.value = options;
         isLoading.value = false;
     } catch (err) {
         console.log(err);

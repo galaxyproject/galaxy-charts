@@ -32,7 +32,7 @@ async function fetchGalaxyVersion() {
 fetchGalaxyVersion();
 ```
 
-`GalaxyApi` support `GET`, `POST` and `PUT` requests.
+`GalaxyApi` supports `GET`, `POST` and `PUT` requests.
 
 ## How to Obtain an API Key
 

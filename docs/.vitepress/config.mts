@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  appearance: "dark",
   base: "/galaxy-charts/",
   title: "Galaxy Charts",
   description: "Documentation for Galaxy Charts",

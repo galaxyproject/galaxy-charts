@@ -1,14 +1,22 @@
 # Connect to Galaxy
 
-Galaxy Charts can be used to develop Visualizations independently of Galaxy. However, visualization may access to the Galaxy API in order to retrive datasets, metadata or run jobs. In the Galaxy Charts standalone application can be connected to the API of a local or public runnning Galaxy instance by providing the `GALAXY_API` route either as environment variable, when running Galaxy Charts:
+Galaxy Charts can be used to develop visualizations independently of Galaxy. However, to access Galaxy datasets, metadata, or run jobs, the visualization may need to connect to the Galaxy API.
 
-```md
-GALAXY_API="http://127.0.0.1:8080/api" npm run dev
+To connect the Galaxy Charts standalone application to a Galaxy instance (either local or public), provide the following environment variables when running Galaxy Charts:
+
+- **`GALAXY_KEY`**: Your Galaxy API key.
+- **`GALAXY_ROOT`**: The Galaxy server URL e.g. `https://127.0.0.1:8080` for a locally running Galaxy.
+
+Run the following command, replacing `MY_API_KEY` and `MY_GALAXY_SERVER` with your own values:
+
+```bash
+GALAXY_KEY=MY_API_KEY GALAXY_ROOT=MY_GALAXY_SERVER npm run dev
 ```
 
-or by specifying the corresponding route in the `server.config.js` file as show here:
-```md
-export default {
-    GALAXY_API: "http://127.0.0.1:8080/api",
-};
-```
+## How to Obtain an API Key
+
+1. Navigate to your Galaxy instance and sign in.
+2. Click on your username in the top navigation bar and select Preferences.
+3. Scroll down to Manage API Key to create and access your personal API key.
+
+**Note: Treat your API key as securely as your login credentials.**

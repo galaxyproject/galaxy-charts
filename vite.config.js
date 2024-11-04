@@ -6,7 +6,7 @@ import { libInjectCss } from "vite-plugin-lib-inject-css";
 import { configDefaults } from "vitest/config";
 
 // collect Galaxy server root
-let GALAXY_ROOT = "";
+let GALAXY_ROOT = "http://127.0.0.1:8080";
 if (process.env.GALAXY_ROOT) {
     GALAXY_ROOT = process.env.GALAXY_ROOT;
 } else {

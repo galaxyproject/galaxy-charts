@@ -11,7 +11,7 @@ async function fetchApi(path, options) {
             ...options,
         });
         const data = await response.json();
-        return { data };
+        return { data, response };
     } catch (err) {
         rethrowSimple(err);
     }

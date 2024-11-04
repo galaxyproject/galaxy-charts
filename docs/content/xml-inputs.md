@@ -1,10 +1,10 @@
-## Inputs
+# Inputs
 
 You can specify input elements within the settings and tracks sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports the following input types: `boolean`, `color`, `data`, `float`, `integer`, `select`, and `text`.
 
 Below is a template for a generic input element. It includes attributes such as `label`, `help`, `name`, and `type`, along with an optional `data` array used for `select` inputs:
 
-```md
+```xml
 <input>
     <label>My Input Label</label>
     <help>My Input Help</help>
@@ -24,7 +24,7 @@ Below is a template for a generic input element. It includes attributes such as 
 
 Boolean inputs are useful to display yes/no options to the user e.g.
 
-```md
+```xml
 <input>
     <label>My Boolean Label</label>
     <help>My Boolean Help</help>
@@ -50,7 +50,7 @@ Translates to:
     
 Users may also select colors, this can be particular useful to distinguish data tracks e.g. in bar or line diagrams:
 
-```md
+```xml
 <input>
     <label>My Color Label</label>
     <help>My Color Help</help>
@@ -79,7 +79,7 @@ Translates to:
     
 Using a `data` input field you can allow users to select a dataset from Galaxy:
 
-```md
+```xml
 <input>
     <label>My Data Label</label>
     <help>My Data Help</help>
@@ -103,7 +103,7 @@ Translates to:
 
 ## Float Input
 
-```md
+```xml
 <input>
     <label>My Float Label</label>
     <help>My Float Help</help>
@@ -140,7 +140,7 @@ Translates to:
 
 ## Integer Input
 
-```md
+```xml
 <input>
     <label>My Integer Label</label>
     <help>My Integer Help</help>
@@ -153,7 +153,7 @@ Translates to:
 
 ## Select Input
     
-```md
+```xml
 <input>
     <label>My Select Label</label>
     <help>My Select Help</help>
@@ -191,7 +191,7 @@ Translates to:
 
 Last but not least, `text` inputs can be declared.
 
-```md
+```xml
 <input>
     <label>My Text Label</label>
     <help>My Text Help</help>

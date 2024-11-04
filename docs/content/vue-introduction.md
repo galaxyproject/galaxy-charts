@@ -1,4 +1,4 @@
-# Core Component
+# Vue Component
 
 The `GalaxyCharts` core component is used to embed a JavaScript-based visualization by placing the visualization code within its `#default` slot. This component parses static `config` options and the XML visualization wrapper to render both the viewport and input form.
 

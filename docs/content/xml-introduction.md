@@ -2,7 +2,7 @@
 
 Galaxy Visualizations are configured using XML files. The files contain Visualization specific attributes such as the `name`, `description` and the associated npm package details.
 
-```md
+```xml
 <visualization name="MY_VISUALIZATION">
     <description>MY_DESCRIPTION</description>
     <requirements>

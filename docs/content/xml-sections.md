@@ -4,7 +4,7 @@
 
 The `settings` section includes an `array` of `input` elements that allow users to customize the visualization. These customization options are also available when embedding the visualization in Galaxy workflow reports. Below is an example of a `settings` section with a single `text` input element:
 
-```md
+```xml
 <settings>
     <input>
         <label>Setting: Text</label>
@@ -19,7 +19,7 @@ The `settings` section includes an `array` of `input` elements that allow users 
 
 The `specs` section includes an `array` of static `key-value` pairs for general use, such as:
 
-```md
+```xml
 <specs>
     <my_key>my_value</my_key>
     ...
@@ -30,7 +30,7 @@ The `specs` section includes an `array` of static `key-value` pairs for general 
 
 The `tracks` section includes an `array` of `input` elements that allow users to configure individual data tracks, for example:
 
-```md
+```xml
 <tracks>
     <input>
         <label>Track: Color</label>

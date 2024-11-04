@@ -31,7 +31,7 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Core Component',
+        text: 'Vue Component',
         items: [
             { text: 'Introduction', link: '/content/vue-introduction' },
             { text: 'Utilities', link: '/content/vue-utilities' }

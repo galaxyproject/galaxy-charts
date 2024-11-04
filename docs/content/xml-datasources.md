@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-## Data Sources
+# Data Sources
 
 The Data Sources section is required in the Visualization XML to inform Galaxy of the compatible data types for your visualization.
 

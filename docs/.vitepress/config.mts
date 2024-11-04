@@ -7,6 +7,7 @@ export default defineConfig({
   description: "Documentation for Galaxy Charts",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/galaxy-charts.svg',
     nav: [
       { text: 'Home', link: '/' },
     ],

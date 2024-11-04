@@ -5,7 +5,7 @@ Galaxy Charts can be used to develop visualizations independently of Galaxy. How
 To connect the Galaxy Charts standalone application to a Galaxy instance (either local or public), provide the following environment variables when running Galaxy Charts:
 
 - **`GALAXY_KEY`**: Your Galaxy API key.
-- **`GALAXY_ROOT`**: The Galaxy server URL e.g. `https://127.0.0.1:8080` for a locally running Galaxy.
+- **`GALAXY_ROOT`**: The Galaxy server URL e.g. `https://usegalaxy.org` for Galaxy main.
 
 Run the following command, replacing `MY_API_KEY` and `MY_GALAXY_SERVER` with your own values:
 

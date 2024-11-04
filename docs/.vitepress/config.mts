@@ -40,7 +40,7 @@ export default defineConfig({
         text: 'Deploy to Galaxy',
         items: [
             { text: 'Build and Publish', link: '/content/deploy-plugin' },
-            { text: 'Open Pull Request', link: '/content/deploy-request' },
+            { text: 'Submit Pull Request', link: '/content/deploy-request' },
         ]
       },
     ],

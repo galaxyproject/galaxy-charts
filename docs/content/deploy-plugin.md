@@ -4,7 +4,7 @@ outline: deep
 
 # Building and Publishing Your Visualization
 
-Once your visualization is complete and ready for deployment to Galaxy, you can publish it to `npm` and submit a pull request to the Galaxy development repository. This pull request should include the `XML Wrapper` and, optionally, a logo file in `png` or `svg` format.
+Once your visualization is complete and ready for deployment to Galaxy, you can publish it to `npm` and [submit a pull](deploy-request) request to the Galaxy development repository.
 
 ## Configure the Package Name
 

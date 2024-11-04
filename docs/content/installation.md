@@ -33,6 +33,6 @@ npm run dev
 
 Congratulations! Your Galaxy visualization repository is set up and ready for development. Follow the instructions on the splash screen and refer to these docs as you build your custom visualization.
 
-When you’re ready to publish, refer to the **Deploy to Galaxy** section to share your visualization with the Galaxy community.
+When you’re ready to publish, refer to the [Deploy to Galaxy](deploy-plugin.html) section to share your visualization with the Galaxy community.
 
 Thank you for your contribution!

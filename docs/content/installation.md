@@ -27,6 +27,12 @@ npm install
 npm run dev
 ```
 
-## Next Steps
+## 4. Next Steps
 
-Congratulations! You’ve successfully set up your Galaxy visualization repository and it's ready for you to start adding your custom visualization code.
+1. Open a web browser and navigate to the localhost URL displayed in your terminal (typically in the format `http://localhost:PORT`).
+
+Congratulations! Your Galaxy visualization repository is set up and ready for development. Follow the instructions on the splash screen and refer to these docs as you build your custom visualization.
+
+When you’re ready to publish, refer to the **How to Publish** section to share your visualization with the Galaxy community.
+
+Thank you for your contribution!

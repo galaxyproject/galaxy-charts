@@ -8,11 +8,8 @@ hero:
   tagline: Develop, Test and Deploy JavaScript Visualizations
   actions:
     - theme: brand
-      text: Getting Started
-      link: /content/introduction
-    - theme: alt
-      text: Examples
-      link: /content/examples
+      text: Quick Start
+      link: /content/installation
 
 features:
   - title: Standalone

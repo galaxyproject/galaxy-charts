@@ -9,7 +9,6 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/content/examples' }
     ],
 
     sidebar: [
@@ -40,14 +39,14 @@ export default defineConfig({
       {
         text: 'Deploy to Galaxy',
         items: [
-            { text: 'Build and Link Plugin', link: '/content/deploy-plugin' },
-            { text: 'Create Pull Request', link: '/content/deploy-request' },
+            { text: 'Build and Publish', link: '/content/deploy-plugin' },
+            { text: 'Open Pull Request', link: '/content/deploy-request' },
         ]
       },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/galaxyproject/galaxy-charts' }
     ]
   }
 })

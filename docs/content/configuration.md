@@ -13,10 +13,33 @@ Run the following command, replacing `MY_API_KEY` and `MY_GALAXY_SERVER` with yo
 GALAXY_KEY=MY_API_KEY GALAXY_ROOT=MY_GALAXY_SERVER npm run dev
 ```
 
+## Making Requests to the Galaxy API
+
+Once connected to Galaxy, you can make API requests by importing `GalaxyApi` as follows:
+
+```javascript
+import { GalaxyApi } from "galaxy-charts";
+
+async function fetchGalaxyVersion() {
+  try {
+    const { response, data } = await GalaxyApi().GET("/api/version");
+    console.log("API Version:", data);
+  } catch (error) {
+    console.error("Error fetching Galaxy version:", error);
+  }
+}
+
+fetchGalaxyVersion();
+```
+
+`GalaxyApi` support `GET`, `POST` and `PUT` requests.
+
 ## How to Obtain an API Key
 
-1. Navigate to your Galaxy instance and sign in.
-2. Click on your username in the top navigation bar and select Preferences.
-3. Scroll down to Manage API Key to create and access your personal API key.
+1. Go to your Galaxy instance and sign in.
+2. Click on your username in the top navigation bar, then select **Preferences**.
+3. Scroll down to the **Manage API Key** section to create and access your personal API key.
 
-**Note: Treat your API key as securely as your login credentials.**
+::: warning NOTE
+Keep your API key secure, just like your login credentials.
+:::

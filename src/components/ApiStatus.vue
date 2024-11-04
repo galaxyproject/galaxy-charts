@@ -13,9 +13,7 @@ async function checkVersion() {
         const { data } = await GalaxyApi().GET("/api/version");
         version.value = data.version_major;
     } catch (err) {
-        console.log(
-            `Unable to connect to Galaxy. Verify Galaxy is running and properly configured in 'server.config.js'.`,
-        );
+        console.log(`Unable to connect to Galaxy. Verify Galaxy is running and refer to docs.`);
         version.value = "";
     }
 }
@@ -38,6 +36,6 @@ checkVersion();
                 <ExclamationCircleIcon class="text-red-600" />
             </n-icon>
         </template>
-        <span class="text-xs">Galaxy is not accessible, review `server.config.js`.</span>
+        <span class="text-xs">Galaxy is not accessible!</span>
     </n-tooltip>
 </template>

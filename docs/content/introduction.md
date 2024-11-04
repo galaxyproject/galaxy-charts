@@ -4,7 +4,14 @@ outline: deep
 
 # What is Galaxy Charts?
 
-Galaxy Charts is a powerful visualization plugin framework built specifically for the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses **Vite**, **Vue 3**, **Tailwind CSS**, and **Naive UI** to create a flexible and dynamic environment for developing visualizations.
+Galaxy Charts is a powerful visualization plugin framework built specifically for the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses **Vite**, **Vue 3**, **Naive UI**, and **Tailwind CSS** to create a flexible and dynamic environment for developing visualizations.
+
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <img src="/vite.svg" alt="vite" width="10%">
+  <img src="/vue.svg" alt="vue" width="10%">
+  <img src="/naive-ui.svg" alt="naive-ui" width="10%">
+  <img src="/tailwind.svg" alt="tailwind" width="10%">
+</div>
 
 With Galaxy Charts, you can develop visualizations locally in Vue, taking advantage of advanced tooling like hot-reloading for instant feedback, efficient bundling for optimized performance, and other modern features. This setup enables a streamlined and responsive development experience.
 

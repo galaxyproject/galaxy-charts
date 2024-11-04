@@ -44,7 +44,24 @@ Optionally, include a logo file (logo.svg or logo.png) for your visualization by
 config/plugins/visualizations/MY_VISUALIZATION/static/logo.[svg/png]
 ```
 
+## Step 6: Update the Gulpfile
+
+In the Galaxy root directory, open `client/gulpfile.js` and add the name of your visualization to the `INSTALL_PLUGIN_BUILD_IDS` list.
+
+## Step 7: Run Galaxy and Test Your Visualization
+
+1. **Start Galaxy** by running the following command:
+
+    ```bash
+    ./run.sh
+    ```
+
+2. **Upload a test file**  to your Galaxy history, ensuring it has the correct data type for your visualization.
+
+3. **Open your visualization** from the Activity Bar to view and test your uploaded dataset.
+
+
+## :tada: Thank you for your contribution!
 
 Following these steps will prepare your visualization for integration with Galaxy. Once everything is set up, you can submit your pull request.
 
-:tada: Congratulations and thank you for your contribution!

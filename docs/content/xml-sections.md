@@ -2,7 +2,8 @@
 
 ## Settings Section
 
-The `settings` section contains an `array` of `input` elements enabling users to customize the visualization. These customization options also become available when embedding the visualization in Galaxy workflow reports. Here is an example of a `settings` section with a single `text` input element:
+The `settings` section includes an `array` of `input` elements that allow users to customize the visualization. These customization options are also available when embedding the visualization in Galaxy workflow reports. Below is an example of a `settings` section with a single `text` input element:
+
 ```md
 <settings>
     <input>
@@ -16,7 +17,8 @@ The `settings` section contains an `array` of `input` elements enabling users to
 
 ## Specs Section
 
-The `specs` section contains an `array` of static `key/value` pairs for arbitrary use e.g.
+The `specs` section includes an `array` of static `key-value` pairs for general use, such as:
+
 ```md
 <specs>
     <my_key>my_value</my_key>
@@ -26,7 +28,8 @@ The `specs` section contains an `array` of static `key/value` pairs for arbitrar
 
 ## Tracks Section
 
-The `tracks` section contains an `array` of `input` elements enabling users to configure individual data tracks e.g.
+The `tracks` section includes an `array` of `input` elements that allow users to configure individual data tracks, for example:
+
 ```md
 <tracks>
     <input>

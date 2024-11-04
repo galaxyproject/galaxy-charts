@@ -1,8 +1,8 @@
-# Inputs
+## Inputs
 
-You may specify  `input` elements in the `settings` and `tracks` sections. This will allow users to parameterize and customize their visualization. Currently, Galaxy Charts supports the following input types: `boolean`, `color`, `float`, `integer`, `select`, and `text` input fields.
+You can specify input elements within the settings and tracks sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports the following input types: `boolean`, `color`, `data`, `float`, `integer`, `select`, and `text`.
 
-Here is a generic `input` element template, specifying `label`, `help`, `name`, `type` attributes in addition to an optional `data` array used for `select` inputs:
+Below is a template for a generic input element. It includes attributes such as `label`, `help`, `name`, and `type`, along with an optional `data` array used for `select` inputs:
 
 ```md
 <input>
@@ -19,7 +19,6 @@ Here is a generic `input` element template, specifying `label`, `help`, `name`, 
     </data>
 </input>
 ```
-
 
 ## Boolean Input
 
@@ -59,6 +58,7 @@ Users may also select colors, this can be particular useful to distinguish data 
     <type>color</type>
 </input>
 ```
+
 Translates to:
 
 <ClientOnly>
@@ -74,6 +74,32 @@ Translates to:
 
 `my_color_name`
 <span class="font-thin"> = {{ colorInput }}</span>
+
+## Data Input
+    
+Using a `data` input field you can allow users to select a dataset from Galaxy:
+
+```md
+<input>
+    <label>My Data Label</label>
+    <help>My Data Help</help>
+    <name>my_data_name</name>
+    <type>data</type>
+</input>
+```
+
+Translates to:
+
+<ClientOnly>
+<div class="rounded border p-4">
+    <div class="font-bold pb-1">My Data Label</div>
+    <div class="text-xs pb-1">My Data Help</div>
+    <n-select v-model:value="dataInput" :options="dataOptions" filterable />
+</div>
+</ClientOnly>
+
+`my_data_name`
+<span class="font-thin"> = {{ dataInput }}</span>
 
 ## Float Input
 
@@ -133,20 +159,33 @@ Translates to:
     <help>My Select Help</help>
     <name>my_select_name</name>
     <type>select</type>
-    <value>my_option_1</value>
+    <value>my_option_a</value>
     <data>
         <data>
-            <label>My Option 1 Label</label>
-            <value>my_option_1</value>
+            <label>My Option A Label</label>
+            <value>my_option_a</value>
         </data>
         <data>
-            <label>My Option 2 Label</label>
-            <value>my_option_2</value>
+            <label>My Option B Label</label>
+            <value>my_option_b</value>
         </data>
         ...
     </data>
 </input>
 ```
+
+Translates to:
+
+<ClientOnly>
+<div class="rounded border p-4">
+    <div class="font-bold pb-1">My Select Label</div>
+    <div class="text-xs pb-1">My Select Help</div>
+    <n-select v-model:value="selectInput" :options="selectOptions" />
+</div>
+</ClientOnly>
+
+`my_select_name`
+<span class="font-thin"> = {{ selectInput }}</span>
 
 ## Text Input
 
@@ -176,10 +215,34 @@ Translates to:
 
 <script setup>
 import * as naiveui from 'naive-ui';
-const { NSwitch, NColorPicker, NSlider, NInputNumber, NInput } = naiveui;
+const { NSwitch, NColorPicker, NSelect, NSlider, NInputNumber, NInput } = naiveui;
 import { ref } from "vue";
 const booleanInput = ref(true);
 const colorInput = ref("#0284c7");
 const floatInput = ref(1);
-const textInput = ref("My Text")
+const dataInput = ref("dataset_id_a");
+const textInput = ref("My Text");
+const selectInput = ref("my_option_a");
+
+const dataOptions = [
+    {
+        label: 'Galaxy Dataset A',
+        value: 'dataset_id_a',
+    },
+    {
+        label: 'Galaxy Dataset B',
+        value: 'dataset_id_b'
+    },
+];
+
+const selectOptions = [
+    {
+        label: 'My Option A',
+        value: 'my_option_a',
+    },
+    {
+        label: 'My Option B',
+        value: 'my_option_b'
+    },
+];
 </script>

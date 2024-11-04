@@ -1,44 +1,32 @@
-# Adding New Visualizations to Galaxy
+# Developing Visualizations for Galaxy
 
-To get started, we recommend cloning the [Galaxy Visualizations repository](https://github.com/galaxyproject/galaxy-visualizations). While cloning this repository isn't strictly necessary to add new visualizations to Galaxy, it's best practice to keep a central collection of all visualizations here for easy access and management.
+Follow these steps to start developing a new visualization for Galaxy.
 
-Run the following command to clone the Galaxy Visualizations repsoitory:
-```md
-git clone https://github.com/galaxyproject/galaxy-visualizations
+## 1. Set Up Your Repository
+
+1. Sign in to your [GitHub](https://github.com) account.
+2. Go to the [Galaxy Charts Starter](https://github.com/guerler/galaxy-charts-starter) repository.
+3. Click on **Use this template** and select **Create a new repository**.
+4. Name your new repository (e.g., `MY_VISUALIZATION`), then complete the setup by clicking **Create repository**.
+
+## 2. Clone Your Repository
+
+Open a terminal window and clone your newly created repository:
+
+```bash
+git clone https://github.com/USERNAME/MY_VISUALIZATION
 ```
+Replace USERNAME with your GitHub username and MY_VISUALIZATION with your repository name.
 
-Once cloned, navigate to the packages subdirectory. This is where we will add a new visualization.
-```md
-cd galaxy-visualizations/packages
-```
+## 3. Initialize Your Visualization Project
 
-Ensure the degit tool is installed.
-
-```md
-npm install -g degit
-```
-
-Then use it to copy the [galaxy-charts-starter](https://github.com/guerler/galaxy-charts-starter) kit, specifying the desired name for your visualization plugin.
-
-```md
-degit https://github.com/guerler/galaxy-charts-starter MY_VISUALIZATION
-```
-
-Now is the right time to create your own github feature branch containing your visualization.
-
-```md
-git checkout -b MY_BRANCH
-git add MY_VISUALIZATION
-```
-
-Navigate to your newly created plugin directory, and run:
-
-```md
+Navigate to your project directory and set up the environment:
+```bash
 cd MY_VISUALIZATION
 npm install
 npm run dev
 ```
 
-Your development environment is now set up and ready for customization!
+## Next Steps
 
-Once you have completed adding your visualization or properly embedding a 3rd party plugin for integration with Galaxy, continue by pushing your changes to [github](https://docs.github.com) and issue a pull request.
+Congratulations! You’ve successfully set up your Galaxy visualization repository and it's ready for you to start adding your custom visualization code.

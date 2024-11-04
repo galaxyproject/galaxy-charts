@@ -1,6 +1,6 @@
-# Additional Utilities
+# Utilities
 
-Galaxy Charts is bundled with utilitites to simplify interaction with Galaxy.
+Galaxy Charts is bundled with utilities to simplify interaction with Galaxy.
 
 ## Column Store
 

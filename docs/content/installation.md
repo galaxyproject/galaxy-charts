@@ -1,4 +1,4 @@
-# Developing Visualizations for Galaxy
+# Develop Visualizations for Galaxy
 
 Follow these steps to start developing a new visualization for Galaxy.
 

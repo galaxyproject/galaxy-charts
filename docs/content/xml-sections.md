@@ -1,4 +1,4 @@
-# Available Sections
+# Sections
 
 ## Settings Section
 

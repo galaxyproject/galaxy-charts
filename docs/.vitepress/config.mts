@@ -14,33 +14,32 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Getting Started',
+        text: 'Introduction',
         items: [
           { text: 'What is Galaxy Charts?', link: '/content/introduction' },
-          { text: 'Start Developing', link: '/content/installation' },
+          { text: 'Getting Started', link: '/content/installation' },
           { text: 'Connect to Galaxy', link: '/content/configuration' },
-          { text: 'Examples', link: '/content/examples' },
         ]
       },
       {
-        text: 'Visualization XML Wrapper',
+        text: 'XML Wrapper',
         items: [
             { text: 'Introduction', link: '/content/xml-introduction' },
-            { text: 'Available Sections', link: '/content/xml-sections' },
-            { text: 'Available Inputs', link: '/content/xml-inputs' }
+            { text: 'Data Sources', link: '/content/xml-datasources' },
+            { text: 'Sections', link: '/content/xml-sections' },
+            { text: 'Inputs', link: '/content/xml-inputs' },
         ]
       },
       {
-        text: 'Visualization Vue Wrapper',
+        text: 'Core Component',
         items: [
-            { text: 'Component Usage', link: '/content/vue-component' },
-            { text: 'Additional Utilities', link: '/content/vue-utilities' }
+            { text: 'Introduction', link: '/content/vue-introduction' },
+            { text: 'Utilities', link: '/content/vue-utilities' }
         ]
       },
       {
         text: 'Deploy to Galaxy',
         items: [
-            { text: 'Configure Data Source', link: '/content/deploy-datasource' },
             { text: 'Build and Link Plugin', link: '/content/deploy-plugin' },
             { text: 'Create Pull Request', link: '/content/deploy-request' },
         ]

@@ -2,21 +2,21 @@
 outline: deep
 ---
 
-# Configure Data Source
+# Data Sources
 
 A data source section is required in the Visualization XML in order to let Galaxy know which datatypes are compatible with your visualization.
 
 ```xml
-    <data_sources>
-        <data_source>
-            <model_class>HistoryDatasetAssociation</model_class>
-            <test test_attr="ext" result_type="datatype">{{ COMPATIBLE_EXTENSION }}</test>
-            <to_param param_attr="id">dataset_id</to_param>
-        </data_source>
-    </data_sources>
-    <params>
-        <param type="dataset" var_name_in_template="hda" required="true">dataset_id</param>
-    </params>
+<data_sources>
+    <data_source>
+        <model_class>HistoryDatasetAssociation</model_class>
+        <test test_attr="ext" result_type="datatype">{{ COMPATIBLE_EXTENSION }}</test>
+        <to_param param_attr="id">dataset_id</to_param>
+    </data_source>
+</data_sources>
+<params>
+    <param type="dataset" var_name_in_template="hda" required="true">dataset_id</param>
+</params>
 ```
 
 Galaxy supports a variety of datatype extensions:

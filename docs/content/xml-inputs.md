@@ -1,4 +1,4 @@
-# Available Inputs
+# Inputs
 
 You may specify  `input` elements in the `settings` and `tracks` sections. This will allow users to parameterize and customize their visualization. Currently, Galaxy Charts supports the following input types: `boolean`, `color`, `float`, `integer`, `select`, and `text` input fields.
 

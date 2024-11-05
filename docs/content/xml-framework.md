@@ -91,50 +91,50 @@ Here is a list of popular tools to consider for your visualization plugin:
 <div class="grid grid-cols-4 gap-12 text-center my-10">
   <div class="flex flex-col items-center">
     <img src="/javascript.svg" alt="JavaScript" class="w-16 h-16">
-    <span class="mt-2">JavaScript</span>
+    <span class="font-bold mt-2">JavaScript</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/typescript.svg" alt="TypeScript" class="w-16 h-16">
-    <span class="mt-2">TypeScript</span>
+    <span class="font-bold mt-2">TypeScript</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/react.svg" alt="React" class="w-16 h-16">
-    <span class="mt-2">React</span>
+    <span class="font-bold mt-2">React</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/next-js.svg" alt="Next.js" class="w-16 h-16">
-    <span class="mt-2">Next.js</span>
+    <span class="font-bold mt-2">Next.js</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/vue.svg" alt="Vue" class="w-16 h-16">
-    <span class="mt-2">Vue</span>
+    <span class="font-bold mt-2">Vue</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/vite.svg" alt="Vite" class="w-16 h-16">
-    <span class="mt-2">Vite</span>
+    <span class="font-bold mt-2">Vite</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/vuetify.svg" alt="Vuetify" class="w-16 h-16">
-    <span class="mt-2">Vuetify</span>
+    <span class="font-bold mt-2">Vuetify</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/nuxt.svg" alt="Nuxt" class="w-16 h-16">
-    <span class="mt-2">Nuxt</span>
+    <span class="font-bold mt-2">Nuxt</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/naive-ui.svg" alt="Naive UI" class="w-16 h-16">
-    <span class="mt-2">Naive UI</span>
+    <span class="font-bold mt-2">Naive UI</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/tailwind.svg" alt="Tailwind CSS" class="w-16 h-16">
-    <span class="mt-2">Tailwind CSS</span>
+    <span class="font-bold mt-2">Tailwind CSS</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/eslint.svg" alt="ES Lint" class="w-16 h-16">
-    <span class="mt-2">ES Lint</span>
+    <span class="font-bold mt-2">ES Lint</span>
   </div>
   <div class="flex flex-col items-center">
     <img src="/prettier.svg" alt="Prettier" class="w-16 h-16">
-    <span class="mt-2">Prettier</span>
+    <span class="font-bold mt-2">Prettier</span>
   </div>
 </div>

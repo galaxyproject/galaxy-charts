@@ -9,23 +9,23 @@ Galaxy Charts is a powerful visualization plugin framework built specifically fo
 <div class="grid grid-cols-5 gap-12 text-center my-10">
     <div class="flex flex-col items-center">
         <img src="/vite.svg" alt="vite" class="w-16 h-16">
-        <span class="mt-2">Vite</span>
+        <span class="font-bold mt-2">Vite</span>
     </div>
     <div class="flex flex-col items-center">
         <img src="/vitest.svg" alt="vitest" class="w-16 h-16">
-        <span class="mt-2">Vitest</span>
+        <span class="font-bold mt-2">Vitest</span>
     </div>
     <div class="flex flex-col items-center">
         <img src="/vue.svg" alt="vue" class="w-16 h-16">
-        <span class="mt-2">Vue 3</span>
+        <span class="font-bold mt-2">Vue 3</span>
     </div>
     <div class="flex flex-col items-center">
         <img src="/naive-ui.svg" alt="naive-ui" class="w-16 h-16">
-        <span class="mt-2">Naive UI</span>
+        <span class="font-bold mt-2">Naive UI</span>
     </div>
     <div class="flex flex-col items-center">
         <img src="/tailwind.svg" alt="tailwind" class="w-16 h-16">
-        <span class="mt-2">Tailwind CSS</span>
+        <span class="font-bold mt-2">Tailwind CSS</span>
     </div>
 </div>
 

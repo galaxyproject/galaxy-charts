@@ -31,8 +31,8 @@ npm run dev
 
 Open a web browser and navigate to the localhost URL displayed in your terminal (typically in the format `http://localhost:PORT`):
 
-<div style="display: flex; justify-content: space-around; align-items: center; padding: 1rem;">
-  <img src="/galaxy-charts-starter.jpg" alt="starter" width="80%">
+<div class="flex justify-around items-center p-1">
+  <img class="border-2 rounded border-gray-100" src="/galaxy-charts-starter.jpg" alt="starter" width="80%">
 </div>
 
 Congratulations! Your Galaxy visualization repository is set up and ready for development. Follow the instructions on the splash screen and refer to these docs as you build your custom visualization.

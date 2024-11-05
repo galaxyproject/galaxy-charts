@@ -4,13 +4,29 @@ outline: deep
 
 # What is Galaxy Charts?
 
-Galaxy Charts is a powerful visualization plugin framework built specifically for the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses **Vite**, **Vue 3**, **Naive UI**, and **Tailwind CSS** to create a flexible and dynamic environment for developing visualizations.
+Galaxy Charts is a powerful visualization plugin framework built specifically for the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses the following technologies to create a flexible and dynamic environment for developing visualizations:
 
-<div class="flex justify-around items-center">
-  <img src="/vite.svg" alt="vite" width="10%">
-  <img src="/vue.svg" alt="vue" width="10%">
-  <img src="/naive-ui.svg" alt="naive-ui" width="10%">
-  <img src="/tailwind.svg" alt="tailwind" width="10%">
+<div class="grid grid-cols-5 gap-12 text-center my-10">
+    <div class="flex flex-col items-center">
+        <img src="/vite.svg" alt="vite" class="w-16 h-16">
+        <span class="mt-2">Vite</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/vitest.svg" alt="vitest" class="w-16 h-16">
+        <span class="mt-2">Vitest</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/vue.svg" alt="vue" class="w-16 h-16">
+        <span class="mt-2">Vue 3</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/naive-ui.svg" alt="naive-ui" class="w-16 h-16">
+        <span class="mt-2">Naive UI</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/tailwind.svg" alt="tailwind" class="w-16 h-16">
+        <span class="mt-2">Tailwind CSS</span>
+    </div>
 </div>
 
 With Galaxy Charts, you can develop visualizations locally in Vue, taking advantage of advanced tooling like hot-reloading for instant feedback, efficient bundling for optimized performance, and other modern features. This setup enables a streamlined and responsive development experience.

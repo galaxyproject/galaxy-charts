@@ -60,8 +60,6 @@ In the Galaxy root directory, open `client/gulpfile.js` and add the name of your
 
 3. **Open your visualization** from the Activity Bar to view and test your uploaded dataset.
 
-
 ## :tada: Thank you for your contribution!
 
 Following these steps will prepare your visualization for integration with Galaxy. Once everything is set up, you can submit your pull request.
-

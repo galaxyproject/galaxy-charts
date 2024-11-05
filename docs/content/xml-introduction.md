@@ -12,3 +12,12 @@ Galaxy Visualizations are configured using XML files. The files contain Visualiz
     ...
 </visualization>
 ```
+
+This XML template includes the following variables:
+
+| Variable | Description |
+|----------|-------------|
+| **MY_VISUALIZATION** | Specifies the name of the visualization. |
+| **MY_DESCRIPTION** | Provides a brief description of the visualization, including references if it’s a third-party plugin. |
+| **MY_NPM_PACKAGE_NAME** | Indicates the npm package name. Update this field with the correct package name before publishing. |
+| **MY_NPM_PACKAGE_VERSION** | Specifies the version number of the npm package upon publishing. |

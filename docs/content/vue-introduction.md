@@ -6,16 +6,13 @@ The `GalaxyCharts` core component is used to embed a JavaScript-based visualizat
 <script setup>
 import { GalaxyCharts } from "galaxy-charts";
 
-// Configuration to override default settings
+// Configuration of your visualization
 const config = {
     dataset_url: "MY_DATASET_URL",
-    settings: {
-        setting_text: "MY_TEST_SETTING",
-        setting_boolean: true,
-    },
+    settings: {},
 };
 
-// XML wrapper for your visualization
+// XML wrapper of your visualization
 const xml = "MY_VISUALIZATION.xml";
 </script>
 

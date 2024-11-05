@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/public/galaxy-charts.svg" alt="Description" width="50">
+  <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Description" width="50">
   <h3>Welcome to Galaxy Charts!</h3>
 </div>
 

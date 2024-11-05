@@ -4,7 +4,7 @@ outline: deep
 
 # Submit a Pull Request to Galaxy
 
-With your visualization published to `npm`, the next step is to submit a pull request to the Galaxy development repository. This pull request should include your XML wrapper file and, optionally, a logo file in either `png` format.
+With your visualization published to `npm`, the next step is to submit a pull request to the Galaxy development repository. This pull request should include your XML wrapper file and, optionally, a logo file in `png` format.
 
 Note: Replace `MY_VISUALIZATION` with your visualization name in the following instructions.
 

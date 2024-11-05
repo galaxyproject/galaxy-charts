@@ -8,6 +8,7 @@ import { GalaxyCharts } from "galaxy-charts";
 
 // Configuration of your visualization
 const config = {
+    dataset_id: "MY_DATASET_ID",
     dataset_url: "MY_DATASET_URL",
     settings: {},
 };

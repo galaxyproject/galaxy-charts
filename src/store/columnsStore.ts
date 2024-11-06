@@ -31,8 +31,10 @@ export function useColumnsStore() {
 
         if (columnsList.length > 0) {
             const columnsData = await datasetsGetColumns(datasetId, columnsList);
-            for (const [index, column] of columnsList.entries()) {
-                columns.value[datasetId][column] = columnsData[index];
+            if (columnsData) {
+                for (const [index, column] of columnsList.entries()) {
+                    columns.value[datasetId][column] = columnsData[index];
+                }
             }
         }
 

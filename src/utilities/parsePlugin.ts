@@ -1,12 +1,12 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { parseXML } from "@/utilities/parseXML";
-import type { InputElementType, PluginConfigType, PluginType } from "@/types";
+import type { InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
 
 interface ParsedPlugin {
     plugin: PluginType;
-    settings: Record<string, any>;
-    specs: Record<string, any> | undefined;
-    tracks: Array<Record<string, any>>;
+    settings: InputValuesType;
+    specs: Record<string, string> | undefined;
+    tracks: Array<InputValuesType>;
 }
 
 // Parse plugin either from incoming object or XML
@@ -43,7 +43,7 @@ function formatValue(input: InputElementType, inputValue: any): any {
 }
 
 // Format conditional values based on test cases
-function formatConditional(input: InputElementType, values: Record<string, any> = {}): Record<string, any> {
+function formatConditional(input: InputElementType, values: InputValuesType = {}): InputValuesType {
     const result = values;
     const testName = input.test_param?.name;
 
@@ -66,7 +66,7 @@ function formatConditional(input: InputElementType, values: Record<string, any> 
 }
 
 // Parse values with conditional handling
-function parseValues(inputs?: Array<InputElementType>, values?: Record<string, any>): Record<string, any> {
+function parseValues(inputs?: Array<InputElementType>, values?: InputValuesType): InputValuesType {
     const result = values || {};
 
     inputs?.forEach((input) => {
@@ -81,7 +81,7 @@ function parseValues(inputs?: Array<InputElementType>, values?: Record<string, a
 }
 
 // Parse tracks with nested values
-function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<Record<string, any>>): Array<Record<string, any>> {
+function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<InputValuesType>): Array<InputValuesType> {
     const values = tracks || [];
     if (inputs) {
         if (values.length === 0) {

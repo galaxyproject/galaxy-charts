@@ -1,6 +1,6 @@
 import { GalaxyApi } from "@/api/client";
 
-export async function datasetsGetColumns(datasetId: string, columnList: number[]): Promise<any[][] | undefined> {
+export async function datasetsGetColumns(datasetId: string, columnList: string[]): Promise<any[][] | undefined> {
     try {
         const params = new URLSearchParams({
             data_type: "raw_data",

@@ -3,7 +3,7 @@ import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed, ref, watch, defineProps, defineEmits, defineModel } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
-import { InputElementType } from "@/types";
+import { InputElementType, InputValuesType } from "@/types";
 
 // Define props with types
 const props = defineProps<{
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 // Define emit with event typing
 const emit = defineEmits<{
-    (event: "update:value", updatedValues: Record<string, any>): void;
+    (event: "update:value", updatedValues: InputValuesType): void;
 }>();
 
 if (!props.input.test_param) {
@@ -34,7 +34,7 @@ if (!testName) {
 }
 
 // Reference the model value of the conditional component
-const currentValue = defineModel<Record<string, any>>("value");
+const currentValue = defineModel<InputValuesType>("value");
 if (!currentValue.value || !(testName in currentValue.value)) {
     console.error(`Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
 }
@@ -44,7 +44,7 @@ const currentTestValue = ref<string>(currentValue.value && currentValue.value[te
 
 // Collect input cases and identify defaults
 const caseDefaults = computed(() => {
-    const result: Record<string, Record<string, any>> = {};
+    const result: Record<string, InputValuesType> = {};
     if (props.input.cases && props.input.cases.length > 0) {
         for (const inputCase of props.input.cases) {
             result[inputCase.value] = parseDefaults(inputCase.inputs);
@@ -79,10 +79,10 @@ const switchTestValue = computed({
 });
 
 // Update values if test value changes or conditional input elements are modified
-function onUpdate(newValues?: Record<string, any>) {
+function onUpdate(newValues?: InputValuesType) {
     let updatedValues = { ...caseDefaults.value[currentTestValue.value] };
     if (newValues) {
-        const filteredValues: Record<string, any> = {};
+        const filteredValues: InputValuesType = {};
         currentInputs.value.forEach((x) => {
             filteredValues[x.name] = newValues[x.name];
         });

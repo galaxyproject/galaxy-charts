@@ -27,14 +27,16 @@ export interface InputElementType {
 
 export type InputValueType = boolean | string | number | null | undefined;
 
+export type InputValuesType = Record<string, any>;
+
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
 
 export interface PluginConfigType {
     credentials?: RequestCredentials;
     dataset_id?: string;
     dataset_url?: string;
-    settings?: Record<string, any>;
-    tracks?: Array<Record<string, any>>;
+    settings?: InputValuesType;
+    tracks?: Array<InputValuesType>;
     chart_dict?: {
         groups?: any;
         settings?: any;

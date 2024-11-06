@@ -7,7 +7,7 @@ import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType, PluginConfigType } from "@/types";
+import { InputElementType, InputValuesType, PluginConfigType } from "@/types";
 
 const props = defineProps<{
     config: PluginConfigType;
@@ -16,18 +16,18 @@ const props = defineProps<{
 
 // References with reactive types
 const collapsePanel = ref<boolean>(false);
-const datasetUrl = ref<string | null>(null);
-const description = ref<string | null>(null);
+const datasetUrl = ref<string>("");
+const description = ref<string>("");
 const errorMessage = ref<string>("");
-const html = ref<string | null>(null);
+const html = ref<string>("");
 const isLoading = ref<boolean>(true);
-const logo = ref<string | null>(null);
+const logo = ref<string>("");
 const name = ref<string>("");
 const settingInputs = ref<Array<InputElementType>>([]);
-const settingValues = ref<Record<string, any>>({});
-const specValues = ref<Record<string, any>>({});
+const settingValues = ref<InputValuesType>({});
+const specValues = ref<InputValuesType>({});
 const trackInputs = ref<Array<InputElementType>>([]);
-const trackValues = ref<Array<Record<string, any>>>([]);
+const trackValues = ref<Array<InputValuesType>>([]);
 
 // Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
@@ -41,10 +41,10 @@ configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
-    description.value = plugin.description || null;
-    html.value = plugin.html || null;
+    description.value = plugin.description || "";
+    html.value = plugin.html || "";
     isLoading.value = false;
-    logo.value = plugin.logo || null;
+    logo.value = plugin.logo || "";
     name.value = plugin.name;
     settingInputs.value = plugin.settings || [];
     settingValues.value = settings;
@@ -81,12 +81,12 @@ async function onToggle(): Promise<void> {
 }
 
 // Event handler for updating settings
-function updateSettings(newSettings: Record<string, any>): void {
+function updateSettings(newSettings: InputValuesType): void {
     settingValues.value = { ...newSettings };
 }
 
 // Event handler for updating tracks
-function updateTracks(newTracks: Array<Record<string, any>>): void {
+function updateTracks(newTracks: Array<InputValuesType>): void {
     trackValues.value = [...newTracks];
 }
 </script>

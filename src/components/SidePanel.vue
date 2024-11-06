@@ -13,26 +13,26 @@ import InputForm from "@/components/InputForm.vue";
 import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
-import type { InputElementType, MessageType } from "@/types";
+import type { InputElementType, InputValuesType, MessageType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
-    description: string | null;
-    logoUrl: string | null;
-    html: string | null;
+    description: string;
+    logoUrl: string;
+    html: string;
     name: string;
     settingInputs: InputElementType[];
-    settingValues: Record<string, any>;
+    settingValues: InputValuesType;
     trackInputs: InputElementType[];
-    trackValues: Record<string, any>[];
+    trackValues: InputValuesType[];
     visualizationId: string | null | undefined;
     visualizationTitle: string;
 }>();
 
 // Emit events with TypeScript
 const emit = defineEmits<{
-    (event: "update:tracks", newValues: Record<string, any>[]): void;
-    (event: "update:settings", newValues: Record<string, any>): void;
+    (event: "update:tracks", newValues: InputValuesType[]): void;
+    (event: "update:settings", newValues: InputValuesType): void;
     (event: "toggle"): void;
 }>();
 
@@ -72,12 +72,12 @@ async function onSave(): Promise<void> {
 }
 
 // Update settings handler
-function onUpdateSettings(newValues: Record<string, any>): void {
+function onUpdateSettings(newValues: InputValuesType): void {
     emit("update:settings", newValues);
 }
 
 // Update tracks handler
-function onUpdateTracks(newValues: Record<string, any>[]): void {
+function onUpdateTracks(newValues: InputValuesType[]): void {
     emit("update:tracks", newValues);
 }
 </script>

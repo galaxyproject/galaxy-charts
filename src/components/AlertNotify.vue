@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { NAlert } from "naive-ui";
-
-type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
+import { MessageType } from "@/types";
 
 const MESSAGE_TIMEOUT = 2000;
 

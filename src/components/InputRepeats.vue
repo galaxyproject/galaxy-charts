@@ -4,17 +4,17 @@ import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed, defineProps, defineEmits } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
-import { InputElementType } from "@/types";
+import { InputElementType, InputValuesType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
     inputs: InputElementType[];
-    valuesArray: Record<string, any>[];
+    valuesArray: InputValuesType[];
 }>();
 
 // Define emit with TypeScript
 const emit = defineEmits<{
-    (event: "update:values-array", newValuesArray: Record<string, any>[]): void;
+    (event: "update:values-array", newValuesArray: InputValuesType[]): void;
 }>();
 
 // Collect default values to populate new repeat blocks
@@ -35,7 +35,7 @@ function onRemove(index: number): void {
 }
 
 // Update a repeat block
-function onUpdate(index: number, values: Record<string, any>): void {
+function onUpdate(index: number, values: InputValuesType): void {
     const newValuesArray = [...props.valuesArray];
     newValuesArray[index] = { ...values };
     emit("update:values-array", newValuesArray);

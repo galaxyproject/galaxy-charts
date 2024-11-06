@@ -5,26 +5,26 @@ import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 import { toBoolean } from "@/utilities/toBoolean";
-import type { InputElementType } from "@/types";
+import type { InputElementType, InputValuesType } from "@/types";
 
 const NUMBER_STEP_SIZE = 0.01;
 
 const props = defineProps<{
     datasetId: string;
     inputs: InputElementType[];
-    values?: Record<string, any>;
+    values?: InputValuesType;
 }>();
 
 // Define emit
 const emit = defineEmits<{
-    (event: "update:values", values: Record<string, any>): void;
+    (event: "update:values", values: InputValuesType): void;
 }>();
 
 // Create a local copy of the values prop
-const currentValues = ref<Record<string, any>>(initialValues());
+const currentValues = ref<InputValuesType>(initialValues());
 
 // Initialize all values to ensure reactivity
-function initialValues(): Record<string, any> {
+function initialValues(): InputValuesType {
     const values = { ...props.values };
     props.inputs.forEach((input) => {
         if (values[input.name] === undefined) {

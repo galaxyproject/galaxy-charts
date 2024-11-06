@@ -13,13 +13,7 @@ import InputForm from "@/components/InputForm.vue";
 import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
-
-// Define props with TypeScript
-interface InputOption {
-    name: string;
-    type: string;
-    // Additional properties specific to each input type if needed
-}
+import type { InputElementType, MessageType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
@@ -27,9 +21,9 @@ const props = defineProps<{
     logoUrl: string;
     html: string;
     name: string;
-    settingInputs: InputOption[];
+    settingInputs: InputElementType[];
     settingValues: Record<string, any>;
-    trackInputs: InputOption[];
+    trackInputs: InputElementType[];
     trackValues: Record<string, any>[];
     visualizationId: string | null;
     visualizationTitle: string;
@@ -44,11 +38,11 @@ const emit = defineEmits<{
 
 // Create local copies of props with reactivity
 const currentTitle = ref<string>(props.visualizationTitle);
-const currentVisualizationId = ref<string | null>(props.visualizationId);
+const currentVisualizationId = ref<string | null | undefined>(props.visualizationId);
 
 // Manage message and message type for notifications
 const message = ref<string>("");
-const messageType = ref<string>("");
+const messageType = ref<MessageType>("info");
 
 // Determine if tabs should be hidden based on input arrays
 const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackInputs.length === 0);

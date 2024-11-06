@@ -4,16 +4,11 @@ import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed, defineProps, defineEmits } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
-
-// Define props with TypeScript
-interface InputOption {
-    name: string;
-    type: string;
-}
+import { InputElementType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
-    inputs: InputOption[];
+    inputs: InputElementType[];
     valuesArray: Record<string, any>[];
 }>();
 

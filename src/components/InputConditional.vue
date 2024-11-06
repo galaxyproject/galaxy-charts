@@ -3,22 +3,12 @@ import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed, ref, watch, defineProps, defineEmits, defineModel } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
+import { InputElementType } from "@/types";
 
 // Define props with types
 const props = defineProps<{
     datasetId: string;
-    input: {
-        name: string;
-        cases?: Array<{
-            value: string;
-            inputs: Array<{ name: string; value: any }>;
-        }>;
-        test_param?: {
-            name: string;
-            type: string;
-            data?: Array<{ label: string; value: string }>;
-        };
-    };
+    input: InputElementType;
 }>();
 
 // Define emit with event typing
@@ -66,7 +56,7 @@ const caseDefaults = computed(() => {
 
 // Collect all input cases
 const caseInputs = computed(() => {
-    const result: Record<string, Array<{ name: string; value: any }>> = {};
+    const result: Record<string, Array<InputElementType>> = {};
     if (props.input.cases && props.input.cases.length > 0) {
         for (const inputCase of props.input.cases) {
             result[inputCase.value] = inputCase.inputs;

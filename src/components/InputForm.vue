@@ -5,39 +5,14 @@ import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 import { toBoolean } from "@/utilities/toBoolean";
+import type { InputElementType } from "@/types";
 
 const NUMBER_STEP_SIZE = 0.01;
 
-// Define props with TypeScript
-interface InputOption {
-    name: string;
-    label?: string;
-    help?: string;
-    type: string;
-    min?: string;
-    max?: string;
-    rows?: string;
-    extension?: string;
-    optional?: string;
-    is_auto?: string;
-    is_text?: string;
-    is_number?: string;
-    data?: Array<{ label: string; value: string }>;
-    test_param?: {
-        name: string;
-        type: string;
-        data?: Array<{ label: string; value: string }>;
-    };
-    cases?: Array<{
-        value: string;
-        inputs: Array<{ name: string; value: any }>;
-    }>;
-}
-
 const props = defineProps<{
     datasetId: string;
-    inputs: InputOption[];
-    values: Record<string, any>;
+    inputs: InputElementType[];
+    values?: Record<string, any>;
 }>();
 
 // Define emit

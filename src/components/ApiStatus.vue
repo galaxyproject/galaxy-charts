@@ -4,8 +4,6 @@ import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outlin
 import { NIcon, NTooltip } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 
-defineProps({});
-
 const version = ref("...");
 
 async function checkVersion() {

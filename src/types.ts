@@ -12,10 +12,12 @@ export interface InputElementType {
     is_text?: string;
     is_number?: string;
     data?: Array<{ label: string; value: string }>;
+    value?: string;
     test_param?: {
         name: string;
         type: string;
         data?: Array<{ label: string; value: string }>;
+        value?: string;
     };
     cases?: Array<{
         value: string;
@@ -26,3 +28,13 @@ export interface InputElementType {
 export type InputValueType = boolean | string | number | null | undefined;
 
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
+
+export interface PluginType {
+    name: string;
+    html?: string | null;
+    logo?: string | null;
+    description?: string | null;
+    specs?: Record<string, string>;
+    settings?: Array<InputElementType>;
+    tracks?: Array<InputElementType>;
+}

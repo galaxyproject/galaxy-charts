@@ -10,7 +10,7 @@ import { useConfigStore } from "@/store/configStore";
 
 // Define props with TypeScript
 interface Config {
-    credentials?: string;
+    credentials?: RequestCredentials;
     dataset_id?: string;
     dataset_url?: string;
 }

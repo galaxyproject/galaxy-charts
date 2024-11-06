@@ -1,5 +1,6 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { parseXML } from "@/utilities/parseXML";
+import type { InputElementType, PluginType } from "@/types";
 
 // Define types for plugin configurations, settings, and tracks
 interface PluginConfig {
@@ -7,34 +8,17 @@ interface PluginConfig {
     tracks?: Array<Record<string, any>>;
 }
 
-interface Plugin {
-    settings?: Array<Input>;
-    specs?: Record<string, any>;
-    tracks?: Array<Input>;
-}
-
 interface ParsedPlugin {
-    plugin: Plugin;
+    plugin: PluginType;
     settings: Record<string, any>;
     specs: Record<string, any> | undefined;
     tracks: Array<Record<string, any>>;
 }
 
-interface Input {
-    name: string;
-    type: string;
-    value?: any;
-    test_param?: { name: string; value: any };
-    cases?: Array<{
-        value: any;
-        inputs?: Array<Input>;
-    }>;
-}
-
 // Parse plugin either from incoming object or XML
 export async function parsePlugin(
     xml: string,
-    plugin?: Plugin,
+    plugin?: PluginType,
     config: PluginConfig = {}
 ): Promise<ParsedPlugin> {
     // Build plugin from XML if not provided through attached DOM data
@@ -56,7 +40,7 @@ export async function parsePlugin(
 }
 
 // Format value according to input type
-function formatValue(input: Input, inputValue: any): any {
+function formatValue(input: InputElementType, inputValue: any): any {
     let value = inputValue ?? input.value;
     if (input.type === "float") {
         value = Number(value);
@@ -65,7 +49,7 @@ function formatValue(input: Input, inputValue: any): any {
 }
 
 // Format conditional values based on test cases
-function formatConditional(input: Input, values: Record<string, any> = {}): Record<string, any> {
+function formatConditional(input: InputElementType, values: Record<string, any> = {}): Record<string, any> {
     const result = values;
     const testName = input.test_param?.name;
 
@@ -88,7 +72,7 @@ function formatConditional(input: Input, values: Record<string, any> = {}): Reco
 }
 
 // Parse values with conditional handling
-function parseValues(inputs?: Array<Input>, values?: Record<string, any>): Record<string, any> {
+function parseValues(inputs?: Array<InputElementType>, values?: Record<string, any>): Record<string, any> {
     const result = values || {};
 
     inputs?.forEach((input) => {
@@ -103,7 +87,7 @@ function parseValues(inputs?: Array<Input>, values?: Record<string, any>): Recor
 }
 
 // Parse tracks with nested values
-function parseTracks(inputs?: Array<Input>, tracks?: Array<Record<string, any>>): Array<Record<string, any>> {
+function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<Record<string, any>>): Array<Record<string, any>> {
     const values = tracks || [];
     if (inputs) {
         if (values.length === 0) {

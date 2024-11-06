@@ -1,20 +1,10 @@
 import axios from "axios";
 import { getFileName } from "@/utilities/getFileName";
-
+import type { PluginType } from "@/types";
 const parser = new DOMParser();
 
 interface MacroEntries {
     [key: string]: Element[];
-}
-
-interface ParsedXMLResult {
-    name: string;
-    html?: string | null;
-    logo?: string | null;
-    description?: string | null;
-    specs?: DictParser;
-    settings?: ListParser;
-    tracks?: ListParser;
 }
 
 // Parses the base XML with macros and expands nodes
@@ -75,12 +65,12 @@ async function parseMacros(xmlBaseString: string, xmlPath: string = ""): Promise
 }
 
 // Parse XML file and collect attributes
-export async function parseXML(xmlFileName: string): Promise<ParsedXMLResult> {
+export async function parseXML(xmlFileName: string): Promise<PluginType> {
     const xmlBase = await axios.get(xmlFileName);
     const xmlDoc = await parseMacros(xmlBase.data);
 
     // Parse name and logo
-    const result: ParsedXMLResult = { name: getFileName(xmlFileName) };
+    const result: PluginType = { name: getFileName(xmlFileName) };
     result.html = xmlDoc.documentElement.getAttribute("name");
     result.logo = xmlDoc.documentElement.getAttribute("logo");
 

@@ -1,7 +1,11 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { GalaxyApi } from "@/api/client";
 
-export async function visualizationsCreate(type, title, config) {
+interface VisualizationConfig {
+    [key: string]: any;
+}
+
+export async function visualizationsCreate(type: string, title: string, config: VisualizationConfig): Promise<string | undefined> {
     try {
         const { data } = await GalaxyApi().POST("/api/visualizations", {
             type,
@@ -14,7 +18,7 @@ export async function visualizationsCreate(type, title, config) {
     }
 }
 
-export async function visualizationsSave(id, title, config) {
+export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<any | undefined> {
     try {
         const response = await GalaxyApi().PUT(`/api/visualizations/${id}`, {
             title,

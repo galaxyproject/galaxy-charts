@@ -1,22 +1,22 @@
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 
 const root = ref("/");
-const credentials = ref("include");
+const credentials: Ref<RequestCredentials> = ref("include");
 
 export function useConfigStore() {
-    function getCredentials() {
+    function getCredentials(): RequestCredentials {
         return credentials.value;
     }
 
-    function setCredentials(newCredentials) {
+    function setCredentials(newCredentials: RequestCredentials) {
         credentials.value = newCredentials;
     }
 
-    function getRoot() {
+    function getRoot(): string {
         return root.value;
     }
 
-    function setRoot(newRoot) {
+    function setRoot(newRoot: string) {
         root.value = newRoot;
     }
 

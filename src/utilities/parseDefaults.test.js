@@ -1,4 +1,4 @@
-import { parseDefaults } from "./parseDefaults.js";
+import { parseDefaults } from "./parseDefaults.ts";
 
 test("parse defaults", () => {
     expect(

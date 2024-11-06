@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { GalaxyCharts } from "galaxy-charts";
-import Plugin from "@/Plugin.vue";
+import Plugin from "./Plugin.vue";
 
 defineProps<{
     config: object;

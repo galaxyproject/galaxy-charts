@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "dist",
        "target": "ESNext",
        "useDefineForClassFields": true,
        "module": "ESNext",
@@ -17,12 +20,5 @@
        }
     },
     "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-    "exclude": [
-        "dist",
-        "docs",
-        "node_modules",
-        "static",
-        "src/App.vue",
-        "src/Plugin.vue"
-    ],
+    "exclude": ["dist", "docs", "node_modules", "static"],
 }

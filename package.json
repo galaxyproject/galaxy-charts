@@ -6,26 +6,29 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.16",
+    "version": "0.0.20",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
-    "types": "./dist/galaxy-charts.d.ts",
+    "types": "./dist/types.d.ts",
     "exports": {
         ".": {
             "import": "./dist/galaxy-charts.js",
-            "require": "./dist/galaxy-charts.js"
+            "require": "./dist/galaxy-charts.js",
+            "types": "./dist/types.d.ts"
         }
     },
     "files": [
         "dist/galaxy-charts.css",
         "dist/galaxy-charts.js",
         "dist/galaxy-charts.umd.cjs",
-        "dist/galaxy-charts.d.ts"
+        "dist/types.d.ts"
     ],
     "scripts": {
         "dev": "vite build && vite",
         "build": "vite build",
+        "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
+        "postbuild": "npm run build:types",
         "preview": "vite preview",
         "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.vue'",
         "test": "vitest"
@@ -48,6 +51,7 @@
         "vite-plugin-lib-inject-css": "^2.1.1",
         "vitepress": "^1.3.3",
         "vitest": "^2.1.2",
-        "vue": "^3.4.31"
+        "vue": "^3.4.31",
+        "vue-tsc": "^2.1.10"
     }
 }

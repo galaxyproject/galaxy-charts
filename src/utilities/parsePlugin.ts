@@ -1,6 +1,6 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { parseXML } from "@/utilities/parseXML";
-import type { InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
+import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -34,7 +34,7 @@ export async function parsePlugin(
 }
 
 // Format value according to input type
-function formatValue(input: InputElementType, inputValue: any): any {
+function formatValue(input: InputElementType, inputValue: InputAtomicType): InputAtomicType {
     let value = inputValue ?? input.value;
     if (input.type === "float") {
         value = Number(value);

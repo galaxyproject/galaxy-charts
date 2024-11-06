@@ -1,10 +1,10 @@
-import type { PluginConfigType } from "@/types";
+import type { PluginType, PluginConfigType } from "@/types";
 
 interface ParsedIncoming {
     root: string;
     visualizationConfig: PluginConfigType;
     visualizationId?: string;
-    visualizationPlugin?: any;
+    visualizationPlugin?: PluginType;
     visualizationTitle: string;
 }
 

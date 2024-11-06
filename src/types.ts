@@ -25,7 +25,7 @@ export interface InputElementType {
     }>;
 }
 
-export type InputValueType = boolean | string | number | null | undefined;
+export type InputAtomicType = boolean | string | number | null | undefined;
 
 export type InputValuesType = Record<string, any>;
 

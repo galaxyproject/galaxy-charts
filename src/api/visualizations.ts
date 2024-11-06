@@ -1,8 +1,10 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { GalaxyApi } from "@/api/client";
+import { InputValuesType } from "@/types"
 
 interface VisualizationConfig {
-    [key: string]: any;
+    dataset_id: string;
+    settings: InputValuesType;
 }
 
 export async function visualizationsCreate(type: string, title: string, config: VisualizationConfig): Promise<string | undefined> {
@@ -18,13 +20,13 @@ export async function visualizationsCreate(type: string, title: string, config: 
     }
 }
 
-export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<any | undefined> {
+export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<string | undefined> {
     try {
-        const response = await GalaxyApi().PUT(`/api/visualizations/${id}`, {
+        const { data } = await GalaxyApi().PUT(`/api/visualizations/${id}`, {
             title,
             config,
         });
-        return response.data;
+        return data.id;
     } catch (err) {
         rethrowSimple(err);
     }

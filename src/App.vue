@@ -1,17 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { GalaxyCharts } from "galaxy-charts";
 import Plugin from "@/Plugin.vue";
 
-const props = defineProps({
-    config: {
-        type: Object,
-        default: () => {},
-    },
-    xml: {
-        type: String,
-        required: true,
-    },
-});
+defineProps<{
+    config: object;
+    xml: string;
+}>();
 </script>
 
 <template>

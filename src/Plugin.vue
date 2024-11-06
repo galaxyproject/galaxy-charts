@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 
-const props = defineProps({
-    datasetId: String,
-    datasetUrl: String,
-    root: String,
-    settings: Object,
-    specs: Object,
-    tracks: Array,
-});
+const props = defineProps<{
+    datasetId: string;
+    datasetUrl: string;
+    root: string;
+    settings: object;
+    specs: object;
+    tracks: Array<object>;
+}>();
 
 const viewport = ref(null);
 

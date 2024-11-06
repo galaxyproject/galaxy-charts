@@ -10,6 +10,7 @@
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
+    "types": "./dist/galaxy-charts.d.ts",
     "exports": {
         ".": {
             "import": "./dist/galaxy-charts.js",
@@ -19,7 +20,8 @@
     "files": [
         "dist/galaxy-charts.css",
         "dist/galaxy-charts.js",
-        "dist/galaxy-charts.umd.cjs"
+        "dist/galaxy-charts.umd.cjs",
+        "dist/galaxy-charts.d.ts"
     ],
     "scripts": {
         "dev": "vite build && vite",

@@ -1,4 +1,4 @@
-import { toBoolean } from "./toBoolean.js";
+import { toBoolean } from "./toBoolean.ts";
 
 test("to boolean conversion", () => {
     expect(toBoolean(true)).toBeTruthy();

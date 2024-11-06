@@ -17,9 +17,9 @@ import type { InputElementType, MessageType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
-    description: string;
-    logoUrl: string;
-    html: string;
+    description: string | null;
+    logoUrl: string | null;
+    html: string | null;
     name: string;
     settingInputs: InputElementType[];
     settingValues: Record<string, any>;

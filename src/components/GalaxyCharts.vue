@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, defineProps, defineEmits } from "vue";
+import { computed, ref, nextTick, defineProps } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
@@ -7,6 +7,7 @@ import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
+import { InputElementType } from "@/types";
 
 // Define props with TypeScript
 interface Config {
@@ -29,10 +30,10 @@ const html = ref<string | null>(null);
 const isLoading = ref<boolean>(true);
 const logo = ref<string | null>(null);
 const name = ref<string>("");
-const settingInputs = ref<Array<Record<string, any>>>([]);
+const settingInputs = ref<Array<InputElementType>>([]);
 const settingValues = ref<Record<string, any>>({});
 const specValues = ref<Record<string, any>>({});
-const trackInputs = ref<Array<Record<string, any>>>([]);
+const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<Record<string, any>>>([]);
 
 // Parse incoming visualization details
@@ -47,14 +48,14 @@ configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
-    description.value = plugin.description;
-    html.value = plugin.html;
+    description.value = plugin.description || null;
+    html.value = plugin.html || null;
     isLoading.value = false;
-    logo.value = plugin.logo;
+    logo.value = plugin.logo || null;
     name.value = plugin.name;
     settingInputs.value = plugin.settings || [];
     settingValues.value = settings;
-    specValues.value = specs;
+    specValues.value = specs || {};
     trackInputs.value = plugin.tracks || [];
     trackValues.value = tracks;
 });

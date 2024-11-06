@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 import { configDefaults } from "vitest/config";
+import Checker from "vite-plugin-checker";
 
 // collect Galaxy server root
 let GALAXY_ROOT = "http://127.0.0.1:8080";
@@ -39,7 +40,7 @@ export default defineConfig({
     define: {
         "process.env.credentials": JSON.stringify(GALAXY_KEY ? "omit" : "include"),
     },
-    plugins: [vue(), tailwindcss(), libInjectCss()],
+    plugins: [vue(), tailwindcss(), libInjectCss(), Checker({ typescript: true })],
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "src"),

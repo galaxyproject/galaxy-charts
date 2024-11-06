@@ -25,7 +25,7 @@ const props = defineProps<{
     settingValues: Record<string, any>;
     trackInputs: InputElementType[];
     trackValues: Record<string, any>[];
-    visualizationId: string | null;
+    visualizationId: string | null | undefined;
     visualizationTitle: string;
 }>();
 

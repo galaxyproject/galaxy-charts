@@ -1,34 +1,23 @@
-interface Config {
-    root?: string;
-    title?: string;
-    visualization_config?: {
-        chart_dict?: {
-            groups?: any;
-            settings?: any;
-        };
-        [key: string]: any;
-    };
-    [key: string]: any;
-}
+import type { PluginConfigType } from "@/types";
 
 interface ParsedIncoming {
     root: string;
-    visualizationConfig: Config;
+    visualizationConfig: PluginConfigType;
     visualizationId?: string;
     visualizationPlugin?: any;
     visualizationTitle: string;
 }
 
-export function parseIncoming(config: Config): ParsedIncoming {
+export function parseIncoming(config: PluginConfigType): ParsedIncoming {
     // Access attached data
     const element = document.getElementById("app");
     const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}") || {};
 
     // Parse incoming data
-    const root = incoming.root || config?.root || "/";
-    const visualizationId = incoming.visualization_id;
+    const root = incoming.root || "/";
+    const visualizationId = incoming.visualization_id || null;
     const visualizationPlugin = incoming.visualization_plugin;
-    const visualizationTitle = incoming.visualization_title || config?.title || "Unnamed Visualization";
+    const visualizationTitle = incoming.visualization_title || "Unnamed Visualization";
 
     // Parse chart dict
     let visualizationConfig = incoming.visualization_config || config;

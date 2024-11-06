@@ -1,12 +1,6 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { parseXML } from "@/utilities/parseXML";
-import type { InputElementType, PluginType } from "@/types";
-
-// Define types for plugin configurations, settings, and tracks
-interface PluginConfig {
-    settings?: Record<string, any>;
-    tracks?: Array<Record<string, any>>;
-}
+import type { InputElementType, PluginConfigType, PluginType } from "@/types";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -19,7 +13,7 @@ interface ParsedPlugin {
 export async function parsePlugin(
     xml: string,
     plugin?: PluginType,
-    config: PluginConfig = {}
+    config: PluginConfigType = {}
 ): Promise<ParsedPlugin> {
     // Build plugin from XML if not provided through attached DOM data
     if (!plugin) {

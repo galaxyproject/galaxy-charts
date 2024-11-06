@@ -29,6 +29,18 @@ export type InputValueType = boolean | string | number | null | undefined;
 
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
 
+export interface PluginConfigType {
+    credentials?: RequestCredentials;
+    dataset_id?: string;
+    dataset_url?: string;
+    settings?: Record<string, any>;
+    tracks?: Array<Record<string, any>>;
+    chart_dict?: {
+        groups?: any;
+        settings?: any;
+    };
+}
+
 export interface PluginType {
     name: string;
     html?: string | null;

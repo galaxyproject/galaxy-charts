@@ -7,17 +7,10 @@ import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType } from "@/types";
-
-// Define props with TypeScript
-interface Config {
-    credentials?: RequestCredentials;
-    dataset_id?: string;
-    dataset_url?: string;
-}
+import { InputElementType, PluginConfigType } from "@/types";
 
 const props = defineProps<{
-    config: Config;
+    config: PluginConfigType;
     xml: string;
 }>();
 
@@ -61,7 +54,7 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
 });
 
 // Get visualization dataset ID (required)
-const datasetId = visualizationConfig.dataset_id;
+const datasetId = visualizationConfig.dataset_id || "";
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
     console.debug(`GalaxyCharts: Evaluating dataset url: ${datasetUrl.value}.`);

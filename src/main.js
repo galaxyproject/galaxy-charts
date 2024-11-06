@@ -4,7 +4,7 @@ import App from "./App.vue";
 const config = {
     credentials: process.env.credentials,
     dataset_url: null,
-    dataset_id: "unavailable",
+    dataset_id: "12e4b4feedfe9f3f",
     settings: {
         setting_text: "My Test Setting",
         setting_boolean: true,

@@ -1,37 +1,33 @@
-<script setup>
-import { ref } from "vue";
-import { NSelect } from "naive-ui";
+<script setup lang="ts">
+import { ref, defineProps, defineModel } from "vue";
+import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";
-import { NIcon } from "naive-ui";
 
 const LIMIT = 100;
 
-const props = defineProps({
-    extension: {
-        type: String,
-        default: "",
-    },
-    optional: {
-        type: Boolean,
-        default: false,
-    },
-});
+// Define props with TypeScript
+const props = defineProps<{
+    extension?: string;
+    optional: boolean;
+}>();
 
-// emit an event when adding or removing repeat blocks
-const currentOptions = ref([]);
-const currentValue = defineModel("value");
+// Define the model
+const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
+const currentValue = defineModel<{ name: string } | null>("value");
 const isLoading = ref(false);
-const selectValue = ref(null);
+const selectValue = ref<any | null>(null);
 
-async function loadDatasets(query) {
+// Load datasets based on filters and query
+async function loadDatasets(query?: string): Promise<void> {
     isLoading.value = true;
     try {
         const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}` : "";
         const nameFilter = query ? `q=name-contains&qv=${query}` : "";
         const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}&${nameFilter}`);
+
         if (data && data.length > 0) {
-            const options = data.map((x) => ({
+            const options = data.map((x: { name: string }) => ({
                 label: x.name,
                 value: x,
             }));
@@ -41,17 +37,20 @@ async function loadDatasets(query) {
             }
             currentOptions.value = options;
         }
-        isLoading.value = false;
     } catch (err) {
         console.log(err);
+    } finally {
+        isLoading.value = false;
     }
 }
 
-function onUpdate() {
+// Update the current selection value
+function onUpdate(): void {
     currentValue.value = selectValue.value;
     selectValue.value = null;
 }
 
+// Load initial datasets when the component is mounted
 loadDatasets();
 </script>
 

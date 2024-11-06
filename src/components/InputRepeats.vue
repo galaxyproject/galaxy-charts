@@ -1,47 +1,46 @@
-<script setup>
+<script setup lang="ts">
 import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
-import { computed } from "vue";
+import { computed, defineProps, defineEmits } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
 
-const props = defineProps({
-    datasetId: {
-        type: String,
-        default: "",
-    },
-    inputs: {
-        type: Array,
-        required: true,
-    },
-    valuesArray: {
-        type: Array,
-        required: true,
-    },
-});
+// Define props with TypeScript
+interface InputOption {
+    name: string;
+    type: string;
+}
 
-// emit an event when adding or removing repeat blocks
-const emit = defineEmits(["update:values-array"]);
+const props = defineProps<{
+    datasetId: string;
+    inputs: InputOption[];
+    valuesArray: Record<string, any>[];
+}>();
 
-// collect default values to populate new repeat blocks
+// Define emit with TypeScript
+const emit = defineEmits<{
+    (event: "update:values-array", newValuesArray: Record<string, any>[]): void;
+}>();
+
+// Collect default values to populate new repeat blocks
 const defaultValues = computed(() => parseDefaults(props.inputs));
 
-// add a new repeat block
-function onAdd() {
+// Add a new repeat block
+function onAdd(): void {
     const newValuesArray = [...props.valuesArray];
     newValuesArray.unshift(defaultValues.value);
     emit("update:values-array", newValuesArray);
 }
 
-// remove a repeat block
-function onRemove(index) {
+// Remove a repeat block
+function onRemove(index: number): void {
     const newValuesArray = [...props.valuesArray];
     newValuesArray.splice(index, 1);
     emit("update:values-array", newValuesArray);
 }
 
-// update a repeat block
-function onUpdate(index, values) {
+// Update a repeat block
+function onUpdate(index: number, values: Record<string, any>): void {
     const newValuesArray = [...props.valuesArray];
     newValuesArray[index] = { ...values };
     emit("update:values-array", newValuesArray);

@@ -1,77 +1,98 @@
-<script setup>
+<script setup lang="ts">
 import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, defineProps, defineEmits, defineModel } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
 
-const props = defineProps({
-    datasetId: {
-        type: String,
-        required: true,
-    },
+// Define props with types
+const props = defineProps<{
+    datasetId: string;
     input: {
-        type: Object,
-        required: true,
-    },
-});
+        name: string;
+        cases?: Array<{
+            value: string;
+            inputs: Array<{ name: string; value: any }>;
+        }>;
+        test_param?: {
+            name: string;
+            type: string;
+            data?: Array<{ label: string; value: string }>;
+        };
+    };
+}>();
 
-// emit an event when adding or removing repeat blocks
-const emit = defineEmits(["update:value"]);
+// Define emit with event typing
+const emit = defineEmits<{
+    (event: "update:value", updatedValues: Record<string, any>): void;
+}>();
 
-// get test parameter
+if (!props.input.test_param) {
+    throw `The conditional '${props.input.name}' is missing a test parameter.`;
+}
+
+if (!props.input.cases || props.input.cases.length === 0) {
+    throw `The conditional '${props.input.name}' is missing a cases.`;
+}
+
+// Get test parameter
 const testParam = ref(props.input.test_param);
 
-// get test parameter name
+// Get test parameter name and validate it
 const testName = testParam.value.name;
 if (!testName) {
     console.error(`Test parameter has no name: ${props.input.name}.`);
 }
 
-// reference current test and conditional values
-const currentValue = defineModel("value");
+// Reference the model value of the conditional component
+const currentValue = defineModel<Record<string, any>>("value");
 if (!currentValue.value || !(testName in currentValue.value)) {
     console.error(`Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
 }
 
-// reference current test parameter value
-const currentTestValue = ref(currentValue.value[testName]);
+// Reference current test parameter value
+const currentTestValue = ref<string>(currentValue.value && currentValue.value[testName]);
 
-// collect input cases and identify defaults
+// Collect input cases and identify defaults
 const caseDefaults = computed(() => {
-    const result = {};
-    for (const inputCase of props.input.cases) {
-        result[inputCase.value] = parseDefaults(inputCase.inputs);
-        result[inputCase.value][testName] = inputCase.value;
+    const result: Record<string, Record<string, any>> = {};
+    if (props.input.cases && props.input.cases.length > 0) {
+        for (const inputCase of props.input.cases) {
+            result[inputCase.value] = parseDefaults(inputCase.inputs);
+            result[inputCase.value][testName] = inputCase.value;
+        }
     }
     return result;
 });
 
-// collect all input cases
+// Collect all input cases
 const caseInputs = computed(() => {
-    const result = {};
-    for (const inputCase of props.input.cases) {
-        result[inputCase.value] = inputCase.inputs;
+    const result: Record<string, Array<{ name: string; value: any }>> = {};
+    if (props.input.cases && props.input.cases.length > 0) {
+        for (const inputCase of props.input.cases) {
+            result[inputCase.value] = inputCase.inputs;
+        }
     }
     return result;
 });
 
+// Current inputs based on selected test value
 const currentInputs = computed(() => caseInputs.value[currentTestValue.value]);
 
-// handle conversion of boolean switch values to string for case evaluation
+// Handle conversion of boolean switch values to string for case evaluation
 const switchTestValue = computed({
     get() {
         return currentTestValue.value === "true";
     },
-    set(newVal) {
+    set(newVal: boolean) {
         currentTestValue.value = String(newVal);
     },
 });
 
-// update values if test value changes or conditional input elements are modified
-function onUpdate(newValues) {
+// Update values if test value changes or conditional input elements are modified
+function onUpdate(newValues?: Record<string, any>) {
     let updatedValues = { ...caseDefaults.value[currentTestValue.value] };
     if (newValues) {
-        const filteredValues = {};
+        const filteredValues: Record<string, any> = {};
         currentInputs.value.forEach((x) => {
             filteredValues[x.name] = newValues[x.name];
         });
@@ -80,7 +101,7 @@ function onUpdate(newValues) {
     emit("update:value", updatedValues);
 }
 
-// load defaults if test value changes
+// Load defaults if test value changes
 watch(
     () => currentTestValue.value,
     () => {

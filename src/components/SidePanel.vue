@@ -1,5 +1,5 @@
-<script setup>
-import { computed, ref } from "vue";
+<script setup lang="ts">
+import { computed, ref, defineProps, defineEmits } from "vue";
 import {
     AdjustmentsHorizontalIcon,
     ChevronDoubleRightIcon,
@@ -14,80 +14,59 @@ import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
 
-const props = defineProps({
-    datasetId: {
-        type: String,
-        default: "",
-    },
-    description: {
-        type: String,
-        default: "This visualization has no description.",
-    },
-    logoUrl: {
-        type: String,
-        default: "",
-    },
-    html: {
-        type: String,
-        default: "Visualization Title",
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    settingInputs: {
-        type: Array,
-        default: () => [],
-    },
-    settingValues: {
-        type: Object,
-        default: () => {},
-    },
-    trackInputs: {
-        type: Array,
-        default: () => [],
-    },
-    trackValues: {
-        type: Object,
-        default: () => [],
-    },
-    visualizationId: {
-        type: String,
-        default: null,
-    },
-    visualizationTitle: {
-        type: String,
-        required: true,
-    },
-});
+// Define props with TypeScript
+interface InputOption {
+    name: string;
+    type: string;
+    // Additional properties specific to each input type if needed
+}
 
-// Create a local copy of the values prop
-const currentTitle = ref(props.visualizationTitle);
-const currentVisualizationId = ref(props.visualizationId);
+const props = defineProps<{
+    datasetId: string;
+    description: string;
+    logoUrl: string;
+    html: string;
+    name: string;
+    settingInputs: InputOption[];
+    settingValues: Record<string, any>;
+    trackInputs: InputOption[];
+    trackValues: Record<string, any>[];
+    visualizationId: string | null;
+    visualizationTitle: string;
+}>();
 
-// Error message
-const message = ref("");
-const messageType = ref("");
+// Emit events with TypeScript
+const emit = defineEmits<{
+    (event: "update:tracks", newValues: Record<string, any>[]): void;
+    (event: "update:settings", newValues: Record<string, any>): void;
+    (event: "toggle"): void;
+}>();
 
-// Hide tabs
+// Create local copies of props with reactivity
+const currentTitle = ref<string>(props.visualizationTitle);
+const currentVisualizationId = ref<string | null>(props.visualizationId);
+
+// Manage message and message type for notifications
+const message = ref<string>("");
+const messageType = ref<string>("");
+
+// Determine if tabs should be hidden based on input arrays
 const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackInputs.length === 0);
 
-// Emit an event when values changes
-const emit = defineEmits(["update:tracks", "update:settings", "toggle"]);
-
-async function onSave() {
+// Save or create the visualization
+async function onSave(): Promise<void> {
     try {
         if (currentVisualizationId.value) {
             await visualizationsSave(currentVisualizationId.value, currentTitle.value, {
                 dataset_id: props.datasetId,
-                settings: props.values,
+                settings: props.settingValues,
             });
             message.value = "Successfully saved.";
             messageType.value = "success";
         } else {
             currentVisualizationId.value = await visualizationsCreate(props.name, currentTitle.value, {
                 dataset_id: props.datasetId,
-                settings: props.values,
+                settings: props.settingValues,
             });
             message.value = "Successfully created.";
             messageType.value = "success";
@@ -98,11 +77,13 @@ async function onSave() {
     }
 }
 
-function onUpdateSettings(newValues) {
+// Update settings handler
+function onUpdateSettings(newValues: Record<string, any>): void {
     emit("update:settings", newValues);
 }
 
-function onUpdateTracks(newValues) {
+// Update tracks handler
+function onUpdateTracks(newValues: Record<string, any>[]): void {
     emit("update:tracks", newValues);
 }
 </script>

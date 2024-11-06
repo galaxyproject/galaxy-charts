@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";
 import { NIcon, NTooltip } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 
-const props = defineProps({});
+defineProps({});
 
 const version = ref("...");
 

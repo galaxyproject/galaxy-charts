@@ -1,3 +1,5 @@
-export function toBoolean(value: string | boolean | undefined) {
+import { type InputValueType } from "@/types";
+
+export function toBoolean(value: InputValueType) {
     return String(value).toLowerCase() === "true";
 }

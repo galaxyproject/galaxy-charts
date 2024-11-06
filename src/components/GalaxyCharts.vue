@@ -1,51 +1,51 @@
-<script setup>
+<script setup lang="ts">
+import { computed, ref, nextTick, defineProps, defineEmits } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
-import { computed, ref, nextTick } from "vue";
 import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
 
-// props
-const props = defineProps({
-    config: {
-        type: Object,
-        default: () => {},
-    },
-    xml: {
-        type: String,
-        required: true,
-    },
-});
+// Define props with TypeScript
+interface Config {
+    credentials?: string;
+    dataset_id?: string;
+    dataset_url?: string;
+}
 
-// references
-const collapsePanel = ref(false);
-const datasetUrl = ref(null);
-const description = ref(null);
-const errorMessage = ref("");
-const html = ref(null);
-const isLoading = ref(true);
-const logo = ref(null);
-const name = ref("");
-const settingInputs = ref([]);
-const settingValues = ref({});
-const specValues = ref({});
-const trackInputs = ref([]);
-const trackValues = ref([]);
+const props = defineProps<{
+    config: Config;
+    xml: string;
+}>();
 
-// parse incoming visualization details
+// References with reactive types
+const collapsePanel = ref<boolean>(false);
+const datasetUrl = ref<string | null>(null);
+const description = ref<string | null>(null);
+const errorMessage = ref<string>("");
+const html = ref<string | null>(null);
+const isLoading = ref<boolean>(true);
+const logo = ref<string | null>(null);
+const name = ref<string>("");
+const settingInputs = ref<Array<Record<string, any>>>([]);
+const settingValues = ref<Record<string, any>>({});
+const specValues = ref<Record<string, any>>({});
+const trackInputs = ref<Array<Record<string, any>>>([]);
+const trackValues = ref<Array<Record<string, any>>>([]);
+
+// Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
     props.config,
 );
 
-// store values in config
+// Store values in config store
 const configStore = useConfigStore();
 configStore.setCredentials(props.config.credentials || "include");
 configStore.setRoot(root || "/");
 
-// collect plugin details and parse incoming settings
+// Collect plugin details and parse incoming settings
 parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
     description.value = plugin.description;
     html.value = plugin.html;
@@ -59,7 +59,7 @@ parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin,
     trackValues.value = tracks;
 });
 
-// get visualization dataset id (required)
+// Get visualization dataset ID (required)
 const datasetId = visualizationConfig.dataset_id;
 if (visualizationConfig.dataset_url) {
     datasetUrl.value = visualizationConfig.dataset_url;
@@ -73,26 +73,26 @@ if (visualizationConfig.dataset_url) {
     }
 }
 
-// determine logo url
+// Determine logo URL
 const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 
-// hide panel
+// Hide panel condition
 const hidePanel = computed(() => settingInputs.value.length === 0 && trackInputs.value.length === 0);
 
-// toggle side panel
-async function onToggle() {
+// Toggle side panel visibility
+async function onToggle(): Promise<void> {
     collapsePanel.value = !collapsePanel.value;
     await nextTick();
     window.dispatchEvent(new Event("resize"));
 }
 
-// event handler for updating settings
-function updateSettings(newSettings) {
+// Event handler for updating settings
+function updateSettings(newSettings: Record<string, any>): void {
     settingValues.value = { ...newSettings };
 }
 
-// event handler for updating tracks
-function updateTracks(newTracks) {
+// Event handler for updating tracks
+function updateTracks(newTracks: Array<Record<string, any>>): void {
     trackValues.value = [...newTracks];
 }
 </script>

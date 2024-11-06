@@ -1,33 +1,23 @@
-<script setup>
-import { ref, watch } from "vue";
+<script setup lang="ts">
+import { ref, watch, defineProps, defineModel } from "vue";
 import { NSelect } from "naive-ui";
 import { parseColumns } from "@/utilities/parseColumns";
 import { GalaxyApi } from "@/api/client";
 
-const props = defineProps({
-    datasetId: {
-        type: String,
-        default: "",
-    },
-    isAuto: {
-        type: Boolean,
-        default: false,
-    },
-    isText: {
-        type: Boolean,
-        default: false,
-    },
-    isNumber: {
-        type: Boolean,
-        default: false,
-    },
-});
+// Define props with TypeScript
+const props = defineProps<{
+    datasetId: string;
+    isAuto: boolean;
+    isText: boolean;
+    isNumber: boolean;
+}>();
 
-// emit an event when adding or removing repeat blocks
-const currentOptions = ref([]);
-const currentValue = defineModel("value");
+// Define refs with appropriate types
+const currentOptions = ref<Array<{ label: string; value: string }>>([]);
+const currentValue = defineModel<string | null>("value");
 
-async function loadColumns() {
+// Load columns based on dataset and filters
+async function loadColumns(): Promise<void> {
     if (props.datasetId) {
         try {
             const { data: dataset } = await GalaxyApi().GET(`/api/datasets/${props.datasetId}`);
@@ -42,14 +32,17 @@ async function loadColumns() {
     }
 }
 
-function initializeValue() {
+// Initialize current value based on options
+function initializeValue(): void {
     if (currentOptions.value.length > 0 && currentValue.value === null) {
         currentValue.value = currentOptions.value[0].value;
     }
 }
 
+// Call loadColumns on component mount
 loadColumns();
 
+// Watch for changes in currentValue and re-initialize if needed
 watch(
     () => currentValue.value,
     () => initializeValue(),

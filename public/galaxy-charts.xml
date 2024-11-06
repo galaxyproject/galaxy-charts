@@ -22,6 +22,21 @@
     </specs>
     <settings>
         <input>
+            <label>My Data Column Label</label>
+            <help>My Data ColumnHelp</help>
+            <name>my_data_column_name</name>
+            <type>data_column</type>
+        </input>
+        <input>
+            <label>My Float Label</label>
+            <help>My Float Help</help>
+            <name>my_float_name</name>
+            <type>float</type>
+            <value>1</value>
+            <min>0</min>
+            <max>100</max>
+        </input>
+        <input>
             <label>Setting: Text</label>
             <name>setting_text</name>
             <type>textarea</type>

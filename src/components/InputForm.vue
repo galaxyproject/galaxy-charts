@@ -1,5 +1,5 @@
-<script setup>
-import { ref, watch } from "vue";
+<script setup lang="ts">
+import { ref, watch, defineProps, defineEmits } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
@@ -8,29 +8,48 @@ import { toBoolean } from "@/utilities/toBoolean";
 
 const NUMBER_STEP_SIZE = 0.01;
 
-const props = defineProps({
-    datasetId: {
-        type: String,
-        default: "",
-    },
-    inputs: {
-        type: Array,
-        default: () => [],
-    },
-    values: {
-        type: Object,
-        default: () => {},
-    },
-});
+// Define props with TypeScript
+interface InputOption {
+    name: string;
+    label?: string;
+    help?: string;
+    type: string;
+    min?: string;
+    max?: string;
+    rows?: string;
+    extension?: string;
+    optional?: string;
+    is_auto?: string;
+    is_text?: string;
+    is_number?: string;
+    data?: Array<{ label: string; value: string }>;
+    test_param?: {
+        name: string;
+        type: string;
+        data?: Array<{ label: string; value: string }>;
+    };
+    cases?: Array<{
+        value: string;
+        inputs: Array<{ name: string; value: any }>;
+    }>;
+}
 
-// create a local copy of the values prop
-const currentValues = ref(initialValues());
+const props = defineProps<{
+    datasetId: string;
+    inputs: InputOption[];
+    values: Record<string, any>;
+}>();
 
-// emit an event when values changes
-const emit = defineEmits(["update:values"]);
+// Define emit
+const emit = defineEmits<{
+    (event: "update:values", values: Record<string, any>): void;
+}>();
 
-// ensure reactivity by initializing all values
-function initialValues() {
+// Create a local copy of the values prop
+const currentValues = ref<Record<string, any>>(initialValues());
+
+// Initialize all values to ensure reactivity
+function initialValues(): Record<string, any> {
     const values = { ...props.values };
     props.inputs.forEach((input) => {
         if (values[input.name] === undefined) {
@@ -40,12 +59,12 @@ function initialValues() {
     return values;
 }
 
-// trigger update of values
-function onUpdate() {
+// Trigger an update of values
+function onUpdate(): void {
     emit("update:values", currentValues.value);
 }
 
-// watch incoming values
+// Watch for changes in incoming values and reinitialize
 watch(
     () => props.values,
     () => {

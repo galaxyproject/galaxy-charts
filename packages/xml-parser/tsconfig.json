@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "target": "ES6",       // Specify your target environment
+      "module": "CommonJS",  // CommonJS for Node.js compatibility
+      "declaration": true,   // Generate .d.ts files for type definitions
+      "outDir": "dist",      // Output directory for compiled files
+      "strict": true         // Enable strict type checking
+    },
+    "include": ["src/**/*.ts"], // Include all TypeScript files in src
+    "exclude": ["node_modules"]
+  }

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getFileName } from "@/utilities/getFileName";
-import type { PluginType } from "@/types";
+import { getFileName } from "./getFileName";
+import type { PluginType } from "./types";
 const parser = new DOMParser();
 
 interface MacroEntries {

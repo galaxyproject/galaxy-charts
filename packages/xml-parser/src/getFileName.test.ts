@@ -1,4 +1,4 @@
-import { getFileName } from "./getFileName.ts";
+import { getFileName } from "./getFileName";
 
 test("identify name without extension", () => {
     expect(getFileName("name.extension")).toEqual("name");

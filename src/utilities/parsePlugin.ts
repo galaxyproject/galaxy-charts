@@ -1,5 +1,3 @@
-import { rethrowSimple } from "@/utilities/simpleError";
-import { parseXML } from "@/utilities/parseXML";
 import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
 
 interface ParsedPlugin {
@@ -11,25 +9,12 @@ interface ParsedPlugin {
 
 // Parse plugin either from incoming object or XML
 export async function parsePlugin(
-    xml: string,
-    plugin?: PluginType,
+    plugin: PluginType,
     config: PluginConfigType = {}
 ): Promise<ParsedPlugin> {
-    // Build plugin from XML if not provided through attached DOM data
-    if (!plugin) {
-        try {
-            plugin = await parseXML(xml);
-        } catch (err) {
-            console.error("Visualization requires configuration from XML or attached `visualization_plugin` details.");
-            rethrowSimple(err);
-        }
-    }
-
-    // Filter, format, and add defaults to incoming settings and track values
     const settings = parseValues(plugin.settings, config.settings);
     const specs = plugin.specs;
     const tracks = parseTracks(plugin.tracks, config.tracks);
-
     return { plugin, settings, specs, tracks };
 }
 

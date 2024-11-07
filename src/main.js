@@ -1,6 +1,6 @@
 import { createApp, h } from "vue";
 import App from "./App.vue";
-import { parseXML } from "./utilities/parseXML";
+import { parseXML } from "galaxy-charts-xml-parser";
 
 async function main() {
     // Build the incoming data object

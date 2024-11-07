@@ -4,7 +4,7 @@ interface ParsedIncoming {
     root: string;
     visualizationConfig: PluginConfigType;
     visualizationId?: string;
-    visualizationPlugin?: PluginType;
+    visualizationPlugin: PluginType;
     visualizationTitle: string;
 }
 
@@ -16,7 +16,7 @@ export function parseIncoming(): ParsedIncoming {
     // Parse incoming data
     const root = incoming.root || "/";
     const visualizationId = incoming.visualization_id || null;
-    const visualizationPlugin = incoming.visualization_plugin;
+    const visualizationPlugin = incoming.visualization_plugin || {};
     const visualizationTitle = incoming.visualization_title || "Unnamed Visualization";
 
     // Parse chart dict

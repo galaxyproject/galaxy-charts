@@ -11,7 +11,6 @@ import { InputElementType, InputValuesType } from "@/types";
 
 const props = defineProps<{
     credentials?: RequestCredentials;
-    xml: string;
 }>();
 
 // References with reactive types
@@ -38,7 +37,7 @@ configStore.setCredentials(props.credentials || "include");
 configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings
-parsePlugin(props.xml, visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
+parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
     description.value = plugin.description || "";
     html.value = plugin.html || "";
     isLoading.value = false;

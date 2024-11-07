@@ -6,7 +6,7 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.23",
+    "version": "0.0.24",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
@@ -40,6 +40,7 @@
         "@vue/test-utils": "^2.4.6",
         "autoprefixer": "^10.4.19",
         "axios": "^1.7.2",
+        "galaxy-charts-xml-parser": "^1.0.3",
         "jsdom": "^25.0.1",
         "naive-ui": "^2.39.0",
         "postcss": "^8.4.40",

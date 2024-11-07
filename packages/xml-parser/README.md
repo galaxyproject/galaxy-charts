@@ -1,0 +1,1 @@
+Retrieves Galaxy visualization XML files using Axios and converts them to JSON format.

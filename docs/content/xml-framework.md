@@ -124,7 +124,7 @@ export default defineConfig({
 });
 ```
 
-Now that we've added the Galaxy Charts configuration, you can follow the steps in the [Deploy to Galaxy](deploy-plugin) section to publish your visualization once development is complete.
+Now that we've added the Galaxy Charts configuration, you can proxy your URL request to a Galaxy server following the [Connect to Galaxy](configuration.html) description. Additionally, you now can also follow the steps in the [Deploy to Galaxy](deploy-plugin) section to publish your visualization once development is complete.
 
 ### Step 4: Add Logic to Access Incoming Data from Galaxy
 

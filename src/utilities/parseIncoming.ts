@@ -20,7 +20,7 @@ export function parseIncoming(): ParsedIncoming {
     const visualizationTitle = incoming.visualization_title || "Unnamed Visualization";
 
     // Parse chart dict
-    let visualizationConfig = incoming.visualization_config;
+    let visualizationConfig = incoming.visualization_config || {};
     if (incoming.visualization_config?.chart_dict) {
         const chartDict = incoming.visualization_config.chart_dict;
         visualizationConfig.groups = chartDict.groups;

@@ -7,7 +7,7 @@ import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType, InputValuesType, PluginConfigType } from "@/types";
+import { InputElementType, InputValuesType } from "@/types";
 
 const props = defineProps<{
     credentials?: RequestCredentials;

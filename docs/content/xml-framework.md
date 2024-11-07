@@ -82,6 +82,86 @@ This minimal plugin example provides a foundation on which more complex visualiz
 For this plugin, as well as any other, all further interactions with Galaxy should be conducted through the Galaxy API.
 :::
 
+## Building a Vite Plugin (Vanilla/Vue/React and More)
+
+In this section, we'll create a slightly more complex plugin using [Vite](https://vite.dev). Vite supports a range of JavaScript-based languages, and the steps here apply to all of them.
+
+### Step 1: Start with XML Configuration
+
+We'll begin with an XML configuration. This example builds upon the minimal example from earlier by using the default XML template from the introduction:
+
+```xml
+<visualization name="Vite Plugin (Vanilla/Vue/React and more)">
+    <description>A basic example of a Vite plugin.</description>
+    <requirements>
+        <requirement type="npm" version="MY_NPM_PACKAGE_VERSION" package="MY_NPM_PACKAGE_NAME"/>
+    </requirements>
+    <entry_point entry_point_type="script" src="dist/index.js" css="dist/index.css" />
+</visualization>
+```
+
+### Step 2: Create a Vite Project
+
+To create a new Vite project, replace `MY_VISUALIZATION` with your visualization name and run the following command:
+
+```bash
+npm create vite@latest MY_VISUALIZATION
+```
+
+Follow the prompts and choose any of the provided templates.
+
+### Step 3: Import the Charts Vite Configuration
+
+Download the charts configuration file <a href="/downloads/vite.config.charts.ts" download>vite.config.charts.ts</a>, and import it into your `vite.config` as follows:
+
+```bash
+import { defineConfig } from "vite";
+import { viteConfigCharts } from "./vite.config.charts";
+
+export default defineConfig({
+    ...viteConfigCharts,
+    /* Insert your existing vite.config settings here. */
+});
+```
+
+Now that we've added the Galaxy Charts configuration, you can follow the steps in the [Deploy to Galaxy](deploy-plugin) section to publish your visualization once development is complete.
+
+### Step 4: Add Logic to Access Incoming Data from Galaxy
+
+Once your visualization is deployed, Galaxy will pass configuration data to it by attaching the data to the data-incoming attribute of the container element. To handle and utilize this data within your visualization, add the following logic to your main code file:
+
+```javascript
+if (import.meta.env.DEV) {
+    // Build the incoming data object
+    const dataIncoming = {
+        visualization_config: {
+            dataset_url: "MY_DATASET_URL",
+            dataset_id: "MY_DATASET_ID",
+            settings: {},
+        },
+    };
+
+    // Attach config to the data-incoming attribute
+    const appElement = document.querySelector("#app");
+    appElement.setAttribute("data-incoming", JSON.stringify(dataIncoming));
+}
+
+// Access attached data
+const element = document.getElementById("app");
+const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
+
+/** Now you can consume the incoming data in your application.
+ * In this example, the data was attached in the development mode block.
+ * In production, this data will be provided by Galaxy.
+ */
+const datasetId = incoming.visualization_config.dataset_id;
+...
+```
+
+::: tip Note
+With this setup, you can also utilize the additional XML sections and inputs described below. Unlike the Galaxy Charts Vue package, these elements won't be automatically rendered. However, if your visualization doesn't require user-configurable settings, this approach might be a better fit. It introduces no overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.
+:::
+
 ## Use any JavaScript Technology!
 
 In summary, the Galaxy framework is designed to be highly flexible, supporting any JavaScript-based framework or tool of choice. To integrate with Galaxy, the only requirement is to include the bundled JavaScript and CSS files within the static directory of the npm package. This approach allows developers to work with their preferred frameworks and tools, ensuring compatibility without additional configuration or dependencies. This streamlined setup makes it easy to extend Galaxy's functionality while maintaining consistency and simplicity across various plugin implementations.

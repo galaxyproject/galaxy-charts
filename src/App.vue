@@ -4,12 +4,11 @@ import Plugin from "./Plugin.vue";
 
 defineProps<{
     credentials?: RequestCredentials;
-    xml: string;
 }>();
 </script>
 
 <template>
-    <GalaxyCharts :credentials="credentials" :xml="xml">
+    <GalaxyCharts :credentials="credentials">
         <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
             <Plugin
                 :dataset-id="datasetId"

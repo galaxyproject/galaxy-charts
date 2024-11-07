@@ -10,7 +10,7 @@ import { useConfigStore } from "@/store/configStore";
 import { InputElementType, InputValuesType, PluginConfigType } from "@/types";
 
 const props = defineProps<{
-    config: PluginConfigType;
+    credentials?: RequestCredentials;
     xml: string;
 }>();
 
@@ -30,13 +30,11 @@ const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<InputValuesType>>([]);
 
 // Parse incoming visualization details
-const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
-    props.config,
-);
+const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming();
 
 // Store values in config store
 const configStore = useConfigStore();
-configStore.setCredentials(props.config.credentials || "include");
+configStore.setCredentials(props.credentials || "include");
 configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings

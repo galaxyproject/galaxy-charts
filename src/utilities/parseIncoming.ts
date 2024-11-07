@@ -8,7 +8,7 @@ interface ParsedIncoming {
     visualizationTitle: string;
 }
 
-export function parseIncoming(config: PluginConfigType): ParsedIncoming {
+export function parseIncoming(): ParsedIncoming {
     // Access attached data
     const element = document.getElementById("app");
     const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}") || {};
@@ -20,7 +20,7 @@ export function parseIncoming(config: PluginConfigType): ParsedIncoming {
     const visualizationTitle = incoming.visualization_title || "Unnamed Visualization";
 
     // Parse chart dict
-    let visualizationConfig = incoming.visualization_config || config;
+    let visualizationConfig = incoming.visualization_config;
     if (incoming.visualization_config?.chart_dict) {
         const chartDict = incoming.visualization_config.chart_dict;
         visualizationConfig.groups = chartDict.groups;

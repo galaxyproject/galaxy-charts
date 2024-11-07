@@ -3,13 +3,13 @@ import { GalaxyCharts } from "galaxy-charts";
 import Plugin from "./Plugin.vue";
 
 defineProps<{
-    config: object;
+    credentials?: RequestCredentials;
     xml: string;
 }>();
 </script>
 
 <template>
-    <GalaxyCharts :config="config" :xml="xml">
+    <GalaxyCharts :credentials="credentials" :xml="xml">
         <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
             <Plugin
                 :dataset-id="datasetId"

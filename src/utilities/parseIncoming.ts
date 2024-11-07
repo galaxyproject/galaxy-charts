@@ -11,7 +11,7 @@ interface ParsedIncoming {
 export function parseIncoming(): ParsedIncoming {
     // Access attached data
     const element = document.getElementById("app");
-    const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}") || {};
+    const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
 
     // Parse incoming data
     const root = incoming.root || "/";

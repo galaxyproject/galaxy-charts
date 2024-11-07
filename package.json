@@ -25,7 +25,7 @@
         "dist/types.d.ts"
     ],
     "scripts": {
-        "dev": "vite build && vite",
+        "dev": "npm run build && vite",
         "build": "vite build",
         "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
         "postbuild": "npm run build:types",

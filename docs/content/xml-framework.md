@@ -131,6 +131,10 @@ Now that we've added the Galaxy Charts configuration, you can proxy your URL req
 Once your visualization is deployed, Galaxy will pass configuration data to it by attaching the data to the data-incoming attribute of the container element. To handle and utilize this data within your visualization, add the following logic to your main code file:
 
 ```javascript
+// Access container element
+const appElement = document.querySelector("#app");
+
+// Attach mock data for development
 if (import.meta.env.DEV) {
     // Build the incoming data object
     const dataIncoming = {
@@ -142,13 +146,11 @@ if (import.meta.env.DEV) {
     };
 
     // Attach config to the data-incoming attribute
-    const appElement = document.querySelector("#app");
     appElement.setAttribute("data-incoming", JSON.stringify(dataIncoming));
 }
 
 // Access attached data
-const element = document.getElementById("app");
-const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
+const incoming = JSON.parse(appElement?.getAttribute("data-incoming") || "{}");
 
 /** Now you can consume the incoming data in your application.
  * In this example, the data was attached in the development mode block.

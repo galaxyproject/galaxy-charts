@@ -39,7 +39,8 @@ With Galaxy Charts, you can develop visualizations locally in Vue, taking advant
 
 - **Local and Remote Data Access**: Load data locally or connect to a remote Galaxy instance to access data providers and resources through the Galaxy API, giving you flexibility in sourcing data.
 - **Automated Testing**: Test your visualization thoroughly in the local environment, ensuring it’s fully functional and bug-free before deploying it to Galaxy.
-- **Enhanced Development Workflow**: By integrating state-of-the-art development tools, Galaxy Charts provides a smooth and efficient workflow that significantly reduces the time and effort needed to build complex visualizations.
+- **Enhanced Development Workflow**: By integrating state-of-the-art development tools, Galaxy Charts provides an efficient workflow that reduces the time and effort needed to build or embed 3rd-party visualizations.
+- **Automated Input Form Rendering**: A standout feature of Galaxy Charts is its ability to dynamically generate an input form within a side panel on the right. This enables users to configure their visualizations.
 
 In short, Galaxy Charts transforms and simplifies the process of developing and deploying visualizations on the Galaxy platform, offering an unparalleled experience for developers working in the Galaxy ecosystem.
 

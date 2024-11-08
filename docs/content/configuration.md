@@ -57,6 +57,6 @@ async function fetchGalaxyVersion() {
 2. Click on your username in the top navigation bar, then select **Preferences**.
 3. Scroll down to the **Manage API Key** section to create and access your personal API key.
 
-::: warning NOTE
+::: warning
 Keep your API key secure, just like your login credentials.
 :::

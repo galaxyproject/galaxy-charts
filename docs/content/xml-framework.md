@@ -161,7 +161,7 @@ const datasetId = incoming.visualization_config.dataset_id;
 ```
 
 ::: tip Note
-With this setup, you can also utilize the additional XML sections and inputs described below. Unlike the Galaxy Charts Vue package, these elements won't be automatically rendered. However, if your visualization doesn't require user-configurable settings, this approach might be a better fit. It introduces no overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.
+Unlike the Galaxy Charts Vue package, the input form will not be automatically rendered. However, if your visualization does not require user-configurable settings, this approach might be a better fit. It introduces less overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.
 :::
 
 ## Use any JavaScript Technology!

@@ -49,7 +49,7 @@ Galaxy Charts leverages Galaxy’s minimal JavaScript-based visualization interf
 </html>
 ```
 
-In this template, Galaxy populates the css, src, and container attributes with static values from the visualization XML. The data-incoming attribute is dynamically populated by Galaxy with details such as the dataset ID, settings, and visualization plugin metadata.
+In this template, Galaxy populates the css, src, and container attributes with static values from the visualization XML. The `data-incoming` attribute is dynamically populated by Galaxy with details such as the dataset ID, settings, and visualization plugin metadata.
 
 ## Minimal Visualization Plugin
 
@@ -128,7 +128,7 @@ Now that we've added the Galaxy Charts configuration, you can proxy your URL req
 
 ### Step 4: Add Logic to Access Incoming Data from Galaxy
 
-Once your visualization is deployed, Galaxy will pass configuration data to it by attaching the data to the data-incoming attribute of the container element. To handle and utilize this data within your visualization, add the following logic to your main code file:
+Once your visualization is deployed, Galaxy will pass configuration data to it by attaching the data to the `data-incoming` attribute of the `#app` container element. To handle and utilize this data within your visualization, add the following logic to your main code file:
 
 ```javascript
 // Access container element

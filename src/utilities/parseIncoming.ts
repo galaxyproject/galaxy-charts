@@ -1,4 +1,4 @@
-import type { PluginType, PluginConfigType } from "@/types";
+import type { PluginConfigType, PluginIncomingType, PluginType } from "@/types";
 
 interface ParsedIncoming {
     root: string;
@@ -8,25 +8,20 @@ interface ParsedIncoming {
     visualizationTitle: string;
 }
 
-export function parseIncoming(): ParsedIncoming {
+export function parseIncoming(incoming?: PluginIncomingType): ParsedIncoming {
     // Access attached data
-    const element = document.getElementById("app");
-    const incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
-
-    // Parse incoming data
-    const root = incoming.root || "/";
-    const visualizationId = incoming.visualization_id || null;
-    const visualizationPlugin = incoming.visualization_plugin || {};
-    const visualizationTitle = incoming.visualization_title || "Unnamed Visualization";
-
-    // Parse chart dict
-    let visualizationConfig = incoming.visualization_config || {};
-    if (incoming.visualization_config?.chart_dict) {
-        const chartDict = incoming.visualization_config.chart_dict;
-        visualizationConfig.groups = chartDict.groups;
-        visualizationConfig.settings = chartDict.settings;
-        delete visualizationConfig["chart_dict"];
+    if (incoming === undefined) {
+        const element = document.getElementById("app");
+        incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
     }
 
+    // Parse incoming data
+    const root = incoming?.root ?? "/";
+    const visualizationConfig = incoming?.visualization_config ?? {};
+    const visualizationId = incoming?.visualization_id ?? "";
+    const visualizationPlugin = incoming?.visualization_plugin ?? {};
+    const visualizationTitle = incoming?.visualization_title ?? "Unnamed Visualization";
+
+    // Parse chart dict
     return { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle };
 }

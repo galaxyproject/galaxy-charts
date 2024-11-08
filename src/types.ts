@@ -43,8 +43,16 @@ export interface PluginConfigType {
     };
 }
 
+export interface PluginIncomingType {
+    root?: string;
+    visualization_config?: PluginConfigType,
+    visualization_id?: string;
+    visualization_plugin?: PluginType,
+    visualization_title?: string;
+}
+
 export interface PluginType {
-    name: string;
+    name?: string;
     html?: string | null;
     logo?: string | null;
     description?: string | null;

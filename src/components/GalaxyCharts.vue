@@ -7,10 +7,11 @@ import { NAlert, NFloatButton, NIcon } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType, InputValuesType } from "@/types";
+import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
 
 const props = defineProps<{
     credentials?: RequestCredentials;
+    incoming?: PluginIncomingType;
 }>();
 
 // References with reactive types
@@ -29,7 +30,9 @@ const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<InputValuesType>>([]);
 
 // Parse incoming visualization details
-const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming();
+const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
+    props.incoming,
+);
 
 // Store values in config store
 const configStore = useConfigStore();
@@ -42,7 +45,7 @@ parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, 
     html.value = plugin.html || "";
     isLoading.value = false;
     logo.value = plugin.logo || "";
-    name.value = plugin.name;
+    name.value = plugin.name || "";
     settingInputs.value = plugin.settings || [];
     settingValues.value = settings;
     specValues.value = specs || {};

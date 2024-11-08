@@ -115,7 +115,7 @@ function updateTracks(newTracks: Array<InputValuesType>): void {
             </n-float-button>
         </div>
         <SidePanel
-            v-else
+            v-else-if="!hidePanel"
             :dataset-id="datasetId"
             :description="description"
             :html="html"

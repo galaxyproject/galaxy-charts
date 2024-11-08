@@ -19,6 +19,6 @@ describe("build user interface", () => {
         const wrapper = mount(App, { props: { incoming: incoming } });
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
-        expect(wrapper.html()).toContain('fill="#E30A17"');
+        expect(wrapper.html()).not.toContain('fill="#E30A17"');
     });
 });

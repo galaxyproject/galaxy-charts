@@ -5,3 +5,7 @@
 .VPNavBarTitle a span {
     color: #E30A17;
 }
+
+body {
+    @apply font-sans; /* Apply the default sans font globally */
+}

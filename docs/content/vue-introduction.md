@@ -1,24 +1,25 @@
 # Vue Component
 
-The `GalaxyCharts` core component is used to embed a JavaScript-based visualization by placing the visualization code within its `#default` slot. This component parses static `config` options and the XML visualization wrapper to render both the viewport and input form.
+The `GalaxyCharts` core component is used to embed a JavaScript-based visualization by placing the visualization code within its `#default` slot. This component parses static `data-incoming` options including the XML visualization wrapper to render both the viewport and input form.
 
 ```vue
 <script setup>
 import { GalaxyCharts } from "galaxy-charts";
+import { parseXML } from "galaxy-charts-xml-parser";
 
 // Configuration of your visualization
-const config = {
-    dataset_id: "MY_DATASET_ID",
-    dataset_url: "MY_DATASET_URL",
-    settings: {},
+const dataIncoming = {
+    visualization_config: {
+        dataset_id: "MY_DATASET_ID",
+        dataset_url: "MY_DATASET_URL",
+        settings: {},
+    },
+    visualization_plugin: parseXML("MY_VISUALIZATION.xml"),
 };
-
-// XML wrapper of your visualization
-const xml = "MY_VISUALIZATION.xml";
 </script>
 
 <template>
-    <GalaxyCharts :config="config" :xml="xml">
+    <GalaxyCharts :data-incoming="dataIncoming">
         <template #default="{ datasetId, datasetUrl, root, settings, specs, tracks }">
             <!-- Place your plugin code here! -->
         </template>

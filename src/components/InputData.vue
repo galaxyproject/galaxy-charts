@@ -6,6 +6,12 @@ import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outlin
 
 const LIMIT = 100;
 
+// Value type
+type ValueType = {
+    id: string;
+    name: string;
+};
+
 // Define props with TypeScript
 const props = defineProps<{
     extension?: string;
@@ -27,9 +33,9 @@ async function loadDatasets(query?: string): Promise<void> {
         const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}&${nameFilter}`);
 
         if (data && data.length > 0) {
-            const options = data.map((x: { name: string }) => ({
+            const options = data.map((x: ValueType) => ({
                 label: x.name,
-                value: x,
+                value: { id: x.id, name: x.name },
             }));
             options.push({ label: "...filter for more", value: null, disabled: true });
             if (props.optional) {

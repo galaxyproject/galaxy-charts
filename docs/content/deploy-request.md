@@ -4,7 +4,7 @@ outline: deep
 
 # Submit a Pull Request to Galaxy
 
-With your visualization published to `npm`, the next step is to submit a pull request to the Galaxy development repository. This pull request should include your XML wrapper file and, optionally, a logo file in `png` format.
+With your visualization published to `npm`, the next step is to submit a pull request to the Galaxy development repository. This pull request should include your XML wrapper file and, optionally, a logo file in `svg` format.
 
 Note: Replace `MY_VISUALIZATION` with your visualization name in the following instructions.
 
@@ -38,10 +38,10 @@ config/plugins/visualizations/MY_VISUALIZATION/config/MY_VISUALIZATION.xml
 
 ## Step 5: Add an Optional Logo
 
-Optionally, include a logo file (logo.png) for your visualization by placing it in a static subdirectory:
+Optionally, include a logo file (logo.svg) for your visualization by placing it in a static subdirectory:
 
 ```plaintext
-config/plugins/visualizations/MY_VISUALIZATION/static/logo.png
+config/plugins/visualizations/MY_VISUALIZATION/static/logo.svg
 ```
 
 ## Step 6: Update the Gulpfile

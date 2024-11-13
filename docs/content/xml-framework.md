@@ -116,7 +116,7 @@ Follow the prompts and choose any of the provided templates.
 
 ### Step 3: Import the Charts Vite Configuration
 
-Download the charts configuration file <a href="/downloads/vite.config.charts.ts" download>vite.config.charts.ts</a>, and import it into your `vite.config` as follows:
+Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a>, and import it into your `vite.config` as follows:
 
 ```bash
 import { defineConfig } from "vite";

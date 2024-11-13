@@ -25,7 +25,7 @@ const props = defineProps<{
     settingValues: InputValuesType;
     trackInputs: InputElementType[];
     trackValues: InputValuesType[];
-    visualizationId: string | null | undefined;
+    visualizationId: string | null;
     visualizationTitle: string;
 }>();
 
@@ -33,12 +33,10 @@ const props = defineProps<{
 const emit = defineEmits<{
     (event: "update:tracks", newValues: InputValuesType[]): void;
     (event: "update:settings", newValues: InputValuesType): void;
+    (event: "update:visualization-id", newId: string): void;
+    (event: "update:visualization-title", newTitle: string): void;
     (event: "toggle"): void;
 }>();
-
-// Create local copies of props with reactivity
-const currentTitle = ref<string>(props.visualizationTitle);
-const currentVisualizationId = ref<string | null | undefined>(props.visualizationId);
 
 // Manage message and message type for notifications
 const message = ref<string>("");
@@ -50,20 +48,26 @@ const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackI
 // Save or create the visualization
 async function onSave(): Promise<void> {
     try {
-        if (currentVisualizationId.value) {
-            await visualizationsSave(currentVisualizationId.value, currentTitle.value, {
+        if (props.visualizationId) {
+            await visualizationsSave(props.visualizationId, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
             });
             message.value = "Successfully saved.";
             messageType.value = "success";
         } else {
-            currentVisualizationId.value = await visualizationsCreate(props.name, currentTitle.value, {
+            const newVisualizationId = await visualizationsCreate(props.name, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
             });
-            message.value = "Successfully created.";
-            messageType.value = "success";
+            if (newVisualizationId) {
+                message.value = "Successfully created.";
+                messageType.value = "success";
+                emit("update:visualization-id", newVisualizationId);
+            } else {
+                message.value = "Something went wrong.";
+                messageType.value = "error";
+            }
         }
     } catch (err) {
         message.value = errorMessageAsString(err);
@@ -79,6 +83,11 @@ function onUpdateSettings(newValues: InputValuesType): void {
 // Update tracks handler
 function onUpdateTracks(newValues: InputValuesType[]): void {
     emit("update:tracks", newValues);
+}
+
+// Update title handler
+function onUpdateVisualizationTitle(newTitle: string): void {
+    emit("update:visualization-title", newTitle);
 }
 </script>
 
@@ -128,7 +137,7 @@ function onUpdateTracks(newValues: InputValuesType[]): void {
         <div class="px-4 pb-2">
             <div class="font-bold">Title</div>
             <div class="text-xs py-1">Specify a visualization title.</div>
-            <n-input v-model:value="currentTitle" />
+            <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
         </div>
         <n-tabs type="line" animated class="px-4" :tab-class="hideTabs ? '!hidden' : ''">
             <n-tab-pane v-if="trackInputs.length > 0" name="tracks">

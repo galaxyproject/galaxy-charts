@@ -14,6 +14,11 @@ const props = defineProps<{
     incoming?: PluginIncomingType;
 }>();
 
+// Parse incoming visualization details
+const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
+    props.incoming,
+);
+
 // References with reactive types
 const collapsePanel = ref<boolean>(false);
 const datasetUrl = ref<string>("");
@@ -29,10 +34,9 @@ const specValues = ref<InputValuesType>({});
 const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<InputValuesType>>([]);
 
-// Parse incoming visualization details
-const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
-    props.incoming,
-);
+// Create local copies of props with reactivity
+const currentVisualizationId = ref<string | null>(visualizationId);
+const currentVisualizationTitle = ref<string>(visualizationTitle);
 
 // Store values in config store
 const configStore = useConfigStore();
@@ -89,6 +93,16 @@ function updateSettings(newSettings: InputValuesType): void {
 function updateTracks(newTracks: Array<InputValuesType>): void {
     trackValues.value = [...newTracks];
 }
+
+// Event handler for updating visualization id
+function updateVisualizationId(newVisualizationId: string): void {
+    currentVisualizationId.value = newVisualizationId;
+}
+
+// Event handler for updating title
+function updateVisualizationTitle(newVisualizationTitle: string): void {
+    currentVisualizationTitle.value = newVisualizationTitle;
+}
 </script>
 
 <template>
@@ -125,10 +139,12 @@ function updateTracks(newTracks: Array<InputValuesType>): void {
             :setting-values="settingValues"
             :track-inputs="trackInputs"
             :track-values="trackValues"
-            :visualization-id="visualizationId"
-            :visualization-title="visualizationTitle"
+            :visualization-id="currentVisualizationId"
+            :visualization-title="currentVisualizationTitle"
             @update:settings="updateSettings"
             @update:tracks="updateTracks"
+            @update:visualization-id="updateVisualizationId"
+            @update:visualization-title="updateVisualizationTitle"
             @toggle="onToggle" />
     </div>
 </template>

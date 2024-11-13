@@ -6,11 +6,19 @@ outline: deep
 
 Once your visualization is complete and ready for deployment to Galaxy, you can publish it to `npm` and [submit a pull](deploy-request) request to the Galaxy development repository.
 
-## Configure the Package Name
+## Configure the Package Name and Files
 
 1. Open the `package.json` file in your project.
 2. Update the `name` field to specify a unique package name.
 3. Adjust the `version` field if needed.
+4. Ensure that the following section is in your `package.json`:
+
+```json
+  "files": [
+    "static/dist/index.js",
+    "static/dist/index.css"
+  ]
+```
 
 ## Build and Publish to npm
 

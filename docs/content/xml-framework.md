@@ -128,7 +128,7 @@ export default defineConfig({
 });
 ```
 
-Now that we've added the Galaxy Charts configuration, you can proxy your URL request to a Galaxy server following the [Connect to Galaxy](configuration.html) description. Additionally, you now can also follow the steps in the [Deploy to Galaxy](deploy-plugin) section to publish your visualization once development is complete.
+Now that we've added the Galaxy Charts configuration, you can proxy your URL request to a Galaxy server following the [Connect to Galaxy](configuration.html) description.
 
 ### Step 4: Add Logic to Access Incoming Data from Galaxy
 
@@ -166,6 +166,8 @@ const root = incoming.root;
 
 /* Place your code here... */
 ```
+
+Once development is complete, you now can follow the steps in the [Deploy to Galaxy](deploy-plugin) section to publish your visualization.
 
 ::: tip Note
 Unlike the Galaxy Charts Vue package, the input form will not be automatically rendered. However, if your visualization does not require user-configurable settings, this approach might be a better fit. It introduces less overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.

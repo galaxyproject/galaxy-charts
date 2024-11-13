@@ -116,7 +116,7 @@ Follow the prompts and choose any of the provided templates.
 
 ### Step 3: Import the Charts Vite Configuration
 
-Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a>, and import it into your `vite.config` as follows:
+Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a>, and import it into your existing `vite.config` (or create a new one) as follows:
 
 ```bash
 import { defineConfig } from "vite";
@@ -142,6 +142,7 @@ const appElement = document.querySelector("#app");
 if (import.meta.env.DEV) {
     // Build the incoming data object
     const dataIncoming = {
+        root: "/",
         visualization_config: {
             dataset_url: "MY_DATASET_URL",
             dataset_id: "MY_DATASET_ID",
@@ -161,7 +162,9 @@ const incoming = JSON.parse(appElement?.getAttribute("data-incoming") || "{}");
  * In production, this data will be provided by Galaxy.
  */
 const datasetId = incoming.visualization_config.dataset_id;
-...
+const root = incoming.root;
+
+/* Place your code here... */
 ```
 
 ::: tip Note

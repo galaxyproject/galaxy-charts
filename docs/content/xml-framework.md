@@ -112,11 +112,17 @@ To create a new Vite project, replace `MY_VISUALIZATION` with your visualization
 npm create vite@latest MY_VISUALIZATION
 ```
 
-Follow the prompts and choose any of the provided templates.
+Follow the prompts and choose any of the provided templates. If you're unfamiliar with certain frameworks, we recommend opting for plain Vanilla JavaScript without TypeScript.
 
 ### Step 3: Import the Charts Vite Configuration
 
-Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a>, and import it into your existing `vite.config` (or create a new one) as follows:
+Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a> to your visualization root directory:
+
+```bash
+wget https://galaxyproject.github.io/galaxy-charts/downloads/vite.config.charts.js -O vite.config.charts.js
+```
+
+Then, import it into your existing `vite.config` (or create a new one) as follows:
 
 ```bash
 import { defineConfig } from "vite";

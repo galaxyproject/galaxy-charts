@@ -12,7 +12,7 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
         const columnLength = columnList.length;
         const results: any[][] = new Array(columnLength).fill(null).map(() => []);
 
-        for (const row of data) {
+        for (const row of data.data) {
             for (const j in row) {
                 const index = Number(j);
                 const value = row[j];

@@ -134,5 +134,10 @@
             <type>data_column</type>
             <is_number>true</is_number>
         </input>
+        <input>
+            <name>track_column_2</name>
+            <label>Track: Column (Any)</label>
+            <type>data_column</type>
+        </input>
     </tracks>
 </visualization>

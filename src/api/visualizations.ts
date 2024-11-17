@@ -5,6 +5,7 @@ import { InputValuesType } from "@/types"
 interface VisualizationConfig {
     dataset_id: string;
     settings: InputValuesType;
+    tracks: Array<InputValuesType>;
 }
 
 export async function visualizationsCreate(type: string, title: string, config: VisualizationConfig): Promise<string | undefined> {

@@ -52,6 +52,7 @@ async function onSave(): Promise<void> {
             await visualizationsSave(props.visualizationId, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
+                tracks: props.trackValues,
             });
             message.value = "Successfully saved.";
             messageType.value = "success";
@@ -59,6 +60,7 @@ async function onSave(): Promise<void> {
             const newVisualizationId = await visualizationsCreate(props.name, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
+                tracks: props.trackValues,
             });
             if (newVisualizationId) {
                 message.value = "Successfully created.";

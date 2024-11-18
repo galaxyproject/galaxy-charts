@@ -1,4 +1,5 @@
 import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
+import { toBoolean } from "./toBoolean";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -23,6 +24,8 @@ function formatValue(input: InputElementType, inputValue: InputAtomicType): Inpu
     let value = inputValue ?? input.value;
     if (input.type === "float") {
         value = Number(value);
+    } else if (input.type === "boolean") {
+        value = toBoolean(value);
     }
     return value;
 }

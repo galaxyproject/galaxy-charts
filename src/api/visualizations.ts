@@ -21,13 +21,12 @@ export async function visualizationsCreate(type: string, title: string, config: 
     }
 }
 
-export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<string | undefined> {
+export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<undefined> {
     try {
-        const { data } = await GalaxyApi().PUT(`/api/visualizations/${id}`, {
+        await GalaxyApi().PUT(`/api/visualizations/${id}`, {
             title,
             config,
         });
-        return data.id;
     } catch (err) {
         rethrowSimple(err);
     }

@@ -8,6 +8,7 @@ import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
 import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
+import { visualizationsSave } from "@/api/visualizations";
 
 const props = defineProps<{
     credentials?: RequestCredentials;
@@ -103,6 +104,23 @@ function updateVisualizationId(newVisualizationId: string): void {
 function updateVisualizationTitle(newVisualizationTitle: string): void {
     currentVisualizationTitle.value = newVisualizationTitle;
 }
+
+// Event handler for updating settings and saving visualization
+async function save(values: InputValuesType) {
+    updateSettings({ ...settingValues.value, ...values });
+    try {
+        const newVisualizationId = await visualizationsSave(name.value, visualizationId, visualizationTitle, {
+            dataset_id: datasetId,
+            settings: settingValues.value,
+            tracks: trackValues.value,
+        });
+        if (newVisualizationId) {
+            updateVisualizationId(newVisualizationId);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
 </script>
 
 <template>
@@ -122,7 +140,8 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
             :root="root"
             :settings="settingValues"
             :specs="specValues"
-            :tracks="trackValues" />
+            :tracks="trackValues"
+            :save="save" />
         <div v-if="collapsePanel && !hidePanel">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
                 <n-icon><ChevronDoubleLeftIcon /></n-icon>

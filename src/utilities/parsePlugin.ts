@@ -43,9 +43,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
             if (inputCase.value === testValue) {
                 result[testName] = testValue;
                 if (inputCase.inputs?.length) {
-                    for (const conditionalInput of inputCase.inputs) {
-                        result[conditionalInput.name] = formatValue(conditionalInput, result[conditionalInput.name]);
-                    }
+                    parseValues(inputCase.inputs, result);
                 }
             }
         }

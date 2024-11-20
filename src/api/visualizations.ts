@@ -21,7 +21,19 @@ export async function visualizationsCreate(type: string, title: string, config: 
     }
 }
 
-export async function visualizationsSave(id: string, title: string, config: VisualizationConfig): Promise<undefined> {
+export async function visualizationsSave(type: string, id: string | null, title: string, config: VisualizationConfig): Promise<string | undefined> {
+    try {
+        if (id) {
+            await visualizationsUpdate(id, title, config);
+        } else {
+            return await visualizationsCreate(type, title, config);
+        }
+    } catch (err) {
+        rethrowSimple(err);
+    }
+}
+
+export async function visualizationsUpdate(id: string, title: string, config: VisualizationConfig): Promise<undefined> {
     try {
         await GalaxyApi().PUT(`/api/visualizations/${id}`, {
             title,

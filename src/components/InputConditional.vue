@@ -38,9 +38,8 @@ const currentValue = defineModel<InputValuesType>("value");
 if (!currentValue.value || !(testName in currentValue.value)) {
     console.error(`Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
 }
-
 // Reference current test parameter value
-const currentTestValue = ref<string>(currentValue.value && currentValue.value[testName]);
+const currentTestValue = ref<string>(getTestValue());
 
 // Collect input cases and identify defaults
 const caseDefaults = computed(() => {
@@ -78,6 +77,11 @@ const switchTestValue = computed({
     },
 });
 
+// Initialize test value
+function getTestValue() {
+    return currentValue.value && currentValue.value[testName];
+}
+
 // Update values if test value changes or conditional input elements are modified
 function onUpdate(newValues?: InputValuesType) {
     let updatedValues = { ...caseDefaults.value[currentTestValue.value] };
@@ -90,6 +94,14 @@ function onUpdate(newValues?: InputValuesType) {
     }
     emit("update:value", updatedValues);
 }
+
+// Watch test value
+watch(
+    () => currentValue.value,
+    () => {
+        currentTestValue.value = getTestValue();
+    },
+);
 
 // Load defaults if test value changes
 watch(

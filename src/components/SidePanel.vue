@@ -7,7 +7,7 @@ import {
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
 import { NButton, NIcon, NInput, NTabs, NTabPane } from "naive-ui";
-import { visualizationsCreate, visualizationsSave } from "@/api/visualizations";
+import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
 import InputRepeats from "@/components/InputRepeats.vue";
@@ -49,7 +49,7 @@ const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackI
 async function onSave(): Promise<void> {
     try {
         if (props.visualizationId) {
-            await visualizationsSave(props.visualizationId, props.visualizationTitle, {
+            await visualizationsUpdate(props.visualizationId, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
                 tracks: props.trackValues,

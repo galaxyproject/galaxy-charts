@@ -122,20 +122,20 @@
             <value>Text</value>
         </input>
         <input>
-            <name>track_column_0</name>
+            <name>x</name>
             <label>Track: Column (Auto, Text)</label>
             <type>data_column</type>
             <is_auto>true</is_auto>
             <is_text>true</is_text>
         </input>
         <input>
-            <name>track_column_1</name>
+            <name>y</name>
             <label>Track: Column (Number)</label>
             <type>data_column</type>
             <is_number>true</is_number>
         </input>
         <input>
-            <name>track_column_2</name>
+            <name>z</name>
             <label>Track: Column (Any)</label>
             <type>data_column</type>
         </input>

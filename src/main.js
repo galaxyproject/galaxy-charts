@@ -3,11 +3,14 @@ import App from "./App.vue";
 import { parseXML } from "galaxy-charts-xml-parser";
 
 async function main() {
-    // Build the incoming data object
+    // Construct the incoming data object with mock configuration and data
     const dataIncoming = {
         visualization_config: {
-            dataset_url: null,
-            dataset_id: "12e4b4feedfe9f3f",
+            // Placeholder for dataset URL (can be replaced during actual development)
+            dataset_url: "MY_DATASET_URL",
+            // Placeholder for dataset ID
+            dataset_id: process.env.dataset_id,
+            // Placeholder for additional visualization settings
             settings: {
                 setting_text: "My Test Setting",
                 setting_boolean: true,
@@ -17,6 +20,7 @@ async function main() {
                 },
             },
         },
+        // Parse and load the visualization XML configuration
         visualization_plugin: await parseXML("galaxy-charts.xml"),
     };
 

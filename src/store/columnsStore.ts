@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { datasetsGetColumns } from "@/api/datasets";
 
-const SPECIAL_KEYS = ["auto", undefined];
+const SPECIAL_KEYS = ["auto"];
 
 // Define the structure for columns
 const columns = ref<Record<string, Record<string, any>>>({});
@@ -16,7 +16,7 @@ export function useColumnsStore() {
         for (const track of tracks) {
             for (const key of keys) {
                 const column = track[key];
-                if (column && ![...columnsList, ...SPECIAL_KEYS].includes(column)) {
+                if (column !== undefined && ![...columnsList, ...SPECIAL_KEYS].includes(column)) {
                     columnsList.push(column);
                 }
             }
@@ -43,7 +43,7 @@ export function useColumnsStore() {
             const trackEntry: Record<string, any> = {};
             keys.forEach((key) => {
                 const column = track[key];
-                if (column && !SPECIAL_KEYS.includes(column)) {
+                if (column !== undefined && !SPECIAL_KEYS.includes(column)) {
                     trackEntry[key] = columns.value[datasetId][column];
                 }
             });

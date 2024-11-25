@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import type { InputValuesType } from "galaxy-charts";
+import { useColumnsStore } from "galaxy-charts";
 
 const props = defineProps<{
     datasetId: string;
@@ -18,8 +19,12 @@ const emit = defineEmits<{
 
 const viewport = ref(null);
 
-function render() {
+const columnsStore = useColumnsStore();
+
+async function render() {
     /** Place your render function here! */
+    const columnsList = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
+    console.log(columnsList);
 }
 
 function onSave() {

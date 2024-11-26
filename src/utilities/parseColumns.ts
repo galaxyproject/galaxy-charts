@@ -7,12 +7,7 @@ interface Column {
     value: string;
 }
 
-export function parseColumns(
-    dataset: Dataset,
-    isAuto: boolean,
-    isText: boolean,
-    isNumber: boolean
-): Array<Column> {
+export function parseColumns(dataset: Dataset, isAuto: boolean, isText: boolean, isNumber: boolean): Array<Column> {
     const columns: Array<Column> = [];
 
     if (isAuto) {

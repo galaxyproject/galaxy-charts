@@ -9,10 +9,7 @@ interface ParsedPlugin {
 }
 
 // Parse plugin either from incoming object or XML
-export async function parsePlugin(
-    plugin: PluginType,
-    config: PluginConfigType = {}
-): Promise<ParsedPlugin> {
+export async function parsePlugin(plugin: PluginType, config: PluginConfigType = {}): Promise<ParsedPlugin> {
     const settings = parseValues(plugin.settings, config.settings);
     const specs = plugin.specs;
     const tracks = parseTracks(plugin.tracks, config.tracks);

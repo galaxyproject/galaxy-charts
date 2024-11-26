@@ -6,7 +6,7 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.35",
+    "version": "0.0.37",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
@@ -30,7 +30,7 @@
         "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
         "postbuild": "npm run build:types",
         "preview": "vite preview",
-        "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.vue'",
+        "prettier": "prettier --write 'package.json' '*.js' 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue'",
         "test": "vitest"
     },
     "devDependencies": {

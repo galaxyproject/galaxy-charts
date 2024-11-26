@@ -1,6 +1,6 @@
-import { rethrowSimple } from "@/utilities/simpleError";
 import { GalaxyApi } from "@/api/client";
-import { InputValuesType } from "@/types"
+import { InputValuesType } from "@/types";
+import { rethrowSimple } from "@/utilities/simpleError";
 
 interface VisualizationConfig {
     dataset_id: string;
@@ -8,7 +8,11 @@ interface VisualizationConfig {
     tracks: Array<InputValuesType>;
 }
 
-export async function visualizationsCreate(type: string, title: string, config: VisualizationConfig): Promise<string | undefined> {
+export async function visualizationsCreate(
+    type: string,
+    title: string,
+    config: VisualizationConfig,
+): Promise<string | undefined> {
     try {
         const { data } = await GalaxyApi().POST("/api/visualizations", {
             type,
@@ -21,7 +25,12 @@ export async function visualizationsCreate(type: string, title: string, config: 
     }
 }
 
-export async function visualizationsSave(type: string, id: string | null, title: string, config: VisualizationConfig): Promise<string | undefined> {
+export async function visualizationsSave(
+    type: string,
+    id: string | null,
+    title: string,
+    config: VisualizationConfig,
+): Promise<string | undefined> {
     try {
         if (id) {
             await visualizationsUpdate(id, title, config);

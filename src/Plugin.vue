@@ -21,10 +21,11 @@ const viewport = ref(null);
 
 const columnsStore = useColumnsStore();
 
+const columnsList = ref();
+
 async function render() {
     /** Place your render function here! */
-    const columnsList = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
-    console.log(columnsList);
+    columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
 }
 
 function onSave() {
@@ -52,6 +53,7 @@ watch(
         <div class="bg-gray-600 text-white rounded-lg p-2">
             <pre class="p-2">Settings: {{ settings }}</pre>
             <pre class="p-2">Tracks: {{ tracks }}</pre>
+            <pre>{{ columnsList }}</pre>
         </div>
     </div>
 </template>

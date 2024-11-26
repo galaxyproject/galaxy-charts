@@ -10,8 +10,12 @@ async function fetchApi(path: string, options: RequestInit): Promise<{ data: any
             headers: { "Content-Type": "application/json" },
             ...options,
         });
-        const data = await response.json();
-        return { data, response };
+        if (response.ok) {
+            const data = await response.json();
+            return { data, response };
+        } else {
+            rethrowSimple(response);
+        }
     } catch (err) {
         rethrowSimple(err);
     }

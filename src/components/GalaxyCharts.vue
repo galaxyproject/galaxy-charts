@@ -67,7 +67,7 @@ if (visualizationConfig.dataset_url) {
     if (!datasetId) {
         errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
     } else {
-        datasetUrl.value = datasetsGetUrl(datasetId);
+        datasetUrl.value = datasetsGetUrl(root, datasetId);
         console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetUrl.value}.`);
     }
 }

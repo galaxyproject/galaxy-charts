@@ -27,6 +27,6 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
     }
 }
 
-export function datasetsGetUrl(datasetId: string): string {
-    return `/api/datasets/${datasetId}/display`;
+export function datasetsGetUrl(root: string, datasetId: string): string {
+    return `${window.location.origin}${root}api/datasets/${datasetId}/display`;
 }

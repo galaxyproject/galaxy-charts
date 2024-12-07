@@ -30,7 +30,7 @@
         "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
         "postbuild": "npm run build:types",
         "preview": "vite preview",
-        "prettier": "prettier --config ./prettier.config.js --write 'package.json' '**/*.{js,ts,css,vue}'",
+        "prettier": "prettier --config ./prettier.config.js --write 'package.json' '**/*.{css,js,ts,vue}'",
         "test": "vitest"
     },
     "devDependencies": {

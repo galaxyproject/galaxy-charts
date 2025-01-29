@@ -11,13 +11,14 @@ import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
 import { visualizationsSave } from "@/api/visualizations";
 
 const props = defineProps<{
+    container?: string;
     credentials?: RequestCredentials;
     incoming?: PluginIncomingType;
 }>();
 
 // Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
-    props.incoming,
+    props.incoming, props.container
 );
 
 // References with reactive types

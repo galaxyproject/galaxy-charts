@@ -25,13 +25,13 @@ async function main() {
     };
 
     // Attach config to the data-incoming attribute
-    const appElement = document.querySelector("#app");
+    const appElement = document.querySelector("#custom");
     appElement.setAttribute("data-incoming", JSON.stringify(dataIncoming));
 
     // Mount the app
     createApp({
-        render: () => h(App, { credentials: process.env.credentials }),
-    }).mount("#app");
+        render: () => h(App, { container: "custom", credentials: process.env.credentials }),
+    }).mount("#custom");
 }
 
 main();

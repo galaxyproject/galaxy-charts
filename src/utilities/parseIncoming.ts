@@ -8,10 +8,10 @@ interface ParsedIncoming {
     visualizationTitle: string;
 }
 
-export function parseIncoming(incoming?: PluginIncomingType): ParsedIncoming {
+export function parseIncoming(incoming?: PluginIncomingType, container = "app"): ParsedIncoming {
     // Access attached data
     if (incoming === undefined) {
-        const element = document.getElementById("app");
+        const element = document.getElementById(container);
         incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
     }
 

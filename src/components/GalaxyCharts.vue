@@ -134,16 +134,11 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 async function save(values: InputValuesType) {
     updateSettings({ ...settingValues.value, ...values });
     try {
-        const newVisualizationId = await visualizationsSave(
-            name.value,
-            visualizationId,
-            visualizationTitle,
-            {
-                dataset_id: datasetId,
-                settings: settingValues.value,
-                tracks: trackValues.value,
-            },
-        );
+        const newVisualizationId = await visualizationsSave(name.value, visualizationId, visualizationTitle, {
+            dataset_id: datasetId,
+            settings: settingValues.value,
+            tracks: trackValues.value,
+        });
         if (newVisualizationId) {
             updateVisualizationId(newVisualizationId);
         }

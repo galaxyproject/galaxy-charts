@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, defineProps, defineModel } from "vue";
-import { NSelect } from "naive-ui";
+import { NInput, NSelect } from "naive-ui";
 import { parseColumns } from "@/utilities/parseColumns";
 import { GalaxyApi } from "@/api/client";
 
@@ -50,5 +50,6 @@ watch(
 </script>
 
 <template>
-    <n-select v-model:value="currentValue" :options="currentOptions" />
+    <n-select v-if="datasetId" v-model:value="currentValue" :options="currentOptions" />
+    <n-input v-else v-model:value="currentValue" />
 </template>

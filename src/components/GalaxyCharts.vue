@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, defineProps } from "vue";
+import { defineProps, computed, nextTick, ref, toRaw } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
@@ -80,15 +80,6 @@ const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 // Hide panel condition
 const hidePanel = computed(() => settingInputs.value.length === 0 && trackInputs.value.length === 0);
 
-// Build state dictionary
-function buildState() {
-    return {
-        dataset_id: datasetId,
-        settings: settingValues.value,
-        tracks: trackValues.value,
-    };
-}
-
 // Toggle side panel visibility
 async function onToggle(): Promise<void> {
     collapsePanel.value = !collapsePanel.value;
@@ -105,7 +96,11 @@ function postMessage() {
     try {
         window.postMessage({
             container: props.container,
-            content: JSON.stringify(buildState()),
+            content: {
+                dataset_id: datasetId,
+                settings: toRaw(settingValues.value),
+                tracks: toRaw(trackValues.value),
+            },
             source: "galaxy-charts",
         });
     } catch (e) {
@@ -143,7 +138,11 @@ async function save(values: InputValuesType) {
             name.value,
             visualizationId,
             visualizationTitle,
-            buildState(),
+            {
+                dataset_id: datasetId,
+                settings: settingValues.value,
+                tracks: trackValues.value,
+            },
         );
         if (newVisualizationId) {
             updateVisualizationId(newVisualizationId);

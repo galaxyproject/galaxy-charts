@@ -100,7 +100,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <span>Charts</span>
                 <ApiStatus />
             </div>
-            <div>
+            <div v-if="datasetId">
                 <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
                     <template #icon>
                         <n-icon><CloudArrowUpIcon /></n-icon>

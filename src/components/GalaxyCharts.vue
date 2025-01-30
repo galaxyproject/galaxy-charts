@@ -98,7 +98,7 @@ function postMessage() {
             {
                 container: props.container,
                 content: JSON.parse(JSON.stringify(serialize())),
-                from: "galaxy-charts",
+                from: "galaxy-visualization",
             },
             "*",
         );

@@ -94,15 +94,18 @@ async function onToggle(): Promise<void> {
 // Send a message to the parent container
 function postMessage() {
     try {
-        window.postMessage({
-            container: props.container,
-            content: {
-                dataset_id: datasetId,
-                settings: toRaw(settingValues.value),
-                tracks: toRaw(trackValues.value),
+        window.postMessage(
+            {
+                container: props.container,
+                content: {
+                    dataset_id: datasetId,
+                    settings: toRaw(settingValues.value),
+                    tracks: toRaw(trackValues.value),
+                },
+                source: "galaxy-charts",
             },
-            source: "galaxy-charts",
-        });
+            "*",
+        );
     } catch (e) {
         console.error(`Failed to postMessage: ${e}`);
     }

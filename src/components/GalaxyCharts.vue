@@ -18,7 +18,8 @@ const props = defineProps<{
 
 // Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
-    props.incoming, props.container
+    props.incoming,
+    props.container,
 );
 
 // References with reactive types
@@ -79,21 +80,48 @@ const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 // Hide panel condition
 const hidePanel = computed(() => settingInputs.value.length === 0 && trackInputs.value.length === 0);
 
+// Build state dictionary
+function buildState() {
+    return {
+        dataset_id: datasetId,
+        settings: settingValues.value,
+        tracks: trackValues.value,
+    };
+}
+
 // Toggle side panel visibility
 async function onToggle(): Promise<void> {
     collapsePanel.value = !collapsePanel.value;
     await nextTick();
-    window.dispatchEvent(new Event("resize"));
+    if (window) {
+        window.dispatchEvent(new Event("resize"));
+    } else {
+        console.warn("window unavailable.");
+    }
+}
+
+// Send a message to the parent container
+function postMessage() {
+    try {
+        window.parent.postMessage({
+            container: props.container,
+            content: JSON.stringify(buildState()),
+        });
+    } catch (e) {
+        console.error(`Failed to postMessage: ${e}`);
+    }
 }
 
 // Event handler for updating settings
 function updateSettings(newSettings: InputValuesType): void {
     settingValues.value = { ...newSettings };
+    postMessage();
 }
 
 // Event handler for updating tracks
 function updateTracks(newTracks: Array<InputValuesType>): void {
     trackValues.value = [...newTracks];
+    postMessage();
 }
 
 // Event handler for updating visualization id
@@ -110,11 +138,12 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 async function save(values: InputValuesType) {
     updateSettings({ ...settingValues.value, ...values });
     try {
-        const newVisualizationId = await visualizationsSave(name.value, visualizationId, visualizationTitle, {
-            dataset_id: datasetId,
-            settings: settingValues.value,
-            tracks: trackValues.value,
-        });
+        const newVisualizationId = await visualizationsSave(
+            name.value,
+            visualizationId,
+            visualizationTitle,
+            buildState(),
+        );
         if (newVisualizationId) {
             updateVisualizationId(newVisualizationId);
         }

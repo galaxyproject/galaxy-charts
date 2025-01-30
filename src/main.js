@@ -28,6 +28,11 @@ async function main() {
     const appElement = document.querySelector("#custom");
     appElement.setAttribute("data-incoming", JSON.stringify(dataIncoming));
 
+    // Add event listener
+    window.addEventListener("message", (event) => {
+        console.log(event.data);
+    });
+
     // Mount the app
     createApp({
         render: () => h(App, { container: "custom", credentials: process.env.credentials }),

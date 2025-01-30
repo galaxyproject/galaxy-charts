@@ -28,5 +28,11 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
 }
 
 export function datasetsGetUrl(root: string, datasetId: string): string {
-    return `${window.parent.location.origin}${root}api/datasets/${datasetId}/display`;
+    const url = `${root}api/datasets/${datasetId}/display`;
+    if (window) {
+        return `${window.parent.location.origin}${url}`;
+    } else {
+        console.warn("window unavailable.");
+        return `${url}`;
+    }
 }

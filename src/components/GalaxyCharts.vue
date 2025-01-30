@@ -103,9 +103,10 @@ async function onToggle(): Promise<void> {
 // Send a message to the parent container
 function postMessage() {
     try {
-        window.parent.postMessage({
+        window.postMessage({
             container: props.container,
             content: JSON.stringify(buildState()),
+            source: "galaxy-charts",
         });
     } catch (e) {
         console.error(`Failed to postMessage: ${e}`);

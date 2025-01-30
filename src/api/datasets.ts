@@ -29,10 +29,7 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
 
 export function datasetsGetUrl(root: string, datasetId: string): string {
     const url = `${root}api/datasets/${datasetId}/display`;
-    if (window) {
-        return `${window.parent.location.origin}${url}`;
-    } else {
-        console.warn("window unavailable.");
-        return `${url}`;
-    }
+    const origin = window.location.origin || window.parent?.location.origin;
+    if (!origin) console.warn("window unavailable.");
+    return `${origin || ""}${url}`;
 }

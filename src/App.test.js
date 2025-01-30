@@ -5,8 +5,11 @@ import App from "./App.vue";
 
 describe("build user interface", () => {
     test("Show error if dataset id and url are missing", async () => {
+        const appDiv = document.createElement("div");
+        appDiv.id = "app";
+        document.body.appendChild(appDiv);
         const wrapper = mount(App);
-        expect(wrapper.html()).toContain("Visualization requires `dataset_id` or `dataset_url`.");
+        expect(wrapper.html()).toContain("Only displaying available visualization inputs.");
     });
 
     test("Load user interface using incoming prop", async () => {

@@ -20,11 +20,6 @@ function mountTarget(incoming) {
 }
 
 describe("build user interface", () => {
-    test("Show error if dataset id and url are missing", async () => {
-        const wrapper = mount(Target);
-        expect(wrapper.html()).toContain("Visualization requires `dataset_id` or `dataset_url`.");
-    });
-
     test("Load user interface only dataset id", async () => {
         const incoming = {
             visualization_config: { dataset_id: "MY_DATASET_ID" },

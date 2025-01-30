@@ -102,7 +102,7 @@ function postMessage() {
                     settings: toRaw(settingValues.value),
                     tracks: toRaw(trackValues.value),
                 },
-                source: "galaxy-charts",
+                from: "galaxy-charts",
             },
             "*",
         );

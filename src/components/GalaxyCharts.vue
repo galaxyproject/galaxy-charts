@@ -24,7 +24,6 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 
 // References with reactive types
 const collapsePanel = ref<boolean>(false);
-const datasetUrl = ref<string>("");
 const description = ref<string>("");
 const errorMessage = ref<string>("");
 const html = ref<string>("");
@@ -60,19 +59,20 @@ parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, 
     trackValues.value = tracks;
 });
 
-// Get visualization dataset ID (required)
-const datasetId = visualizationConfig.dataset_id || "";
-if (visualizationConfig.dataset_url) {
-    datasetUrl.value = visualizationConfig.dataset_url;
-    console.debug(`GalaxyCharts: Evaluating dataset url: ${datasetUrl.value}.`);
-} else {
-    if (!datasetId) {
-        errorMessage.value = "Visualization requires `dataset_id` or `dataset_url`.";
-    } else {
-        datasetUrl.value = datasetsGetUrl(root, datasetId);
-        console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetUrl.value}.`);
+// Get visualization dataset id
+const datasetId = computed(() => visualizationConfig.dataset_id || "");
+
+// Get visualization dataset url
+const datasetUrl = computed(() => {
+    if (visualizationConfig.dataset_url) {
+        console.debug(`GalaxyCharts: Evaluating dataset url: ${visualizationConfig.dataset_url}.`);
+        return visualizationConfig.dataset_url;
+    } else if (datasetId.value) {
+        console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetId.value}.`);
+        return datasetsGetUrl(root, datasetId.value);
     }
-}
+    return null;
+});
 
 // Determine logo URL
 const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
@@ -97,18 +97,23 @@ function postMessage() {
         window.postMessage(
             {
                 container: props.container,
-                content: {
-                    dataset_id: datasetId,
-                    settings: toRaw(settingValues.value),
-                    tracks: toRaw(trackValues.value),
-                },
+                content: JSON.parse(JSON.stringify(serialize())),
                 from: "galaxy-charts",
             },
             "*",
         );
     } catch (e) {
-        console.error(`Failed to postMessage: ${e}`);
+        errorMessage.value = `Failed to postMessage: ${e}`;
     }
+}
+
+// Serialize state
+function serialize() {
+    return {
+        dataset_id: datasetId.value,
+        settings: settingValues.value,
+        tracks: trackValues.value,
+    };
 }
 
 // Event handler for updating settings
@@ -137,32 +142,37 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 async function save(values: InputValuesType) {
     updateSettings({ ...settingValues.value, ...values });
     try {
-        const newVisualizationId = await visualizationsSave(name.value, visualizationId, visualizationTitle, {
-            dataset_id: datasetId,
-            settings: settingValues.value,
-            tracks: trackValues.value,
-        });
+        const newVisualizationId = await visualizationsSave(
+            name.value,
+            visualizationId,
+            visualizationTitle,
+            serialize(),
+        );
         if (newVisualizationId) {
             updateVisualizationId(newVisualizationId);
         }
     } catch (e) {
-        console.error(e);
+        errorMessage.value = `Failed to save: ${e}.`;
     }
 }
 </script>
 
 <template>
-    <n-alert v-if="errorMessage" title="Visualization Error!" type="error" class="m-2">
+    <n-alert v-if="errorMessage" type="error" class="m-2">
         {{ errorMessage }}
     </n-alert>
-    <div v-else-if="isLoading" class="m-2">
+    <n-alert v-if="!datasetUrl" type="info" class="m-2">
+        Only displaying available visualization inputs. Rendering requires `dataset_id` or `dataset_url`.
+    </n-alert>
+    <div v-if="isLoading" class="m-2">
         <span>
             <ArrowPathIcon class="animate-spin size-4 inline mx-1" />
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !collapsePanel && !hidePanel }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !collapsePanel && datasetUrl && !hidePanel }">
         <slot
+            v-if="datasetUrl"
             :dataset-id="datasetId"
             :dataset-url="datasetUrl"
             :root="root"
@@ -170,7 +180,7 @@ async function save(values: InputValuesType) {
             :specs="specValues"
             :tracks="trackValues"
             :save="save" />
-        <div v-if="collapsePanel && !hidePanel">
+        <div v-if="collapsePanel && datasetUrl && !hidePanel">
             <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
                 <n-icon><ChevronDoubleLeftIcon /></n-icon>
             </n-float-button>

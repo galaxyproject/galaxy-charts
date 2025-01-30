@@ -28,7 +28,7 @@ async function loadColumns(): Promise<void> {
             console.log(err);
         }
     } else {
-        console.log("Data column input disabled, since `datasetId` is unavailable.");
+        console.log("Data column selector disabled, since `datasetId` is unavailable.");
     }
 }
 

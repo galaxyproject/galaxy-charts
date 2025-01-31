@@ -17,6 +17,7 @@ import type { InputElementType, InputValuesType, MessageType } from "@/types";
 
 const props = defineProps<{
     datasetId: string;
+    datasetUrl: string;
     description: string;
     logoUrl: string;
     html: string;
@@ -100,8 +101,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <span>Charts</span>
                 <ApiStatus />
             </div>
-            <div v-if="datasetId">
-                <n-tooltip trigger="hover">
+            <div v-if="datasetUrl">
+                <n-tooltip trigger="hover" v-if="datasetId">
                     <template #trigger>
                         <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
                             <template #icon>

@@ -71,7 +71,7 @@ const datasetUrl = computed(() => {
         console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetId.value}.`);
         return datasetsGetUrl(root, datasetId.value);
     }
-    return null;
+    return "";
 });
 
 // Determine logo URL
@@ -197,6 +197,7 @@ async function save(values: InputValuesType) {
         <SidePanel
             v-else-if="!hidePanel"
             :dataset-id="datasetId"
+            :dataset-url="datasetUrl"
             :description="description"
             :html="html"
             :logo-url="logoUrl"

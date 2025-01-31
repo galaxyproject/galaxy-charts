@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import type { InputValuesType } from "galaxy-charts";
 import { useColumnsStore } from "galaxy-charts";
+import { NButton } from "naive-ui";
 
 const props = defineProps<{
     datasetId: string;
@@ -49,11 +50,11 @@ watch(
 
 <template>
     <div ref="viewport" class="h-screen p-4 overflow-auto">
-        <button @click="onSave">onSave</button>
-        <div class="bg-gray-600 text-white rounded-lg p-2">
-            <pre class="p-2">Settings: {{ settings }}</pre>
-            <pre class="p-2">Tracks: {{ tracks }}</pre>
-            <pre>{{ columnsList }}</pre>
+        <div class="bg-gray-600 text-white rounded p-2">
+            <pre class="p-2 whitespace-pre overflow-auto">Settings: {{ settings }}</pre>
+            <pre class="p-2 whitespace-pre overflow-auto">Tracks: {{ tracks }}</pre>
+            <pre class="p-2 whitespace-pre overflow-auto">{{ columnsList }}</pre>
         </div>
+        <n-button class="mt-2" type="primary" @click="onSave">Click to Save</n-button>
     </div>
 </template>

@@ -174,7 +174,7 @@ async function save(values: InputValuesType) {
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[70%_30%]': !collapsePanel && datasetUrl && !hidePanel }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && datasetUrl && !hidePanel }">
         <slot
             v-if="datasetUrl"
             :dataset-id="datasetId"

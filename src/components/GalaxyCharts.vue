@@ -23,7 +23,7 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 );
 
 // References with reactive types
-const collapsePanel = ref<boolean>(false);
+const collapsePanel = ref<boolean>(true);
 const description = ref<string>("");
 const errorMessage = ref<string>("");
 const html = ref<string>("");

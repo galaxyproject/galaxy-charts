@@ -6,7 +6,7 @@ import {
     CloudArrowUpIcon,
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
-import { NButton, NIcon, NInput, NTabs, NTabPane } from "naive-ui";
+import { NButton, NIcon, NInput, NTabs, NTabPane, NTooltip } from "naive-ui";
 import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/InputForm.vue";
@@ -101,16 +101,26 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <ApiStatus />
             </div>
             <div v-if="datasetId">
-                <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
-                    <template #icon>
-                        <n-icon><CloudArrowUpIcon /></n-icon>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
+                            <template #icon>
+                                <n-icon><CloudArrowUpIcon /></n-icon>
+                            </template>
+                        </n-button>
                     </template>
-                </n-button>
-                <n-button strong secondary circle class="bg-sky-100 m-1" @click="emit('toggle')">
-                    <template #icon>
-                        <n-icon><ChevronDoubleRightIcon /></n-icon>
+                    <span class="text-xs">Save</span>
+                </n-tooltip>
+                <n-tooltip trigger="hover">
+                    <template #trigger>
+                        <n-button strong secondary circle class="bg-sky-100 m-1" @click="emit('toggle')">
+                            <template #icon>
+                                <n-icon><ChevronDoubleRightIcon /></n-icon>
+                            </template>
+                        </n-button>
                     </template>
-                </n-button>
+                    <span class="text-xs">Collapse</span>
+                </n-tooltip>
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-4" />

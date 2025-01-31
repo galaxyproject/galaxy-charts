@@ -3,7 +3,7 @@ import { defineProps, computed, nextTick, ref, toRaw } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
-import { NAlert, NFloatButton, NIcon } from "naive-ui";
+import { NAlert, NButton, NIcon, NTooltip } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
@@ -97,8 +97,10 @@ function postMessage() {
         window.postMessage(
             {
                 container: props.container,
-                content: JSON.parse(JSON.stringify(serialize())),
                 from: "galaxy-visualization",
+                visualization_config: JSON.parse(JSON.stringify(serialize())),
+                visualization_id: currentVisualizationId.value,
+                visualization_title: currentVisualizationTitle.value,
             },
             "*",
         );
@@ -131,11 +133,13 @@ function updateTracks(newTracks: Array<InputValuesType>): void {
 // Event handler for updating visualization id
 function updateVisualizationId(newVisualizationId: string): void {
     currentVisualizationId.value = newVisualizationId;
+    postMessage();
 }
 
 // Event handler for updating title
 function updateVisualizationTitle(newVisualizationTitle: string): void {
     currentVisualizationTitle.value = newVisualizationTitle;
+    postMessage();
 }
 
 // Event handler for updating settings and saving visualization
@@ -144,15 +148,15 @@ async function save(values: InputValuesType) {
     try {
         const newVisualizationId = await visualizationsSave(
             name.value,
-            visualizationId,
-            visualizationTitle,
+            currentVisualizationId.value,
+            currentVisualizationTitle.value,
             serialize(),
         );
         if (newVisualizationId) {
             updateVisualizationId(newVisualizationId);
         }
     } catch (e) {
-        errorMessage.value = `Failed to save: ${e}.`;
+        errorMessage.value = `Failed to save: ${e}`;
     }
 }
 </script>
@@ -180,11 +184,16 @@ async function save(values: InputValuesType) {
             :specs="specValues"
             :tracks="trackValues"
             :save="save" />
-        <div v-if="collapsePanel && datasetUrl && !hidePanel">
-            <n-float-button strong secondary circle class="bg-sky-100 m-2" :top="0" :right="0" @click="onToggle">
-                <n-icon><ChevronDoubleLeftIcon /></n-icon>
-            </n-float-button>
-        </div>
+        <n-tooltip v-if="collapsePanel && datasetUrl && !hidePanel" trigger="hover">
+            <template #trigger>
+                <n-button strong secondary circle class="bg-sky-100 m-2 absolute right-0" @click="onToggle">
+                    <template #icon>
+                        <n-icon><ChevronDoubleLeftIcon /></n-icon>
+                    </template>
+                </n-button>
+            </template>
+            <span class="text-xs">Expand</span>
+        </n-tooltip>
         <SidePanel
             v-else-if="!hidePanel"
             :dataset-id="datasetId"

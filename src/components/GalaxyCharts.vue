@@ -174,7 +174,7 @@ async function save(values: InputValuesType) {
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && datasetUrl && !hidePanel }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetUrl }">
         <slot
             v-if="datasetUrl"
             :dataset-id="datasetId"
@@ -184,7 +184,7 @@ async function save(values: InputValuesType) {
             :specs="specValues"
             :tracks="trackValues"
             :save="save" />
-        <n-tooltip v-if="collapsePanel && datasetUrl && !hidePanel" trigger="hover">
+        <n-tooltip v-if="collapsePanel && !hidePanel && datasetUrl" trigger="hover">
             <template #trigger>
                 <n-button strong secondary circle class="bg-sky-100 m-3 absolute right-0" @click="onToggle">
                     <template #icon>
@@ -195,7 +195,7 @@ async function save(values: InputValuesType) {
             <span class="text-xs">Expand</span>
         </n-tooltip>
         <SidePanel
-            v-else-if="!hidePanel"
+            v-show="(!collapsePanel && !hidePanel) || !datasetUrl"
             :dataset-id="datasetId"
             :dataset-url="datasetUrl"
             :description="description"

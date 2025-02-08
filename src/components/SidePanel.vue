@@ -102,7 +102,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <ApiStatus />
             </div>
             <div v-if="datasetUrl">
-                <n-tooltip trigger="hover" v-if="datasetId">
+                <n-tooltip v-if="datasetId" trigger="hover" :to="false">
                     <template #trigger>
                         <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
                             <template #icon>
@@ -112,7 +112,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     </template>
                     <span class="text-xs">Save</span>
                 </n-tooltip>
-                <n-tooltip trigger="hover">
+                <n-tooltip trigger="hover" :to="false">
                     <template #trigger>
                         <n-button strong secondary circle class="bg-sky-100 m-1" @click="emit('toggle')">
                             <template #icon>

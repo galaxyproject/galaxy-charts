@@ -20,7 +20,7 @@ checkVersion();
 </script>
 
 <template>
-    <n-tooltip v-if="version" class="mx-1" trigger="hover">
+    <n-tooltip v-if="version" class="mx-1" trigger="hover" :to="false">
         <template #trigger>
             <n-icon class="mx-1">
                 <CheckCircleIcon class="text-green-600" />
@@ -28,7 +28,7 @@ checkVersion();
         </template>
         <span class="text-xs">Connected to Galaxy Version {{ version }}.</span>
     </n-tooltip>
-    <n-tooltip v-else class="mx-1" trigger="hover">
+    <n-tooltip v-else class="mx-1" trigger="hover" :to="false">
         <template #trigger>
             <n-icon class="mx-1">
                 <ExclamationCircleIcon class="text-red-600" />

@@ -175,15 +175,17 @@ async function save(values: InputValuesType) {
         <span class="text-xs">Please wait...</span>
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetUrl }">
-        <slot
-            v-if="datasetUrl"
-            :dataset-id="datasetId"
-            :dataset-url="datasetUrl"
-            :root="root"
-            :settings="settingValues"
-            :specs="specValues"
-            :tracks="trackValues"
-            :save="save" />
+        <div class="relative max-w-full overflow-hidden">
+            <slot
+                v-if="datasetUrl"
+                :dataset-id="datasetId"
+                :dataset-url="datasetUrl"
+                :root="root"
+                :settings="settingValues"
+                :specs="specValues"
+                :tracks="trackValues"
+                :save="save" />
+        </div>
         <n-tooltip v-if="collapsePanel && !hidePanel && datasetUrl" trigger="hover" :to="false">
             <template #trigger>
                 <n-button strong secondary circle class="bg-sky-100 m-3 absolute right-0" @click="onToggle">

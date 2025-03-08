@@ -175,7 +175,7 @@ async function save(values: InputValuesType) {
         <span class="text-xs">Please wait...</span>
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetUrl }">
-        <div class="relative max-w-full overflow-hidden">
+        <div class="relative max-w-full h-screen overflow-hidden">
             <slot
                 v-if="datasetUrl"
                 :dataset-id="datasetId"

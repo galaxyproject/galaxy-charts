@@ -49,7 +49,7 @@ watch(
 </script>
 
 <template>
-    <div ref="viewport" class="h-screen p-4 w-screen">
+    <div ref="viewport" class="h-screen p-4 w-screen overflow-auto">
         <div class="bg-gray-600 text-white rounded p-2">
             <pre class="p-2 whitespace-pre overflow-auto">Settings: {{ settings }}</pre>
             <pre class="p-2 whitespace-pre overflow-auto">Tracks: {{ tracks }}</pre>

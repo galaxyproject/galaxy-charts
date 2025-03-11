@@ -113,6 +113,7 @@ function postMessage() {
 function serialize() {
     return {
         dataset_id: datasetId.value,
+        dataset_url: datasetUrl.value,
         settings: settingValues.value,
         tracks: trackValues.value,
     };

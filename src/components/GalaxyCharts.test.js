@@ -30,7 +30,7 @@ describe("build user interface", () => {
         const elements = wrapper.findAll("pre");
         const values = ["MY_DATASET_ID", "/api/datasets/MY_DATASET_ID/display", "/", "{}", "{}", "[]"];
         values.forEach((x, index) => expect(elements[index].text()).toEqual(x));
-        expect(wrapper.html()).not.toContain('fill="#E30A17"');
+        expect(wrapper.html()).toContain('fill="#E30A17"');
     });
 
     test("Load user interface", async () => {
@@ -52,6 +52,6 @@ describe("build user interface", () => {
         const elements = wrapper.findAll("pre");
         const values = ["MY_DATASET_ID", "MY_DATASET_URL", "ROOT", "SETTINGS", "SPECS", "TRACKS"];
         values.forEach((x, index) => expect(elements[index].text()).toEqual(x));
-        expect(wrapper.html()).not.toContain('fill="#E30A17"');
+        expect(wrapper.html()).toContain('fill="#E30A17"');
     });
 });

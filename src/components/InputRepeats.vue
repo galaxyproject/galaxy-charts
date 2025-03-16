@@ -43,7 +43,7 @@ function onUpdate(index: number, values: InputValuesType): void {
 </script>
 
 <template>
-    <n-button size="tiny" type="primary" class="mb-2" @click="onAdd">
+    <n-button size="tiny" type="primary" @click="onAdd">
         <n-icon><PlusIcon /></n-icon>
         <span class="mx-1">Add New Track</span>
     </n-button>

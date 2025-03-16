@@ -96,15 +96,15 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 
 <template>
     <div class="overflow-auto select-none bg-white z-10">
-        <div class="flex p-2">
-            <div class="flex-1 font-thin text-lg p-1 p-2">
+        <div class="flex m-2">
+            <div class="flex-1 font-thin text-lg pt-1">
                 <span>Charts</span>
                 <ApiStatus />
             </div>
             <div v-if="datasetUrl">
-                <n-tooltip v-if="datasetId" trigger="hover" :to="false">
+                <n-tooltip v-if="!datasetId" trigger="hover" :to="false">
                     <template #trigger>
-                        <n-button strong secondary circle class="bg-sky-100 m-1" @click="onSave">
+                        <n-button strong secondary circle class="bg-sky-100 mr-2" @click="onSave">
                             <template #icon>
                                 <n-icon><CloudArrowUpIcon /></n-icon>
                             </template>
@@ -114,7 +114,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </n-tooltip>
                 <n-tooltip trigger="hover" :to="false">
                     <template #trigger>
-                        <n-button strong secondary circle class="bg-sky-100 m-1" @click="emit('toggle')">
+                        <n-button strong secondary circle class="bg-sky-100" @click="emit('toggle')">
                             <template #icon>
                                 <n-icon><ChevronDoubleRightIcon /></n-icon>
                             </template>
@@ -125,7 +125,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-2" />
-        <div class="m-2 mt-0 p-2 bg-sky-50 text-sky-900 rounded">
+        <div class="m-2 p-2 bg-sky-50 text-sky-900 rounded">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">
@@ -147,7 +147,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
             </div>
         </div>
-        <div class="px-2 pb-2">
+        <div class="m-2">
             <div class="font-bold">Title</div>
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />

@@ -185,7 +185,7 @@ async function save(values: InputValuesType) {
         </div>
         <n-tooltip v-if="collapsePanel && !hidePanel && datasetUrl" trigger="hover" :to="false">
             <template #trigger>
-                <n-button strong secondary circle class="bg-sky-100 m-3 absolute right-0" @click="onToggle">
+                <n-button strong secondary circle class="bg-sky-100 m-2 absolute right-0" @click="onToggle">
                     <template #icon>
                         <n-icon><ChevronDoubleLeftIcon /></n-icon>
                     </template>

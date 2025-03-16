@@ -50,9 +50,9 @@ watch(
 
 <template>
     <div class="overflow-auto select-none">
-        <div v-for="(input, inputIndex) in inputs" :key="inputIndex" class="pb-2">
-            <div class="font-bold pb-1">{{ input.label || input.name }}</div>
-            <div v-if="input.help" class="text-xs pb-1">{{ input.help }}</div>
+        <div v-for="(input, inputIndex) in inputs" :key="inputIndex" class="mb-2">
+            <div class="font-bold mb-1">{{ input.label || input.name }}</div>
+            <div v-if="input.help" class="text-xs mb-1">{{ input.help }}</div>
             <div>
                 <n-switch
                     v-if="input.type === 'boolean'"

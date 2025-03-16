@@ -96,12 +96,12 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 
 <template>
     <div class="overflow-auto select-none bg-white z-10">
-        <div class="flex m-2">
-            <div class="flex-1 font-thin text-lg pt-1">
+        <div v-if="datasetUrl" class="flex m-2">
+            <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
             </div>
-            <div v-if="datasetUrl">
+            <div>
                 <n-tooltip v-if="!datasetId" trigger="hover" :to="false">
                     <template #trigger>
                         <n-button strong secondary circle class="bg-sky-100 mr-2" @click="onSave">

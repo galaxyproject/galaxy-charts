@@ -166,9 +166,6 @@ async function save(values: InputValuesType) {
     <n-alert v-if="errorMessage" type="error" class="m-2">
         {{ errorMessage }}
     </n-alert>
-    <n-alert v-if="!datasetUrl" type="info" class="m-2">
-        Only displaying available visualization inputs. Rendering requires `dataset_id` or `dataset_url`.
-    </n-alert>
     <div v-if="isLoading" class="m-2">
         <span>
             <ArrowPathIcon class="animate-spin size-4 inline mx-1" />
@@ -176,9 +173,8 @@ async function save(values: InputValuesType) {
         <span class="text-xs">Please wait...</span>
     </div>
     <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetUrl }">
-        <div class="relative max-w-full h-screen overflow-hidden">
+        <div v-if="datasetUrl" class="relative max-w-full h-screen overflow-hidden">
             <slot
-                v-if="datasetUrl"
                 :dataset-id="datasetId"
                 :dataset-url="datasetUrl"
                 :root="root"

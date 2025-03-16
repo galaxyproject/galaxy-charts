@@ -124,8 +124,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </n-tooltip>
             </div>
         </div>
-        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-4" />
-        <div class="m-4 mt-0 p-2 bg-sky-50 text-sky-900 rounded">
+        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-2" />
+        <div class="m-2 mt-0 p-2 bg-sky-50 text-sky-900 rounded">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">
@@ -147,12 +147,12 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
             </div>
         </div>
-        <div class="px-4 pb-2">
+        <div class="px-2 pb-2">
             <div class="font-bold">Title</div>
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
         </div>
-        <n-tabs type="line" animated class="px-4" :tab-class="hideTabs ? '!hidden' : ''">
+        <n-tabs type="line" animated class="px-2" :tab-class="hideTabs ? '!hidden' : ''">
             <n-tab-pane v-if="trackInputs.length > 0" name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

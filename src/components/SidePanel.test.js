@@ -151,4 +151,22 @@ describe("SidePanel.vue", () => {
         await toggleButton.trigger("click");
         expect(wrapper.emitted("toggle")).toBeTruthy();
     });
+
+    test("handles API errors in 'visualizationsCreate'", async () => {
+        visualizationsCreate.mockRejectedValueOnce(new Error("Create API error"));
+        errorMessageAsString.mockReturnValue("Create Error Occurred");
+        await wrapper.setProps({ visualizationId: null });
+        await wrapper.vm.onSave();
+        expect(wrapper.vm.message).toBe("Create Error Occurred");
+        expect(wrapper.vm.messageType).toBe("error");
+    });
+
+    test("updates tab visibility when inputs change dynamically", async () => {
+        await wrapper.setProps({ settingInputs: [], trackInputs: [] });
+        expect(wrapper.findAllComponents(NTab).length).toBe(0);
+        await wrapper.setProps({ settingInputs: [{ name: "Setting1", type: "text" }] });
+        expect(wrapper.findAllComponents(NTab).length).toBe(1);
+        await wrapper.setProps({ trackInputs: [{ name: "Track1", type: "float" }] });
+        expect(wrapper.findAllComponents(NTab).length).toBe(2);
+    });
 });

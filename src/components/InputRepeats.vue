@@ -57,6 +57,7 @@ function onUpdate(index: number, values: InputValuesType): void {
             <div class="flex text-green-600 my-1">
                 <n-button
                     class="text-green-600 w-full"
+                    data-description="remove repeat block"
                     size="tiny"
                     round
                     :disabled="valuesArray.length <= 1"

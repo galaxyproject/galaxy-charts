@@ -1,7 +1,8 @@
-import { describe, test, expect, mount } from "vitest";
+import { describe, test, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-
 import App from "./App.vue";
+
+const LOGO = '[viewBox="0 0 100 100"]';
 
 describe("build user interface", () => {
     test("Show form if dataset id and url are missing", async () => {
@@ -11,7 +12,9 @@ describe("build user interface", () => {
         const wrapper = mount(App);
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
+        expect(wrapper.find(LOGO).exists()).toBeTruthy();
         expect(wrapper.html()).toContain("Specify a visualization title.");
+        expect(wrapper.html()).not.toContain("Settings: {}");
     });
 
     test("Load user interface using incoming prop", async () => {
@@ -19,11 +22,18 @@ describe("build user interface", () => {
             visualization_config: {
                 dataset_url: null,
                 dataset_id: "MY_DATASET_ID",
+                settings: {
+                    test_setting: "test_value",
+                },
+                tracks: [{ track_0: "track_0" }, { track_1: "track_1" }],
             },
         };
-        const wrapper = mount(App, { props: { incoming: incoming } });
+        const wrapper = mount(App, { props: { incoming } });
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
-        expect(wrapper.html()).toContain('fill="#E30A17"');
+        expect(wrapper.find(LOGO).exists()).toBeTruthy();
+        const pre = wrapper.findAll("pre");
+        expect(pre.at(0).text().replace(/\s+/g, "")).toBe('Settings:{"test_setting":"test_value"}');
+        expect(pre.at(1).text().replace(/\s+/g, "")).toBe('Tracks:[{"track_0":"track_0"},{"track_1":"track_1"}]');
     });
 });

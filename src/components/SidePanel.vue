@@ -14,6 +14,7 @@ import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
 import type { InputElementType, InputValuesType, MessageType } from "@/types";
+import ChartsLogo from "./ChartsLogo.vue";
 
 const props = defineProps<{
     datasetId: string;
@@ -130,15 +131,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <div class="flex justify-center center-items">
                     <div class="m-2">
                         <img v-if="props.logoUrl" :src="props.logoUrl" class="min-w-14 max-w-14 object-contain" />
-                        <svg
-                            v-else
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 100 100"
-                            class="size-14">
-                            <circle cx="50" cy="50" r="45" stroke="#E30A17" stroke-width="5" />
-                            <path d="M 50,5 A 45,45 0 0,1 95,50 L 50,50 Z" fill="#E30A17" />
-                        </svg>
+                        <ChartsLogo v-else />
                     </div>
                 </div>
                 <div class="overflow-hidden break-words p-1">

@@ -1,6 +1,7 @@
 import { describe, test, expect, mount } from "vitest";
 import { mount } from "@vue/test-utils";
 
+import ChartsLogo from "./ChartsLogo.vue";
 import Target from "./GalaxyCharts.vue";
 
 function mountTarget(incoming) {
@@ -39,19 +40,26 @@ describe("build user interface", () => {
             visualization_config: {
                 dataset_id: "MY_DATASET_ID",
                 dataset_url: "MY_DATASET_URL",
-                settings: "SETTINGS",
-                tracks: "TRACKS",
+                settings: { settings: "SETTINGS" },
+                tracks: [{ track: "TRACK" }, { track: "TRACK" }],
             },
             visualization_plugin: {
-                specs: "SPECS",
+                specs: { spec: "SPECS" },
             },
         };
         const wrapper = mountTarget(incoming);
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
         const elements = wrapper.findAll("pre");
-        const values = ["MY_DATASET_ID", "MY_DATASET_URL", "ROOT", "SETTINGS", "SPECS", "TRACKS"];
-        values.forEach((x, index) => expect(elements[index].text()).toEqual(x));
-        expect(wrapper.html()).toContain('fill="#E30A17"');
+        const values = [
+            "MY_DATASET_ID",
+            "MY_DATASET_URL",
+            "ROOT",
+            '{"settings":"SETTINGS"}',
+            '{"spec":"SPECS"}',
+            '[{"track":"TRACK"},{"track":"TRACK"}]',
+        ];
+        values.forEach((x, index) => expect(elements[index].text().replace(/\s+/g, "")).toEqual(x));
+        expect(wrapper.findComponent(ChartsLogo).exists()).toBeTruthy();
     });
 });

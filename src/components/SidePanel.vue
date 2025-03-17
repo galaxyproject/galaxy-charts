@@ -105,7 +105,13 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             <div>
                 <n-tooltip v-if="datasetId" trigger="hover" :to="false">
                     <template #trigger>
-                        <n-button strong secondary circle class="bg-sky-100 mr-2" @click="onSave">
+                        <n-button
+                            strong
+                            secondary
+                            circle
+                            class="bg-sky-100 mr-2"
+                            data-description="sidepanel save button"
+                            @click="onSave">
                             <template #icon>
                                 <n-icon><CloudArrowUpIcon /></n-icon>
                             </template>

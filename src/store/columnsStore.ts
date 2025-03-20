@@ -29,7 +29,7 @@ export function useColumnsStore() {
     }
 
     async function fetchColumns(datasetId: string, tracks: Track[], keys: string[]): Promise<Record<string, any>[]> {
-        if (checkColumns(tracks, keys)) {
+        if (keys.length > 0 && checkColumns(tracks, keys)) {
             columns.value[datasetId] = columns.value[datasetId] || {};
             const columnsAvailable = Object.keys(columns.value[datasetId]);
             const columnsList = getColumns(tracks, keys).filter((x) => !columnsAvailable.includes(x));
@@ -62,5 +62,6 @@ export function useColumnsStore() {
 
     return {
         fetchColumns,
+        getColumns,
     };
 }

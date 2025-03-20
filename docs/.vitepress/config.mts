@@ -11,8 +11,8 @@ export default defineConfig({
     logo: '/galaxy-charts.svg',
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'GitHub', link: 'https://github.com/galaxyproject/galaxy-charts'},
     ],
-
     sidebar: [
       {
         text: 'Introduction',

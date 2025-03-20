@@ -61,6 +61,7 @@ export function useColumnsStore() {
     }
 
     return {
+        checkColumns,
         fetchColumns,
         getColumns,
     };

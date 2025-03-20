@@ -14,53 +14,89 @@ describe("useColumnsStore", () => {
         store = useColumnsStore();
     });
 
-    it("should return a list of unique column names from tracks", () => {
-        const tracks = [{ x: "col1" }, { y: "col2" }];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual(["col1", "col2"]);
+    describe("checkColumns", () => {
+        it("should return true for valid tracks", () => {
+            const tracks = [{ x: "0", y: "1" }];
+            const keys = ["x", "y"];
+            expect(store.checkColumns(tracks, keys)).toBe(true);
+        });
+
+        it("should return false if a track is missing a key", () => {
+            const tracks = [{ x: "0" }];
+            const keys = ["x", "y"];
+            expect(store.checkColumns(tracks, keys)).toBe(false);
+        });
+
+        it("should return false if a key has an empty string", () => {
+            const tracks = [{ x: "0", y: "" }];
+            const keys = ["x", "y"];
+            expect(store.checkColumns(tracks, keys)).toBe(false);
+        });
+
+        it("should return false if a key is undefined", () => {
+            const tracks = [{ x: "0", y: undefined }];
+            const keys = ["x", "y"];
+            expect(store.checkColumns(tracks, keys)).toBe(false);
+        });
+
+        it("should return true for multiple valid tracks", () => {
+            const tracks = [
+                { x: "0", y: "1" },
+                { x: "2", y: "3" },
+            ];
+            const keys = ["x", "y"];
+            expect(store.checkColumns(tracks, keys)).toBe(true);
+        });
     });
 
-    it("should ignore duplicate column names", () => {
-        const tracks = [{ x: "col1" }, { y: "col1" }, { x: "col2" }];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual(["col1", "col2"]);
-    });
+    describe("getColumns", () => {
+        it("should return unique column names from tracks", () => {
+            const tracks = [
+                { x: "col1", y: "col2" },
+                { x: "col3", y: "col4" },
+            ];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual(["col1", "col2", "col3", "col4"]);
+        });
 
-    it("should ignore columns that match SPECIAL_KEYS", () => {
-        const tracks = [{ x: "auto" }, { y: "col1" }, { x: "col2" }];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual(["col1", "col2"]); // "auto" is filtered out
-    });
+        it("should ignore duplicate column names", () => {
+            const tracks = [
+                { x: "col1", y: "col2" },
+                { x: "col1", y: "col2" },
+            ];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual(["col1", "col2"]);
+        });
 
-    it("should return an empty array when tracks are empty", () => {
-        const tracks = [];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual([]);
-    });
+        it("should ignore columns that match SPECIAL_KEYS", () => {
+            const tracks = [{ x: "auto", y: "col1" }, { x: "col2" }];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual(["col1", "col2"]); // "auto" is filtered out
+        });
 
-    it("should return an empty array when no keys are provided", () => {
-        const tracks = [{ x: "col1" }, { y: "col2" }];
-        const keys = [];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual([]);
-    });
+        it("should return an empty array when tracks are empty", () => {
+            const tracks = [];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual([]);
+        });
 
-    it("should return an empty array when no valid columns exist", () => {
-        const tracks = [{ x: "auto" }, { y: "auto" }];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual([]);
-    });
+        it("should return an empty array when no keys are provided", () => {
+            const tracks = [{ x: "col1" }, { y: "col2" }];
+            const keys = [];
+            expect(store.getColumns(tracks, keys)).toEqual([]);
+        });
 
-    it("should handle cases where tracks contain undefined values", () => {
-        const tracks = [{ x: "col1" }, { x: "col2" }];
-        const keys = ["x", "y"];
-        const result = store.getColumns(tracks, keys);
-        expect(result).toEqual(["col1", "col2"]);
+        it("should return an empty array when no valid columns exist", () => {
+            const tracks = [{ x: "auto", y: "auto" }];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual([]);
+        });
+
+        it("should handle cases where tracks contain undefined values", () => {
+            const tracks = [{ x: "col1", y: undefined }, { x: "col2" }];
+            const keys = ["x", "y"];
+            expect(store.getColumns(tracks, keys)).toEqual(["col1", "col2"]);
+        });
     });
 
     it("should return formatted column data when all columns are available", async () => {

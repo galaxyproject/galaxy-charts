@@ -10,18 +10,22 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
 
     try {
         const { data } = await GalaxyApi().GET(`/api/datasets/${datasetId}?${params}`);
-        const columnLength = columnList.length;
-        const results: any[][] = new Array(columnLength).fill(null).map(() => []);
-        for (const row of data.data) {
-            for (const j in row) {
-                const index = Number(j);
-                const value = row[j];
-                if (value !== undefined && value != 2147483647 && index < columnLength) {
-                    results[index].push(value);
+        if (data.data && data.data.length > 0) {
+            const columnLength = columnList.length;
+            const results: any[][] = new Array(columnLength).fill(null).map(() => []);
+            for (const row of data.data) {
+                for (const j in row) {
+                    const index = Number(j);
+                    const value = row[j];
+                    if (value !== undefined && value != 2147483647 && index < columnLength) {
+                        results[index].push(value);
+                    }
                 }
             }
+            return results;
+        } else {
+            return [];
         }
-        return results;
     } catch (e) {
         rethrowSimple(e);
     }

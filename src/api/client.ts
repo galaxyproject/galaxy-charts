@@ -12,7 +12,6 @@ async function fetchApi(path: string, options: RequestInit): Promise<{ data: any
             headers: { "Content-Type": "application/json" },
             ...options,
         });
-
         if (response.ok) {
             const data = await response.json();
             return { data, response };
@@ -26,7 +25,10 @@ async function fetchApi(path: string, options: RequestInit): Promise<{ data: any
 
 function enqueueRequest<T>(fn: () => Promise<T>): Promise<T> {
     const result = queue.then(() => fn());
-    queue = result.then(() => undefined, () => undefined);
+    queue = result.then(
+        () => undefined,
+        () => undefined,
+    );
     return result;
 }
 
@@ -36,17 +38,21 @@ export function GalaxyApi() {
     }
 
     function POST(path: string, options: any): Promise<{ data: any; response: Response }> {
-        return enqueueRequest(() => fetchApi(path, {
-            body: JSON.stringify(options),
-            method: "POST",
-        }));
+        return enqueueRequest(() =>
+            fetchApi(path, {
+                body: JSON.stringify(options),
+                method: "POST",
+            }),
+        );
     }
 
     function PUT(path: string, options: any): Promise<{ data: any; response: Response }> {
-        return enqueueRequest(() => fetchApi(path, {
-            body: JSON.stringify(options),
-            method: "PUT",
-        }));
+        return enqueueRequest(() =>
+            fetchApi(path, {
+                body: JSON.stringify(options),
+                method: "PUT",
+            }),
+        );
     }
 
     return {

@@ -37,6 +37,14 @@ function onSave() {
     });
 }
 
+function onUpdate() {
+    emit("update", {
+        job_id: "xyz",
+        setting_boolean: true,
+        setting_conditional: { test_condition: "true", case_true: "set to new value" },
+    });
+}
+
 onMounted(() => {
     render();
 });
@@ -56,5 +64,6 @@ watch(
             <pre class="p-2 whitespace-pre overflow-auto">{{ columnsList }}</pre>
         </div>
         <n-button class="mt-2" type="primary" @click="onSave">Click to Save</n-button>
+        <n-button class="mx-2 mt-2" type="primary" @click="onUpdate">Click to Update</n-button>
     </div>
 </template>

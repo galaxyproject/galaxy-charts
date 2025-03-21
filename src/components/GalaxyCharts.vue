@@ -144,8 +144,8 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 }
 
 // Event handler for updating settings and saving visualization
-async function save(values: InputValuesType) {
-    updateSettings({ ...settingValues.value, ...values });
+async function save(settings: InputValuesType) {
+    update(settings);
     try {
         const newVisualizationId = await visualizationsSave(
             name.value,
@@ -159,6 +159,11 @@ async function save(values: InputValuesType) {
     } catch (e) {
         errorMessage.value = `Failed to save: ${e}`;
     }
+}
+
+// Event handler for updating settings
+function update(settings: InputValuesType) {
+    updateSettings({ ...settingValues.value, ...settings });
 }
 </script>
 
@@ -181,7 +186,8 @@ async function save(values: InputValuesType) {
                 :settings="settingValues"
                 :specs="specValues"
                 :tracks="trackValues"
-                :save="save" />
+                :save="save"
+                :update="update" />
         </div>
         <n-tooltip v-if="collapsePanel && !hidePanel && datasetUrl" trigger="hover" :to="false">
             <template #trigger>

@@ -1,6 +1,8 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { useConfigStore } from "@/store/configStore";
 
+let queue = Promise.resolve();
+
 async function fetchApi(path: string, options: RequestInit): Promise<{ data: any; response: Response }> {
     const configStore = useConfigStore();
     const routedPath = `${configStore.getRoot()}${path.substring(1)}`;
@@ -10,6 +12,7 @@ async function fetchApi(path: string, options: RequestInit): Promise<{ data: any
             headers: { "Content-Type": "application/json" },
             ...options,
         });
+
         if (response.ok) {
             const data = await response.json();
             return { data, response };
@@ -21,25 +24,29 @@ async function fetchApi(path: string, options: RequestInit): Promise<{ data: any
     }
 }
 
+function enqueueRequest<T>(fn: () => Promise<T>): Promise<T> {
+    const result = queue.then(() => fn());
+    queue = result.then(() => undefined, () => undefined);
+    return result;
+}
+
 export function GalaxyApi() {
-    async function GET(path: string): Promise<{ data: any; response: Response }> {
-        return fetchApi(path, {
-            method: "GET",
-        });
+    function GET(path: string): Promise<{ data: any; response: Response }> {
+        return enqueueRequest(() => fetchApi(path, { method: "GET" }));
     }
 
-    async function POST(path: string, options: any): Promise<{ data: any; response: Response }> {
-        return fetchApi(path, {
+    function POST(path: string, options: any): Promise<{ data: any; response: Response }> {
+        return enqueueRequest(() => fetchApi(path, {
             body: JSON.stringify(options),
             method: "POST",
-        });
+        }));
     }
 
-    async function PUT(path: string, options: any): Promise<{ data: any; response: Response }> {
-        return fetchApi(path, {
+    function PUT(path: string, options: any): Promise<{ data: any; response: Response }> {
+        return enqueueRequest(() => fetchApi(path, {
             body: JSON.stringify(options),
             method: "PUT",
-        });
+        }));
     }
 
     return {

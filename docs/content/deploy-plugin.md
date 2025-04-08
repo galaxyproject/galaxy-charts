@@ -26,5 +26,5 @@ To build and publish your package to `npm`, run the following commands from your
 
 ```bash
 npm run build
-npm publish
+npm publish --access public
 ```

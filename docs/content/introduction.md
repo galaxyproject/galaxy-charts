@@ -44,6 +44,11 @@ With Galaxy Charts, you can develop visualizations locally in Vue, taking advant
 
 In short, Galaxy Charts transforms and simplifies the process of developing and deploying visualizations on the Galaxy platform, offering an unparalleled experience for developers working in the Galaxy ecosystem.
 
-::: tip
+### Alternative JS-Agnostic Approach Without Built-In Form
 If your visualization does not require form rendering, or if you prefer not to use Vue, consider following the [lightweight Vite only approach](/content/xml-framework.html#building-a-vite-plugin-vanilla-vue-react-and-more). Both approaches utilize Vite as the underlying build tool. However, one includes a Vue component library for seamless form integration, while the other offers a more lightweight setup without Vue, giving you the flexibility to work with plain JavaScript or another framework of your choice.
-:::
+
+This option is ideal for:
+
+- Visualizations that don't require dynamic form inputs
+- Developers who prefer working with vanilla JS, React, or other frameworks
+- Simpler use cases where fast load times and minimal dependencies are key

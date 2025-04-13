@@ -1,6 +1,6 @@
 # Getting Started
 
-Follow these steps to start developing a new visualization for Galaxy.
+Follow these steps to start developing a new visualization for Galaxy using the standard Vue-based setup — or explore the [Vite-only, JS-agnostic alternative](/content/xml-framework.html#building-a-vite-plugin-vanilla-vue-react-and-more) if your visualization doesn't require the built-in Vue input form.
 
 ## 1. Set Up Your Repository
 

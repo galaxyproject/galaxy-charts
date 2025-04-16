@@ -150,9 +150,8 @@ if (import.meta.env.DEV) {
     const dataIncoming = {
         root: "/",
         visualization_config: {
-            dataset_id: "MY_DATASET_ID",
+            dataset_id: process.env.dataset_id,
             dataset_url: "MY_DATASET_URL",
-            settings: {},
         },
     };
 

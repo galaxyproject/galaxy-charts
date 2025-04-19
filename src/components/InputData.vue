@@ -28,9 +28,9 @@ const selectValue = ref<any | null>(null);
 async function loadDatasets(query?: string): Promise<void> {
     isLoading.value = true;
     try {
-        const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}` : "";
+        const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}&` : "";
         const nameFilter = query ? `q=name-contains&qv=${query}` : "";
-        const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}&${nameFilter}`);
+        const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}${nameFilter}`);
 
         if (data && data.length > 0) {
             const options = data.map((x: ValueType) => ({

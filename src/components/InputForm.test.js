@@ -160,4 +160,23 @@ describe("InputForm.vue", () => {
         expect(toBoolean).toHaveBeenCalledWith("true");
         expect(toBoolean).toHaveBeenCalledWith("false");
     });
+
+    test("emits 'update:values' when integer input changes", async () => {
+        await wrapper.setProps({
+            inputs: [...props.inputs, { name: "integerInput", type: "integer", min: 1, max: 10 }],
+            values: {
+                ...props.values,
+                integerInput: 5,
+            },
+        });
+        const inputNumbers = wrapper.findAllComponents(NInputNumber);
+        const integerInput = inputNumbers.at(-1);
+        const inputField = integerInput.find("input");
+        await inputField.setValue("7");
+        await inputField.trigger("change");
+        const emitted = wrapper.emitted("update:values");
+        expect(emitted).toBeTruthy();
+        const lastEmitted = emitted[emitted.length - 1][0];
+        expect(lastEmitted.integerInput).toBe(7);
+    });
 });

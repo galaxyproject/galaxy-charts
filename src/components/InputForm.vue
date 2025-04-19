@@ -84,21 +84,21 @@ watch(
                     :is-text="toBoolean(input.is_text)"
                     :is-number="toBoolean(input.is_number)"
                     @update:value="onUpdate()" />
-                <div v-else-if="input.type === 'float'">
+                <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider
                         v-if="input.min !== undefined && input.max !== undefined"
                         class="mb-2"
                         v-model:value="currentValues[input.name]"
                         :min="Number(input.min)"
                         :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE"
+                        :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
                         @update:value="onUpdate()" />
                     <n-input-number
                         v-model:value="currentValues[input.name]"
                         size="small"
                         :min="Number(input.min)"
                         :max="Number(input.max)"
-                        :step="NUMBER_STEP_SIZE"
+                        :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
                         @update:value="onUpdate()" />
                 </div>
                 <n-select

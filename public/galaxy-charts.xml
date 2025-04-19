@@ -28,6 +28,15 @@
             <type>data_column</type>
         </input>
         <input>
+            <label>My Integer Label</label>
+            <help>My Integer Help</help>
+            <name>my_integer_name</name>
+            <type>integer</type>
+            <value>1</value>
+            <min>0</min>
+            <max>100</max>
+        </input>
+        <input>
             <label>My Float Label</label>
             <help>My Float Help</help>
             <name>my_float_name</name>

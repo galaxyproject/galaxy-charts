@@ -19,7 +19,7 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
 // Format value according to input type
 function formatValue(input: InputElementType, inputValue: InputAtomicType): InputAtomicType {
     let value = inputValue ?? input.value;
-    if (input.type === "float") {
+    if (["float", "integer"].includes(input.type)) {
         value = Number(value);
     } else if (input.type === "boolean") {
         value = toBoolean(value);

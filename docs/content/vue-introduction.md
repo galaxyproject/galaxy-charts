@@ -24,7 +24,7 @@ The `GalaxyCharts` core component serves as a container for embedding JavaScript
 |----------|------|-------------|
 |**datasetId**| String | The ID of the main dataset to be visualized. Every visualization requires a primary dataset, although additional datasets can be added later if needed.|
 |**datasetUrl**| String | The URL of the dataset to be visualized. The entire dataset may be requested for visualization, or only parts/metadata may be retrieved via the Galaxy API.|
-|**root**| String | The proxy route to the Galaxy server (default is `/`).|
+|**root**| String | The route to the Galaxy server (default is `/`).|
 |**save**| Function | Call `save(settings = {})` to save settings. Applies changes by merging with current settings.|
 |**settings**| Dictionary | Configuration settings specific to the visualization, as declared in the XML wrapper.|
 |**specs**| Dictionary | Static specification values defined in the XML wrapper.|

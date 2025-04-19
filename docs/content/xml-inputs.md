@@ -110,7 +110,7 @@ Translates to:
     <name>my_float_name</name>
     <type>float</type>
     <min>0</min>
-    <max>100</max>
+    <max>10</max>
 </input>
 ```
 
@@ -147,9 +147,33 @@ Translates to:
     <name>my_integer_name</name>
     <type>integer</type>
     <min>0</min>
-    <max>100</max>
+    <max>10</max>
 </input>
 ```
+
+Translates to:
+
+<ClientOnly>
+    <div class="rounded border p-4">
+        <div class="font-bold pb-1">My Integer Label</div>
+        <div class="text-xs pb-1">My Integer Help</div>
+        <n-slider
+            class="mb-2"
+            v-model:value="integerInput"
+            :min="0"
+            :max="10"
+            :step="1" />
+        <n-input-number
+            v-model:value="integerInput"
+            size="small"
+            :min="0"
+            :max="10"
+            :step="1" />
+    </div>
+</ClientOnly>
+
+`my_integer_name`
+<span class="font-thin"> = {{ integerInput }}</span>
 
 ## Select Input
     
@@ -219,8 +243,9 @@ const { NSwitch, NColorPicker, NSelect, NSlider, NInputNumber, NInput } = naiveu
 import { ref } from "vue";
 const booleanInput = ref(true);
 const colorInput = ref("#0284c7");
-const floatInput = ref(1);
 const dataInput = ref("dataset_id_a");
+const floatInput = ref(1);
+const integerInput = ref(1);
 const textInput = ref("My Text");
 const selectInput = ref("my_option_a");
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits } from "vue";
+import { ref, watch, defineEmits } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";

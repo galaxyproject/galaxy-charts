@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
-import { computed, ref, watch, defineProps, defineEmits, defineModel } from "vue";
+import { computed, ref, watch, defineEmits, defineModel } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
 import { InputElementType, InputValuesType } from "@/types";
 

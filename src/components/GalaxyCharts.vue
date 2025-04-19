@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, computed, nextTick, ref, toRaw } from "vue";
+import { computed, nextTick, ref } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";

@@ -2,7 +2,7 @@
 import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
-import { computed, defineProps, defineEmits } from "vue";
+import { computed, defineEmits } from "vue";
 import { parseDefaults } from "@/utilities/parseDefaults";
 import { InputElementType, InputValuesType } from "@/types";
 

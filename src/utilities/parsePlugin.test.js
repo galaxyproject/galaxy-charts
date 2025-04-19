@@ -97,4 +97,13 @@ describe("parsePlugin function", () => {
         expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Test parameter has no name"));
         consoleSpy.mockRestore();
     });
+
+    test("Formats integer values correctly", async () => {
+        const testPlugin = {
+            settings: [{ name: "maxItems", type: "integer", value: "10" }],
+            tracks: [],
+        };
+        const result = await parsePlugin(testPlugin, {});
+        expect(result.settings).toEqual({ maxItems: 10 });
+    });
 });

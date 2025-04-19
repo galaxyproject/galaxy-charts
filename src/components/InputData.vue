@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps, defineModel } from "vue";
+import { ref, defineModel } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";

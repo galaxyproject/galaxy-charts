@@ -2,7 +2,7 @@
 import { ref, defineModel } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
-import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/vue/24/outline";
+import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
 
 const LIMIT = 100;
 
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 // Define the model
 const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
-const currentValue = defineModel<{ name: string } | null>("value");
+const currentValue = defineModel<ValueType | null>("value");
 const isLoading = ref(false);
 const selectValue = ref<any | null>(null);
 
@@ -31,7 +31,6 @@ async function loadDatasets(query?: string): Promise<void> {
         const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}&` : "";
         const nameFilter = query ? `q=name-contains&qv=${query}` : "";
         const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}${nameFilter}`);
-
         if (data && data.length > 0) {
             const options = data.map((x: ValueType) => ({
                 label: x.name,
@@ -42,6 +41,9 @@ async function loadDatasets(query?: string): Promise<void> {
                 options.unshift({ label: "-- Clear Selection --", value: null });
             }
             currentOptions.value = options;
+            if (currentValue.value) {
+                selectValue.value = currentValue.value.name;
+            }
         }
     } catch (err) {
         console.log(err);
@@ -53,7 +55,6 @@ async function loadDatasets(query?: string): Promise<void> {
 // Update the current selection value
 function onUpdate(): void {
     currentValue.value = selectValue.value;
-    selectValue.value = null;
 }
 
 // Load initial datasets when the component is mounted
@@ -61,11 +62,7 @@ loadDatasets();
 </script>
 
 <template>
-    <div v-if="currentValue" class="mb-1">
-        <n-icon class="size-3 mr-1"><CheckCircleIcon /></n-icon>
-        <span>Selected: {{ currentValue.name }}</span>
-    </div>
-    <div v-else-if="!optional" class="text-red-600 mb-1">
+    <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
         <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
         <span>Please select a dataset.</span>
     </div>

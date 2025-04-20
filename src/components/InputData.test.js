@@ -19,21 +19,20 @@ vi.mock("@/api/client", () => ({
 describe("InputData.vue", () => {
     let wrapper;
 
-    const mountComponent = (props = {}) => {
-        wrapper = mount(InputData, {
+    const mountComponent = (props = {}) =>
+        mount(InputData, {
             props: {
                 optional: false,
                 ...props,
             },
         });
-    };
 
     afterEach(() => {
         vi.clearAllMocks();
     });
 
     test("loads datasets on mount", async () => {
-        mountComponent();
+        const wrapper = mountComponent();
         await flushPromises();
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
@@ -43,7 +42,7 @@ describe("InputData.vue", () => {
     });
 
     test("adds clear option if optional", async () => {
-        mountComponent({ optional: true });
+        const wrapper = mountComponent({ optional: true });
         await flushPromises();
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
@@ -51,7 +50,7 @@ describe("InputData.vue", () => {
     });
 
     test("applies extension filter", async () => {
-        mountComponent({ extension: "bed" });
+        const wrapper = mountComponent({ extension: "bed" });
         await flushPromises();
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalled();
@@ -61,21 +60,24 @@ describe("InputData.vue", () => {
     });
 
     test("shows selected dataset name", async () => {
-        mountComponent();
-        wrapper.vm.currentValue = { id: "1", name: "dataset1.csv" };
+        const wrapper = mountComponent({
+            value: { id: "1", name: "dataset1.csv" },
+        });
         await wrapper.vm.$nextTick();
-        expect(wrapper.html()).toContain("Selected: dataset1.csv");
+        expect(wrapper.vm.selectValue).toBe("dataset1.csv");
+        await wrapper.setProps({ value: { id: "100", name: "dataset100.csv" } });
+        expect(wrapper.vm.selectValue).toBe("dataset100.csv");
     });
 
     test("shows warning if not optional and no selection", async () => {
-        mountComponent({ optional: false });
+        const wrapper = mountComponent({ optional: false });
         wrapper.vm.currentValue = null;
         await wrapper.vm.$nextTick();
         expect(wrapper.html()).toContain("Please select a dataset");
     });
 
     test("emits update on selection", async () => {
-        mountComponent();
+        const wrapper = mountComponent();
         await flushPromises();
         wrapper.vm.selectValue = { id: "1", name: "dataset1.csv" };
         wrapper.vm.onUpdate();

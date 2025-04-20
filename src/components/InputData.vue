@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineModel } from "vue";
+import { ref, defineModel, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
 import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
@@ -41,9 +41,6 @@ async function loadDatasets(query?: string): Promise<void> {
                 options.unshift({ label: "-- Clear Selection --", value: null });
             }
             currentOptions.value = options;
-            if (currentValue.value) {
-                selectValue.value = currentValue.value.name;
-            }
         }
     } catch (err) {
         console.log(err);
@@ -59,6 +56,15 @@ function onUpdate(): void {
 
 // Load initial datasets when the component is mounted
 loadDatasets();
+
+// Add watcher
+watch(
+    () => currentValue.value,
+    () => {
+        selectValue.value = currentValue.value?.name;
+    },
+    { immediate: true },
+);
 </script>
 
 <template>

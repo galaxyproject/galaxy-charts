@@ -76,8 +76,8 @@ Translates to:
 <span class="font-thin"> = {{ colorInput }}</span>
 
 ## Data Input
-    
-Using a `data` input field you can allow users to select a dataset from Galaxy:
+
+You can use a `data` input field to let users select a dataset from Galaxy, with optional filtering by file extension like `bed` or `tabular`. See the [list of supported datatypes](/content/xml-datasources) for details.
 
 ```xml
 <input>
@@ -85,6 +85,7 @@ Using a `data` input field you can allow users to select a dataset from Galaxy:
     <help>My Data Help</help>
     <name>my_data_name</name>
     <type>data</type>
+    <extension>my_data_extension</extension>
 </input>
 ```
 

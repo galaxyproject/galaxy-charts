@@ -12,10 +12,11 @@ export function parseIncoming(incoming?: PluginIncomingType, container = "app"):
     // Access attached data
     if (incoming === undefined) {
         const element = document.getElementById(container);
-        if (!element) {
+        if (element) {
+            incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
+        } else {
             throw new Error(`Container element '${container}' not found.`);
         }
-        incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
     }
 
     // Parse incoming data

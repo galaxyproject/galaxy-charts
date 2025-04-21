@@ -1,0 +1,271 @@
+<macros>
+    <xml name="inputs">
+        <input>
+            <label>My Boolean Label</label>
+            <help>My Boolean Help</help>
+            <name>my_boolean_name</name>
+            <type>boolean</type>
+        </input>
+        <input>
+            <label>My Color Label</label>
+            <help>My Color Help</help>
+            <name>my_color_name</name>
+            <type>color</type>
+        </input>
+        <input>
+            <label>My Data Label</label>
+            <help>My Data Help</help>
+            <name>my_data_name</name>
+            <type>data</type>
+            <extension>my_data_extension</extension>
+        </input>
+        <input>
+            <label>My Float Label</label>
+            <help>My Float Help</help>
+            <name>my_float_name</name>
+            <type>float</type>
+            <value>0</value>
+            <min>0</min>
+            <max>10</max>
+        </input>
+        <input>
+            <label>My Integer Label</label>
+            <help>My Integer Help</help>
+            <name>my_integer_name</name>
+            <type>integer</type>
+            <value>0</value>
+            <min>0</min>
+            <max>10</max>
+        </input>
+        <input>
+            <label>My Select Label</label>
+            <help>My Select Help</help>
+            <name>my_select_name</name>
+            <type>select</type>
+            <value>my_option_a</value>
+            <data>
+                <data>
+                    <label>My Option A Label</label>
+                    <value>my_option_a</value>
+                </data>
+                <data>
+                    <label>My Option B Label</label>
+                    <value>my_option_b</value>
+                </data>
+            </data>
+        </input>
+        <input>
+            <label>My Text Label</label>
+            <help>My Text Help</help>
+            <name>my_text_name</name>
+            <type>text</type>
+        </input>
+        <input>
+            <label>My Text Area Label</label>
+            <help>My Text Area Help</help>
+            <name>my_textarea_name</name>
+            <type>textarea</type>
+        </input>
+        <input>
+            <label>My Conditional Input</label>
+            <help>My Conditional Help</help>
+            <name>my_conditional_0</name>
+            <type>conditional</type>
+            <test_param>
+                <name>my_condition</name>
+                <type>boolean</type>
+                <value>false</value>
+                <data>
+                    <data>
+                        <value>true</value>
+                        <label>My Condition: True</label>
+                    </data>
+                    <data>
+                        <value>false</value>
+                        <label>My Condition: False</label>
+                    </data>
+                </data>
+            </test_param>
+            <cases>
+                <cases>
+                    <value>true</value>
+                    <inputs>
+                        <inputs>
+                            <label>My Case True: Input</label>
+                            <name>my_case_true</name>
+                            <type>textarea</type>
+                            <value>my value</value>
+                        </inputs>
+                    </inputs>
+                </cases>
+                <cases>
+                    <value>false</value>
+                    <inputs>
+                        <inputs>
+                            <label>My Case False: Input</label>
+                            <name>my_case_false</name>
+                            <type>textarea</type>
+                            <value>my value</value>
+                        </inputs>
+                        <inputs>
+                            <label>My Conditional Input</label>
+                            <help>My Conditional Help</help>
+                            <name>my_conditional_1</name>
+                            <type>conditional</type>
+                            <test_param>
+                                <name>my_condition</name>
+                                <type>boolean</type>
+                                <value>false</value>
+                                <data>
+                                    <data>
+                                        <value>true</value>
+                                        <label>My Condition: True</label>
+                                    </data>
+                                    <data>
+                                        <value>false</value>
+                                        <label>My Condition: False</label>
+                                    </data>
+                                </data>
+                            </test_param>
+                            <cases>
+                                <cases>
+                                    <value>true</value>
+                                    <inputs>
+                                        <inputs>
+                                            <label>My Case True: Input</label>
+                                            <name>my_case_true</name>
+                                            <type>textarea</type>
+                                            <value>my value</value>
+                                        </inputs>
+                                    </inputs>
+                                </cases>
+                                <cases>
+                                    <value>false</value>
+                                    <inputs>
+                                        <inputs>
+                                            <label>My Case False: Input</label>
+                                            <name>my_case_false</name>
+                                            <type>textarea</type>
+                                            <value>my value</value>
+                                        </inputs>
+                                        <inputs>
+                                            <label>My Conditional Input</label>
+                                            <help>My Conditional Help</help>
+                                            <name>my_conditional_2</name>
+                                            <type>conditional</type>
+                                            <test_param>
+                                                <name>my_condition</name>
+                                                <type>boolean</type>
+                                                <value>false</value>
+                                                <data>
+                                                    <data>
+                                                        <value>true</value>
+                                                        <label>My Condition: True</label>
+                                                    </data>
+                                                    <data>
+                                                        <value>false</value>
+                                                        <label>My Condition: False</label>
+                                                    </data>
+                                                </data>
+                                            </test_param>
+                                            <cases>
+                                                <cases>
+                                                    <value>true</value>
+                                                    <inputs>
+                                                        <inputs>
+                                                            <label>My Case True: Input</label>
+                                                            <name>my_case_true</name>
+                                                            <type>textarea</type>
+                                                            <value>my value</value>
+                                                        </inputs>
+                                                    </inputs>
+                                                </cases>
+                                                <cases>
+                                                    <value>false</value>
+                                                    <inputs>
+                                                        <inputs>
+                                                            <label>My Case False: Input</label>
+                                                            <name>my_case_false</name>
+                                                            <type>textarea</type>
+                                                            <value>my value</value>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Boolean Label</label>
+                                                            <help>My Boolean Help</help>
+                                                            <name>my_boolean_name</name>
+                                                            <type>boolean</type>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Color Label</label>
+                                                            <help>My Color Help</help>
+                                                            <name>my_color_name</name>
+                                                            <type>color</type>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Data Label</label>
+                                                            <help>My Data Help</help>
+                                                            <name>my_data_name</name>
+                                                            <type>data</type>
+                                                            <extension>my_data_extension</extension>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Float Label</label>
+                                                            <help>My Float Help</help>
+                                                            <name>my_float_name</name>
+                                                            <type>float</type>
+                                                            <value>0</value>
+                                                            <min>0</min>
+                                                            <max>10</max>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Integer Label</label>
+                                                            <help>My Integer Help</help>
+                                                            <name>my_integer_name</name>
+                                                            <type>integer</type>
+                                                            <value>0</value>
+                                                            <min>0</min>
+                                                            <max>10</max>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Select Label</label>
+                                                            <help>My Select Help</help>
+                                                            <name>my_select_name</name>
+                                                            <type>select</type>
+                                                            <value>my_option_a</value>
+                                                            <data>
+                                                                <data>
+                                                                    <label>My Option A Label</label>
+                                                                    <value>my_option_a</value>
+                                                                </data>
+                                                                <data>
+                                                                    <label>My Option B Label</label>
+                                                                    <value>my_option_b</value>
+                                                                </data>
+                                                            </data>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Text Label</label>
+                                                            <help>My Text Help</help>
+                                                            <name>my_text_name</name>
+                                                            <type>text</type>
+                                                        </inputs>
+                                                        <inputs>
+                                                            <label>My Text Area Label</label>
+                                                            <help>My Text Area Help</help>
+                                                            <name>my_textarea_name</name>
+                                                            <type>textarea</type>
+                                                        </inputs>
+                                                    </inputs>
+                                                </cases>
+                                            </cases>
+                                        </inputs>
+                                    </inputs>
+                                </cases>
+                            </cases>
+                        </inputs>
+                    </inputs>
+                </cases>
+            </cases>
+        </input>
+    </xml>
+</macros>

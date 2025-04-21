@@ -12,8 +12,8 @@ async function main() {
             dataset_id: process.env.dataset_id,
             // Placeholder for additional visualization settings
             settings: {
-                setting_text: "My Test Setting",
-                setting_boolean: true,
+                my_text_name: "My Test Setting",
+                my_boolean_name: true,
                 setting_conditional: {
                     case_false: "something else",
                     test_condition: "false",

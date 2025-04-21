@@ -1,6 +1,6 @@
 # Inputs
 
-You can specify input elements within the `settings` and `tracks` sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports the following input types: `boolean`, `color`, `data`, `float`, `integer`, `select`, and `text`.
+You can specify input elements within the `settings` and `tracks` sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports the following input types: `boolean`, `color`, `data`, `float`, `integer`, `select`, `text` and `textarea`.
 
 Below is a template for a generic input element. It includes attributes such as `label`, `help`, `name`, and `type`, along with an optional `data` array used for `select` inputs:
 
@@ -9,7 +9,7 @@ Below is a template for a generic input element. It includes attributes such as 
     <label>My Input Label</label>
     <help>My Input Help</help>
     <name>my_input_name</name>
-    <type>boolean | color | float | integer | select | text</type>
+    <type>boolean | color | float | integer | select | text | textarea</type>
     <data>
         <data>
             <label>My Option 1 Label</label>
@@ -214,7 +214,7 @@ Translates to:
 
 ## Text Input
 
-Last but not least, `text` inputs can be declared.
+You may also declare `text` inputs.
 
 ```xml
 <input>
@@ -238,6 +238,32 @@ Translates to:
 `my_text_name`
 <span class="font-thin"> = {{ textInput }}</span>
 
+## Text Area Input
+
+Last but not least, `textarea` inputs can be declared.
+
+```xml
+<input>
+    <label>My Text Area Label</label>
+    <help>My Text Area Help</help>
+    <name>my_textarea_name</name>
+    <type>textarea</type>
+</input>
+```
+
+Translates to:
+
+<ClientOnly>
+    <div class="rounded border p-4">
+        <div class="font-bold pb-1">My Text Area Label</div>
+        <div class="text-xs pb-1">My Text Area Help</div>
+        <n-input type="textarea" v-model:value="textareaInput" />
+    </div>
+</ClientOnly>
+
+`my_textarea_name`
+<span class="font-thin"> = {{ textareaInput }}</span>
+
 <script setup>
 import * as naiveui from 'naive-ui';
 const { NSwitch, NColorPicker, NSelect, NSlider, NInputNumber, NInput } = naiveui;
@@ -247,6 +273,7 @@ const colorInput = ref("#0284c7");
 const dataInput = ref("dataset_id_a");
 const floatInput = ref(1);
 const integerInput = ref(1);
+const textareaInput = ref("My Text Area");
 const textInput = ref("My Text");
 const selectInput = ref("my_option_a");
 

@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { ref, defineModel, watch } from "vue";
+import { ref, defineModel, watch, h } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
-import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
+import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
 
 const LIMIT = 100;
 
-// Value type
+type OptionType = {
+    label: string;
+    value: ValueType;
+};
+
 type ValueType = {
     id: string;
     name: string;
 };
 
-// Define props with TypeScript
 const props = defineProps<{
     extension?: string;
     optional: boolean;
 }>();
 
-// Define the model
 const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const isLoading = ref(false);
@@ -54,10 +56,36 @@ function onUpdate(): void {
     currentValue.value = selectValue.value;
 }
 
-// Load initial datasets when the component is mounted
-loadDatasets();
+function renderLabel(option: OptionType) {
+    return h(
+        "div",
+        {
+            class: "my-1 whitespace-normal break-all",
+        },
+        [
+            h(
+                NIcon,
+                { class: "size-3 mr-1" },
+                {
+                    default: () => h(PlusIcon),
+                },
+            ),
+            option.label,
+        ],
+    );
+}
 
-// Add watcher
+function renderTag({ option }: { option: Record<string, any> }) {
+    return h(
+        "div",
+        {
+            class: "z-[1] whitespace-nowrap text-ellipsis overflow-hidden",
+        },
+        option.label,
+    );
+}
+
+// Sync selectValue (string) with currentValue
 watch(
     () => currentValue.value,
     () => {
@@ -65,6 +93,9 @@ watch(
     },
     { immediate: true },
 );
+
+// Initial load
+loadDatasets();
 </script>
 
 <template>
@@ -77,6 +108,8 @@ watch(
         filterable
         placeholder="Select a Dataset"
         :loading="isLoading"
+        :render-label="renderLabel"
+        :render-tag="renderTag"
         :options="currentOptions"
         @search="loadDatasets"
         @update:value="onUpdate" />

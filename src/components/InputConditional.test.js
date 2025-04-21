@@ -79,66 +79,66 @@ describe("InputConditional Component", () => {
             props: {
                 datasetId,
                 input: {
-                    name: "conditional_1",
+                    name: "conditional_0",
                     type: "conditional",
                     test_param: {
-                        name: "conditional_1_test",
+                        name: "conditional_0",
                         type: "string",
-                        value: "a",
+                        value: "a_0",
                         data: [
-                            { label: "Option A", value: "a" },
-                            { label: "Option B", value: "b" },
+                            { label: "Condition A", value: "a_0" },
+                            { label: "Condition B", value: "b_0" },
                         ],
                     },
                     cases: [
                         {
-                            value: "a",
+                            value: "a_0",
                             inputs: [
                                 {
-                                    name: "conditional_2",
+                                    name: "conditional_1",
                                     type: "conditional",
                                     test_param: {
-                                        name: "conditional_2_test",
+                                        name: "condition_1",
                                         type: "string",
-                                        value: "low",
+                                        value: "a_1",
                                         data: [
-                                            { label: "Low", value: "low" },
-                                            { label: "High", value: "high" },
+                                            { label: "Condition A", value: "a_1" },
+                                            { label: "Condition B", value: "b_1" },
                                         ],
                                     },
                                     cases: [
                                         {
-                                            value: "low",
+                                            value: "a_1",
                                             inputs: [
-                                                { name: "level_1", type: "float", value: "1.0" },
+                                                { name: "float_a_1", type: "float", value: "1.0" },
                                                 {
-                                                    name: "conditional_3",
+                                                    name: "conditional_2",
                                                     type: "conditional",
                                                     test_param: {
-                                                        name: "conditional_3_test",
+                                                        name: "condition_2",
                                                         type: "string",
-                                                        value: "low",
+                                                        value: "a_2",
                                                         data: [
-                                                            { label: "Low", value: "low" },
-                                                            { label: "High", value: "high" },
+                                                            { label: "Condition A", value: "a_2" },
+                                                            { label: "Condition B", value: "b_2" },
                                                         ],
                                                     },
                                                     cases: [
                                                         {
-                                                            value: "low",
-                                                            inputs: [{ name: "level_2", type: "float", value: "2.0" }],
+                                                            value: "a_2",
+                                                            inputs: [{ name: "float_a_2", type: "float", value: "2.0" }],
                                                         },
                                                         {
-                                                            value: "high",
-                                                            inputs: [{ name: "level_2", type: "float", value: "20.0" }],
+                                                            value: "b_2",
+                                                            inputs: [{ name: "float_b_2", type: "float", value: "20.0" }],
                                                         },
                                                     ],
                                                 },
                                             ],
                                         },
                                         {
-                                            value: "high",
-                                            inputs: [{ name: "level", type: "float", value: "10.0" }],
+                                            value: "b_1",
+                                            inputs: [{ name: "float_b_1", type: "float", value: "10.0" }],
                                         },
                                     ],
                                 },
@@ -146,7 +146,7 @@ describe("InputConditional Component", () => {
                         },
                         {
                             value: "b",
-                            inputs: [{ name: "speed", type: "float", value: "5.0" }],
+                            inputs: [{ name: "float_b_0", type: "float", value: "5.0" }],
                         },
                     ],
                 },
@@ -157,21 +157,23 @@ describe("InputConditional Component", () => {
         const emitted = wrapper.emitted("update:value");
         expect(emitted).toBeTruthy();
         const lastEmitted = emitted[emitted.length - 1][0];
-        expect(lastEmitted).toEqual({ speed: 5, conditional_1_test: "b" });
+        expect(lastEmitted).toEqual({ float_b_0: 5, conditional_0: "b" });
 
-        wrapper.findComponent(NSelect).vm.$emit("update:value", "a");
+        wrapper.findComponent(NSelect).vm.$emit("update:value", "a_0");
         await wrapper.vm.$nextTick();
         const emittedA = wrapper.emitted("update:value");
         expect(emittedA).toBeTruthy();
         const lastEmittedA = emitted[emitted.length - 1][0];
-        console.log(lastEmittedA);
         expect(lastEmittedA).toEqual({
-            conditional_2: {
-                conditional_2_test: "low",
-                level_1: 1,
-                conditional_3: { conditional_3_test: "low", level_2: 2 },
+            conditional_1: {
+                condition_1: "a_1",
+                conditional_2: {
+                    float_a_2: 2,
+                    condition_2: "a_2",
+                },
+                float_a_1: 1,
             },
-            conditional_1_test: "a",
+            conditional_0: "a_0",
         });
     });
 });

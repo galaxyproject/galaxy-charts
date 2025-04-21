@@ -264,6 +264,60 @@ Translates to:
 `my_textarea_name`
 <span class="font-thin"> = {{ textareaInput }}</span>
 
+# Conditional Input
+
+In addition to the atomic inputs described above, you may also define conditional inputs. A conditional input includes a `test_param`, which determines which case-specific `inputs` are displayed. The `test_param` can be of type `boolean` (for two cases) or `select` (for multiple cases). Based on the selected value, the corresponding set of `inputs` defined in the `cases` section will be shown.
+
+```xml
+<input>
+    <label>My Conditional Input</label>
+    <help>My Conditional Help</help>
+    <name>my_conditional</name>
+    <type>conditional</type>
+    <test_param>
+        <name>my_condition</name>
+        <type>boolean</type>
+        <value>true</value>
+        <data>
+            <data>
+                <label>My Condition: True</label>
+                <value>true</value>
+            </data>
+            <data>
+                <label>My Condition: False</label>
+                <value>false</value>
+            </data>
+        </data>
+    </test_param>
+    <cases>
+        <cases>
+            <value>true</value>
+            <inputs>
+                <inputs>
+                    <label>My Text Area Label</label>
+                    <help>My Text Area Help</help>
+                    <name>my_textarea_name</name>
+                    <type>textarea</type>
+                </inputs>
+                ...
+            </inputs>
+        </cases>
+        <cases>
+            <value>false</value>
+            <inputs>
+                <inputs>
+                    <label>My Text Area Label</label>
+                    <help>My Text Area Help</help>
+                    <name>my_textarea_name</name>
+                    <type>textarea</type>
+                </inputs>
+                ...
+            </inputs>
+        </cases>
+    </cases>
+</input>
+```
+
 <script setup>
 import * as naiveui from 'naive-ui';
 const { NSwitch, NColorPicker, NSelect, NSlider, NInputNumber, NInput } = naiveui;

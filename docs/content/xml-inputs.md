@@ -264,7 +264,7 @@ Translates to:
 `my_textarea_name`
 <span class="font-thin"> = {{ textareaInput }}</span>
 
-# Conditional Input
+## Conditional Input
 
 In addition to the atomic inputs described above, you may also define conditional inputs. A conditional input includes a `test_param`, which determines which case-specific `inputs` are displayed. The `test_param` can be of type `boolean` (for two cases) or `select` (for multiple cases). Based on the selected value, the corresponding set of `inputs` defined in the `cases` section will be shown.
 

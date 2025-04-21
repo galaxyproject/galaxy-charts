@@ -22,7 +22,7 @@ This XML template includes the following variables:
 | **MY_NPM_PACKAGE_NAME** | Indicates the npm package name. Update this field with the correct package name before publishing. |
 | **MY_NPM_PACKAGE_VERSION** | Specifies the version number of the npm package upon publishing. |
 
-### Macros
+## Macros
 
 Although less common, you can choose to reuse XML sections by placing them into `macros`. This helps eliminate duplication when the same content is used across multiple XMLs.
 

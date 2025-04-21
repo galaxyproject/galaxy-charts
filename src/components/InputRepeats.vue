@@ -3,7 +3,7 @@ import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed } from "vue";
-import { parseDefaults } from "@/utilities/parseDefaults";
+import { parseValues } from "@/utilities/parsePlugin";
 import { InputElementType, InputValuesType } from "@/types";
 
 const props = defineProps<{
@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>();
 
 // Collect default values to populate new repeat blocks
-const defaultValues = computed(() => parseDefaults(props.inputs));
+const defaultValues = computed(() => parseValues(props.inputs));
 
 // Add a new repeat block
 function onAdd(): void {

@@ -49,7 +49,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
 }
 
 // Parse values with conditional handling
-function parseValues(inputs?: Array<InputElementType>, values?: InputValuesType): InputValuesType {
+export function parseValues(inputs?: Array<InputElementType>, values?: InputValuesType): InputValuesType {
     const result = values || {};
 
     inputs?.forEach((input) => {

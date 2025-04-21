@@ -73,4 +73,105 @@ describe("InputConditional Component", () => {
             "The conditional 'mode' is missing a cases.",
         );
     });
+
+    test("restores nested conditional defaults when switching parent conditional", async () => {
+        const wrapper = mount(InputConditional, {
+            props: {
+                datasetId,
+                input: {
+                    name: "conditional_1",
+                    type: "conditional",
+                    test_param: {
+                        name: "conditional_1_test",
+                        type: "string",
+                        value: "a",
+                        data: [
+                            { label: "Option A", value: "a" },
+                            { label: "Option B", value: "b" },
+                        ],
+                    },
+                    cases: [
+                        {
+                            value: "a",
+                            inputs: [
+                                {
+                                    name: "conditional_2",
+                                    type: "conditional",
+                                    test_param: {
+                                        name: "conditional_2_test",
+                                        type: "string",
+                                        value: "low",
+                                        data: [
+                                            { label: "Low", value: "low" },
+                                            { label: "High", value: "high" },
+                                        ],
+                                    },
+                                    cases: [
+                                        {
+                                            value: "low",
+                                            inputs: [
+                                                { name: "level_1", type: "float", value: "1.0" },
+                                                {
+                                                    name: "conditional_3",
+                                                    type: "conditional",
+                                                    test_param: {
+                                                        name: "conditional_3_test",
+                                                        type: "string",
+                                                        value: "low",
+                                                        data: [
+                                                            { label: "Low", value: "low" },
+                                                            { label: "High", value: "high" },
+                                                        ],
+                                                    },
+                                                    cases: [
+                                                        {
+                                                            value: "low",
+                                                            inputs: [{ name: "level_2", type: "float", value: "2.0" }],
+                                                        },
+                                                        {
+                                                            value: "high",
+                                                            inputs: [{ name: "level_2", type: "float", value: "20.0" }],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                        {
+                                            value: "high",
+                                            inputs: [{ name: "level", type: "float", value: "10.0" }],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            value: "b",
+                            inputs: [{ name: "speed", type: "float", value: "5.0" }],
+                        },
+                    ],
+                },
+            },
+        });
+        wrapper.findComponent(NSelect).vm.$emit("update:value", "b");
+        await wrapper.vm.$nextTick();
+        const emitted = wrapper.emitted("update:value");
+        expect(emitted).toBeTruthy();
+        const lastEmitted = emitted[emitted.length - 1][0];
+        expect(lastEmitted).toEqual({ speed: 5, conditional_1_test: "b" });
+
+        wrapper.findComponent(NSelect).vm.$emit("update:value", "a");
+        await wrapper.vm.$nextTick();
+        const emittedA = wrapper.emitted("update:value");
+        expect(emittedA).toBeTruthy();
+        const lastEmittedA = emitted[emitted.length - 1][0];
+        console.log(lastEmittedA);
+        expect(lastEmittedA).toEqual({
+            conditional_2: {
+                conditional_2_test: "low",
+                level_1: 1,
+                conditional_3: { conditional_3_test: "low", level_2: 2 },
+            },
+            conditional_1_test: "a",
+        });
+    });
 });

@@ -2,7 +2,7 @@
 import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
 import { computed, ref, watch } from "vue";
-import { parseDefaults } from "@/utilities/parseDefaults";
+import { parseValues } from "@/utilities/parsePlugin";
 import { InputElementType, InputValuesType } from "@/types";
 
 // Define props with types
@@ -46,7 +46,7 @@ const caseDefaults = computed(() => {
     const result: Record<string, InputValuesType> = {};
     if (props.input.cases && props.input.cases.length > 0) {
         for (const inputCase of props.input.cases) {
-            result[inputCase.value] = parseDefaults(inputCase.inputs);
+            result[inputCase.value] = parseValues(inputCase.inputs);
             result[inputCase.value][testName] = inputCase.value;
         }
     }

@@ -56,18 +56,18 @@
             <label>Setting: Boolean</label>
             <name>setting_boolean</name>
             <type>boolean</type>
-            <optional>true</optional>
+            <optional>false</optional>
             <help>Setting: Boolean Help</help>
         </input>
         <input>
-            <name>setting_conditional</name>
+            <name>setting_conditional_0</name>
             <label>Setting: Conditional</label>
             <type>conditional</type>
             <help>Setting: Conditional Help</help>
             <test_param>
                 <name>test_condition</name>
                 <type>boolean</type>
-                <value>true</value>
+                <value>false</value>
                 <data>
                     <data>
                         <value>true</value>
@@ -98,7 +98,97 @@
                             <label>Case False: Input</label>
                             <name>case_false</name>
                             <type>text</type>
-                        </inputs>
+                            </inputs>
+                            <input>
+                                <name>setting_conditional_1</name>
+                                <label>Setting: Conditional</label>
+                                <type>conditional</type>
+                                <help>Setting: Conditional Help</help>
+                                <test_param>
+                                    <name>test_condition</name>
+                                    <type>boolean</type>
+                                    <value>false</value>
+                                    <data>
+                                        <data>
+                                            <value>true</value>
+                                            <label>Condition: True</label>
+                                        </data>
+                                        <data>
+                                            <value>false</value>
+                                            <label>Condition: False</label>
+                                        </data>
+                                    </data>
+                                </test_param>
+                                <cases>
+                                    <cases>
+                                        <value>true</value>
+                                        <inputs>
+                                            <inputs>
+                                                <label>Case True: Input</label>
+                                                <name>case_true</name>
+                                                <type>textarea</type>
+                                                <value>my value</value>
+                                            </inputs>
+                                        </inputs>
+                                    </cases>
+                                    <cases>
+                                        <value>false</value>
+                                        <inputs>
+                                            <inputs>
+                                                <label>Case False: Input</label>
+                                                <name>case_false</name>
+                                                <value>case_false_1</value>
+                                                <type>text</type>
+                                            </inputs>
+                                            <input>
+                                            <name>setting_conditional_2</name>
+                                            <label>Setting: Conditional</label>
+                                            <type>conditional</type>
+                                            <help>Setting: Conditional Help</help>
+                                            <test_param>
+                                                <name>test_condition</name>
+                                                <type>boolean</type>
+                                                <value>false</value>
+                                                <data>
+                                                    <data>
+                                                        <value>true</value>
+                                                        <label>Condition: True</label>
+                                                    </data>
+                                                    <data>
+                                                        <value>false</value>
+                                                        <label>Condition: False</label>
+                                                    </data>
+                                                </data>
+                                            </test_param>
+                                            <cases>
+                                                <cases>
+                                                    <value>true</value>
+                                                    <inputs>
+                                                        <inputs>
+                                                            <label>Case True: Input</label>
+                                                            <name>case_true</name>
+                                                            <type>textarea</type>
+                                                            <value>my value</value>
+                                                        </inputs>
+                                                    </inputs>
+                                                </cases>
+                                                <cases>
+                                                    <value>false</value>
+                                                    <inputs>
+                                                        <inputs>
+                                                            <label>Case False: Input</label>
+                                                            <name>case_false</name>
+                                                            <type>text</type>
+                                                            <value>last value</value>
+                                                        </inputs>
+                                                    </inputs>
+                                                </cases>
+                                            </cases>
+                                        </input>
+                                    </inputs>
+                                </cases>
+                            </cases>
+                        </input>
                     </inputs>
                 </cases>
             </cases>
@@ -147,6 +237,94 @@
             <name>z</name>
             <label>Track: Column (Any)</label>
             <type>data_column</type>
+        </input>
+        <input>
+            <name>track_conditional</name>
+            <label>Track: Conditional</label>
+            <type>conditional</type>
+            <help>Track: Conditional Help</help>
+            <test_param>
+                <name>test_condition</name>
+                <type>boolean</type>
+                <value>false</value>
+                <data>
+                    <data>
+                        <value>true</value>
+                        <label>Condition: True</label>
+                    </data>
+                    <data>
+                        <value>false</value>
+                        <label>Condition: False</label>
+                    </data>
+                </data>
+            </test_param>
+            <cases>
+                <cases>
+                    <value>true</value>
+                    <inputs>
+                        <inputs>
+                            <label>Case True: Input</label>
+                            <name>case_true</name>
+                            <type>textarea</type>
+                            <value>my value</value>
+                        </inputs>
+                    </inputs>
+                </cases>
+                <cases>
+                    <value>false</value>
+                    <inputs>
+                        <inputs>
+                            <label>Case False: Input</label>
+                            <name>case_false</name>
+                            <type>text</type>
+                        </inputs>
+                        <input>
+                            <name>track_conditional</name>
+                            <label>Track: Conditional</label>
+                            <type>conditional</type>
+                            <help>Track: Conditional Help</help>
+                            <test_param>
+                                <name>test_condition</name>
+                                <type>boolean</type>
+                                <value>true</value>
+                                <data>
+                                    <data>
+                                        <value>true</value>
+                                        <label>Condition: True</label>
+                                    </data>
+                                    <data>
+                                        <value>false</value>
+                                        <label>Condition: False</label>
+                                    </data>
+                                </data>
+                            </test_param>
+                            <cases>
+                                <cases>
+                                    <value>true</value>
+                                    <inputs>
+                                        <inputs>
+                                            <label>Case True: Input</label>
+                                            <name>case_true</name>
+                                            <type>textarea</type>
+                                            <value>my value</value>
+                                        </inputs>
+                                    </inputs>
+                                </cases>
+                                <cases>
+                                    <value>false</value>
+                                    <inputs>
+                                        <inputs>
+                                            <label>Case False: Input</label>
+                                            <name>case_false</name>
+                                            <type>text</type>
+                                        </inputs>
+                                    </inputs>
+                                </cases>
+                            </cases>
+                        </input>
+                    </inputs>
+                </cases>
+            </cases>
         </input>
     </tracks>
 </visualization>

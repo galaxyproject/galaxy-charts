@@ -89,7 +89,7 @@ function renderTag({ option }: { option: Record<string, any> }) {
 watch(
     () => currentValue.value,
     () => {
-        selectValue.value = currentValue.value?.name;
+        selectValue.value = currentValue.value?.name || null;
     },
     { immediate: true },
 );

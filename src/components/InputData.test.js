@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
-import { flushPromises, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import InputData from "@/components/InputData.vue";
 
 // Shared Galaxy API mock
@@ -17,8 +17,6 @@ vi.mock("@/api/client", () => ({
 }));
 
 describe("InputData.vue", () => {
-    let wrapper;
-
     const mountComponent = (props = {}) =>
         mount(InputData, {
             props: {
@@ -33,17 +31,15 @@ describe("InputData.vue", () => {
 
     test("loads datasets on mount", async () => {
         const wrapper = mountComponent();
-        await flushPromises();
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
         expect(mockGet).toHaveBeenCalled();
-        expect(options.length).toBe(3); // 2 datasets + disabled "filter for more"
+        expect(options.length).toBe(3);
         expect(options[0].label).toBe("dataset1.csv");
     });
 
     test("adds clear option if optional", async () => {
         const wrapper = mountComponent({ optional: true });
-        await flushPromises();
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
         expect(options[0].label).toBe("-- Clear Selection --");
@@ -51,7 +47,6 @@ describe("InputData.vue", () => {
 
     test("applies extension filter", async () => {
         const wrapper = mountComponent({ extension: "bed" });
-        await flushPromises();
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalled();
         const calledUrl = mockGet.mock.calls[0][0];
@@ -78,10 +73,18 @@ describe("InputData.vue", () => {
 
     test("emits update on selection", async () => {
         const wrapper = mountComponent();
-        await flushPromises();
         wrapper.vm.selectValue = { id: "1", name: "dataset1.csv" };
         wrapper.vm.onUpdate();
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.currentValue).toEqual({ id: "1", name: "dataset1.csv" });
+    });
+
+    test("shows correct name on initialization", async () => {
+        const wrapper = mountComponent({ value: { id: "1", name: "dataset1.csv" } });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectValue).toEqual("dataset1.csv");
+        wrapper.vm.currentValue = undefined;
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.selectValue).toEqual(null);
     });
 });

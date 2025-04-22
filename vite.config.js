@@ -26,8 +26,14 @@ export default defineConfig({
     },
     plugins: [vue(), tailwindcss(), libInjectCss(), Checker({ typescript: true })],
     test: {
-        globals: true,
+        coverage: {
+            enabled: true,
+            reportsDirectory: './coverage',
+            reporter: ['text', 'html'],
+            include: ['src/**/*.{ts,js,vue}'],
+        },
         environment: "jsdom",
         exclude: [...configDefaults.exclude, "e2e/*"],
+        globals: true,
     },
 });

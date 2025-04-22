@@ -126,11 +126,15 @@ describe("InputConditional Component", () => {
                                                     cases: [
                                                         {
                                                             value: "a_2",
-                                                            inputs: [{ name: "float_a_2", type: "float", value: "2.0" }],
+                                                            inputs: [
+                                                                { name: "float_a_2", type: "float", value: "2.0" },
+                                                            ],
                                                         },
                                                         {
                                                             value: "b_2",
-                                                            inputs: [{ name: "float_b_2", type: "float", value: "20.0" }],
+                                                            inputs: [
+                                                                { name: "float_b_2", type: "float", value: "20.0" },
+                                                            ],
                                                         },
                                                     ],
                                                 },

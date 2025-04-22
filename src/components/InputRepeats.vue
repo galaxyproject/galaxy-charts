@@ -57,10 +57,9 @@ function onUpdate(index: number, values: InputValuesType): void {
             <n-button
                 class="w-full mt-2"
                 data-description="remove repeat block"
+                :disabled="valuesArray.length <= 1"
                 size="tiny"
                 type="primary"
-                round
-                :disabled="valuesArray.length <= 1"
                 @click="onRemove(index)">
                 <n-icon><TrashIcon /></n-icon>
                 <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>

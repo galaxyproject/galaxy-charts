@@ -29,7 +29,7 @@ export default defineConfig({
         coverage: {
             enabled: true,
             reportsDirectory: "./coverage",
-            reporter: ["text", "html"],
+            reporter: ["text", "html", "lcov"],
             include: ["src/*/*.{ts,js,vue}"],
         },
         environment: "jsdom",

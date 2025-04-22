@@ -179,4 +179,78 @@ describe("InputForm.vue", () => {
         const lastEmitted = emitted[emitted.length - 1][0];
         expect(lastEmitted.integerInput).toBe(7);
     });
+
+    test("renders fallback n-input for unknown input type", async () => {
+        await wrapper.setProps({
+            inputs: [{ name: "customInput", type: "custom-type" }],
+            values: { customInput: "abc" },
+        });
+        const inputs = wrapper.findAllComponents(NInput);
+        expect(inputs.at(-1).exists()).toBe(true);
+    });
+
+    test("sets null if a value is missing from props.values", async () => {
+        await wrapper.setProps({
+            inputs: [{ name: "missingInput", type: "text" }],
+            values: {},
+        });
+        expect(wrapper.vm.currentValues.missingInput).toBeNull();
+    });
+
+    test("emits 'update:values' when textarea input changes", async () => {
+        const textarea = wrapper.find("textarea");
+        await textarea.setValue("Updated textarea");
+        expect(wrapper.emitted("update:values")).toBeTruthy();
+        expect(wrapper.emitted("update:values").pop()[0].textareaInput).toBe("Updated textarea");
+    });
+
+    test("passes isAuto, isText, isNumber to InputDataColumn", () => {
+        const colInput = wrapper.findComponent(InputDataColumn);
+        expect(colInput.props("isAuto")).toBe(true);
+        expect(colInput.props("isText")).toBe(true);
+        expect(colInput.props("isNumber")).toBe(true);
+    });
+
+    test("reinitializes values reactively when props.values changes", async () => {
+        await wrapper.setProps({ values: { textInput: "Reset Value" } });
+        expect(wrapper.vm.currentValues.textInput).toBe("Reset Value");
+    });
+
+    test("select input handles unknown option gracefully", async () => {
+        await wrapper.setProps({
+            values: { selectInput: "unknown" },
+        });
+        const select = wrapper.findComponent(NSelect);
+        expect(select.props("value")).toBe(undefined);
+    });
+
+    test("calls initialValues and populates defaults when values are undefined", async () => {
+        const localInputs = [
+            { name: "inputA", type: "text" },
+            { name: "inputB", type: "float", min: 0, max: 10 },
+        ];
+
+        const localWrapper = mount(InputForm, {
+            propsData: {
+                datasetId: "ds1",
+                inputs: localInputs,
+                values: undefined,
+            },
+            global: {
+                components: {
+                    NInput,
+                    NSlider,
+                    NInputNumber,
+                },
+            },
+        });
+
+        expect(localWrapper.vm.currentValues).toEqual({
+            inputA: null,
+            inputB: null,
+        });
+
+        expect(localWrapper.findComponent(NInput).exists()).toBe(true);
+        expect(localWrapper.findComponent(NInputNumber).exists()).toBe(true);
+    });
 });

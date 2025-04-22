@@ -54,18 +54,17 @@ function onUpdate(index: number, values: InputValuesType): void {
                 :inputs="inputs"
                 :values="values"
                 @update:values="onUpdate(index, $event)" />
-            <div class="flex text-green-600 pt-2">
-                <n-button
-                    class="text-green-600 w-full"
-                    data-description="remove repeat block"
-                    size="tiny"
-                    round
-                    :disabled="valuesArray.length <= 1"
-                    @click="onRemove(index)">
-                    <n-icon><TrashIcon /></n-icon>
-                    <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
-                </n-button>
-            </div>
+            <n-button
+                class="w-full mt-2"
+                data-description="remove repeat block"
+                size="tiny"
+                type="primary"
+                round
+                :disabled="valuesArray.length <= 1"
+                @click="onRemove(index)">
+                <n-icon><TrashIcon /></n-icon>
+                <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
+            </n-button>
         </div>
     </div>
 </template>

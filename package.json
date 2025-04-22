@@ -35,8 +35,9 @@
     "devDependencies": {
         "@heroicons/vue": "^2.1.5",
         "@vitejs/plugin-vue": "^5.0.5",
-        "@vitest/coverage-v8": "2.1.2",
-        "@vitest/ui": "^2.1.2",
+        "@vitest/browser": "^3.1.2",
+        "@vitest/coverage-istanbul": "^3.1.2",
+        "@vitest/ui": "^3.1.2",
         "@vue/test-utils": "^2.4.6",
         "autoprefixer": "^10.4.19",
         "galaxy-charts-xml-parser": "^1.0.3",
@@ -49,7 +50,7 @@
         "vite": "^5.3.4",
         "vite-plugin-checker": "^0.8.0",
         "vite-plugin-lib-inject-css": "^2.1.1",
-        "vitest": "^2.1.2",
+        "vitest": "^3.1.2",
         "vue": "^3.4.31",
         "vue-tsc": "^2.1.10"
     }

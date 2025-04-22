@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, defineModel } from "vue";
+import { ref, watch } from "vue";
 import { NInput, NSelect } from "naive-ui";
 import { parseColumns } from "@/utilities/parseColumns";
 import { GalaxyApi } from "@/api/client";

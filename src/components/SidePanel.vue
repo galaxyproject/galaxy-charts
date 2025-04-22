@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, defineEmits } from "vue";
+import { computed, ref } from "vue";
 import {
     AdjustmentsHorizontalIcon,
     ChevronDoubleRightIcon,
@@ -151,7 +151,12 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
         </div>
-        <n-tabs type="line" animated class="mt-2" :tab-class="hideTabs ? '!hidden' : ''">
+        <n-tabs
+            type="line"
+            animated
+            class="mt-2"
+            pane-wrapper-class="!overflow-visible"
+            :tab-class="hideTabs ? '!hidden' : ''">
             <n-tab-pane v-if="trackInputs.length > 0" name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

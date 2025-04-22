@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, defineEmits } from "vue";
+import { ref, watch } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
@@ -49,7 +49,7 @@ watch(
 </script>
 
 <template>
-    <div class="overflow-x-visible select-none">
+    <div class="select-none">
         <div
             v-for="(input, inputIndex) in inputs"
             :key="inputIndex"

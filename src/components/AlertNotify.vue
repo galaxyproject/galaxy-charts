@@ -29,7 +29,7 @@ watch(
 </script>
 
 <template>
-    <n-alert v-if="message" :type="messageType" class="m-4">
+    <n-alert v-if="message" :type="messageType">
         {{ message }}
     </n-alert>
 </template>

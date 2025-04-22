@@ -96,8 +96,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 </script>
 
 <template>
-    <div class="overflow-auto select-none bg-white z-10">
-        <div v-if="datasetUrl" class="flex m-2">
+    <div class="overflow-auto select-none bg-white z-10 p-2">
+        <div v-if="datasetUrl" class="flex">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
@@ -131,8 +131,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </n-tooltip>
             </div>
         </div>
-        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="m-2" />
-        <div class="m-2 p-2 bg-sky-50 text-sky-900 rounded">
+        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2" />
+        <div class="bg-sky-50 text-sky-900 rounded my-2 p-2">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">
@@ -146,12 +146,12 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
             </div>
         </div>
-        <div class="m-2">
+        <div>
             <div class="font-bold">Title</div>
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
         </div>
-        <n-tabs type="line" animated class="px-2" :tab-class="hideTabs ? '!hidden' : ''">
+        <n-tabs type="line" animated :tab-class="hideTabs ? '!hidden' : ''">
             <n-tab-pane v-if="trackInputs.length > 0" name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

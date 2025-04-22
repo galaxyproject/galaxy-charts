@@ -151,7 +151,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             <div class="text-xs py-1">Specify a visualization title.</div>
             <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
         </div>
-        <n-tabs type="line" animated :tab-class="hideTabs ? '!hidden' : ''">
+        <n-tabs type="line" animated class="mt-2" :tab-class="hideTabs ? '!hidden' : ''">
             <n-tab-pane v-if="trackInputs.length > 0" name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

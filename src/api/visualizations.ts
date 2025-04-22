@@ -2,7 +2,7 @@ import { GalaxyApi } from "@/api/client";
 import { InputValuesType } from "@/types";
 import { rethrowSimple } from "@/utilities/simpleError";
 
-interface VisualizationConfig {
+export interface VisualizationConfig {
     dataset_id: string;
     settings: InputValuesType;
     tracks: Array<InputValuesType>;

@@ -30,7 +30,7 @@
         "postbuild": "npm run build:types",
         "preview": "vite preview",
         "prettier": "prettier --config ./prettier.config.js --write 'package.json' '**/*.{css,js,ts,vue}'",
-        "test": "vitest"
+        "test": "vitest --coverage"
     },
     "devDependencies": {
         "@heroicons/vue": "^2.1.5",

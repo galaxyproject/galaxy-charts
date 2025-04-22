@@ -25,10 +25,10 @@ async function loadColumns(): Promise<void> {
             currentOptions.value = columns;
             initializeValue();
         } catch (err) {
-            console.log(err);
+            console.debug(err);
         }
     } else {
-        console.log("Data column selector disabled, since `datasetId` is unavailable.");
+        console.debug("Data column selector disabled, since `datasetId` is unavailable.");
     }
 }
 

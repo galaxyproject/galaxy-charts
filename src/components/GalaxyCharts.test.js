@@ -1,6 +1,7 @@
 import { describe, test, expect, mount } from "vitest";
 import { mount } from "@vue/test-utils";
 
+import * as visualizations from "@/api/visualizations";
 import ChartsLogo from "./ChartsLogo.vue";
 import Target from "./GalaxyCharts.vue";
 
@@ -61,5 +62,90 @@ describe("build user interface", () => {
         ];
         values.forEach((x, index) => expect(elements[index].text().replace(/\s+/g, "")).toEqual(x));
         expect(wrapper.findComponent(ChartsLogo).exists()).toBeTruthy();
+    });
+
+    test("datasetUrl fallback to constructed URL", async () => {
+        const incoming = {
+            visualization_config: { dataset_id: "XYZ123" },
+        };
+        const wrapper = mountTarget(incoming);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.html()).toContain("/api/datasets/XYZ123/display");
+    });
+
+    test("computed logoUrl is constructed from root and logo", async () => {
+        const incoming = {
+            root: "/ROOT",
+            visualization_plugin: { logo: "/static/logo.svg" },
+            visualization_config: {},
+        };
+        const wrapper = mountTarget(incoming);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.logoUrl).toBe("/ROOT/static/logo.svg");
+    });
+
+    test("postMessage failure is caught and sets errorMessage", async () => {
+        const incoming = { visualization_config: {} };
+        const wrapper = mountTarget(incoming);
+        await wrapper.vm.$nextTick();
+        window.postMessage = () => {
+            throw new Error("Boom");
+        };
+        wrapper.vm["postMessage"]();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.errorMessage).toContain("Failed to postMessage");
+    });
+
+    test("save failure sets error message", async () => {
+        const incoming = { visualization_config: {}, visualization_plugin: {} };
+        const wrapper = mountTarget(incoming);
+        await wrapper.vm.$nextTick();
+        vi.spyOn(visualizations, "visualizationsSave").mockRejectedValueOnce(new Error("fail"));
+        await wrapper.vm["save"]({});
+        expect(wrapper.vm.errorMessage).toContain("Failed to save");
+    });
+
+    test("onToggle switches collapsePanel state", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        const original = wrapper.vm.collapsePanel;
+        await wrapper.vm["onToggle"]();
+        expect(wrapper.vm.collapsePanel).toBe(!original);
+    });
+
+    test("update merges settings correctly", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm.settingValues = { foo: "bar" };
+        wrapper.vm["update"]({ baz: "qux" });
+        expect(wrapper.vm.settingValues).toEqual({ foo: "bar", baz: "qux" });
+    });
+
+    test("updateVisualizationId sets new id and posts message", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm["updateVisualizationId"]("NEW_ID");
+        expect(wrapper.vm.currentVisualizationId).toBe("NEW_ID");
+    });
+
+    test("updateVisualizationTitle sets new title and posts message", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm["updateVisualizationTitle"]("NEW_TITLE");
+        expect(wrapper.vm.currentVisualizationTitle).toBe("NEW_TITLE");
+    });
+
+    test("updateSettings updates settings and posts message", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm["updateSettings"]({ x: 1 });
+        expect(wrapper.vm.settingValues).toEqual({ x: 1 });
+    });
+
+    test("updateTracks updates tracks and posts message", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm["updateTracks"]([{ y: 2 }]);
+        expect(wrapper.vm.trackValues).toEqual([{ y: 2 }]);
     });
 });

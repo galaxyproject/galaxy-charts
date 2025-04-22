@@ -169,4 +169,22 @@ describe("SidePanel.vue", () => {
         await wrapper.setProps({ trackInputs: [{ name: "Track1", type: "float" }] });
         expect(wrapper.findAllComponents(NTab).length).toBe(2);
     });
+
+    test("handles null return from visualizationsCreate", async () => {
+        visualizationsCreate.mockResolvedValueOnce(null);
+        await wrapper.setProps({ visualizationId: null });
+        await wrapper.vm.onSave();
+        expect(wrapper.vm.message).toBe("Something went wrong.");
+        expect(wrapper.vm.messageType).toBe("error");
+    });
+
+    test("renders ChartsLogo when logoUrl is not provided", async () => {
+        await wrapper.setProps({ logoUrl: "" });
+        expect(wrapper.findComponent({ name: "ChartsLogo" }).exists()).toBe(true);
+    });
+
+    test("does not render save tooltip when datasetId is missing", async () => {
+        await wrapper.setProps({ datasetId: "" });
+        expect(wrapper.find('[data-description="sidepanel save button"]').exists()).toBe(false);
+    });
 });

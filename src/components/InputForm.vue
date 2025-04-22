@@ -50,7 +50,10 @@ watch(
 
 <template>
     <div class="overflow-x-visible select-none">
-        <div v-for="(input, inputIndex) in inputs" :key="inputIndex" class="mb-2">
+        <div
+            v-for="(input, inputIndex) in inputs"
+            :key="inputIndex"
+            :class="inputIndex < inputs.length - 1 ? 'pb-2' : ''">
             <div class="font-bold mb-1">{{ input.label || input.name }}</div>
             <div v-if="input.help" class="text-xs mb-1">{{ input.help }}</div>
             <div>

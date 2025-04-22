@@ -47,14 +47,14 @@ function onUpdate(index: number, values: InputValuesType): void {
         <n-icon><PlusIcon /></n-icon>
         <span class="mx-1">Add New Track</span>
     </n-button>
-    <div v-for="(values, index) of valuesArray" :key="index" class="my-2">
+    <div v-for="(values, index) of valuesArray" :key="index" class="py-2">
         <div class="border border-dotted border-green-600 rounded p-2">
             <InputForm
                 :dataset-id="datasetId"
                 :inputs="inputs"
                 :values="values"
                 @update:values="onUpdate(index, $event)" />
-            <div class="flex text-green-600 my-1">
+            <div class="flex text-green-600 pt-2">
                 <n-button
                     class="text-green-600 w-full"
                     data-description="remove repeat block"

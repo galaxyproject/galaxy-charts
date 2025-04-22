@@ -31,6 +31,7 @@ export default defineConfig({
             reportsDirectory: "./coverage",
             reporter: ["text", "html", "lcov"],
             include: ["src/*/*.{ts,js,vue}"],
+            provider: "v8",
         },
         environment: "jsdom",
         exclude: [...configDefaults.exclude, "e2e/*"],

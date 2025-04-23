@@ -13,10 +13,10 @@ The `GalaxyCharts` core component serves as a container for embedding JavaScript
 ```
 
 ## Overview of Props
-| Variable | Description |
-|----------|-------------|
-|**credentials**| (Optional) Specifies whether to include or omit credentials in the request. Acceptable values are "include" or "omit." 
-|**incoming**| (Optional) Use this when parsing incoming data prepared by Galaxy as a property. If not specified, the component will look for data in the `#app` container's `data-incoming` attribute. This incoming data includes details and settings for visualization plugins.
+| Variable | Type | Description |
+|----------|------|-------------|
+|**credentials**| String | (Optional) Specifies whether to include or omit credentials in the request. Acceptable values are "include" or "omit."
+|**incoming**| Dictionary | (Optional) Use this when parsing incoming data prepared by Galaxy as a property. If not specified, the component will look for data in the `#app` container's `data-incoming` attribute. This incoming data includes details and settings for visualization plugins.
 
 ## Overview of Slot Values
 

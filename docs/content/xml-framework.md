@@ -73,7 +73,7 @@ The core of the plugin, contained in minimal.js, is minimalistic: it retrieves t
 ```javascript
 // minimal.js
 var element = document.getElementById("app");
-var div = document.createElement('div');
+var div = document.createElement("div");
 div.innerText = JSON.stringify(JSON.parse(element.getAttribute("data-incoming")));
 document.body.appendChild(div);
 ```

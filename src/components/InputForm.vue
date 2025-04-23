@@ -60,25 +60,25 @@ watch(
                 <n-switch
                     v-if="input.type === 'boolean'"
                     v-model:value="currentValues[input.name]"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <n-color-picker
                     v-else-if="input.type === 'color'"
                     v-model:value="currentValues[input.name]"
                     :modes="['hex']"
                     :show-alpha="false"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <InputConditional
                     v-else-if="input.type === 'conditional'"
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
                     :input="input"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <InputData
                     v-else-if="input.type === 'data'"
                     v-model:value="currentValues[input.name]"
                     :extension="input.extension"
                     :optional="toBoolean(input.optional)"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <InputDataColumn
                     v-else-if="input.type === 'data_column'"
                     v-model:value="currentValues[input.name]"
@@ -86,7 +86,7 @@ watch(
                     :is-auto="toBoolean(input.is_auto)"
                     :is-text="toBoolean(input.is_text)"
                     :is-number="toBoolean(input.is_number)"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider
                         v-if="input.min !== undefined && input.max !== undefined"
@@ -95,26 +95,26 @@ watch(
                         :min="Number(input.min)"
                         :max="Number(input.max)"
                         :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
-                        @update:value="onUpdate()" />
+                        @update:value="onUpdate" />
                     <n-input-number
                         v-model:value="currentValues[input.name]"
                         size="small"
                         :min="Number(input.min)"
                         :max="Number(input.max)"
                         :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
-                        @update:value="onUpdate()" />
+                        @update:value="onUpdate" />
                 </div>
                 <n-select
                     v-else-if="input.type === 'select'"
                     v-model:value="currentValues[input.name]"
                     :options="input.data"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <n-input
                     v-else-if="input.type === 'textarea'"
                     v-model:value="currentValues[input.name]"
                     :rows="Number(input.rows)"
                     type="textarea"
-                    @update:value="onUpdate()" />
+                    @update:value="onUpdate" />
                 <n-input v-else v-model:value="currentValues[input.name]" @update:value="onUpdate()" />
             </div>
         </div>

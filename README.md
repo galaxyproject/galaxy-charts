@@ -1,4 +1,4 @@
-## <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="20" /> Galaxy Charts 
+# <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="24" /> Galaxy Charts 
 
 A modern JavaScript visualization framework for the [Galaxy Project](https://galaxyproject.org), built with [Vue 3](https://vuejs.org/) and [Vite](https://vitejs.dev/). It provides the core infrastructure for developing Galaxy visualizations using a simple and extensible plugin interface.
 

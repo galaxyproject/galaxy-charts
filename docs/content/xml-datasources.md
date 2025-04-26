@@ -10,12 +10,11 @@ The Data Sources section is required in the Visualization XML to inform Galaxy o
 <data_sources>
     <data_source>
         <model_class>HistoryDatasetAssociation</model_class>
-        <test test_attr="ext" result_type="datatype">{{ COMPATIBLE_EXTENSION }}</test>
-        <to_param param_attr="id">dataset_id</to_param>
+        <test test_attr="ext">{{ COMPATIBLE_EXTENSION }}</test>
     </data_source>
 </data_sources>
 <params>
-    <param type="dataset" var_name_in_template="hda" required="true">dataset_id</param>
+    <param required="true">dataset_id</param>
 </params>
 ```
 

@@ -13,7 +13,7 @@ export function parseIncoming(incoming?: PluginIncomingType, container = "app"):
     if (incoming === undefined) {
         const element = document.getElementById(container);
         if (element) {
-            incoming = JSON.parse(element?.getAttribute("data-incoming") || "{}");
+            incoming = JSON.parse(element?.dataset.incoming || "{}");
         } else {
             throw new Error(`Container element '${container}' not found.`);
         }

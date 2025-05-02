@@ -17,7 +17,6 @@
             <help>My Data Help</help>
             <name>my_data_name</name>
             <type>data</type>
-            <extension>my_data_extension</extension>
         </input>
         <input>
             <label>My Float Label</label>
@@ -206,7 +205,6 @@
                                                             <help>My Data Help</help>
                                                             <name>my_data_name</name>
                                                             <type>data</type>
-                                                            <extension>my_data_extension</extension>
                                                         </inputs>
                                                         <inputs>
                                                             <label>My Float Label</label>

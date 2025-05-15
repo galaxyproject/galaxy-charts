@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: Galaxy Charts
-  text: Visualization Plugin Framework for Galaxy 
+  text: Visualization Plugin Framework of Galaxy
   tagline: Develop, Test and Deploy JavaScript Visualizations
   actions:
     - theme: brand

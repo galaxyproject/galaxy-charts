@@ -18,6 +18,23 @@ The Data Sources section is required in the Visualization XML to inform Galaxy o
 </params>
 ```
 
+
+## Tests
+
+You may also add a `<tests>` section which allows you to define **test cases** for your visualization. These help ensure that the plugin works correctly when given specific inputs. Each test can specify a URL to a file and its corresponding Galaxy datatype type (`ftype`). Users will be able to upload the dataset and invoke the visualization.
+
+```xml
+<tests>
+    <test>
+        <param name="dataset_id" value="http://cdn.jsdelivr.net/gh/galaxyproject/galaxy-test-data/1.{{ COMPATIBLE_EXTENSION }}" ftype="{{ COMPATIBLE_EXTENSION }}" />
+    </test>
+</tests>
+```
+
+You can use any public URL pointing to test data, ideally from a maintained repository such as `galaxy-test-data`.
+
+## Available Extensions
+
 Galaxy supports a variety of datatype extensions:
 <span v-for="(dt, index) of DATATYPES" class="font-italic">
     <span>`{{ dt }}`</span>

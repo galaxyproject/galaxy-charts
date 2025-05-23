@@ -22,6 +22,20 @@ This XML template includes the following variables:
 | **MY_NPM_PACKAGE_NAME** | Indicates the npm package name. Update this field with the correct package name before publishing. |
 | **MY_NPM_PACKAGE_VERSION** | Specifies the version number of the npm package upon publishing. |
 
+## Help
+
+The `<help>` section provides **markdown-formatted documentation** that will be shown inside Galaxy’s user interface when the visualization is launched. Use this to describe the purpose of your visualization, usage instructions, supported data types, and any other relevant guidance.
+
+```xml
+<help format="markdown"><![CDATA[
+# What is My Visualization?
+
+This visualization displays...
+]]></help>
+```
+
+This section supports standard Markdown syntax including headers, lists, links, and inline code.
+
 ## Macros
 
 Although less common, you can choose to reuse XML sections by placing them into `macros`. This helps eliminate duplication when the same content is used across multiple XMLs.

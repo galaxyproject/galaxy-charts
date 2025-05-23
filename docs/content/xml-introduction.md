@@ -27,11 +27,14 @@ This XML template includes the following variables:
 The `<help>` section provides **markdown-formatted documentation** that will be shown inside Galaxy’s user interface when the visualization is launched. Use this to describe the purpose of your visualization, usage instructions, supported data types, and any other relevant guidance.
 
 ```xml
-<help format="markdown"><![CDATA[
-# What is My Visualization?
+<visualization name="MY_VISUALIZATION">
+    ...
+    <help format="markdown"><![CDATA[
+    # What is My Visualization?
 
-This visualization displays...
-]]></help>
+    This visualization displays...
+    ]]></help>
+</visualization>
 ```
 
 This section supports standard Markdown syntax including headers, lists, links, and inline code.

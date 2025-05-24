@@ -40,7 +40,6 @@ describe("build user interface", () => {
             root: "ROOT",
             visualization_config: {
                 dataset_id: "MY_DATASET_ID",
-                dataset_url: "MY_DATASET_URL",
                 settings: { settings: "SETTINGS" },
                 tracks: [{ track: "TRACK" }, { track: "TRACK" }],
             },
@@ -54,7 +53,7 @@ describe("build user interface", () => {
         const elements = wrapper.findAll("pre");
         const values = [
             "MY_DATASET_ID",
-            "MY_DATASET_URL",
+            "ROOTapi/datasets/MY_DATASET_ID/display",
             "ROOT",
             '{"settings":"SETTINGS"}',
             '{"spec":"SPECS"}',

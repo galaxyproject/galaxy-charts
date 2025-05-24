@@ -9,7 +9,7 @@ const { getDataset } = useDatasetStore();
 
 // Define props with TypeScript
 const props = defineProps<{
-    datasetId: string;
+    datasetId?: string;
     isAuto: boolean;
     isText: boolean;
     isNumber: boolean;

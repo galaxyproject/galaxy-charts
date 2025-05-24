@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from "vitest";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 
 // Correct mock dataset
@@ -35,9 +35,9 @@ describe("InputDataColumn.vue", () => {
 
     test("loads and parses columns correctly", async () => {
         const wrapper = mountComponent();
+        await flushPromises();
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalledWith("/api/datasets/abc123");
-        await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
         expect(options).toEqual([
             { label: "Column: Default", value: "auto" },

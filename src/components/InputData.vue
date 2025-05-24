@@ -2,7 +2,10 @@
 import { ref, watch, h } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
-import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
+import { useDatasetStore } from "@/store/datasetStore";
+
+const { getDataset } = useDatasetStore();
 
 const LIMIT = 100;
 
@@ -13,6 +16,7 @@ type OptionType = {
 
 type ValueType = {
     id: string;
+    hid: string;
     name: string;
 };
 
@@ -29,26 +33,35 @@ const selectValue = ref<any | null>(null);
 
 // Load datasets based on filters and query
 async function loadDatasets(query?: string): Promise<void> {
-    isLoading.value = true;
-    try {
-        const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}&` : "";
-        const nameFilter = query ? `q=name-contains&qv=${query}` : "";
-        const { data } = await GalaxyApi().GET(`/api/datasets?limit=${LIMIT}&${extensionFilter}${nameFilter}`);
-        if (data && data.length > 0) {
-            const options = data.map((x: ValueType) => ({
-                label: x.name,
-                value: { id: x.id, name: x.name },
-            }));
-            options.push({ label: "...filter for more", value: null, disabled: true });
-            if (props.optional) {
-                options.unshift({ label: "-- Clear Selection --", value: null });
+    if (props.datasetId) {
+        isLoading.value = true;
+        try {
+            const { data: dataset } = await getDataset(props.datasetId);
+            const historyId = dataset.history_id;
+            const defaultFilter = `v=dev&order=hid&q=deleted&qv=false&q=visible&qv=true&`;
+            const extensionFilter = props.extension ? `q=extension-eq&qv=${props.extension}&` : "";
+            const nameFilter = query ? `q=name-contains&qv=${query}&` : "";
+            const { data } = await GalaxyApi().GET(
+                `/api/histories/${historyId}/contents?${defaultFilter}${extensionFilter}${nameFilter}limit=${LIMIT}`,
+            );
+            if (data && data.length > 0) {
+                const options = data.map((x: ValueType) => ({
+                    label: `${x.hid}: ${x.name}`,
+                    value: { id: x.id, hid: x.hid, name: x.name },
+                }));
+                options.push({ label: "...filter for more", value: null, disabled: true });
+                if (props.optional) {
+                    options.unshift({ label: "-- Clear Selection --", value: null });
+                }
+                currentOptions.value = options;
             }
-            currentOptions.value = options;
+        } catch (err) {
+            console.log(err);
+        } finally {
+            isLoading.value = false;
         }
-    } catch (err) {
-        console.log(err);
-    } finally {
-        isLoading.value = false;
+    } else {
+        console.debug("Data selector disabled, since `datasetId` is unavailable.");
     }
 }
 
@@ -63,16 +76,7 @@ function renderLabel(option: OptionType) {
         {
             class: "my-1 whitespace-normal break-all",
         },
-        [
-            h(
-                NIcon,
-                { class: "size-3 mr-1" },
-                {
-                    default: () => h(PlusIcon),
-                },
-            ),
-            option.label,
-        ],
+        option.label,
     );
 }
 

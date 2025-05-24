@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import InputDataColumn from "@/components/InputDataColumn.vue";
 
@@ -37,6 +37,7 @@ describe("InputDataColumn.vue", () => {
         const wrapper = mountComponent();
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalledWith("/api/datasets/abc123");
+        await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
         expect(options).toEqual([
             { label: "Column: Default", value: "auto" },

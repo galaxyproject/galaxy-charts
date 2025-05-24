@@ -6,7 +6,7 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.71",
+    "version": "0.0.72",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",

@@ -64,10 +64,7 @@ const datasetId = computed(() => visualizationConfig.dataset_id || "");
 
 // Get visualization dataset url
 const datasetUrl = computed(() => {
-    if (visualizationConfig.dataset_url) {
-        console.debug(`GalaxyCharts: Evaluating dataset url: ${visualizationConfig.dataset_url}.`);
-        return visualizationConfig.dataset_url;
-    } else if (datasetId.value) {
+    if (datasetId.value) {
         console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetId.value}.`);
         return datasetsGetUrl(root, datasetId.value);
     }
@@ -113,7 +110,6 @@ function postMessage() {
 function serialize() {
     return {
         dataset_id: datasetId.value,
-        dataset_url: datasetUrl.value,
         settings: settingValues.value,
         tracks: trackValues.value,
     };

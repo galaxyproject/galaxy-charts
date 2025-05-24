@@ -14,10 +14,7 @@ Once your visualization is complete and ready for deployment to Galaxy, you can 
 4. Ensure that the following section is in your `package.json`:
 
 ```json
-  "files": [
-    "static/dist/index.js",
-    "static/dist/index.css"
-  ]
+  "files": ["static"]
 ```
 
 ## Build and Publish to npm

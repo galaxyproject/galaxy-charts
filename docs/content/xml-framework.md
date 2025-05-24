@@ -4,11 +4,25 @@ The following sections are not mandatory for developing Galaxy Charts visualizat
 
 ## XML Parsing During Galaxy Startup
 
-Let's break down the XML structure and examine how Galaxy processes it to understand the Galaxy visualization framework. This will highlight the full capabilities of the framework, which can support any JavaScript-based plugin, not just Vue-based ones.
+Let's break down the XML structure and examine how Galaxy processes it to understand the Galaxy visualization framework. This will highlight the full capabilities of the framework, which can support any JavaScript-based plugin—not just those built with Vue.
 
-Galaxy expects the XML file to reside in the `config` subdirectory of the visualization plugin. This file should be accessible from the Galaxy root directory at `config/plugins/visualizations/MY_VISUALIZATION/config/MY_VISUALIZATION.xml`.
+On startup, Galaxy installs visualization plugins from published `npm` packages. Each package must include a `static` directory.
 
-On startup, Galaxy validates the XML file and adds the visualization to the list available in the activity bar. It also scans the XML for a `requirements` tag. When detected, Galaxy installs the specified npm packages and copies all files from each package’s `static` directory to `config/plugins/visualizations/MY_VISUALIZATION/static`.
+The `static` directory should contain:
+- The plugin’s JavaScript code
+- A style sheet (if applicable)
+- An XML wrapper file
+- Optionally, a logo file (`.svg`) and other static assets
+
+Galaxy expects the XML file to reside in the plugin's `static` directory. At runtime, it should be accessible from the Galaxy root as:
+
+```
+config/plugins/visualizations/MY_VISUALIZATION/static/MY_VISUALIZATION.xml
+```
+
+During startup, Galaxy validates this XML file and adds the visualization to the list available in the activity bar.
+
+> **Note:** Replace `MY_VISUALIZATION` with the actual name of your visualization plugin.
 
 This completes the installation of the visualization in Galaxy.
 
@@ -21,7 +35,7 @@ When a user selects a visualization in the Galaxy interface, Galaxy requires a d
 Once the visualization and dataset are selected, Galaxy reads the `entry_point` section in the XML:
 
 ```xml
-<entry_point entry_point_type="script" src="dist/index.js" css="dist/index.css" container="app" />
+<entry_point entry_point_type="script" src="index.js" css="index.css" container="app" />
 ```
 
 The entry_point section includes the following parameters:
@@ -90,21 +104,7 @@ For this plugin, as well as any other, all further interactions with Galaxy shou
 
 In this section, we'll create a slightly more complex plugin using [Vite](https://vite.dev). Vite supports a range of JavaScript-based languages, and the steps here apply to all of them.
 
-### Step 1: Start with XML Configuration
-
-We'll begin with an XML configuration. This example builds upon the minimal example from earlier by using the default XML template from the introduction:
-
-```xml
-<visualization name="Vite Plugin (Vanilla/Vue/React and more)">
-    <description>A basic example of a Vite plugin.</description>
-    <requirements>
-        <requirement type="npm" version="MY_NPM_PACKAGE_VERSION" package="MY_NPM_PACKAGE_NAME"/>
-    </requirements>
-    <entry_point entry_point_type="script" src="dist/index.js" css="dist/index.css" />
-</visualization>
-```
-
-### Step 2: Create a Vite Project
+### Step 1: Create a Vite Project
 
 To create a new Vite project, replace `MY_VISUALIZATION` with your visualization name and run the following command:
 
@@ -114,7 +114,7 @@ npm create vite@latest MY_VISUALIZATION
 
 Follow the prompts and choose any of the provided templates. If you're unfamiliar with certain frameworks, we recommend opting for plain Vanilla JavaScript without TypeScript.
 
-### Step 3: Import the Charts Vite Configuration
+### Step 2: Import the Charts Vite Configuration
 
 Download the charts configuration file <a href="/galaxy-charts/downloads/vite.config.charts.js" download>vite.config.charts.js</a> to your visualization root directory:
 
@@ -136,6 +136,21 @@ export default defineConfig({
 
 Now that we've added the Galaxy Charts configuration, you can proxy your URL request to a Galaxy server following the [Connect to Galaxy](configuration.html) description.
 
+### Step 3: Add the XML Configuration
+
+We'll now continue with an XML configuration example. This builds upon the minimal example introduced earlier, using the default XML template discussed in the introduction.
+
+Place the following XML file into your Vite project's `public` directory:
+
+```xml
+<visualization name="Vite Plugin (Vanilla/Vue/React and more)">
+    <description>A basic example of a Vite plugin.</description>
+    <entry_point entry_point_type="script" src="index.js" css="index.css" />
+</visualization>
+```
+
+You should also add a `logo.svg` file to the same directory. This will be used as the visualization’s icon in the Galaxy activity bar.
+
 ### Step 4: Add Logic to Access Incoming Data from Galaxy
 
 Once your visualization is deployed, Galaxy will pass configuration data to it by attaching the data to the `data-incoming` attribute of the `#app` container element. To handle and utilize this data within your visualization, add the following logic to your main code file:
@@ -151,7 +166,6 @@ if (import.meta.env.DEV) {
         root: "/",
         visualization_config: {
             dataset_id: process.env.dataset_id,
-            dataset_url: "MY_DATASET_URL",
         },
     };
 
@@ -167,11 +181,10 @@ const incoming = JSON.parse(appElement?.dataset.incoming || "{}");
  * In production, this data will be provided by Galaxy.
  */
 const datasetId = incoming.visualization_config.dataset_id;
-const datasetUrl = incoming.visualization_config.dataset_url;
 const root = incoming.root;
 
 /* Build the data request url. Modify the API route if necessary. */
-const url = datasetUrl || `${root}api/datasets/${datasetId}/display`;
+const url = `${root}api/datasets/${datasetId}/display`;
 
 /* Place your code here... */
 ```

@@ -2,7 +2,7 @@
 import { ref, watch, h } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { GalaxyApi } from "@/api/client";
-import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
+import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { useDatasetStore } from "@/store/datasetStore";
 
 const { getDataset } = useDatasetStore();
@@ -76,7 +76,16 @@ function renderLabel(option: OptionType) {
         {
             class: "my-1 whitespace-normal break-all",
         },
-        option.label,
+        [
+            h(
+                NIcon,
+                { class: "size-3 mr-1" },
+                {
+                    default: () => h(PlusIcon),
+                },
+            ),
+            option.label,
+        ],
     );
 }
 

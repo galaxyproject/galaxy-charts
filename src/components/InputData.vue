@@ -17,6 +17,7 @@ type ValueType = {
 };
 
 const props = defineProps<{
+    datasetId?: string;
     extension?: string;
     optional: boolean;
 }>();

@@ -76,6 +76,7 @@ watch(
                 <InputData
                     v-else-if="input.type === 'data'"
                     v-model:value="currentValues[input.name]"
+                    :dataset-id="datasetId"
                     :extension="input.extension"
                     :optional="toBoolean(input.optional)"
                     @update:value="onUpdate" />

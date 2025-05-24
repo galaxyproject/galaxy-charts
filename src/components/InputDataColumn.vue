@@ -2,7 +2,10 @@
 import { ref, watch } from "vue";
 import { NInput, NSelect } from "naive-ui";
 import { parseColumns } from "@/utilities/parseColumns";
-import { GalaxyApi } from "@/api/client";
+import { useDatasetStore } from "@/store/datasetStore";
+
+// Get dataset store
+const { getDataset } = useDatasetStore();
 
 // Define props with TypeScript
 const props = defineProps<{
@@ -20,7 +23,7 @@ const currentValue = defineModel<string | null>("value");
 async function loadColumns(): Promise<void> {
     if (props.datasetId) {
         try {
-            const { data: dataset } = await GalaxyApi().GET(`/api/datasets/${props.datasetId}`);
+            const { data: dataset } = await getDataset(props.datasetId);
             const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
             currentOptions.value = columns;
             initializeValue();

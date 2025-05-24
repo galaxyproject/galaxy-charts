@@ -7,7 +7,7 @@ async function main() {
     const dataIncoming = {
         visualization_config: {
             // Placeholder for dataset ID
-            dataset_id: process.env.dataset_id,
+            dataset_id: process.env.dataset_id || "unavailable",
             // Placeholder for additional visualization settings
             settings: {
                 my_text_name: "My Test Setting",

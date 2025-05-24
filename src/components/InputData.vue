@@ -113,18 +113,21 @@ loadDatasets();
 </script>
 
 <template>
-    <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
-        <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
-        <span>Please select a dataset.</span>
+    <div v-if="datasetId">
+        <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
+            <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
+            <span>Please select a dataset.</span>
+        </div>
+        <n-select
+            v-model:value="selectValue"
+            filterable
+            placeholder="Select a Dataset"
+            :loading="isLoading"
+            :render-label="renderLabel"
+            :render-tag="renderTag"
+            :options="currentOptions"
+            @search="loadDatasets"
+            @update:value="onUpdate" />
     </div>
-    <n-select
-        v-model:value="selectValue"
-        filterable
-        placeholder="Select a Dataset"
-        :loading="isLoading"
-        :render-label="renderLabel"
-        :render-tag="renderTag"
-        :options="currentOptions"
-        @search="loadDatasets"
-        @update:value="onUpdate" />
+    <div v-else>Selection deferred.</div>
 </template>

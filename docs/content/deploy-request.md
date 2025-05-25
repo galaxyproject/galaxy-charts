@@ -12,7 +12,7 @@ Fork the Galaxy repository available at [Galaxy Project on GitHub](https://githu
 
 ## Step 2: Update the Gulpfile
 
-In the Galaxy root directory, open `client/gulpfile.js` and add the name and package details of your visualization to the `VISUALIZATION_PLUGINS` list.
+In the Galaxy root directory, open `client/visualizations.yml` and add the name and package details of your visualization to the list.
 
 ## Step 3: Run Galaxy and Test Your Visualization
 

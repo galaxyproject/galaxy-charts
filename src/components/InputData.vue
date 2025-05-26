@@ -49,7 +49,9 @@ async function loadDatasets(query?: string): Promise<void> {
                     label: `${x.hid}: ${x.name}`,
                     value: { id: x.id, hid: x.hid, name: x.name },
                 }));
-                options.push({ label: "...filter for more", value: null, disabled: true });
+                if (data.length >= LIMIT) {
+                    options.push({ label: "...filter for more", value: null, disabled: true });
+                }
                 if (props.optional) {
                     options.unshift({ label: "-- Clear Selection --", value: null });
                 }

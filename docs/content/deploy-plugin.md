@@ -27,7 +27,7 @@ npm run build
 
 ## Publish to npm
 
-Verify that the `static` directory includes your XML file, a logo.svg, bundled JavaScript and CSS files, and other assets as required.
+Verify that the `static` directory includes your XML file, a `logo.svg`, bundled JavaScript and CSS files, and other assets as required.
 To publish your package to npm, run the following command from your project’s root directory:
 
 ```bash

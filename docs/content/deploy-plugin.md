@@ -17,11 +17,19 @@ Once your visualization is complete and ready for deployment to Galaxy, you can 
   "files": ["static"]
 ```
 
-## Build and Publish to npm
+## Build the Package
 
-To build and publish your package to `npm`, run the following commands from your project’s root directory:
+To build your package to `npm`, run the following commands from your project’s root directory:
 
 ```bash
 npm run build
+```
+
+## Publish to npm
+
+Verify that the `static` directory includes your XML file, a logo.svg, bundled JavaScript and CSS files, and other assets as required.
+To publish your package to npm, run the following command from your project’s root directory:
+
+```bash
 npm publish --access public
 ```

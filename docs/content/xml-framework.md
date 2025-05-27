@@ -87,9 +87,7 @@ The core of the plugin, contained in minimal.js, is minimalistic: it retrieves t
 ```javascript
 // minimal.js
 var element = document.getElementById("app");
-var div = document.createElement("div");
-div.innerText = element.dataset.incoming;
-document.body.appendChild(div);
+element.innerText = element.dataset.incoming;
 ```
 
 This basic setup captures the essentials of a visualization plugin: it identifies where to find the incoming data, processes it (in this case, by parsing and converting it to a readable format), and outputs it to the screen.

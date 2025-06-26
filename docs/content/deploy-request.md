@@ -10,7 +10,7 @@ With your visualization published to `npm`, the next step is to submit a pull re
 
 Fork the Galaxy repository available at [Galaxy Project on GitHub](https://github.com/galaxyproject/galaxy) and clone it to your local machine.
 
-## Step 2: Update the Gulpfile
+## Step 2: Register Your Visualization
 
 In the Galaxy root directory, open `client/visualizations.yml` and add the name and package details of your visualization to the list.
 

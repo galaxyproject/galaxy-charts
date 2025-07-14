@@ -15,7 +15,7 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: 'Introduction',
+        text: 'Opening',
         items: [
           { text: 'What is Galaxy Charts?', link: '/content/introduction' },
           { text: 'Getting Started', link: '/content/installation' },

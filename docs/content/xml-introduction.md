@@ -1,4 +1,4 @@
-# Introduction
+# Introducing the Visualization Framework
 
 Galaxy Visualizations are configured using XML files. The files contain Visualization specific attributes such as the `name`, `description` and the associated npm package details.
 

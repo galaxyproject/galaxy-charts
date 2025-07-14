@@ -1,6 +1,6 @@
 # Understanding the Galaxy Visualization Framework
 
-The following sections are not mandatory for developing Galaxy Charts visualizations, but they offer valuable insights into the underlying details of the visualization framework. These details enhance understanding of the framework’s flexibility and the range of possibilities it offers.
+The following sections offer valuable insights into the underlying details of the visualization framework. These details enhance understanding of the framework’s flexibility and the range of possibilities it offers.
 
 ## XML Parsing During Galaxy Startup
 
@@ -49,7 +49,7 @@ The entry_point section includes the following parameters:
 
 ## Populating the Script Template
 
-Galaxy Charts leverages its minimal JavaScript-based visualization interface, which can be used independently of the Galaxy Charts Vue package and is compatible with any JavaScript framework. To understand how the framework works, let’s examine the interface:
+Galaxy Charts includes a minimal JavaScript-based visualization interface called the script endpoint. While the Galaxy Charts Vue package builds on this foundation, the script endpoint can be used independently and is compatible with any JavaScript framework. To understand how the core framework works, let’s examine this interface.
 
 ```html
 <html>

@@ -23,10 +23,10 @@ export default defineConfig({
         ]
       },
       {
-        text: 'XML Wrapper',
+        text: 'Framework',
         items: [
             { text: 'Introduction', link: '/content/xml-introduction' },
-            { text: 'Framework', link: '/content/xml-framework' },
+            { text: 'Details', link: '/content/xml-framework' },
             { text: 'Data Sources', link: '/content/xml-datasources' },
             { text: 'Sections', link: '/content/xml-sections' },
             { text: 'Inputs', link: '/content/xml-inputs' },

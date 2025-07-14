@@ -1,4 +1,4 @@
-# Understanding the Galaxy Visualization Framework
+# Understanding the Visualization Framework
 
 The following sections offer valuable insights into the underlying details of the visualization framework. These details enhance understanding of the framework’s flexibility and the range of possibilities it offers.
 

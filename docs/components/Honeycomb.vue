@@ -13,7 +13,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const totalCells = 30;
+const totalCells = 22;
 const size = 130;
 const rows = ref([]);
 

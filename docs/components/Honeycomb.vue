@@ -43,13 +43,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-html,
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
 .honeycomb {
     position: fixed;
     top: 150px;

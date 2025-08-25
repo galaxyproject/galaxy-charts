@@ -15,7 +15,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const size = 130;
+const size = 150;
 const totalCells = 22;
 const hexes = ref([]);
 const honeycombEl = ref(null);
@@ -60,8 +60,9 @@ body {
 }
 
 .honeycomb {
-    position: relative;
-    top: -50px;
+    position: fixed;
+    top: 150px;
+    opacity: 0.2;
     left: v-bind(-size + "px");
     width: 100%;
     height: 300px;
@@ -86,7 +87,7 @@ body {
 }
 
 .honeycomb a:hover {
-    transform: translate(calc(var(--x) * 100%), calc(var(--y) * 86.67%)) scale(1.2);
+    transform: translate(calc(var(--x) * 100%), calc(var(--y) * 86.67%)) scale(1);
     z-index: 3;
 }
 </style>

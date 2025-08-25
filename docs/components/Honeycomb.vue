@@ -1,81 +1,92 @@
 <template>
-    <div class="honeycomb">
-        <div v-for="(row, rIndex) in rows" :key="rIndex" class="row" :class="{ offset: rIndex % 2 === 1 }">
-            <div
-                v-for="(hex, hIndex) in row"
-                :key="hIndex"
-                class="hex"
-                :style="{ backgroundImage: `url(${hex})` }"></div>
-        </div>
+    <div ref="honeycombEl" class="honeycomb">
+        <a
+            v-for="(hex, index) in hexes"
+            :key="index"
+            :style="{
+                '--x': hex.x,
+                '--y': hex.y,
+                '--delay': `${index * 0.02}s`,
+                backgroundImage: `url(${hex.img})`,
+            }"></a>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const totalCells = 22;
 const size = 130;
-const rows = ref([]);
+const totalCells = 22;
+const hexes = ref([]);
+const honeycombEl = ref(null);
 
 function buildHoneycomb() {
-    const width = window.innerWidth;
-    const cols = Math.floor(width / size);
-    const hexWidth = width / Math.min(cols, totalCells);
-    const hexHeight = (hexWidth * Math.sqrt(3)) / 2;
-
+    const width = window.innerWidth + size;
+    const cols = Math.ceil(width / size);
+    const rows = Math.ceil(totalCells / cols);
     const allImages = Array.from({ length: totalCells }, (_, i) => `examples/${i + 1}.png`);
+    const temp = [];
 
-    rows.value = [];
-    let index = 0;
-    while (index < totalCells) {
-        rows.value.push(allImages.slice(index, index + cols));
-        index += cols;
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const i = r * cols + c;
+            if (i >= totalCells) break;
+            temp.push({
+                img: allImages[i],
+                x: c + (r % 2 ? 0.5 : 0),
+                y: r * 0.8667,
+            });
+        }
     }
 
-    document.documentElement.style.setProperty("--hex-width", hexWidth + "px");
-    document.documentElement.style.setProperty("--hex-height", hexHeight + "px");
+    hexes.value = temp;
 }
 
 onMounted(() => {
     buildHoneycomb();
     window.addEventListener("resize", buildHoneycomb);
 });
+
+onBeforeUnmount(() => {
+    window.removeEventListener("resize", buildHoneycomb);
+});
 </script>
 
 <style scoped>
+/* prevent horizontal scroll globally */
+html,
+body {
+    overflow-x: hidden;
+}
+
 .honeycomb {
-    position: fixed;
-    top: 150px;
-    display: flex;
-    opacity: 0.2;
-    flex-direction: column;
-    transform: rotate(-10deg) rotateX(20deg) translateX(-10%);
-    perspective: 1000px;
+    position: relative;
+    top: -50px;
+    left: v-bind(-size + "px");
+    width: 100%;
+    height: 300px;
+    perspective: 1500px;
+    transform: rotateX(25deg) rotateZ(-5deg);
+    transform-style: preserve-3d;
+    overflow: visible;
 }
 
-.row {
-    display: flex;
-    margin-top: calc(var(--hex-height) * -0.25);
-}
-
-.row:first-child {
-    margin-top: 0;
-}
-
-.row.offset {
-    margin-left: calc(var(--hex-width) / 2);
-}
-
-.hex {
-    width: var(--hex-width);
-    height: var(--hex-height);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    flex-shrink: 0;
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.honeycomb a {
+    position: absolute;
+    width: v-bind(size + "px");
+    aspect-ratio: 1;
     background-size: cover;
     background-position: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transform: translate(calc(var(--x) * 100%), calc(var(--y) * 86.67%)) scale(1);
+    transition:
+        transform 0.25s ease-out,
+        filter 0.25s ease-out;
+    backface-visibility: hidden;
+}
+
+.honeycomb a:hover {
+    transform: translate(calc(var(--x) * 100%), calc(var(--y) * 86.67%)) scale(1.2);
+    z-index: 3;
 }
 </style>

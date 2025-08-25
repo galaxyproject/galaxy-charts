@@ -24,11 +24,3 @@ features:
     details: When your visualization is ready, deploy it to Galaxy for use by researchers worldwide.
     icon: 🚀
 ---
-
-<script setup>
-import Honeycomb from './components/Honeycomb.vue'
-</script>
-
-<ClientOnly>
-    <Honeycomb />
-</ClientOnly>

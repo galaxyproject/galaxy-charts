@@ -6,6 +6,10 @@
     color: #e30a17;
 }
 
+.VPFeature {
+    opacity: 0.9;
+}
+
 body {
     @apply font-sans; /* Apply the default sans font globally */
 }

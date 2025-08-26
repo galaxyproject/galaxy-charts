@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.VPNavBarTitle a span {
-    color: #e30a17;
-}
-
 .VPFeature {
     opacity: 0.9;
+}
+
+.VPNavBarTitle a span {
+    color: #e30a17;
 }
 
 body {

@@ -5,6 +5,7 @@ outline: deep
 # Data Sources
 
 The Data Sources section is required in the Visualization XML to inform Galaxy of the compatible data types for your visualization.
+If your visualization does not need a pre-existing dataset, set `required="false"` on the `<param>` definition.
 
 ```xml
 <data_sources>

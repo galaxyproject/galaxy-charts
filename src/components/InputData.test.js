@@ -36,7 +36,7 @@ describe("InputData.vue", () => {
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
         expect(mockGet).toHaveBeenCalled();
-        expect(options.length).toBe(3);
+        expect(options.length).toBe(2);
         expect(options[0].label).toBe("1: dataset1.csv");
     });
 
@@ -45,6 +45,7 @@ describe("InputData.vue", () => {
         await flushPromises();
         await wrapper.vm.$nextTick();
         const options = wrapper.vm.currentOptions;
+        expect(options.length).toBe(3);
         expect(options[0].label).toBe("-- Clear Selection --");
     });
 
@@ -77,7 +78,7 @@ describe("InputData.vue", () => {
     test("emits update on selection", async () => {
         const wrapper = mountComponent();
         wrapper.vm.selectValue = { id: "1", name: "dataset1.csv" };
-        wrapper.vm.onUpdate();
+        wrapper.vm.onUpdate(wrapper.vm.selectValue);
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.currentValue).toEqual({ id: "1", name: "dataset1.csv" });
     });

@@ -10,6 +10,11 @@ async function main() {
             dataset_id: process.env.dataset_id || "unavailable",
             // Placeholder for additional visualization settings
             settings: {
+                my_data_name: {
+                    hid: 1,
+                    id: "dataset_id",
+                    name: "dataset name",
+                },
                 my_text_name: "My Test Setting",
                 my_boolean_name: true,
                 setting_conditional: {

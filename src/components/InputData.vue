@@ -29,7 +29,7 @@ const props = defineProps<{
 const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const isLoading = ref(false);
-const selectValue = ref<any | null>(null);
+const selectValue = ref<string | number | null>(null);
 
 // Load datasets based on filters and query
 async function loadDatasets(query?: string): Promise<void> {
@@ -68,8 +68,8 @@ async function loadDatasets(query?: string): Promise<void> {
 }
 
 // Update the current selection value
-function onUpdate(): void {
-    currentValue.value = selectValue.value;
+function onUpdate(newValue: ValueType): void {
+    currentValue.value = newValue;
 }
 
 function renderLabel(option: OptionType) {
@@ -121,13 +121,13 @@ loadDatasets();
             <span>Please select a dataset.</span>
         </div>
         <n-select
-            v-model:value="selectValue"
             filterable
             placeholder="Select a Dataset"
             :loading="isLoading"
             :render-label="renderLabel"
             :render-tag="renderTag"
             :options="currentOptions"
+            :value="selectValue"
             @search="loadDatasets"
             @update:value="onUpdate" />
     </div>

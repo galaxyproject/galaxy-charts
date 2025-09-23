@@ -14,7 +14,8 @@
     "exports": {
         ".": {
             "import": "./dist/galaxy-charts.js",
-            "require": "./dist/galaxy-charts.js"
+            "require": "./dist/galaxy-charts.js",
+            "types": "./dist/types.d.ts"
         }
     },
     "files": [

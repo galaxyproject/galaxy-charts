@@ -184,6 +184,7 @@ Translates to:
     <help>My Select Help</help>
     <name>my_select_name</name>
     <type>select</type>
+    <filterable>false</filterable>
     <value>my_option_a</value>
     <data>
         <data>

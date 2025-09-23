@@ -1,28 +1,29 @@
 export interface InputElementType {
-    name: string;
-    label?: string;
-    help?: string;
-    type: string;
-    min?: string;
-    max?: string;
-    rows?: string;
+    cases?: Array<{
+        value: string;
+        inputs: Array<InputElementType>;
+    }>;
+    data?: Array<{ label: string; value: string }>;
     extension?: string;
-    optional?: string;
+    filterable?: boolean;
+    help?: string;
     is_auto?: string;
     is_text?: string;
     is_number?: string;
-    data?: Array<{ label: string; value: string }>;
-    value?: string;
+    label?: string;
+    max?: string;
+    min?: string;
+    name: string;
+    optional?: string;
+    rows?: string;
     test_param?: {
         name: string;
         type: string;
         data?: Array<{ label: string; value: string }>;
         value?: string;
     };
-    cases?: Array<{
-        value: string;
-        inputs: Array<InputElementType>;
-    }>;
+    type: string;
+    value?: string;
 }
 
 export type InputAtomicType = boolean | string | number | null | undefined;

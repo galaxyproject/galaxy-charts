@@ -108,6 +108,7 @@ watch(
                 <n-select
                     v-else-if="input.type === 'select'"
                     v-model:value="currentValues[input.name]"
+                    :filterable="toBoolean(input.filterable)"
                     :options="input.data"
                     @update:value="onUpdate" />
                 <n-input

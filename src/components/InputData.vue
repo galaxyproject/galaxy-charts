@@ -17,7 +17,7 @@ type ValueType = {
 const props = defineProps<{
     datasetId?: string;
     extension?: string;
-    optional: boolean;
+    optional?: boolean;
 }>();
 
 const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
@@ -44,9 +44,6 @@ async function loadDatasets(query?: string): Promise<void> {
                 if (data.length >= LIMIT) {
                     options.push({ label: "...filter for more", value: null, disabled: true });
                 }
-                if (props.optional) {
-                    options.unshift({ label: "-- Clear Selection --", value: null });
-                }
                 currentOptions.value = options;
             }
         } catch (err) {
@@ -66,6 +63,7 @@ loadDatasets();
     <div v-if="datasetId">
         <InputSelect
             v-model:value="currentValue"
+            :datasetId="datasetId"
             :loading="isLoading"
             :options="currentOptions"
             :optional="optional"

@@ -6,7 +6,7 @@ import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
 type OptionType = {
     disabled?: boolean;
     label: string;
-    value: ValueType;
+    value: ValueType | null;
     type?: string;
 };
 
@@ -17,6 +17,7 @@ type ValueType = {
 
 const props = withDefaults(
     defineProps<{
+        datasetId?: string;
         loading?: boolean;
         options: Array<OptionType>;
         optional?: boolean;
@@ -41,19 +42,25 @@ const values = ref<Record<string, ValueType>>({});
 
 const mapped = computed(() => {
     values.value = {};
-    return props.options.map((o) => {
-        values.value[o.value.id] = o.value;
+    const result = props.options.map((o) => {
+        if (o.value) {
+            values.value[o.value.id] = o.value;
+        }
         return {
             label: o.label,
-            value: o.value.id,
+            value: o.value?.id || "",
             disabled: o.disabled,
         };
     });
+    if (props.optional) {
+        result.unshift({ label: "-- Clear Selection --", value: "", disabled: false });
+    }
+    return result;
 });
 
 function onUpdate(newId: string | null) {
     selectValue.value = newId;
-    currentValue.value = newId != null ? values.value[newId] : null;
+    currentValue.value = newId ? values.value[newId] : null;
 }
 
 function renderLabel(option: { label: string }) {
@@ -77,7 +84,7 @@ watch(
 </script>
 
 <template>
-    <div v-if="options?.length > 0">
+    <div v-if="datasetId">
         <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
             <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
             <span>{{ title }}</span>

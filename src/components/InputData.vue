@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { GalaxyApi } from "@/api/client";
 import { useDatasetStore } from "@/store/datasetStore";
 import InputSelect from "@/components/InputSelect.vue";
+import type { InputSelectOptionType } from "@/types";
 
 const { getDataset } = useDatasetStore();
 
@@ -20,13 +21,13 @@ const props = defineProps<{
     optional?: boolean;
 }>();
 
-const currentOptions = ref<Array<{ label: string; value: ValueType | null; disabled?: boolean }>>([]);
+const currentOptions = ref<Array<InputSelectOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
-const isLoading = ref(false);
+const loading = ref(false);
 
 async function loadDatasets(query?: string): Promise<void> {
     if (props.datasetId) {
-        isLoading.value = true;
+        loading.value = true;
         try {
             const { data: dataset } = await getDataset(props.datasetId);
             const historyId = dataset.history_id;
@@ -49,7 +50,7 @@ async function loadDatasets(query?: string): Promise<void> {
         } catch (err) {
             console.log(err);
         } finally {
-            isLoading.value = false;
+            loading.value = false;
         }
     } else {
         console.debug("Data selector disabled, since `datasetId` is unavailable.");
@@ -64,7 +65,7 @@ loadDatasets();
         <InputSelect
             v-model:value="currentValue"
             :datasetId="datasetId"
-            :loading="isLoading"
+            :loading="loading"
             :options="currentOptions"
             :optional="optional"
             placeholder="Select a Dataset"

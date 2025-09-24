@@ -2,24 +2,13 @@
 import { computed, h, ref, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
-
-type OptionType = {
-    disabled?: boolean;
-    label: string;
-    value: ValueType | null;
-    type?: string;
-};
-
-type ValueType = {
-    id: string;
-    [key: string]: string | number | boolean;
-};
+import type { InputSelectOptionType, InputSelectValueType } from "@/types";
 
 const props = withDefaults(
     defineProps<{
         datasetId?: string;
         loading?: boolean;
-        options: Array<OptionType>;
+        options: Array<InputSelectOptionType>;
         optional?: boolean;
         placeholder?: string;
         title?: string;
@@ -36,9 +25,9 @@ const emit = defineEmits<{
     (event: "search", filter: string): void;
 }>();
 
-const currentValue = defineModel<ValueType | null>("value");
+const currentValue = defineModel<InputSelectValueType | null>("value");
 const selectValue = ref<string | null>(null);
-const values = ref<Record<string, ValueType>>({});
+const values = ref<Record<string, InputSelectValueType>>({});
 
 const mapped = computed(() => {
     values.value = {};

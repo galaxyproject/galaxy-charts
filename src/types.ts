@@ -1,3 +1,5 @@
+export type InputAtomicType = boolean | string | number | null | undefined;
+
 export interface InputElementType {
     cases?: Array<{
         value: string;
@@ -26,7 +28,17 @@ export interface InputElementType {
     value?: string;
 }
 
-export type InputAtomicType = boolean | string | number | null | undefined;
+export type InputSelectOptionType = {
+    disabled?: boolean;
+    label: string;
+    value: InputSelectValueType | null;
+    type?: string;
+};
+
+export type InputSelectValueType = {
+    id: string;
+    [key: string]: string | number | boolean;
+};
 
 export type InputValuesType = Record<string, any>;
 

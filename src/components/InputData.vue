@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, h } from "vue";
-import { NSelect, NIcon } from "naive-ui";
+import { ref } from "vue";
 import { GalaxyApi } from "@/api/client";
-import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { useDatasetStore } from "@/store/datasetStore";
+import InputSelect from "@/components/InputSelect.vue";
 
 const { getDataset } = useDatasetStore();
 
 const LIMIT = 100;
-
-type OptionType = {
-    label: string;
-    value: ValueType;
-};
 
 type ValueType = {
     id: string;
@@ -29,9 +23,7 @@ const props = defineProps<{
 const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const isLoading = ref(false);
-const selectValue = ref<string | number | null>(null);
 
-// Load datasets based on filters and query
 async function loadDatasets(query?: string): Promise<void> {
     if (props.datasetId) {
         isLoading.value = true;
@@ -67,69 +59,19 @@ async function loadDatasets(query?: string): Promise<void> {
     }
 }
 
-// Update the current selection value
-function onUpdate(newValue: ValueType): void {
-    currentValue.value = newValue;
-}
-
-function renderLabel(option: OptionType) {
-    return h(
-        "div",
-        {
-            class: "my-1 whitespace-normal break-all",
-        },
-        [
-            h(
-                NIcon,
-                { class: "size-3 mr-1" },
-                {
-                    default: () => h(PlusIcon),
-                },
-            ),
-            option.label,
-        ],
-    );
-}
-
-function renderTag({ option }: { option: Record<string, any> }) {
-    return h(
-        "div",
-        {
-            class: "z-[1] whitespace-nowrap text-ellipsis overflow-hidden",
-        },
-        option.label,
-    );
-}
-
-// Sync selectValue (string) with currentValue
-watch(
-    () => currentValue.value,
-    () => {
-        selectValue.value = currentValue.value?.name || null;
-    },
-    { immediate: true },
-);
-
-// Initial load
 loadDatasets();
 </script>
 
 <template>
     <div v-if="datasetId">
-        <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
-            <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
-            <span>Please select a dataset.</span>
-        </div>
-        <n-select
-            filterable
-            placeholder="Select a Dataset"
+        <InputSelect
+            v-model:value="currentValue"
             :loading="isLoading"
-            :render-label="renderLabel"
-            :render-tag="renderTag"
             :options="currentOptions"
-            :value="selectValue"
-            @search="loadDatasets"
-            @update:value="onUpdate" />
+            :optional="optional"
+            placeholder="Select a Dataset"
+            title="Please select a dataset."
+            @search="loadDatasets" />
     </div>
     <div v-else>Selection deferred.</div>
 </template>

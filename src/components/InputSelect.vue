@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref, watch, h } from "vue";
+import { computed, h, ref, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
 
 type OptionType = {
     disabled?: boolean;
     label: string;
-    value: any;
+    value: ValueType;
     type?: string;
 };
 
-withDefaults(
+type ValueType = {
+    id: string;
+    [key: string]: string | number | boolean;
+};
+
+const props = withDefaults(
     defineProps<{
         loading?: boolean;
         options: Array<OptionType>;
@@ -30,48 +35,42 @@ const emit = defineEmits<{
     (event: "search", filter: string): void;
 }>();
 
-const currentValue = defineModel<any | null>("value");
-const selectValue = ref<string | number | null>(null);
+const currentValue = defineModel<ValueType | null>("value");
+const selectValue = ref<string | null>(null);
+const values = ref<Record<string, ValueType>>({});
 
-// Update the current selection value
-function onUpdate(newValue: any): void {
-    currentValue.value = newValue;
+const mapped = computed(() => {
+    values.value = {};
+    return props.options.map((o) => {
+        values.value[o.value.id] = o.value;
+        return {
+            label: o.label,
+            value: o.value.id,
+            disabled: o.disabled,
+        };
+    });
+});
+
+function onUpdate(newId: string | null) {
+    selectValue.value = newId;
+    currentValue.value = newId != null ? values.value[newId] : null;
 }
 
-function renderLabel(option: OptionType) {
-    return h(
-        "div",
-        {
-            class: "my-1 whitespace-normal break-all",
-        },
-        [
-            h(
-                NIcon,
-                { class: "size-3 mr-1" },
-                {
-                    default: () => h(PlusIcon),
-                },
-            ),
-            option.label,
-        ],
-    );
+function renderLabel(option: { label: string }) {
+    return h("div", { class: "my-1 whitespace-normal break-all" }, [
+        h(NIcon, { class: "size-3 mr-1" }, { default: () => h(PlusIcon) }),
+        option.label,
+    ]);
 }
 
 function renderTag({ option }: { option: Record<string, any> }) {
-    return h(
-        "div",
-        {
-            class: "z-[1] whitespace-nowrap text-ellipsis overflow-hidden",
-        },
-        option.label,
-    );
+    return h("div", { class: "z-[1] whitespace-nowrap text-ellipsis overflow-hidden" }, option.label ?? "");
 }
 
-// Sync selectValue (string) with currentValue
 watch(
     () => currentValue.value,
-    () => {
-        selectValue.value = currentValue.value?.name || null;
+    (val) => {
+        selectValue.value = val?.id ?? null;
     },
     { immediate: true },
 );
@@ -85,11 +84,11 @@ watch(
         </div>
         <n-select
             filterable
-            placeholder="placeholder"
+            :placeholder="placeholder"
             :loading="loading"
             :render-label="renderLabel"
             :render-tag="renderTag"
-            :options="options"
+            :options="mapped"
             :value="selectValue"
             @search="emit('search', $event)"
             @update:value="onUpdate" />

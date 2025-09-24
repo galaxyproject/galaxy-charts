@@ -68,7 +68,7 @@ loadDatasets();
             :loading="loading"
             :options="currentOptions"
             :optional="optional"
-            placeholder="Select a Dataset"
+            placeholder="Select a dataset"
             title="Please select a dataset."
             @search="loadDatasets" />
     </div>

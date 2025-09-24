@@ -6,7 +6,6 @@ import type { InputSelectOptionType, InputSelectValueType } from "@/types";
 
 const props = withDefaults(
     defineProps<{
-        datasetId?: string;
         loading?: boolean;
         options: Array<InputSelectOptionType>;
         optional?: boolean;
@@ -73,7 +72,7 @@ watch(
 </script>
 
 <template>
-    <div v-if="datasetId">
+    <div>
         <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
             <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
             <span>{{ title }}</span>
@@ -89,5 +88,4 @@ watch(
             @search="emit('search', $event)"
             @update:value="onUpdate" />
     </div>
-    <div v-else>Selection deferred.</div>
 </template>

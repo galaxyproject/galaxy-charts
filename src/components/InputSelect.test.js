@@ -12,7 +12,6 @@ describe("InputSelect.vue", () => {
     const mountComponent = (props = {}) =>
         mount(InputSelect, {
             props: {
-                datasetId: "123",
                 options,
                 optional: false,
                 ...props,

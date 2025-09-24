@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { GalaxyApi } from "@/api/client";
-import { useDatasetStore } from "@/store/datasetStore";
 import InputSelect from "@/components/InputSelect.vue";
 import type { InputSelectOptionType } from "@/types";
 

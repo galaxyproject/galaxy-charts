@@ -20,7 +20,7 @@ const props = defineProps<{
     optional?: boolean;
 }>();
 
-const currentOptions = ref<Array<{ label: string; value: any; disabled?: boolean }>>([]);
+const currentOptions = ref<Array<{ label: string; value: ValueType | null; disabled?: boolean }>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const isLoading = ref(false);
 

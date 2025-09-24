@@ -4,6 +4,7 @@ import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "n
 import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
+import InputGenome from "@/components/InputGenome.vue";
 import { toBoolean } from "@/utilities/toBoolean";
 import type { InputElementType, InputValuesType } from "@/types";
 
@@ -87,6 +88,11 @@ watch(
                     :is-auto="toBoolean(input.is_auto)"
                     :is-text="toBoolean(input.is_text)"
                     :is-number="toBoolean(input.is_number)"
+                    @update:value="onUpdate" />
+                <InputGenome
+                    v-else-if="input.type === 'genome'"
+                    v-model:value="currentValues[input.name]"
+                    :optional="toBoolean(input.optional)"
                     @update:value="onUpdate" />
                 <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider

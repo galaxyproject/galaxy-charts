@@ -35,6 +35,12 @@
             <max>10</max>
         </input>
         <input>
+            <label>My Genome Label</label>
+            <help>My Genome Help</help>
+            <name>my_genome_name</name>
+            <type>genome</type>
+        </input>
+        <input>
             <label>My Integer Label</label>
             <help>My Integer Help</help>
             <name>my_integer_name</name>

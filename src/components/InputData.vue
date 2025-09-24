@@ -64,7 +64,6 @@ loadDatasets();
     <div v-if="datasetId">
         <InputSelect
             v-model:value="currentValue"
-            :datasetId="datasetId"
             :loading="loading"
             :options="currentOptions"
             :optional="optional"

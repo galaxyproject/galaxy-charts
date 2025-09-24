@@ -5,8 +5,6 @@ import { useDatasetStore } from "@/store/datasetStore";
 import InputSelect from "@/components/InputSelect.vue";
 import type { InputSelectOptionType } from "@/types";
 
-const { getDataset } = useDatasetStore();
-
 type ValueType = {
     id: string;
     name: string;

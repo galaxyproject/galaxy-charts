@@ -19,6 +19,13 @@
             <type>data</type>
         </input>
         <input>
+            <label>My Data Label (optional)</label>
+            <help>My Data Help (optional)</help>
+            <name>my_data_name_optional</name>
+            <type>data</type>
+            <optional>true</optional>
+        </input>
+        <input>
             <label>My Float Label</label>
             <help>My Float Help</help>
             <name>my_float_name</name>

@@ -18,6 +18,7 @@ export interface InputElementType {
     name: string;
     optional?: string;
     rows?: string;
+    table?: string;
     test_param?: {
         name: string;
         type: string;
@@ -37,7 +38,7 @@ export type InputSelectOptionType = {
 
 export type InputSelectValueType = {
     id: string;
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | Array<string>;
 };
 
 export type InputValuesType = Record<string, any>;

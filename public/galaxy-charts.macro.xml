@@ -26,6 +26,13 @@
             <optional>true</optional>
         </input>
         <input>
+            <label>My Data Table Label</label>
+            <help>My Data Table Help</help>
+            <name>my_data_table_name</name>
+            <type>data_table</type>
+            <table>twobit</table>
+        </input>
+        <input>
             <label>My Float Label</label>
             <help>My Float Help</help>
             <name>my_float_name</name>
@@ -33,12 +40,6 @@
             <value>0</value>
             <min>0</min>
             <max>10</max>
-        </input>
-        <input>
-            <label>My Genome Label</label>
-            <help>My Genome Help</help>
-            <name>my_genome_name</name>
-            <type>genome</type>
         </input>
         <input>
             <label>My Integer Label</label>

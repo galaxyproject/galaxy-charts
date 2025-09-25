@@ -33,7 +33,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
     const testName = input.test_param?.name;
 
     if (!testName) {
-        console.error(`Test parameter has no name: ${input.name}.`);
+        console.error(`[charts] Test parameter has no name: ${input.name}.`);
     } else {
         const testValue = result[testName] ?? input.test_param?.value;
         for (const inputCase of input.cases || []) {

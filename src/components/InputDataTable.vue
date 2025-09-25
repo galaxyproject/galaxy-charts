@@ -20,7 +20,7 @@ const props = defineProps<{
     datasetId?: string;
     optional?: boolean;
     placeholder?: string;
-    table?: Array<string>;
+    tables?: string[];
     title?: string;
 }>();
 
@@ -51,25 +51,25 @@ function parseOptions(table: string, tableData: TableType) {
             });
         }
     } else {
-        console.debug(`[IGV] No columns found in ${table}`);
+        console.debug(`[charts] No columns found in ${table}.`);
     }
     return options;
 }
 
 async function loadData(): Promise<void> {
     loading.value = true;
-    let options: Array<InputSelectOptionType> = [];
-    if (props.table && props.table.length > 0) {
-        for (const table of props.table) {
+    const opts: InputSelectOptionType[] = [];
+    if (props.tables && props.tables.length > 0) {
+        for (const table of props.tables) {
             try {
                 const { data } = await GalaxyApi().GET(`/api/tool_data/${table}`);
-                options = [...options, ...parseOptions(table, data)];
+                opts.push(...parseOptions(table, data));
             } catch (err) {
-                console.log(err);
+                console.debug("[charts] Failed to request data table.", err);
             }
         }
     }
-    currentOptions.value = options;
+    currentOptions.value = opts;
     loading.value = false;
 }
 

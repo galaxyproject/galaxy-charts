@@ -30,13 +30,13 @@ const testParam = ref(props.input.test_param);
 // Get test parameter name and validate it
 const testName = testParam.value.name;
 if (!testName) {
-    console.error(`Test parameter has no name: ${props.input.name}.`);
+    console.error(`[charts] Test parameter has no name: ${props.input.name}.`);
 }
 
 // Reference the model value of the conditional component
 const currentValue = defineModel<InputValuesType>("value");
 if (!currentValue.value || !(testName in currentValue.value)) {
-    console.error(`Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
+    console.error(`[charts] Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
 }
 // Reference current test parameter value
 const currentTestValue = ref<string>(getTestValue());

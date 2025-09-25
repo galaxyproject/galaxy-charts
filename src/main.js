@@ -36,7 +36,7 @@ async function main() {
 
     // Add event listener
     window.addEventListener("message", (event) => {
-        console.log(event.data);
+        console.log("[charts] Outgoing message data:", event.data);
     });
 
     // Mount the app

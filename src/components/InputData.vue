@@ -48,12 +48,12 @@ async function loadDatasets(query?: string): Promise<void> {
                 currentOptions.value = options;
             }
         } catch (err) {
-            console.log(err);
+            console.debug("[charts] Failed to request datasets.", err);
         } finally {
             loading.value = false;
         }
     } else {
-        console.debug("Data selector disabled, since `datasetId` is unavailable.");
+        console.debug("[charts] Data selector disabled, since `datasetId` is unavailable.");
     }
 }
 

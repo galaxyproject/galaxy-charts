@@ -28,10 +28,10 @@ async function loadColumns(): Promise<void> {
             currentOptions.value = columns;
             initializeValue();
         } catch (err) {
-            console.debug(err);
+            console.debug("[charts] Failed to handle dataset columns.", err);
         }
     } else {
-        console.debug("Data column selector disabled, since `datasetId` is unavailable.");
+        console.debug("[charts] Data column selector disabled, since `datasetId` is unavailable.");
     }
 }
 

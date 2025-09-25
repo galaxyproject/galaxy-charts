@@ -65,7 +65,7 @@ const datasetId = computed(() => visualizationConfig.dataset_id || "");
 // Get visualization dataset url
 const datasetUrl = computed(() => {
     if (datasetId.value) {
-        console.debug(`GalaxyCharts: Built dataset url from dataset id: ${datasetId.value}.`);
+        console.debug(`[charts] Built dataset url from dataset id: ${datasetId.value}.`);
         return datasetsGetUrl(root, datasetId.value);
     }
     return "";
@@ -84,7 +84,7 @@ async function onToggle(): Promise<void> {
     if (window) {
         window.dispatchEvent(new Event("resize"));
     } else {
-        console.warn("window unavailable.");
+        console.warn("[charts] window unavailable.");
     }
 }
 

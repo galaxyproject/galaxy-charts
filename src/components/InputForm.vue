@@ -93,7 +93,7 @@ watch(
                     v-else-if="input.type === 'data_table'"
                     v-model:value="currentValues[input.name]"
                     :optional="toBoolean(input.optional)"
-                    :table="input.table"
+                    :tables="input.tables"
                     @update:value="onUpdate" />
                 <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider

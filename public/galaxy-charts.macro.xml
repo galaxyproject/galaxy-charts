@@ -30,7 +30,10 @@
             <help>My Data Table Help</help>
             <name>my_data_table_name</name>
             <type>data_table</type>
-            <table>twobit</table>
+            <table>
+                <table>fasta_indexes</table>
+                <table>twobit</table>
+            </table>
         </input>
         <input>
             <label>My Float Label</label>

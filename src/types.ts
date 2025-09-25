@@ -18,7 +18,7 @@ export interface InputElementType {
     name: string;
     optional?: string;
     rows?: string;
-    table?: string;
+    table?: Array<string>;
     test_param?: {
         name: string;
         type: string;

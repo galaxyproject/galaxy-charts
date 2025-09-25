@@ -16,7 +16,7 @@ const props = defineProps<{
     optional?: boolean;
     placeholder?: string;
     title?: string;
-    table?: string;
+    table?: Array<string>;
 }>();
 
 const currentOptions = ref<Array<InputSelectOptionType>>([]);
@@ -25,37 +25,41 @@ const loading = ref(false);
 
 async function loadData(): Promise<void> {
     loading.value = true;
-    try {
-        const { data } = await GalaxyApi().GET(`/api/tool_data/${props.table}`);
-        const columns = data?.columns;
-        const fields = data?.fields;
-        const length = columns?.length;
-        if (length > 0) {
-            if (fields && fields.length > 0) {
-                const nameCol = Math.max(columns.indexOf("name"), 0);
-                const valueCol = Math.max(columns.indexOf("value"), 0);
-                const options = fields.map((row: Array<string>) => {
-                    const validRow = row.length === length;
-                    return {
-                        label: validRow ? row[nameCol] : row[0],
-                        value: {
-                            id: validRow ? row[valueCol] : row[0],
-                            columns: columns,
-                            row: row,
-                            table: props.table,
-                        },
-                    };
-                });
-                currentOptions.value = options;
+    const options: Array<InputSelectOptionType> = [];
+    if (props.table && props.table.length > 0) {
+        for (const table of props.table) {
+            try {
+                const { data } = await GalaxyApi().GET(`/api/tool_data/${table}`);
+                const columns = data?.columns;
+                const fields = data?.fields;
+                const length = columns?.length;
+                if (length > 0) {
+                    if (fields && fields.length > 0) {
+                        const nameCol = Math.max(columns.indexOf("name"), 0);
+                        const valueCol = Math.max(columns.indexOf("value"), 0);
+                        fields.forEach((row: Array<string>) => {
+                            const validRow = row.length === length;
+                            options.push({
+                                label: validRow ? row[nameCol] : row[0],
+                                value: {
+                                    id: validRow ? row[valueCol] : row[0],
+                                    columns: columns,
+                                    row: row,
+                                    table: table,
+                                },
+                            });
+                        });
+                    }
+                } else {
+                    console.debug(`[IGV] No columns found in ${table}`);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } else {
-            console.debug(`[IGV] No columns found in ${props.table}`);
         }
-    } catch (err) {
-        console.log(err);
-    } finally {
-        loading.value = false;
     }
+    currentOptions.value = options;
+    loading.value = false;
 }
 
 loadData();

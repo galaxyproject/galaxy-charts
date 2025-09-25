@@ -15,6 +15,9 @@ async function main() {
                     id: "dataset_id",
                     name: "dataset name",
                 },
+                my_data_table_name: {
+                    id: "my_data_table_entry",
+                },
                 my_text_name: "My Test Setting",
                 my_boolean_name: true,
                 setting_conditional: {

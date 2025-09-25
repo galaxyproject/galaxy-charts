@@ -4,6 +4,11 @@ import { GalaxyApi } from "@/api/client";
 import InputSelect from "@/components/InputSelect.vue";
 import type { InputSelectOptionType } from "@/types";
 
+type TableType = {
+    columns?: Array<string>;
+    fields?: Array<Array<string>>;
+};
+
 type ValueType = {
     id: string;
     columns: Array<string>;
@@ -15,44 +20,50 @@ const props = defineProps<{
     datasetId?: string;
     optional?: boolean;
     placeholder?: string;
-    title?: string;
     table?: Array<string>;
+    title?: string;
 }>();
 
 const currentOptions = ref<Array<InputSelectOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 
+function parseOptions(table: string, tableData: TableType) {
+    const columns = tableData.columns || [];
+    const fields = tableData.fields || [];
+    const length = columns.length || 0;
+    const options: Array<InputSelectOptionType> = [];
+    if (length > 0) {
+        if (fields && fields.length > 0) {
+            const nameCol = Math.max(columns.indexOf("name"), 0);
+            const valueCol = Math.max(columns.indexOf("value"), 0);
+            fields.forEach((row: Array<string>) => {
+                const validRow = row.length === length;
+                options.push({
+                    label: validRow ? row[nameCol] : row[0],
+                    value: {
+                        id: validRow ? row[valueCol] : row[0],
+                        columns: columns,
+                        row: row,
+                        table: table,
+                    },
+                });
+            });
+        }
+    } else {
+        console.debug(`[IGV] No columns found in ${table}`);
+    }
+    return options;
+}
+
 async function loadData(): Promise<void> {
     loading.value = true;
-    const options: Array<InputSelectOptionType> = [];
+    let options: Array<InputSelectOptionType> = [];
     if (props.table && props.table.length > 0) {
         for (const table of props.table) {
             try {
                 const { data } = await GalaxyApi().GET(`/api/tool_data/${table}`);
-                const columns = data?.columns;
-                const fields = data?.fields;
-                const length = columns?.length;
-                if (length > 0) {
-                    if (fields && fields.length > 0) {
-                        const nameCol = Math.max(columns.indexOf("name"), 0);
-                        const valueCol = Math.max(columns.indexOf("value"), 0);
-                        fields.forEach((row: Array<string>) => {
-                            const validRow = row.length === length;
-                            options.push({
-                                label: validRow ? row[nameCol] : row[0],
-                                value: {
-                                    id: validRow ? row[valueCol] : row[0],
-                                    columns: columns,
-                                    row: row,
-                                    table: table,
-                                },
-                            });
-                        });
-                    }
-                } else {
-                    console.debug(`[IGV] No columns found in ${table}`);
-                }
+                options = [...options, ...parseOptions(table, data)];
             } catch (err) {
                 console.log(err);
             }

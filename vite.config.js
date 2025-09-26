@@ -27,7 +27,13 @@ export default defineConfig({
         vue(),
         tailwindcss(),
         libInjectCss(),
-        Checker({ typescript: true }),
+        Checker({
+            vueTsc: {
+                tsconfigPath: path.resolve(__dirname, "tsconfig.json"),
+                terminal: true,
+                enableBuild: true,
+            },
+        }),
         dts({
             // Explicitly specify the entry file
             entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),

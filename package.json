@@ -28,7 +28,7 @@
         "dev": "npm run build && vite",
         "build": "vite build",
         "preview": "vite preview",
-        "prettier": "prettier --config ./prettier.config.js --write 'package.json' 'tsconfig.json' '**/*.{css,js,ts,vue}'",
+        "prettier": "prettier --config ./prettier.config.js --write '*.json' '**/*.{css,js,ts,vue}'",
         "test": "vitest --coverage.enabled --no-cache"
     },
     "devDependencies": {

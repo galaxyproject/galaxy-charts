@@ -33,6 +33,7 @@ export default defineConfig({
             outDir: "dist",
             rollupTypes: true,
             copyDtsFiles: false,
+            tsConfigFilePath: "./tsconfig.json"
         }),
     ],
     test: {

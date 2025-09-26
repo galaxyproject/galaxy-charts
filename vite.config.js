@@ -32,7 +32,7 @@ export default defineConfig({
             // Explicitly specify the entry file
             entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
             // Output directory for .d.ts files
-            outDir: path.resolve(__dirname, "dist/types"),
+            outDir: path.resolve(__dirname, "dist"),
             // Combine types into a single file
             rollupTypes: true,
             // Use the correct tsconfig

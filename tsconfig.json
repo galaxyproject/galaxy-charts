@@ -17,7 +17,7 @@
         },
         // Enable declaration file generation
         "declaration": true,
-        "declarationDir": "dist/types",
+        "declarationDir": "dist",
         "emitDeclarationOnly": false
     },
     "include": ["lib/**/*", "src/**/*.ts", "src/**/*.vue"],

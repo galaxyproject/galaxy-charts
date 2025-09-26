@@ -1,28 +1,25 @@
 {
     "compilerOptions": {
-       "target": "ESNext",
-       "useDefineForClassFields": true,
-       "module": "ESNext",
-       "moduleResolution": "Node",
-       "strict": true,
-       "jsx": "preserve",
-       "sourceMap": false,
-       "resolveJsonModule": true,
-       "esModuleInterop": true,
-       "lib": ["ESNext", "DOM"],
-       "skipLibCheck": true,
-       "baseUrl": ".",
-       "paths": {
-          "@/*": ["src/*"]
-       }
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "strict": true,
+        "jsx": "preserve",
+        "sourceMap": false,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "lib": ["ESNext", "DOM"],
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        // Enable declaration file generation
+        "declaration": true,
+        "declarationDir": "dist/types",
+        "emitDeclarationOnly": false
     },
-    "include": ["lib", "src/**/*.ts", "src/**/*.vue"],
-    "exclude": [
-        "dist",
-        "docs",
-        "node_modules",
-        "static",
-        "src/App.vue",
-        "src/Plugin.vue"
-    ],
+    "include": ["lib/**/*", "src/**/*.ts", "src/**/*.vue"],
+    "exclude": ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/App.vue", "src/Plugin.vue"]
 }

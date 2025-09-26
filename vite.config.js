@@ -29,19 +29,36 @@ export default defineConfig({
         libInjectCss(),
         Checker({ typescript: true }),
         dts({
-            entryRoot: "lib",
-            outDir: "dist",
+            // Explicitly specify the entry file
+            entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
+            // Output directory for .d.ts files
+            outDir: path.resolve(__dirname, "dist/types"),
+            // Combine types into a single file
             rollupTypes: true,
+            // Use the correct tsconfig
+            tsConfigFilePath: path.resolve(__dirname, "tsconfig.json"),
+            // Skip copying .d.ts files
             copyDtsFiles: false,
-            tsConfigFilePath: "./tsconfig.json"
+            // Include all relevant files
+            include: ["lib/**/*", "src/**/*"],
+            // Exclude unnecessary files
+            exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/App.vue", "src/Plugin.vue"],
+            // Enable debug logging
+            logLevel: "debug",
         }),
     ],
+    resolve: {
+        // Ensure Vite respects tsconfig path aliases
+        alias: {
+            "@": path.resolve(__dirname, "src"),
+        },
+    },
     test: {
         coverage: {
             enabled: true,
             reportsDirectory: "./coverage",
             reporter: ["text", "html", "lcov"],
-            include: ["src/*/*.{ts,js,vue}"],
+            include: ["src/**/*.{ts,js,vue}"],
             provider: "istanbul",
         },
         environment: "jsdom",

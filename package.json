@@ -6,7 +6,7 @@
         "charts"
     ],
     "license": "MIT",
-    "version": "0.0.76",
+    "version": "0.0.77",
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
@@ -28,7 +28,7 @@
         "dev": "npm run build && vite",
         "build": "vite build",
         "preview": "vite preview",
-        "prettier": "prettier --config ./prettier.config.js --write 'package.json' '**/*.{css,js,ts,vue}'",
+        "prettier": "prettier --config ./prettier.config.js --write 'package.json' 'tsconfig.json' '**/*.{css,js,ts,vue}'",
         "test": "vitest --coverage.enabled --no-cache"
     },
     "devDependencies": {

@@ -2,18 +2,17 @@ import { defineConfig } from "vite";
 import { configDefaults } from "vitest/config";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 import Checker from "vite-plugin-checker";
-
 import path from "path";
 import tailwindcss from "tailwindcss";
 import vue from "@vitejs/plugin-vue";
-
+import dts from "vite-plugin-dts";
 import { viteConfigCharts } from "./vite.config.charts";
 
 export default defineConfig({
     ...viteConfigCharts,
     build: {
         lib: {
-            entry: path.resolve(__dirname, "lib/galaxy-charts.js"),
+            entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
             name: "GalaxyCharts",
             fileName: "galaxy-charts",
         },
@@ -24,7 +23,18 @@ export default defineConfig({
             },
         },
     },
-    plugins: [vue(), tailwindcss(), libInjectCss(), Checker({ typescript: true })],
+    plugins: [
+        vue(),
+        tailwindcss(),
+        libInjectCss(),
+        Checker({ typescript: true }),
+        dts({
+            entryRoot: "lib",
+            outDir: "dist",
+            rollupTypes: true,
+            copyDtsFiles: false,
+        }),
+    ],
     test: {
         coverage: {
             enabled: true,

@@ -10,25 +10,23 @@
     "type": "module",
     "main": "./dist/galaxy-charts.umd.cjs",
     "module": "./dist/galaxy-charts.js",
-    "types": "./dist/types.d.ts",
+    "types": "./dist/types/galaxy-charts.d.ts",
     "exports": {
         ".": {
             "import": "./dist/galaxy-charts.js",
-            "require": "./dist/galaxy-charts.js",
-            "types": "./dist/types.d.ts"
+            "require": "./dist/galaxy-charts.umd.cjs",
+            "types": "./dist/types/galaxy-charts.d.ts"
         }
     },
     "files": [
         "dist/galaxy-charts.css",
         "dist/galaxy-charts.js",
         "dist/galaxy-charts.umd.cjs",
-        "dist/types.d.ts"
+        "./dist/types/galaxy-charts.d.ts"
     ],
     "scripts": {
         "dev": "npm run build && vite",
         "build": "vite build",
-        "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
-        "postbuild": "npm run build:types",
         "preview": "vite preview",
         "prettier": "prettier --config ./prettier.config.js --write 'package.json' '**/*.{css,js,ts,vue}'",
         "test": "vitest --coverage.enabled --no-cache"

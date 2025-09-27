@@ -26,6 +26,13 @@
             <optional>true</optional>
         </input>
         <input>
+            <label>My Data Json Label</label>
+            <help>My Data Json Help</help>
+            <name>my_data_json_name</name>
+            <type>data_json</type>
+            <url>https://s3.amazonaws.com/igv.org.genomes/genomes.json</url>
+        </input>
+        <input>
             <label>My Data Table Label</label>
             <help>My Data Table Help</help>
             <name>my_data_table_name</name>

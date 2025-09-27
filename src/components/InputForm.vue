@@ -4,6 +4,7 @@ import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "n
 import InputConditional from "@/components/InputConditional.vue";
 import InputData from "@/components/InputData.vue";
 import InputDataColumn from "@/components/InputDataColumn.vue";
+import InputDataJson from "@/components/InputDataJson.vue";
 import InputDataTable from "@/components/InputDataTable.vue";
 import { toBoolean } from "@/utilities/toBoolean";
 import type { InputElementType, InputValuesType } from "@/types";
@@ -88,6 +89,12 @@ watch(
                     :is-auto="toBoolean(input.is_auto)"
                     :is-text="toBoolean(input.is_text)"
                     :is-number="toBoolean(input.is_number)"
+                    @update:value="onUpdate" />
+                <InputDataJson
+                    v-else-if="input.type === 'data_json'"
+                    v-model:value="currentValues[input.name]"
+                    :optional="toBoolean(input.optional)"
+                    :url="input.url"
                     @update:value="onUpdate" />
                 <InputDataTable
                     v-else-if="input.type === 'data_table'"

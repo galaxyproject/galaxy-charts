@@ -26,6 +26,7 @@ export interface InputElementType {
         value?: string;
     };
     type: string;
+    url: string;
     value?: string;
 }
 
@@ -38,7 +39,7 @@ export type InputSelectOptionType = {
 
 export type InputSelectValueType = {
     id: string;
-    [key: string]: string | number | boolean | Array<string>;
+    [key: string]: string | number | boolean | Array<string> | Record<string, InputSelectValueType>;
 };
 
 export type InputValuesType = Record<string, any>;
@@ -51,10 +52,6 @@ export interface PluginConfigType {
     dataset_url?: string;
     settings?: InputValuesType;
     tracks?: Array<InputValuesType>;
-    chart_dict?: {
-        groups?: any;
-        settings?: any;
-    };
 }
 
 export interface PluginIncomingType {

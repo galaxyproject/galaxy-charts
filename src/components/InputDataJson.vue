@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import InputSelect from "@/components/InputSelect.vue";
 import type { InputSelectOptionType } from "@/types";
+import { useDataJsonStore } from "@/store/dataJsonStore";
 
 type ValueType = {
     id: string;
@@ -20,30 +21,23 @@ const currentOptions = ref<Array<InputSelectOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 
+const { getDataJson } = useDataJsonStore();
+
 async function loadData(): Promise<void> {
     loading.value = true;
-    let opts: InputSelectOptionType[] = [];
     try {
         console.debug("[charts] Requesting data json from:", props.url);
-        const response = await fetch(props.url);
-        if (response.ok) {
-            const result = await response.json();
-            opts = result.map((entry: ValueType) => ({
-                label: entry.name || entry.id,
-                value: { ...entry },
-            }));
+        const opts = await getDataJson(props.url);
+        if (opts.length === 0) {
+            console.debug("[charts] No entries found in data json.");
         } else {
-            console.error("[charts] Failed to request data json.", response.status);
+            currentOptions.value = opts;
         }
     } catch (err) {
         console.debug("[charts] Failed to request data json.", err);
+    } finally {
+        loading.value = false;
     }
-    if (opts.length === 0) {
-        console.debug("[charts] No entries found in data json.");
-    } else {
-        currentOptions.value = opts;
-    }
-    loading.value = false;
 }
 
 loadData();
@@ -54,7 +48,7 @@ loadData();
         v-model:value="currentValue"
         :loading="loading"
         :options="currentOptions"
-        :optional="optional"
-        :placeholder="placeholder"
-        :title="title" />
+        :optional="props.optional"
+        :placeholder="props.placeholder"
+        :title="props.title" />
 </template>

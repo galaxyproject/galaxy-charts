@@ -37,7 +37,12 @@ export function useDataJsonStore() {
         return await parseDataJson(url, dataJsonCache.value[url]);
     }
 
+    function resetDataJson() {
+        dataJsonCache.value = {};
+    }
+
     return {
         getDataJson,
+        resetDataJson,
     };
 }

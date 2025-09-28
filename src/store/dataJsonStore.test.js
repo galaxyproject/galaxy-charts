@@ -6,6 +6,7 @@ describe("useDataJsonStore", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         store = useDataJsonStore();
+        store.resetDataJson();
     });
 
     it("should parse a valid JSON response", async () => {

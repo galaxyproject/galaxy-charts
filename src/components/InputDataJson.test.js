@@ -21,6 +21,7 @@ describe("InputDataJson.vue", () => {
 
     afterEach(() => {
         vi.clearAllMocks();
+        vi.resetModules();
     });
 
     test("loads datasets on mount", async () => {
@@ -45,14 +46,14 @@ describe("InputDataJson.vue", () => {
             ok: false,
             status: 500,
         });
-        const wrapper = mountComponent();
+        const wrapper = mountComponent({ url: "/mock/url_error" });
         await flushPromises();
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });
 
     test("handles exception during fetch", async () => {
         mockFetch.mockRejectedValue(new Error("Network Error Test"));
-        const wrapper = mountComponent();
+        const wrapper = mountComponent({ url: "/mock/url_error" });
         await flushPromises();
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });

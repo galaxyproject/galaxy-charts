@@ -1,6 +1,6 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { useConfigStore } from "@/store/configStore";
-import type { ResponseType } from "@/types";
+import type { RequestOptionsType, ResponseType } from "@/types";
 
 let queue = Promise.resolve();
 
@@ -38,7 +38,7 @@ export function GalaxyApi() {
         return enqueueRequest(() => fetchApi(path, { method: "GET" }));
     }
 
-    function POST(path: string, options: any): ResponseType {
+    function POST(path: string, options: RequestOptionsType): ResponseType {
         return enqueueRequest(() =>
             fetchApi(path, {
                 body: JSON.stringify(options),
@@ -47,7 +47,7 @@ export function GalaxyApi() {
         );
     }
 
-    function PUT(path: string, options: any): ResponseType {
+    function PUT(path: string, options: RequestOptionsType): ResponseType {
         return enqueueRequest(() =>
             fetchApi(path, {
                 body: JSON.stringify(options),

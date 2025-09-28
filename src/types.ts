@@ -72,6 +72,6 @@ export interface PluginType {
     tracks?: Array<InputElementType>;
 }
 
-export type ResponseObject = { data: any; response: Response };
+export type RequestOptionsType = Record<string, any>;
 
-export type ResponseType = Promise<ResponseObject>;
+export type ResponseType = Promise<{ data: any; response: Response }>;

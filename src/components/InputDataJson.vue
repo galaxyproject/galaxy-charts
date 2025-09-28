@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InputSelect from "@/components/InputSelect.vue";
-import type { InputSelectOptionType } from "@/types";
+import type { InputOptionType } from "@/types";
 import { useDataJsonStore } from "@/store/dataJsonStore";
 
 type ValueType = {
@@ -17,7 +17,7 @@ const props = defineProps<{
     url: string;
 }>();
 
-const currentOptions = ref<Array<InputSelectOptionType>>([]);
+const currentOptions = ref<Array<InputOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { GalaxyApi } from "@/api/client";
 import { useDatasetStore } from "@/store/datasetStore";
 import InputSelect from "@/components/InputSelect.vue";
-import type { InputSelectOptionType } from "@/types";
+import type { InputOptionType } from "@/types";
 
 const { getDataset } = useDatasetStore();
 
@@ -21,7 +21,7 @@ const props = defineProps<{
     optional?: boolean;
 }>();
 
-const currentOptions = ref<Array<InputSelectOptionType>>([]);
+const currentOptions = ref<Array<InputOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 

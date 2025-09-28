@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InputSelect from "@/components/InputSelect.vue";
-import type { InputSelectOptionType } from "@/types";
+import type { InputOptionType } from "@/types";
 import { useDataTableStore } from "@/store/dataTableStore";
 
 const dataTableStore = useDataTableStore();
@@ -21,13 +21,13 @@ const props = defineProps<{
     title?: string;
 }>();
 
-const currentOptions = ref<Array<InputSelectOptionType>>([]);
+const currentOptions = ref<Array<InputOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 
 async function loadData(): Promise<void> {
     loading.value = true;
-    const opts: InputSelectOptionType[] = [];
+    const opts: InputOptionType[] = [];
     if (props.tables && props.tables.length > 0) {
         for (const table of props.tables) {
             try {

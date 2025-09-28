@@ -30,19 +30,16 @@ export interface InputElementType {
     value?: string;
 }
 
-export type InputSelectOptionType = {
+export type InputOptionType = {
     disabled?: boolean;
     label: string;
-    value: InputSelectValueType | null;
+    value: InputValuesType | null;
     type?: string;
 };
 
-export type InputSelectValueType = {
-    id: string;
-    [key: string]: string | number | boolean | Array<string> | Record<string, InputSelectValueType>;
+export type InputValuesType = {
+    [key: string]: any;
 };
-
-export type InputValuesType = Record<string, any>;
 
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
 

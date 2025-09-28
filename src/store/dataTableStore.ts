@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { GalaxyApi } from "@/api/client";
-import type { InputSelectOptionType, ResponseType } from "@/types";
+import type { InputOptionType, ResponseType } from "@/types";
 
 const dataTableCache = ref<Record<string, ResponseType>>({});
 
@@ -10,7 +10,7 @@ export function useDataTableStore() {
         const columns = data.columns || [];
         const fields = data.fields || [];
         const length = columns.length;
-        const options: Array<InputSelectOptionType> = [];
+        const options: Array<InputOptionType> = [];
         if (length > 0 && fields && fields.length > 0) {
             const nameCol = Math.max(columns.indexOf("name"), 0);
             const valueCol = Math.max(columns.indexOf("value"), 0);
@@ -32,7 +32,7 @@ export function useDataTableStore() {
         return options;
     }
 
-    async function getDataTable(name: string): Promise<Array<InputSelectOptionType>> {
+    async function getDataTable(name: string): Promise<Array<InputOptionType>> {
         if (!dataTableCache.value[name]) {
             dataTableCache.value[name] = GalaxyApi()
                 .GET(`/api/tool_data/${name}`)

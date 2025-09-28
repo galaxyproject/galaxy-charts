@@ -1,12 +1,16 @@
 import { ref } from "vue";
-import type { InputSelectOptionType } from "@/types";
+import type { InputOptionType } from "@/types";
 
-type ValueType = { id: string; name?: string };
+type ValueType = {
+    id: string;
+    name?: string;
+    [key: string]: any;
+};
 
-const dataJsonCache = ref<Record<string, Promise<Array<InputSelectOptionType>>>>({});
+const dataJsonCache = ref<Record<string, Promise<Array<InputOptionType>>>>({});
 
 export function useDataJsonStore() {
-    async function fetchDataJson(url: string): Promise<Array<InputSelectOptionType>> {
+    async function fetchDataJson(url: string): Promise<Array<InputOptionType>> {
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -24,7 +28,7 @@ export function useDataJsonStore() {
         }
     }
 
-    async function getDataJson(url: string): Promise<Array<InputSelectOptionType>> {
+    async function getDataJson(url: string): Promise<Array<InputOptionType>> {
         if (!dataJsonCache.value[url]) {
             dataJsonCache.value[url] = fetchDataJson(url);
         }

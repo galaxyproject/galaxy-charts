@@ -2,12 +2,12 @@
 import { computed, h, ref, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
-import type { InputSelectOptionType, InputSelectValueType } from "@/types";
+import type { InputOptionType, InputValuesType } from "@/types";
 
 const props = withDefaults(
     defineProps<{
         loading?: boolean;
-        options: Array<InputSelectOptionType>;
+        options: Array<InputOptionType>;
         optional?: boolean;
         placeholder?: string;
         title?: string;
@@ -24,9 +24,9 @@ const emit = defineEmits<{
     (event: "search", filter: string): void;
 }>();
 
-const currentValue = defineModel<InputSelectValueType | null>("value");
+const currentValue = defineModel<InputValuesType | null>("value");
 const selectValue = ref<string | null>(null);
-const values = ref<Record<string, InputSelectValueType>>({});
+const values = ref<Record<string, InputValuesType>>({});
 
 const mapped = computed(() => {
     values.value = {};

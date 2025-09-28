@@ -160,7 +160,15 @@ async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) 
 // Event handler for updating settings and tracks
 function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
     updateSettings({ ...settingValues.value, ...settings });
-    tracks && updateTracks(tracks);
+    if (tracks) {
+        const nTracks = Math.max(trackValues.value.length, tracks.length);
+        const mergedTracks: Array<InputValuesType> = Array.from({ length: nTracks }, (_, i) => {
+            const originalTrack = trackValues.value[i] ?? {};
+            const incomingTrack = tracks[i] ?? {};
+            return { ...originalTrack, ...incomingTrack };
+        });
+        updateTracks(mergedTracks);
+    }
 }
 </script>
 

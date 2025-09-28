@@ -147,4 +147,36 @@ describe("build user interface", () => {
         wrapper.vm["updateTracks"]([{ y: 2 }]);
         expect(wrapper.vm.trackValues).toEqual([{ y: 2 }]);
     });
+
+    test("update merges tracks correctly when incoming has fewer tracks", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm.trackValues = [{ a: 1 }, { b: 2 }];
+        wrapper.vm["update"]({}, [{ b: 20 }]); // only one incoming track
+        expect(wrapper.vm.trackValues).toEqual([{ a: 1, b: 20 }, { b: 2 }]);
+    });
+
+    test("update merges tracks correctly when incoming has more tracks", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm.trackValues = [{ a: 1 }];
+        wrapper.vm["update"]({}, [{ a: 10 }, { b: 2 }]); // two incoming tracks
+        expect(wrapper.vm.trackValues).toEqual([{ a: 10 }, { b: 2 }]);
+    });
+
+    test("update merges tracks correctly when original trackValues is empty", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm.trackValues = [];
+        wrapper.vm["update"]({}, [{ x: 1 }]);
+        expect(wrapper.vm.trackValues).toEqual([{ x: 1 }]);
+    });
+
+    test("update merges tracks correctly when incoming tracks is empty", async () => {
+        const wrapper = mountTarget({ visualization_config: {} });
+        await wrapper.vm.$nextTick();
+        wrapper.vm.trackValues = [{ a: 1 }, { b: 2 }];
+        wrapper.vm["update"]({}, []); // empty incoming tracks
+        expect(wrapper.vm.trackValues).toEqual([{ a: 1 }, { b: 2 }]); // unchanged
+    });
 });

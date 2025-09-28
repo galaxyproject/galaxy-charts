@@ -69,8 +69,9 @@ describe("InputDataTable.vue", () => {
         mockGet.mockResolvedValue({
             data: { columns: [], fields: [] },
         });
-        const wrapper = mountComponent();
+        const wrapper = mountComponent({ tables: ["table3"] });
         await flushPromises();
+        console.log(wrapper.vm.currentOptions);
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });
 

@@ -71,3 +71,7 @@ export interface PluginType {
     settings?: Array<InputElementType>;
     tracks?: Array<InputElementType>;
 }
+
+export type ResponseObject = { data: any; response: Response };
+
+export type ResponseType = Promise<ResponseObject>;

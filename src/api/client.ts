@@ -1,9 +1,10 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 import { useConfigStore } from "@/store/configStore";
+import type { ResponseType } from "@/types";
 
 let queue = Promise.resolve();
 
-async function fetchApi(path: string, options: RequestInit): Promise<{ data: any; response: Response }> {
+async function fetchApi(path: string, options: RequestInit): ResponseType {
     const configStore = useConfigStore();
     const routedPath = `${configStore.getRoot()}${path.substring(1)}`;
     try {
@@ -33,11 +34,11 @@ function enqueueRequest<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 export function GalaxyApi() {
-    function GET(path: string): Promise<{ data: any; response: Response }> {
+    function GET(path: string): ResponseType {
         return enqueueRequest(() => fetchApi(path, { method: "GET" }));
     }
 
-    function POST(path: string, options: any): Promise<{ data: any; response: Response }> {
+    function POST(path: string, options: any): ResponseType {
         return enqueueRequest(() =>
             fetchApi(path, {
                 body: JSON.stringify(options),
@@ -46,7 +47,7 @@ export function GalaxyApi() {
         );
     }
 
-    function PUT(path: string, options: any): Promise<{ data: any; response: Response }> {
+    function PUT(path: string, options: any): ResponseType {
         return enqueueRequest(() =>
             fetchApi(path, {
                 body: JSON.stringify(options),

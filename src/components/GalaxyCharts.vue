@@ -140,8 +140,8 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 }
 
 // Event handler for updating settings and saving visualization
-async function save(settings: InputValuesType) {
-    update(settings);
+async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) {
+    update(settings, tracks);
     try {
         const newVisualizationId = await visualizationsSave(
             name.value,
@@ -157,9 +157,10 @@ async function save(settings: InputValuesType) {
     }
 }
 
-// Event handler for updating settings
-function update(settings: InputValuesType) {
+// Event handler for updating settings and tracks
+function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
     updateSettings({ ...settingValues.value, ...settings });
+    tracks && updateTracks(tracks);
 }
 </script>
 

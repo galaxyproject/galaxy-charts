@@ -16,6 +16,7 @@ const props = defineProps<{
 // Emit events with TypeScript
 const emit = defineEmits<{
     (event: "save", newSettings: InputValuesType): void;
+    (event: "update", newSettings: InputValuesType): void;
 }>();
 
 const viewport = ref(null);

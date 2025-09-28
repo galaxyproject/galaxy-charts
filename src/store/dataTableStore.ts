@@ -5,10 +5,10 @@ import type { InputSelectOptionType, ResponseType } from "@/types";
 const dataTableCache = ref<Record<string, ResponseType>>({});
 
 export function useDataTableStore() {
-    async function parseDataTable(table: string, tablePromise: ResponseType) {
-        const { data: tableData } = await tablePromise;
-        const columns = tableData.columns || [];
-        const fields = tableData.fields || [];
+    async function parseDataTable(table: string, promise: ResponseType) {
+        const { data } = await promise;
+        const columns = data.columns || [];
+        const fields = data.fields || [];
         const length = columns.length;
         const options: Array<InputSelectOptionType> = [];
         if (length > 0 && fields && fields.length > 0) {
@@ -32,16 +32,16 @@ export function useDataTableStore() {
         return options;
     }
 
-    async function getDataTable(table: string): Promise<Array<InputSelectOptionType>> {
-        if (!dataTableCache.value[table]) {
-            dataTableCache.value[table] = GalaxyApi()
-                .GET(`/api/tool_data/${table}`)
+    async function getDataTable(name: string): Promise<Array<InputSelectOptionType>> {
+        if (!dataTableCache.value[name]) {
+            dataTableCache.value[name] = GalaxyApi()
+                .GET(`/api/tool_data/${name}`)
                 .catch((err) => {
-                    delete dataTableCache.value[table];
+                    delete dataTableCache.value[name];
                     throw err;
                 });
         }
-        return await parseDataTable(table, dataTableCache.value[table]);
+        return await parseDataTable(name, dataTableCache.value[name]);
     }
 
     return {

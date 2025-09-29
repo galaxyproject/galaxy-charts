@@ -59,32 +59,29 @@ describe("useDataTableStore", () => {
         mockGet.mockResolvedValue({
             data: {
                 columns: ["name", "value"],
-                fields: [
-                    ["label1", "val1"],
-                    ["label2", "val2"],
-                ],
+                fields: [["label1"], ["label2"]],
             },
             response: {},
         });
 
-        const result = await store.getDataTable("test");
+        const result = await store.getDataTable("test-missing");
         expect(result).toEqual([
             {
                 label: "label1",
                 value: {
-                    id: "val1",
+                    id: "label1",
                     columns: ["name", "value"],
-                    row: ["label1", "val1"],
-                    table: "test",
+                    row: ["label1"],
+                    table: "test-missing",
                 },
             },
             {
                 label: "label2",
                 value: {
-                    id: "val2",
+                    id: "label2",
                     columns: ["name", "value"],
-                    row: ["label2", "val2"],
-                    table: "test",
+                    row: ["label2"],
+                    table: "test-missing",
                 },
             },
         ]);
@@ -122,5 +119,42 @@ describe("useDataTableStore", () => {
     it("should remove cache entry on failure", async () => {
         mockGet.mockRejectedValueOnce(new Error("network error"));
         await expect(store.getDataTable("bad")).rejects.toThrow("network error");
+    });
+
+    it("should remove duplicate rows by value.id and sort alphabetically", async () => {
+        mockGet.mockResolvedValue({
+            data: {
+                columns: ["name", "value"],
+                fields: [
+                    ["labelB", "dup"],
+                    ["labelA", "dup"],
+                    ["labelC", "zzz"],
+                ],
+            },
+            response: {},
+        });
+
+        const result = await store.getDataTable("dedup");
+        expect(result).toEqual([
+            {
+                label: "labelB",
+                value: {
+                    id: "dup",
+                    columns: ["name", "value"],
+                    row: ["labelB", "dup"],
+                    table: "dedup",
+                },
+            },
+            {
+                label: "labelC",
+                value: {
+                    id: "zzz",
+                    columns: ["name", "value"],
+                    row: ["labelC", "zzz"],
+                    table: "dedup",
+                },
+            },
+        ]);
+        expect(result.map((r) => r.value.id)).toEqual(["dup", "zzz"]);
     });
 });

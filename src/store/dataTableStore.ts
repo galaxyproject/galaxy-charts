@@ -26,6 +26,18 @@ export function useDataTableStore() {
                     },
                 });
             });
+            const unique: Record<string, InputOptionType> = {};
+            options.forEach((opt) => {
+                const id = opt.value?.id ?? "";
+                if (id && !unique[id]) {
+                    unique[id] = opt;
+                }
+            });
+            return Object.values(unique).sort((a, b) => {
+                const idA = a.value?.id ?? "";
+                const idB = b.value?.id ?? "";
+                return idA.localeCompare(idB);
+            });
         } else if (length === 0) {
             console.debug(`[charts] No data found in ${table}.`);
         }

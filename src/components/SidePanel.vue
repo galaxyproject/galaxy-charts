@@ -18,7 +18,6 @@ import ChartsLogo from "./ChartsLogo.vue";
 
 const props = defineProps<{
     datasetId: string;
-    datasetUrl: string;
     description: string;
     logoUrl: string;
     html: string;
@@ -97,13 +96,13 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 
 <template>
     <div class="overflow-auto select-none bg-white z-10 p-2">
-        <div v-if="datasetUrl" class="flex">
+        <div v-if="datasetId" class="flex">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
             </div>
             <div>
-                <n-tooltip v-if="datasetId" trigger="hover" :to="false">
+                <n-tooltip trigger="hover" :to="false">
                     <template #trigger>
                         <n-button
                             strong

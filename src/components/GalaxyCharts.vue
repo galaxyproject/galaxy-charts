@@ -182,8 +182,8 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetUrl }">
-        <div v-if="datasetUrl" class="relative max-w-full h-screen overflow-hidden">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetId }">
+        <div v-if="datasetId" class="relative max-w-full h-screen overflow-hidden">
             <slot
                 :dataset-id="datasetId"
                 :dataset-url="datasetUrl"
@@ -194,7 +194,7 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
                 :save="save"
                 :update="update" />
         </div>
-        <n-tooltip v-if="collapsePanel && !hidePanel && datasetUrl" trigger="hover" :to="false">
+        <n-tooltip v-if="collapsePanel && !hidePanel && datasetId" trigger="hover" :to="false">
             <template #trigger>
                 <n-button strong secondary circle class="bg-sky-100 m-2 absolute right-0" @click="onToggle">
                     <template #icon>
@@ -205,9 +205,8 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             <span class="text-xs">Expand</span>
         </n-tooltip>
         <SidePanel
-            v-show="(!collapsePanel && !hidePanel) || !datasetUrl"
+            v-show="(!collapsePanel && !hidePanel) || !datasetId"
             :dataset-id="datasetId"
-            :dataset-url="datasetUrl"
             :description="description"
             :html="html"
             :logo-url="logoUrl"

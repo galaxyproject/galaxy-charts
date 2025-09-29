@@ -21,7 +21,6 @@ describe("SidePanel.vue", () => {
 
     const props = {
         datasetId: "123",
-        datasetUrl: "http://example.com",
         description: "Test description",
         logoUrl: "http://example.com/logo.png",
         html: "<strong>Visualization</strong>",

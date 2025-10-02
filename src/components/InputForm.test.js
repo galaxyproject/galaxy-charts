@@ -253,4 +253,33 @@ describe("InputForm.vue", () => {
         expect(localWrapper.findComponent(NInput).exists()).toBe(true);
         expect(localWrapper.findComponent(NInputNumber).exists()).toBe(true);
     });
+
+    test("emits 'update:values' only on change when deferred is true", async () => {
+        const deferredInput = { name: "deferredText", type: "text", deferred: true };
+        const wrapper = mount(InputForm, {
+            propsData: { datasetId: "ds-test", inputs: [deferredInput], values: { deferredText: "" } },
+            global: { components: { NInput } },
+        });
+
+        const input = wrapper.findComponent(NInput);
+        await input.vm.$emit("update:value", "typing");
+        expect(wrapper.emitted("update:values")).toBeFalsy();
+
+        await input.vm.$emit("change");
+        expect(wrapper.emitted("update:values")).toBeTruthy();
+        expect(wrapper.emitted("update:values")[0][0].deferredText).toBe("typing");
+    });
+
+    test("emits 'update:values' immediately when deferred is false", async () => {
+        const instantInput = { name: "instantText", type: "text", deferred: false };
+        const wrapper = mount(InputForm, {
+            propsData: { datasetId: "ds-test", inputs: [instantInput], values: { instantText: "" } },
+            global: { components: { NInput } },
+        });
+
+        const input = wrapper.findComponent(NInput);
+        await input.vm.$emit("update:value", "typing");
+        expect(wrapper.emitted("update:values")).toBeTruthy();
+        expect(wrapper.emitted("update:values")[0][0].instantText).toBe("typing");
+    });
 });

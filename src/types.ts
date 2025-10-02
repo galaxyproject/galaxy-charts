@@ -6,6 +6,7 @@ export interface InputElementType {
         inputs: Array<InputElementType>;
     }>;
     data?: Array<{ label: string; value: string }>;
+    deferred?: boolean;
     extension?: string;
     filterable?: boolean;
     help?: string;

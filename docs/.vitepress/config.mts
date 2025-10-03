@@ -23,6 +23,15 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Examples',
+        items: [
+          { text: 'IGV', link: '/content/example-igv' },
+          { text: 'Niivue', link: '/content/example-niivue' },
+          { text: 'Vitessce', link: '/content/example-vitessce' },
+          { text: 'All Visualization', link: 'https://usegalaxy.org/visualizations' }
+        ]
+      },
+      {
         text: 'Framework',
         items: [
             { text: 'Introduction', link: '/content/xml-introduction' },

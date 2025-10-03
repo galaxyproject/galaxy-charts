@@ -1,29 +1,24 @@
 # Inputs
 
-You can specify input elements within the `settings` and `tracks` sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports the following input types: `boolean`, `color`, `data`, `float`, `integer`, `select`, `text` and `textarea`.
+You can specify input elements within the `settings` and `tracks` sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports these input types: `boolean`, `color`, `data`, `data_json`, `data_table`, `float`, `integer`, `select`, `text`, and `textarea`.
 
-Below is a template for a generic input element. It includes attributes such as `label`, `help`, `name`, and `type`, along with an optional `data` array used for `select` inputs:
+Below is a template for a generic input element. It includes `label`, `help`, `name`, and `type` attributes. Additional type-specific options are described in the sections below.
 
 ```xml
 <input>
     <label>My Input Label</label>
     <help>My Input Help</help>
     <name>my_input_name</name>
-    <type>boolean | color | float | integer | select | text | textarea</type>
-    <data>
-        <data>
-            <label>My Option 1 Label</label>
-            <value>my_option_1</value>
-        </data>
-        ...
-    </data>
+    <type>boolean | color | data | data_json | data_table | float | integer | select | text | textarea</type>
+    ...
 </input>
 ```
 
-## Boolean Input
+## Boolean
 
-Boolean inputs are useful to display yes/no options to the user e.g.
+Boolean inputs are useful to display yes/no options to the user.
 
+Example:
 ```xml
 <input>
     <label>My Boolean Label</label>
@@ -46,9 +41,11 @@ Translates to:
 `my_boolean_name`
 <span class="font-thin"> = {{ booleanInput }}</span>
 
-## Color Input
+## Color
     
-Users may also select colors, this can be particular useful to distinguish data tracks e.g. in bar or line diagrams:
+Users may also select colors, this can be particular useful to distinguish data tracks e.g. in bar or line diagrams.
+
+Example:
 
 ```xml
 <input>
@@ -75,9 +72,16 @@ Translates to:
 `my_color_name`
 <span class="font-thin"> = {{ colorInput }}</span>
 
-## Data Input
+## Data
 
 You can use a `data` input field to let users select a dataset from Galaxy, with optional filtering by file extension like `bed` or `tabular`. See the [list of supported datatypes](/content/xml-datasources) for details.
+
+| Option        | Type    | Default | Description           |
+|---------------|---------|---------|-----------------------|
+| **extension** | string  | none    | Filter by extension   |
+
+Example:
+
 
 ```xml
 <input>
@@ -102,7 +106,85 @@ Translates to:
 `my_data_name`
 <span class="font-thin"> = {{ dataInput }}</span>
 
-## Float Input
+## Data JSON
+
+A `data_json` input field can load a JSON array of objects from a URL. Each object should have `id` and `name` attributes. Additional `key-value` pairs are allowed. The input populates a select field with these options.
+
+| Option  | Type    | Default | Description                    |
+|---------|---------|---------|--------------------------------|
+| **url** | string  | none    | URL pointing to the JSON Array |
+
+Example:
+
+
+```xml
+<input>
+    <label>My Data JSON</label>
+    <help>My Data JSON</help>
+    <name>my_data_json_name</name>
+    <type>data_json</type>
+    <url>my_data_json_url</url>
+</input>
+```
+
+Translates to:
+
+<ClientOnly>
+<div class="rounded border p-4">
+    <div class="font-bold pb-1">My Data JSON</div>
+    <div class="text-xs pb-1">My Data JSON</div>
+    <n-select v-model:value="dataJsonInput" :options="dataJsonOptions" filterable />
+</div>
+</ClientOnly>
+
+`my_data_json_name`
+<span class="font-thin"> = {{ dataJsonInput }}</span>
+
+## Data Table
+
+A `data_table` input field can load tool data tables from Galaxy and present each row as an option to the user. The tables must be publicly accessible.
+
+| Option     | Type    | Default | Description                                              |
+|------------|---------|---------|----------------------------------------------------------|
+| **tables** | array   | none    | List of publicly accessible Galaxy Tool Data table names |
+
+Example:
+
+```xml
+<input>
+    <label>My Data Table</label>
+    <help>My Data Table</help>
+    <name>my_data_table_name</name>
+    <type>data_table</type>
+    <tables>
+        <table>tool_data_table_name</table>
+    </tables>
+</input>
+```
+
+Translates to:
+
+<ClientOnly>
+<div class="rounded border p-4">
+    <div class="font-bold pb-1">My Data Table</div>
+    <div class="text-xs pb-1">My Data Table</div>
+    <n-select v-model:value="dataTableInput" :options="dataTableOptions" filterable />
+</div>
+</ClientOnly>
+
+`my_data_table_name`
+<span class="font-thin"> = {{ dataTableInput }}</span>
+
+## Float
+
+`float` inputs support the following options:
+
+| Option  | Type  | Default | Description           |
+|---------|-------|---------|-----------------------|
+| **min** | float | none    | Minimum allowed value |
+| **max** | float | none    | Maximum allowed value |
+
+Example:
 
 ```xml
 <input>
@@ -139,7 +221,16 @@ Translates to:
 `my_float_name`
 <span class="font-thin"> = {{ floatInput }}</span>
 
-## Integer Input
+## Integer
+
+`integer` inputs support the following options:
+
+| Option  | Type    | Default | Description           |
+|---------|---------|---------|-----------------------|
+| **min** | integer | none    | Minimum allowed value |
+| **max** | integer | none    | Maximum allowed value |
+
+Example:
 
 ```xml
 <input>
@@ -176,8 +267,16 @@ Translates to:
 `my_integer_name`
 <span class="font-thin"> = {{ integerInput }}</span>
 
-## Select Input
-    
+## Select
+
+You may also declare `select` fields.
+
+| Option         | Type    | Default | Description                               |
+|----------------|---------|---------|-------------------------------------------|
+| **filterable** | boolean | false   | Enable searching and filtering of options |
+
+Example:
+
 ```xml
 <input>
     <label>My Select Label</label>
@@ -213,9 +312,15 @@ Translates to:
 `my_select_name`
 <span class="font-thin"> = {{ selectInput }}</span>
 
-## Text Input
+## Text
 
 You may also declare `text` inputs.
+
+| Option       | Type    | Default | Description                                                      |
+|--------------|---------|---------|------------------------------------------------------------------|
+| **deferred** | boolean | false   | Trigger update on every keystroke or only after input completion |
+
+Example:
 
 ```xml
 <input>
@@ -223,6 +328,7 @@ You may also declare `text` inputs.
     <help>My Text Help</help>
     <name>my_text_name</name>
     <type>text</type>
+    <deferred>false</deferred>
 </input>
 ```
 
@@ -239,7 +345,7 @@ Translates to:
 `my_text_name`
 <span class="font-thin"> = {{ textInput }}</span>
 
-## Text Area Input
+## Text Area
 
 Last but not least, `textarea` inputs can be declared.
 
@@ -265,9 +371,11 @@ Translates to:
 `my_textarea_name`
 <span class="font-thin"> = {{ textareaInput }}</span>
 
-## Conditional Input
+## Conditional
 
 In addition to the atomic inputs described above, you may also define conditional inputs. A conditional input includes a `test_param`, which determines which case-specific `inputs` are displayed. The `test_param` can be of type `boolean` (for two cases) or `select` (for multiple cases). Based on the selected value, the corresponding set of `inputs` defined in the `cases` section will be shown.
+
+The following example demonstrates a conditional input with a boolean `test_param` controlling which inputs are shown.
 
 ```xml
 <input>
@@ -326,6 +434,8 @@ import { ref } from "vue";
 const booleanInput = ref(true);
 const colorInput = ref("#0284c7");
 const dataInput = ref("dataset_id_a");
+const dataJsonInput = ref("json_entry_id_a");
+const dataTableInput = ref("table_row_1");
 const floatInput = ref(1);
 const integerInput = ref(1);
 const textareaInput = ref("My Text Area");
@@ -340,6 +450,28 @@ const dataOptions = [
     {
         label: 'Galaxy Dataset B',
         value: 'dataset_id_b'
+    },
+];
+
+const dataJsonOptions = [
+    {
+        label: 'JSON Entry Id A',
+        value: 'json_entry_id_a',
+    },
+    {
+        label: 'JSON Entry Id B',
+        value: 'json_entry_id_b'
+    },
+];
+
+const dataTableOptions = [
+    {
+        label: 'Galaxy Table Row 1',
+        value: 'table_row_1',
+    },
+    {
+        label: 'Galaxy Table Row 2',
+        value: 'table_row_2',
     },
 ];
 

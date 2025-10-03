@@ -24,7 +24,7 @@ function buildHoneycomb() {
     const width = window.innerWidth + size;
     const cols = Math.ceil(width / size);
     const rows = Math.ceil(totalCells / cols);
-    const allImages = Array.from({ length: totalCells }, (_, i) => `examples/${i + 1}.png`);
+    const allImages = Array.from({ length: totalCells }, (_, i) => `honeycomb/${i + 1}.png`);
     const temp = [];
 
     for (let r = 0; r < rows; r++) {

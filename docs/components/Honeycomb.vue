@@ -15,24 +15,24 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const size = 150;
-const totalCells = 22;
+const size = 130;
+const totalImages = 22;
 const hexes = ref([]);
 const honeycombEl = ref(null);
 
 function buildHoneycomb() {
     const width = window.innerWidth + size;
+    const height = window.innerHeight + size;
     const cols = Math.ceil(width / size);
-    const rows = Math.ceil(totalCells / cols);
-    const allImages = Array.from({ length: totalCells }, (_, i) => `honeycomb/${i + 1}.png`);
+    const rows = Math.ceil(height / cols);
+    const allImages = Array.from({ length: totalImages }, (_, i) => `honeycomb/${i + 1}.png`);
     const temp = [];
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
             const i = r * cols + c;
-            if (i >= totalCells) break;
             temp.push({
-                img: allImages[i],
+                img: allImages[i % allImages.length],
                 x: c + (r % 2 ? 0.5 : 0),
                 y: r * 0.8667,
             });
@@ -53,7 +53,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* prevent horizontal scroll globally */
 html,
 body {
     overflow-x: hidden;

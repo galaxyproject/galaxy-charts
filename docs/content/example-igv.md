@@ -1,4 +1,4 @@
-# Integrative Genome Browser (IGV)
+# IGV - Integrative Genome Browser
 
 The Integrative Genome Browser (IGV) is an interactive web-based tool for exploring genomic data. It allows users to visualize multiple data types, including sequence alignments, variants, and gene annotations, in an integrated and highly interactive manner. IGV supports zooming, panning, and dynamic track configuration to help users explore their datasets efficiently.
 

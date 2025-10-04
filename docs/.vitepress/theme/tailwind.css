@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 .VPFeature {
-    opacity: 0.9;
+    opacity: 0.93;
+}
+
+.VPHero .container {
+    background: white;
+    opacity: 0.93;
+    padding: 1rem;
+    border-radius: 12px;
 }
 
 .VPNavBarTitle a span {

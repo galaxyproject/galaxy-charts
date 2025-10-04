@@ -7,8 +7,7 @@ const { Layout } = DefaultTheme;
 
 <template>
     <Layout>
-        <!-- After hero, before features -->
-        <template #home-hero-after>
+        <template #home-hero-before>
             <ClientOnly>
                 <Honeycomb />
             </ClientOnly>

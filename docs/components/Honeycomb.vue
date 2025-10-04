@@ -62,7 +62,6 @@ body {
 .honeycomb {
     position: fixed;
     top: 150px;
-    opacity: 0.2;
     left: v-bind(-size + "px");
     width: 100%;
     height: 300px;

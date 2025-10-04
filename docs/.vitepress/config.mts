@@ -26,6 +26,7 @@ export default defineConfig({
         text: 'Examples',
         items: [
           { text: 'IGV', link: '/content/example-igv' },
+          { text: 'JupyterLite', link: '/content/example-jupyterlite' },
           { text: 'Niivue', link: '/content/example-niivue' },
           { text: 'Vitessce', link: '/content/example-vitessce' },
           { text: 'All Visualization', link: 'https://usegalaxy.org/visualizations' }

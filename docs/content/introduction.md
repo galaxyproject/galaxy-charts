@@ -4,7 +4,7 @@ outline: deep
 
 # What is Galaxy Charts?
 
-Galaxy Charts is the visualization plugin framework of the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses the following technologies to create a flexible and dynamic environment for developing visualizations:
+Galaxy Charts is the visualization plugin framework of the Galaxy platform. Designed with modern web development tools, Galaxy Charts uses the following technologies to create a flexible and dynamic environment for developing new and embedding existing 3rd-party visualizations:
 
 <div class="grid grid-cols-5 gap-12 text-center my-10">
     <div class="flex flex-col items-center">

@@ -9,7 +9,7 @@
 .VPHero .container {
     background: var(--vp-c-bg-soft);
     opacity: 0.93;
-    padding: 1rem;
+    padding: 24px;
     border-radius: 12px;
 }
 

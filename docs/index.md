@@ -10,8 +10,8 @@ hero:
       text: What is Galaxy Charts?
       link: /content/introduction
     - theme: alt
-      text: Quick Start
-      link: /content/installation
+      text: Examples
+      link: /content/example-igv
 
 features:
   - title: Standalone

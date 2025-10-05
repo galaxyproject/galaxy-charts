@@ -16,7 +16,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const size = 130;
-const totalImages = 22;
+const totalImages = 33;
 const hexes = ref([]);
 const honeycombEl = ref(null);
 

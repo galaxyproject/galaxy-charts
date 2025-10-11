@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import { configDefaults } from "vitest/config";
-import { libInjectCss } from "vite-plugin-lib-inject-css";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import Checker from "vite-plugin-checker";
 import path from "path";
 import tailwindcss from "tailwindcss";
@@ -26,7 +26,7 @@ export default defineConfig({
     plugins: [
         vue(),
         tailwindcss(),
-        libInjectCss(),
+        cssInjectedByJsPlugin(),
         Checker({
             vueTsc: {
                 tsconfigPath: path.resolve(__dirname, "tsconfig.json"),
@@ -35,26 +35,17 @@ export default defineConfig({
             },
         }),
         dts({
-            // Explicitly specify the entry file
             entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
-            // Output directory for .d.ts files
             outDir: path.resolve(__dirname, "dist"),
-            // Combine types into a single file
             rollupTypes: true,
-            // Use the correct tsconfig
             tsConfigFilePath: path.resolve(__dirname, "tsconfig.json"),
-            // Skip copying .d.ts files
             copyDtsFiles: false,
-            // Include all relevant files
             include: ["lib/**/*", "src/**/*"],
-            // Exclude unnecessary files
             exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/App.vue", "src/Plugin.vue"],
-            // Enable debug logging
             logLevel: "debug",
         }),
     ],
     resolve: {
-        // Ensure Vite respects tsconfig path aliases
         alias: {
             "@": path.resolve(__dirname, "src"),
         },

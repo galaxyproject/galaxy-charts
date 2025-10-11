@@ -226,5 +226,7 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
 </template>
 
 <style>
-@import "@/style.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 </style>

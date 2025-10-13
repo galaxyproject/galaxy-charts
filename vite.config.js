@@ -1,5 +1,4 @@
 import { defineConfig } from "vite";
-import { configDefaults } from "vitest/config";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import Checker from "vite-plugin-checker";
 import path from "path";
@@ -59,7 +58,7 @@ export default defineConfig({
             provider: "istanbul",
         },
         environment: "jsdom",
-        exclude: [...configDefaults.exclude, "e2e/*"],
+        include: ["src/**/*.test.{js,ts,jsx,tsx}"],
         globals: true,
     },
 });

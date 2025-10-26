@@ -9,11 +9,7 @@ export async function historiesGetContents(
     extension: string = "",
     limit: number = LIMIT,
 ) {
-    const filter = { deleted: false, history_content_type: "dataset", visible: true };
-    const baseFilter =
-        Object.entries(filter)
-            .map(([k, v]) => `q=${k}&qv=${v}`)
-            .join("&") + "&";
+    const baseFilter = `q=deleted&qv=false&q=history_content_type&qv=dataset&q=visible&qv=true&`;
     const extensionFilter = extension ? `q=extension-eq&qv=${extension}&` : "";
     const nameFilter = query ? `q=name-contains&qv=${query}&` : "";
     try {

@@ -40,6 +40,14 @@ const mapped = computed(() => {
             disabled: o.disabled,
         };
     });
+    if (currentValue.value && currentValue.value.id && !values.value[currentValue.value.id]) {
+        values.value[currentValue.value.id] = currentValue.value;
+        result.unshift({
+            label: currentValue.value.name || currentValue.value.id,
+            value: currentValue.value.id,
+            disabled: false,
+        });
+    }
     if (props.optional) {
         result.unshift({ label: "-- Clear Selection --", value: "", disabled: false });
     }

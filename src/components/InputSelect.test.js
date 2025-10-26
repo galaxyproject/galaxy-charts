@@ -64,4 +64,21 @@ describe("InputSelect.vue", () => {
         await select.vm.$emit("search", searchTerm);
         expect(wrapper.emitted("search")?.[0]).toEqual([searchTerm]);
     });
+
+    test("includes currentValue even if not in options", async () => {
+        const extraValue = { id: "3", name: "C", active: true };
+        const wrapper = mountComponent({ value: extraValue });
+        await flushPromises();
+        const selectOptions = wrapper.vm.mapped;
+
+        // it should appear at the top before optional clear if optional=false
+        expect(selectOptions.some((o) => o.value === "3")).toBe(true);
+        const addedOption = selectOptions.find((o) => o.value === "3");
+        expect(addedOption?.label).toBe("C");
+
+        // selecting it updates currentValue correctly
+        wrapper.vm.onUpdate("3");
+        expect(wrapper.vm.currentValue).toEqual(extraValue);
+        expect(wrapper.vm.selectValue).toBe("3");
+    });
 });

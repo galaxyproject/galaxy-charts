@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NSelect, NSwitch } from "naive-ui";
 import InputForm from "@/components/InputForm.vue";
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 import { parseValues } from "@/utilities/parsePlugin";
 import { InputElementType, InputValuesType } from "@/types";
 
@@ -9,46 +9,36 @@ import { InputElementType, InputValuesType } from "@/types";
 const props = defineProps<{
     datasetId: string;
     input: InputElementType;
+    value: InputValuesType;
 }>();
 
 // Define emit with event typing
 const emit = defineEmits<{
-    (event: "update:value", updatedValues: InputValuesType): void;
+    (event: "update:value", updated: InputValuesType): void;
 }>();
 
 if (!props.input.test_param) {
     throw `The conditional '${props.input.name}' is missing a test parameter.`;
 }
-
 if (!props.input.cases || props.input.cases.length === 0) {
-    throw `The conditional '${props.input.name}' is missing a cases.`;
+    throw `The conditional '${props.input.name}' is missing cases.`;
 }
 
 // Get test parameter
-const testParam = ref(props.input.test_param);
+const testParam = props.input.test_param;
 
 // Get test parameter name and validate it
-const testName = testParam.value.name;
+const testName = testParam.name;
 if (!testName) {
     console.error(`[charts] Test parameter has no name: ${props.input.name}.`);
 }
 
-// Reference the model value of the conditional component
-const currentValue = defineModel<InputValuesType>("value");
-if (!currentValue.value || !(testName in currentValue.value)) {
-    console.error(`[charts] Test parameter of conditional not available: ${props.input.name}.`, currentValue.value);
-}
-// Reference current test parameter value
-const currentTestValue = ref<string>(getTestValue());
-
 // Collect input cases and identify defaults
 const caseDefaults = computed(() => {
     const result: Record<string, InputValuesType> = {};
-    if (props.input.cases && props.input.cases.length > 0) {
-        for (const inputCase of props.input.cases) {
-            result[inputCase.value] = parseValues(inputCase.inputs);
-            result[inputCase.value][testName] = inputCase.value;
-        }
+    for (const inputCase of props.input.cases!) {
+        result[inputCase.value] = parseValues(inputCase.inputs);
+        result[inputCase.value][testName] = inputCase.value;
     }
     return result;
 });
@@ -56,16 +46,22 @@ const caseDefaults = computed(() => {
 // Collect all input cases
 const caseInputs = computed(() => {
     const result: Record<string, Array<InputElementType>> = {};
-    if (props.input.cases && props.input.cases.length > 0) {
-        for (const inputCase of props.input.cases) {
-            result[inputCase.value] = inputCase.inputs;
-        }
+    for (const inputCase of props.input.cases!) {
+        result[inputCase.value] = inputCase.inputs;
     }
     return result;
 });
 
-// Current inputs based on selected test value
-const currentInputs = computed(() => caseInputs.value[currentTestValue.value]);
+// Current test value
+const currentTestValue = computed({
+    get() {
+        return String(props.value?.[testName] ?? testParam.value ?? "");
+    },
+    set(newVal: string) {
+        const base = caseDefaults.value[newVal] || {};
+        emit("update:value", { ...base });
+    },
+});
 
 // Handle conversion of boolean switch values to string for case evaluation
 const switchTestValue = computed({
@@ -77,45 +73,23 @@ const switchTestValue = computed({
     },
 });
 
-// Initialize test value
-function getTestValue() {
-    return currentValue.value && currentValue.value[testName];
-}
+// Collect current inputs
+const currentInputs = computed(() => {
+    const inputs = caseInputs.value[currentTestValue.value];
+    return inputs || [];
+});
 
 // Update values if test value changes or conditional input elements are modified
-function onUpdate(newValues?: InputValuesType) {
-    let updatedValues = { ...caseDefaults.value[currentTestValue.value] };
-    if (newValues) {
-        const filteredValues: InputValuesType = {};
-        currentInputs.value.forEach((x) => {
-            filteredValues[x.name] = newValues[x.name];
-        });
-        updatedValues = { ...updatedValues, ...newValues };
-    }
-    emit("update:value", updatedValues);
+function onUpdate(newValues: InputValuesType) {
+    const updated = { ...props.value, ...newValues, [testName]: currentTestValue.value };
+    emit("update:value", updated);
 }
-
-// Watch test value
-watch(
-    () => currentValue.value,
-    () => {
-        currentTestValue.value = getTestValue();
-    },
-);
-
-// Load defaults if test value changes
-watch(
-    () => currentTestValue.value,
-    () => {
-        onUpdate();
-    },
-);
 </script>
 
 <template>
     <n-switch v-if="testParam.type === 'boolean'" v-model:value="switchTestValue" />
     <n-select v-else v-model:value="currentTestValue" :options="testParam.data" />
-    <div v-if="currentInputs" class="border border-dotted border-green-600 rounded mt-2 p-2">
-        <InputForm :dataset-id="datasetId" :inputs="currentInputs" :values="currentValue" @update:values="onUpdate" />
+    <div v-if="currentInputs.length" class="border border-dotted border-green-600 rounded mt-2 p-2">
+        <InputForm :dataset-id="datasetId" :inputs="currentInputs" :values="value" @update:values="onUpdate" />
     </div>
 </template>

@@ -146,7 +146,7 @@ describe("InputForm.vue", () => {
         expect(wrapper.vm.currentValues).toEqual({
             booleanInput: null,
             colorInput: null,
-            conditionalInput: {},
+            conditionalInput: null,
             dataInput: null,
             dataColumnInput: null,
             floatInput: null,
@@ -221,7 +221,7 @@ describe("InputForm.vue", () => {
             values: { selectInput: "unknown" },
         });
         const select = wrapper.findComponent(NSelect);
-        expect(select.props("value")).toBe(undefined);
+        expect(select.props("value")).toBe("");
     });
 
     test("calls initialValues and populates defaults when values are undefined", async () => {

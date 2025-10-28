@@ -70,7 +70,7 @@ describe("InputConditional Component", () => {
     test("throws an error if cases are missing", () => {
         const invalidInput = { ...validInput, cases: [] };
         expect(() => mount(InputConditional, { props: { datasetId, input: invalidInput } })).toThrow(
-            "The conditional 'mode' is missing a cases.",
+            "The conditional 'mode' is missing cases.",
         );
     });
 

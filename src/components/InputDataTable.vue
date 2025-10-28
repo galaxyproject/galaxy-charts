@@ -61,5 +61,6 @@ loadData();
         :options="currentOptions"
         :optional="optional"
         :placeholder="placeholder"
+        :sort="true"
         :title="title" />
 </template>

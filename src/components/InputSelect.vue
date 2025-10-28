@@ -11,12 +11,14 @@ const props = withDefaults(
         optional?: boolean;
         placeholder?: string;
         title?: string;
+        sort?: boolean;
     }>(),
     {
         loading: false,
         optional: false,
         placeholder: "Select a value",
         title: "Please select a value.",
+        sort: false,
     },
 );
 
@@ -40,6 +42,7 @@ const mapped = computed(() => {
             disabled: o.disabled,
         };
     });
+
     if (currentValue.value && currentValue.value.id && !values.value[currentValue.value.id]) {
         values.value[currentValue.value.id] = currentValue.value;
         result.unshift({
@@ -48,9 +51,15 @@ const mapped = computed(() => {
             disabled: false,
         });
     }
+
     if (props.optional) {
         result.unshift({ label: "-- Clear Selection --", value: "", disabled: false });
     }
+
+    if (props.sort) {
+        result.sort((a, b) => a.label.localeCompare(b.label));
+    }
+
     return result;
 });
 

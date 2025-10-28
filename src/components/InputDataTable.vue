@@ -28,16 +28,25 @@ const loading = ref(false);
 async function loadData(): Promise<void> {
     loading.value = true;
     const opts: InputOptionType[] = [];
+    const seen = new Set<string>();
+
     if (props.tables && props.tables.length > 0) {
         for (const table of props.tables) {
             try {
                 const parsedOptions = await dataTableStore.getDataTable(table);
-                opts.push(...parsedOptions);
+                for (const option of parsedOptions) {
+                    const id = option?.value?.id;
+                    if (id && !seen.has(id)) {
+                        seen.add(id);
+                        opts.push(option);
+                    }
+                }
             } catch (err) {
                 console.debug("[charts] Failed to request data table.", err);
             }
         }
     }
+
     currentOptions.value = opts;
     loading.value = false;
 }

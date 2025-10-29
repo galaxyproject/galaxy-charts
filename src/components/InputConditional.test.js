@@ -156,6 +156,7 @@ describe("InputConditional Component", () => {
                 },
             },
         });
+
         wrapper.findComponent(NSelect).vm.$emit("update:value", "b");
         await wrapper.vm.$nextTick();
         const emitted = wrapper.emitted("update:value");
@@ -167,7 +168,7 @@ describe("InputConditional Component", () => {
         await wrapper.vm.$nextTick();
         const emittedA = wrapper.emitted("update:value");
         expect(emittedA).toBeTruthy();
-        const lastEmittedA = emitted[emitted.length - 1][0];
+        const lastEmittedA = emittedA[emittedA.length - 1][0];
         expect(lastEmittedA).toEqual({
             conditional_1: {
                 condition_1: "a_1",
@@ -179,5 +180,94 @@ describe("InputConditional Component", () => {
             },
             conditional_0: "a_0",
         });
+    });
+
+    test("deep nested update propagates correctly", async () => {
+        const deepInput = {
+            name: "root",
+            type: "conditional",
+            test_param: {
+                name: "root_condition",
+                type: "string",
+                value: "x",
+                data: [
+                    { label: "X", value: "x" },
+                    { label: "Y", value: "y" },
+                ],
+            },
+            cases: [
+                {
+                    value: "x",
+                    inputs: [
+                        {
+                            name: "nested_1",
+                            type: "conditional",
+                            test_param: {
+                                name: "nested_condition",
+                                type: "string",
+                                value: "alpha",
+                                data: [
+                                    { label: "Alpha", value: "alpha" },
+                                    { label: "Beta", value: "beta" },
+                                ],
+                            },
+                            cases: [
+                                {
+                                    value: "alpha",
+                                    inputs: [{ name: "value_alpha", type: "float", value: "11.0" }],
+                                },
+                                {
+                                    value: "beta",
+                                    inputs: [{ name: "value_beta", type: "float", value: "22.0" }],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    value: "y",
+                    inputs: [{ name: "root_float", type: "float", value: "99.0" }],
+                },
+            ],
+        };
+
+        const wrapper = mount(InputConditional, {
+            props: { datasetId, input: deepInput, value: { root_condition: "x" } },
+        });
+
+        // Switch to branch Y and back to X
+        wrapper.findComponent(NSelect).vm.$emit("update:value", "y");
+        await wrapper.vm.$nextTick();
+        const emitted1 = wrapper.emitted("update:value");
+        expect(emitted1[emitted1.length - 1][0]).toEqual({ root_float: 99, root_condition: "y" });
+
+        wrapper.findComponent(NSelect).vm.$emit("update:value", "x");
+        await wrapper.vm.$nextTick();
+        const emitted2 = wrapper.emitted("update:value");
+        expect(emitted2[emitted2.length - 1][0]).toEqual({
+            nested_1: { nested_condition: "alpha", value_alpha: 11 },
+            root_condition: "x",
+        });
+    });
+
+    test("ignores undefined values when building defaults", async () => {
+        const wrapper = mount(InputConditional, {
+            props: {
+                datasetId,
+                input: {
+                    ...validInput,
+                    cases: [
+                        {
+                            value: "advanced",
+                            inputs: [{ name: "speed", type: "float" }],
+                        },
+                    ],
+                },
+                value: { modeType: "advanced" },
+            },
+        });
+        const emitted = wrapper.emitted("update:value");
+        expect(emitted).toBeFalsy();
+        expect(wrapper.vm.currentInputs).toBeDefined();
     });
 });

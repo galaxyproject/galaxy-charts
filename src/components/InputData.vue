@@ -11,6 +11,7 @@ const LIMIT = 100;
 
 type ValueType = {
     id: string;
+    extension: string;
     hid: string;
     name: string;
 };
@@ -34,7 +35,7 @@ async function loadDatasets(query?: string): Promise<void> {
             if (contents && contents.length > 0) {
                 const options = contents.map((x: ValueType) => ({
                     label: `${x.hid}: ${x.name}`,
-                    value: { id: x.id, hid: x.hid, name: x.name },
+                    value: { id: x.id, extension: x.extension, hid: x.hid, name: x.name },
                 }));
                 if (contents.length >= LIMIT) {
                     options.push({ label: "...filter for more", value: null, disabled: true });

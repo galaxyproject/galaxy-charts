@@ -10,7 +10,7 @@ export async function historiesGetContents(
     limit: number = LIMIT,
 ) {
     const baseFilter = `q=deleted&qv=false&q=history_content_type&qv=dataset&q=visible&qv=true&`;
-    const extensionFilter = extension ? `q=extension-eq&qv=${extension}&` : "";
+    const extensionFilter = extension ? `q=extension-in&qv=${extension}&` : "";
     const nameFilter = query ? `q=name-contains&qv=${query}&` : "";
     try {
         const { data } = await GalaxyApi().GET(

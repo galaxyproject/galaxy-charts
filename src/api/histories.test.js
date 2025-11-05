@@ -31,7 +31,7 @@ describe("historiesGetContents", () => {
         expect(callArg).toContain("q=deleted&qv=false");
         expect(callArg).toContain("q=visible&qv=true");
         expect(callArg).toContain("q=history_content_type&qv=dataset");
-        expect(callArg).toContain("q=extension-eq&qv=bam");
+        expect(callArg).toContain("q=extension-in&qv=bam");
         expect(callArg).toContain("q=name-contains&qv=abc");
         expect(callArg).toContain("limit=50");
         expect(result).toEqual(mockData);
@@ -42,7 +42,7 @@ describe("historiesGetContents", () => {
         mockGet.mockResolvedValue({ data: mockData });
         const result = await historiesGetContents(historyId);
         const callArg = mockGet.mock.calls[0][0];
-        expect(callArg).not.toContain("q=extension-eq");
+        expect(callArg).not.toContain("q=extension-in");
         expect(callArg).not.toContain("q=name-contains");
         expect(result).toEqual(mockData);
     });

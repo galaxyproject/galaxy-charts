@@ -45,7 +45,7 @@ describe("InputData.vue", () => {
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalled();
         const calledUrl = mockGet.mock.calls[0][0];
-        expect(calledUrl).toContain("extension-eq");
+        expect(calledUrl).toContain("extension-in");
         expect(calledUrl).toContain("bed");
     });
 

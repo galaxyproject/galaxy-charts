@@ -23,7 +23,7 @@ const defaultValues = computed(() => parseValues(props.inputs));
 // Add a new repeat block
 function onAdd(): void {
     const newValuesArray = [...props.valuesArray];
-    newValuesArray.unshift(defaultValues.value);
+    newValuesArray.push(defaultValues.value);
     emit("update:values-array", newValuesArray);
 }
 
@@ -47,20 +47,24 @@ function onUpdate(index: number, values: InputValuesType): void {
         <n-icon><PlusIcon /></n-icon>
         <span class="mx-1">Add New Track</span>
     </n-button>
-    <div v-for="(values, index) of valuesArray" :key="index" class="py-2">
+
+    <div
+        v-for="(values, index) in [...valuesArray].slice().reverse()"
+        :key="valuesArray.length - 1 - index"
+        class="py-2">
         <div class="border border-dotted border-green-600 rounded p-2">
             <InputForm
                 :dataset-id="datasetId"
                 :inputs="inputs"
                 :values="values"
-                @update:values="onUpdate(index, $event)" />
+                @update:values="onUpdate(valuesArray.length - 1 - index, $event)" />
             <n-button
                 class="w-full mt-2"
                 data-description="remove repeat block"
                 :disabled="valuesArray.length <= 1"
                 size="tiny"
                 type="primary"
-                @click="onRemove(index)">
+                @click="onRemove(valuesArray.length - 1 - index)">
                 <n-icon><TrashIcon /></n-icon>
                 <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
             </n-button>

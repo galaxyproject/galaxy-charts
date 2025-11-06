@@ -49,7 +49,7 @@ describe("InputRepeats Component", () => {
         await removeButtonsB.at(0).trigger("click");
         const emittedValuesB = wrapper.emitted("update:values-array")[1][0];
         expect(emittedValuesB).toHaveLength(1);
-        expect(emittedValuesB[0].speed).toBe(25);
+        expect(emittedValuesB[0].speed).toBe(15);
     });
 
     test("disables 'Remove Track' button when only one track remains", () => {

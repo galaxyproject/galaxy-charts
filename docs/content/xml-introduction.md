@@ -5,7 +5,7 @@ Galaxy Visualizations are configured using XML files. The files contain Visualiz
 ```xml
 <visualization name="MY_VISUALIZATION">
     <description>MY_DESCRIPTION</description>
-    <entry_point entry_point_type="script" src="index.js" css="index.css" />
+    <entry_point src="index.js" css="index.css" />
     ...
 </visualization>
 ```

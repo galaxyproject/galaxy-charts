@@ -35,14 +35,13 @@ When a user selects a visualization in the Galaxy interface, Galaxy requires a d
 Once the visualization and dataset are selected, Galaxy reads the `entry_point` section in the XML:
 
 ```xml
-<entry_point entry_point_type="script" src="index.js" css="index.css" container="app" />
+<entry_point src="index.js" css="index.css" container="app" />
 ```
 
 The entry_point section includes the following parameters:
 
 | Variable | Description |
 |----------|-------------|
-| **entry_point_type** | Specifies the type of entry point. Galaxy supports two types: mako and script. For JavaScript-based visualizations, this should always be set to script. |
 | **src** | The path to the JavaScript bundle within the visualization’s static directory. |
 | **css** | (Optional) The path to a CSS file within the visualization’s static directory. |
 | **container** | The DOM container ID that the visualization will use (default is "app"). |
@@ -76,7 +75,7 @@ The plugin XML file (`plugin.xml`) defines the plugin’s name, a brief descript
 ```xml
 <visualization name="Minimal Plugin">
     <description>A basic example of a visualization plugin.</description>
-    <entry_point entry_point_type="script" src="minimal.js" />
+    <entry_point src="minimal.js" />
 </visualization>
 ```
 
@@ -143,7 +142,7 @@ Place the following XML file into your Vite project's `public` directory:
 ```xml
 <visualization name="Vite Plugin (Vanilla/Vue/React and more)">
     <description>A basic example of a Vite plugin.</description>
-    <entry_point entry_point_type="script" src="index.js" css="index.css" />
+    <entry_point src="index.js" css="index.css" />
 </visualization>
 ```
 

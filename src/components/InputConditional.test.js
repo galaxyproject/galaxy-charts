@@ -37,8 +37,7 @@ describe("InputConditional Component", () => {
             test_param: { name: "modeType", type: "boolean" },
         };
         const wrapper = mount(InputConditional, {
-            props: { datasetId, input: booleanInput },
-            modelValue: { modeType: "true" },
+            props: { datasetId, input: booleanInput, value: { modeType: "true" } },
         });
         expect(wrapper.findComponent(NSwitch).exists()).toBe(true);
     });

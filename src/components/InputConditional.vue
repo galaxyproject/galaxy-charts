@@ -9,7 +9,7 @@ import { InputElementType, InputValuesType } from "@/types";
 const props = defineProps<{
     datasetId: string;
     input: InputElementType;
-    value: InputValuesType;
+    value?: InputValuesType;
 }>();
 
 // Define emit with event typing

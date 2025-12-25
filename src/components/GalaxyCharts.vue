@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
+import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { NAlert, NButton, NIcon, NTooltip } from "naive-ui";
@@ -198,18 +199,12 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
                 :save="save"
                 :update="update" />
         </div>
-        <n-tooltip v-if="collapsePanel && !hidePanel && datasetId" trigger="hover" :to="false">
-            <template #trigger>
-                <div class="m-2 absolute right-0">
-                    <n-button strong secondary circle @click="onToggle">
-                        <template #icon>
-                            <n-icon><ChevronDoubleLeftIcon /></n-icon>
-                        </template>
-                    </n-button>
-                </div>
-            </template>
-            <span class="text-xs">Expand</span>
-        </n-tooltip>
+        <SideButton
+            cls="m-2 absolute right-0"
+            :icon="ChevronDoubleLeftIcon"
+            title="Expand"
+            :visible="collapsePanel && !hidePanel && !!datasetId"
+            @click="onToggle" />
         <SidePanel
             v-show="(!collapsePanel && !hidePanel) || !datasetId"
             :dataset-id="datasetId"

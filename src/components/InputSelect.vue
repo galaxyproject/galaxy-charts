@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, h, ref, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
-import { ExclamationCircleIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { PlusIcon } from "@heroicons/vue/24/outline";
 import type { InputOptionType, InputValuesType } from "@/types";
 
 const props = withDefaults(

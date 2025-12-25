@@ -58,7 +58,7 @@ describe("SidePanel.vue", () => {
     });
 
     test("hides save button if datasetId is missing", async () => {
-        const saveButton = '[data-description="sidepanel save button"]';
+        const saveButton = '[data-description="sidebutton save"]';
         expect(wrapper.find(saveButton).exists()).toBeTruthy();
         await wrapper.setProps({ datasetId: "" });
         expect(wrapper.find(saveButton).exists()).toBeFalsy();

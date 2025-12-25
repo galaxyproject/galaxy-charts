@@ -13,6 +13,7 @@ import InputForm from "@/components/InputForm.vue";
 import InputRepeats from "@/components/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
+import SideButton from "./SideButton.vue";
 import type { InputElementType, InputValuesType, MessageType } from "@/types";
 import ChartsLogo from "./ChartsLogo.vue";
 
@@ -102,28 +103,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <ApiStatus />
             </div>
             <div>
-                <n-tooltip trigger="hover" :to="false">
-                    <template #trigger>
-                        <span class="mr-2">
-                            <n-button strong secondary circle data-description="sidepanel save button" @click="onSave">
-                                <template #icon>
-                                    <n-icon><CloudArrowUpIcon /></n-icon>
-                                </template>
-                            </n-button>
-                        </span>
-                    </template>
-                    <span class="text-xs">Save</span>
-                </n-tooltip>
-                <n-tooltip trigger="hover" :to="false">
-                    <template #trigger>
-                        <n-button strong secondary circle @click="emit('toggle')">
-                            <template #icon>
-                                <n-icon><ChevronDoubleRightIcon /></n-icon>
-                            </template>
-                        </n-button>
-                    </template>
-                    <span class="text-xs">Collapse</span>
-                </n-tooltip>
+                <SideButton cls="mr-2" :icon="CloudArrowUpIcon" title="Save" @click="onSave" />
+                <SideButton :icon="ChevronDoubleRightIcon" title="Collapse" @click="emit('toggle')" />
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2" />

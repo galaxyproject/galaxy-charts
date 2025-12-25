@@ -57,7 +57,7 @@ export default defineConfig({
             include: ["src/**/*.{ts,js,vue}"],
             provider: "istanbul",
         },
-        environment: "jsdom",
+        environment: "happy-dom",
         globals: true,
         include: ["src/**/*.test.{js,ts,jsx,tsx}"],
     },

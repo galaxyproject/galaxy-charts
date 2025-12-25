@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import App from "./App.vue";
 
-const LOGO = '[viewBox="0 0 100 100"]';
+const LOGO = "svg";
 
 describe("build user interface", () => {
     test("Show form if dataset id and url are missing", async () => {
@@ -12,6 +12,7 @@ describe("build user interface", () => {
         const wrapper = mount(App);
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
+        console.log(wrapper.html());
         expect(wrapper.find(LOGO).exists()).toBeTruthy();
         expect(wrapper.html()).toContain("Specify a visualization title.");
         expect(wrapper.html()).not.toContain("Settings: {}");

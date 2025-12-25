@@ -91,8 +91,7 @@ watch(
 <template>
     <div>
         <div v-if="!optional && !currentValue" class="text-red-600 mb-1">
-            <n-icon class="size-3 mr-1"><ExclamationCircleIcon /></n-icon>
-            <span>{{ title }}</span>
+            {{ title }}
         </div>
         <n-select
             filterable

@@ -47,7 +47,6 @@ function onUpdate(index: number, values: InputValuesType): void {
         <n-icon><PlusIcon /></n-icon>
         <span class="mx-1">Add New Track</span>
     </n-button>
-
     <div
         v-for="(values, index) in [...valuesArray].slice().reverse()"
         :key="valuesArray.length - 1 - index"
@@ -58,16 +57,17 @@ function onUpdate(index: number, values: InputValuesType): void {
                 :inputs="inputs"
                 :values="values"
                 @update:values="onUpdate(valuesArray.length - 1 - index, $event)" />
-            <n-button
-                class="w-full mt-2"
-                data-description="remove repeat block"
-                :disabled="valuesArray.length <= 1"
-                size="tiny"
-                type="primary"
-                @click="onRemove(valuesArray.length - 1 - index)">
-                <n-icon><TrashIcon /></n-icon>
-                <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
-            </n-button>
+            <div class="w-full mt-2">
+                <n-button
+                    data-description="remove repeat block"
+                    :disabled="valuesArray.length <= 1"
+                    size="tiny"
+                    type="primary"
+                    @click="onRemove(valuesArray.length - 1 - index)">
+                    <n-icon><TrashIcon /></n-icon>
+                    <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
+                </n-button>
+            </div>
         </div>
     </div>
 </template>

@@ -20,20 +20,17 @@ checkVersion();
 </script>
 
 <template>
-    <n-tooltip v-if="version" class="mx-1" trigger="hover" :to="false">
+    <n-tooltip trigger="hover" :to="false">
         <template #trigger>
-            <n-icon class="mx-1">
-                <CheckCircleIcon class="text-green-600" />
-            </n-icon>
+            <span class="mx-1">
+                <n-icon>
+                    <CheckCircleIcon v-if="version" class="text-green-600" />
+                    <ExclamationCircleIcon v-else class="text-red-600" />
+                </n-icon>
+            </span>
         </template>
-        <span class="text-xs">Connected to Galaxy Version {{ version }}.</span>
-    </n-tooltip>
-    <n-tooltip v-else class="mx-1" trigger="hover" :to="false">
-        <template #trigger>
-            <n-icon class="mx-1">
-                <ExclamationCircleIcon class="text-red-600" />
-            </n-icon>
-        </template>
-        <span class="text-xs">Galaxy is not accessible!</span>
+        <span class="text-xs">
+            {{ version ? `Connected to Galaxy Version ${version}.` : "Galaxy is not accessible!" }}
+        </span>
     </n-tooltip>
 </template>

@@ -104,23 +104,19 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             <div>
                 <n-tooltip trigger="hover" :to="false">
                     <template #trigger>
-                        <n-button
-                            strong
-                            secondary
-                            circle
-                            class="bg-sky-100 mr-2"
-                            data-description="sidepanel save button"
-                            @click="onSave">
-                            <template #icon>
-                                <n-icon><CloudArrowUpIcon /></n-icon>
-                            </template>
-                        </n-button>
+                        <span class="mr-2">
+                            <n-button strong secondary circle data-description="sidepanel save button" @click="onSave">
+                                <template #icon>
+                                    <n-icon><CloudArrowUpIcon /></n-icon>
+                                </template>
+                            </n-button>
+                        </span>
                     </template>
                     <span class="text-xs">Save</span>
                 </n-tooltip>
                 <n-tooltip trigger="hover" :to="false">
                     <template #trigger>
-                        <n-button strong secondary circle class="bg-sky-100" @click="emit('toggle')">
+                        <n-button strong secondary circle @click="emit('toggle')">
                             <template #icon>
                                 <n-icon><ChevronDoubleRightIcon /></n-icon>
                             </template>

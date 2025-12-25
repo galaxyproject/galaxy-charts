@@ -10,6 +10,8 @@ import { useConfigStore } from "@/store/configStore";
 import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
 import { visualizationsSave } from "@/api/visualizations";
 
+import "@/style.css";
+
 const props = defineProps<{
     container?: string;
     credentials?: RequestCredentials;
@@ -173,9 +175,11 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
 </script>
 
 <template>
-    <n-alert v-if="errorMessage" type="error" class="m-2">
-        {{ errorMessage }}
-    </n-alert>
+    <div v-if="errorMessage" class="m-2">
+        <n-alert type="error">
+            {{ errorMessage }}
+        </n-alert>
+    </div>
     <div v-if="isLoading" class="m-2">
         <span>
             <ArrowPathIcon class="animate-spin size-4 inline mx-1" />
@@ -196,11 +200,13 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
         </div>
         <n-tooltip v-if="collapsePanel && !hidePanel && datasetId" trigger="hover" :to="false">
             <template #trigger>
-                <n-button strong secondary circle class="bg-sky-100 m-2 absolute right-0" @click="onToggle">
-                    <template #icon>
-                        <n-icon><ChevronDoubleLeftIcon /></n-icon>
-                    </template>
-                </n-button>
+                <div class="m-2 absolute right-0">
+                    <n-button strong secondary circle @click="onToggle">
+                        <template #icon>
+                            <n-icon><ChevronDoubleLeftIcon /></n-icon>
+                        </template>
+                    </n-button>
+                </div>
             </template>
             <span class="text-xs">Expand</span>
         </n-tooltip>
@@ -224,9 +230,3 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             @toggle="onToggle" />
     </div>
 </template>
-
-<style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-</style>

@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import Checker from "vite-plugin-checker";
 import path from "path";
-import tailwindcss from "tailwindcss";
+import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
 import { viteConfigCharts } from "./vite.config.charts";
@@ -58,7 +58,7 @@ export default defineConfig({
             provider: "istanbul",
         },
         environment: "jsdom",
-        include: ["src/**/*.test.{js,ts,jsx,tsx}"],
         globals: true,
+        include: ["src/**/*.test.{js,ts,jsx,tsx}"],
     },
 });

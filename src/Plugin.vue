@@ -64,7 +64,11 @@ watch(
             <pre class="p-2 whitespace-pre overflow-auto">Tracks: {{ tracks }}</pre>
             <pre class="p-2 whitespace-pre overflow-auto">{{ columnsList }}</pre>
         </div>
-        <n-button class="mt-2" type="primary" @click="onSave">Click to Save</n-button>
-        <n-button class="mx-2 mt-2" type="primary" @click="onUpdate">Click to Update</n-button>
+        <div class="mt-2">
+            <n-button type="primary" @click="onSave">Click to Save</n-button>
+            <span class="mx-2">
+                <n-button type="primary" @click="onUpdate">Click to Update</n-button>
+            </span>
+        </div>
     </div>
 </template>

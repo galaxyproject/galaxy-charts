@@ -28,7 +28,7 @@ const emit = defineEmits<{
                     circle
                     :data-description="`sidebutton ${title.toLowerCase()}`"
                     secondary
-                    type="primary"
+                    type="info"
                     strong
                     @click="emit('click')">
                     <template #icon>

@@ -69,7 +69,7 @@ function onUpdate(newId: string | null) {
 }
 
 function renderLabel(option: { label: string }) {
-    return h("div", { class: "my-1 whitespace-normal break-all" }, [
+    return h("div", { class: "my-1 whitespace-normal break-words" }, [
         h(NIcon, { class: "size-3 mr-1" }, { default: () => h(PlusIcon) }),
         option.label,
     ]);

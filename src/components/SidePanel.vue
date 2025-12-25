@@ -108,7 +108,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2" />
-        <div class="bg-sky-50 text-sky-900 rounded my-2 p-2">
+        <div class="bg-blue-50 text-blue-900 rounded my-2 p-2">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">

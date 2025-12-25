@@ -1,4 +1,4 @@
-import { describe, test, expect, mount } from "vitest";
+import { describe, test, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 
 import * as visualizations from "@/api/visualizations";

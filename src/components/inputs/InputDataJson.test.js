@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import InputDataJson from "@/components/InputDataJson.vue";
+import InputDataJson from "@/components/inputs/InputDataJson.vue";
 
 const mockFetch = vi.fn();
 

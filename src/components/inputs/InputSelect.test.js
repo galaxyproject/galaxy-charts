@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import InputSelect from "@/components/InputSelect.vue";
+import InputSelect from "@/components/inputs/InputSelect.vue";
 import { NSelect } from "naive-ui";
 
 describe("InputSelect.vue", () => {

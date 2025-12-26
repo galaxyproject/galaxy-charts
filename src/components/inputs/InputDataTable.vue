@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import InputSelect from "@/components/InputSelect.vue";
+import InputSelect from "@/components/inputs/InputSelect.vue";
 import type { InputOptionType } from "@/types";
 import { useDataTableStore } from "@/store/dataTableStore";
 

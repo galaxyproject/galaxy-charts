@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import InputDataTable from "@/components/InputDataTable.vue";
+import InputDataTable from "@/components/inputs/InputDataTable.vue";
 
 const mockGet = vi.fn();
 

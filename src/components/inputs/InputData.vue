@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { historiesGetContents } from "@/api/histories";
 import { useDatasetStore } from "@/store/datasetStore";
-import InputSelect from "@/components/InputSelect.vue";
+import InputSelect from "@/components/inputs/InputSelect.vue";
 import type { InputOptionType } from "@/types";
 
 const { getDataset } = useDatasetStore();

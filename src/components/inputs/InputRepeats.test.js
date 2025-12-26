@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import { mount } from "@vue/test-utils";
-import InputRepeats from "@/components/InputRepeats.vue";
-import InputForm from "@/components/InputForm.vue";
+import InputRepeats from "@/components/inputs/InputRepeats.vue";
+import InputForm from "@/components/inputs/InputForm.vue";
 import { NButton } from "naive-ui";
 
 vi.mock("@/utilities/parseDefaults", () => ({

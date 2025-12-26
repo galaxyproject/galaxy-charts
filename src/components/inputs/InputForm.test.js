@@ -1,10 +1,10 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import InputForm from "@/components/InputForm.vue";
+import InputForm from "@/components/inputs/InputForm.vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
-import InputConditional from "@/components/InputConditional.vue";
-import InputData from "@/components/InputData.vue";
-import InputDataColumn from "@/components/InputDataColumn.vue";
+import InputConditional from "@/components/inputs/InputConditional.vue";
+import InputData from "@/components/inputs/InputData.vue";
+import InputDataColumn from "@/components/inputs/InputDataColumn.vue";
 import { toBoolean } from "@/utilities/toBoolean";
 
 // Mock external API calls

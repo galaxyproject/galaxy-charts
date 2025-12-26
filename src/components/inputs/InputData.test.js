@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import InputData from "@/components/InputData.vue";
+import InputData from "@/components/inputs/InputData.vue";
 
 // Shared Galaxy API mock
 const mockGet = vi.fn().mockResolvedValue({

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
-import InputConditional from "@/components/InputConditional.vue";
-import InputData from "@/components/InputData.vue";
-import InputDataColumn from "@/components/InputDataColumn.vue";
-import InputDataJson from "@/components/InputDataJson.vue";
-import InputDataTable from "@/components/InputDataTable.vue";
+import InputConditional from "@/components/inputs/InputConditional.vue";
+import InputData from "@/components/inputs/InputData.vue";
+import InputDataColumn from "@/components/inputs/InputDataColumn.vue";
+import InputDataJson from "@/components/inputs/InputDataJson.vue";
+import InputDataTable from "@/components/inputs/InputDataTable.vue";
 import { toBoolean } from "@/utilities/toBoolean";
 import type { InputElementType, InputValuesType } from "@/types";
 

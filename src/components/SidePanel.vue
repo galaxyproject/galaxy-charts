@@ -6,11 +6,11 @@ import {
     CloudArrowUpIcon,
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
-import { NButton, NIcon, NInput, NTabs, NTabPane, NTooltip } from "naive-ui";
+import { NIcon, NInput, NTabs, NTabPane } from "naive-ui";
 import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
 import { errorMessageAsString } from "@/utilities/simpleError";
-import InputForm from "@/components/InputForm.vue";
-import InputRepeats from "@/components/InputRepeats.vue";
+import InputForm from "@/components/inputs/InputForm.vue";
+import InputRepeats from "@/components/inputs/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
 import SideButton from "./SideButton.vue";

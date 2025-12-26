@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-import InputDataColumn from "@/components/InputDataColumn.vue";
+import InputDataColumn from "@/components/inputs/InputDataColumn.vue";
 
 // Correct mock dataset
 const mockDataset = {

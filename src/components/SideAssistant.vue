@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, nextTick } from "vue";
 import type { Component } from "vue";
-import { NButton, NIcon, NTooltip } from "naive-ui";
+import { NButton, NIcon, NInput, NTooltip } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
+import { PaperAirplaneIcon } from "@heroicons/vue/24/outline";
 
 type Role = "user" | "assistant" | "system";
 
@@ -41,6 +42,13 @@ const input = ref("");
 const messages = ref<Message[]>([]);
 
 let nextId = 0;
+
+for (let i = 0; i < 1; i++)
+    messages.value.push({
+        id: nextId++,
+        role: i % 2 ? "user" : "assistant",
+        content: "Hi, I am here to help!",
+    });
 
 async function onInit() {
     const isTestData = props.datasetId === "__test__";
@@ -134,20 +142,20 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col h-full bg-gray-900 text-white">
+    <div class="flex flex-col h-full">
         <!-- Messages -->
-        <div ref="viewport" class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <div ref="viewport" class="flex-1 overflow-y-auto space-y-2">
             <div
                 v-for="msg in messages"
                 :key="msg.id"
                 class="flex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
                 <div
-                    class="max-w-[75%] px-4 py-2 rounded-lg whitespace-pre-wrap"
+                    v-if="msg.role != 'system'"
+                    class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words"
                     :class="{
-                        'bg-blue-600 text-white': msg.role === 'user',
-                        'bg-gray-800 text-gray-100': msg.role === 'assistant',
-                        'bg-gray-700 text-gray-300 text-sm italic': msg.role === 'system',
+                        'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
+                        'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
                     }">
                     {{ msg.content }}
                 </div>
@@ -155,19 +163,17 @@ onMounted(() => {
         </div>
 
         <!-- Input -->
-        <div class="border-t border-gray-700 px-4 py-3">
-            <form class="flex items-center gap-2" @submit.prevent="onMessage">
-                <input
-                    v-model="input"
+        <div class="pt-4 pb-2 flex items-center gap-2">
+            <div class="flex-1">
+                <n-input
+                    v-model:value="input"
                     type="text"
-                    placeholder="Ask a question about the dataset…"
-                    class="flex-1 bg-gray-800 text-white placeholder-gray-500 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-600" />
-                <button
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50">
-                    Send
-                </button>
-            </form>
+                    placeholder="Talk to me..."
+                    @keydown.enter.prevent="onMessage" />
+            </div>
+            <n-button data-description="side assistent submit" :disabled="!input" type="primary" @click="onMessage">
+                <n-icon><PaperAirplaneIcon /></n-icon>
+            </n-button>
         </div>
     </div>
 </template>

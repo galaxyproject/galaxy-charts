@@ -81,7 +81,7 @@ The plugin XML file (`minimal.xml`) defines the plugin’s name, a brief descrip
 
 ### Step 2: Add a Script File
 
-The core of the plugin, contained in minimal.js, is minimalistic: it retrieves the data injected into the DOM container by Galaxy, then formats and displays it within a new div element. This approach demonstrates a straightforward method to access and render data within a plugin.
+The core of the plugin, contained in `minimal.js`, is minimalistic: it retrieves the data injected into the DOM container by Galaxy, then formats and displays it within a new div element. This approach demonstrates a straightforward method to access and render data within a plugin.
 
 ```javascript
 // minimal.js

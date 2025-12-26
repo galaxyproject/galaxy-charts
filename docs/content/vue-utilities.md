@@ -65,6 +65,6 @@ In this example, `columnsList` provides the column data for each track, which is
 
 - **Data Formatting**: The function structures the returned data to align with the attributes specified in keys, simplifying its direct use in visualizations.
 
-- **Caching**: Data is cached for efficient access; repeated calls with the same datasetId, tracks, and keys avoid redundant requests to the server.
+- **Caching**: Data is cached for efficient access; repeated calls with the same `datasetId`, `tracks`, and `keys` avoid redundant requests to the server.
 
 This utility is particularly useful for quickly integrating Galaxy’s tabular data with visualization libraries, allowing for flexible and efficient data handling.

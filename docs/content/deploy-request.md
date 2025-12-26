@@ -28,4 +28,4 @@ In the Galaxy root directory, open `client/visualizations.yml` and add the name 
 
 ## :tada: Thank you for your contribution!
 
-Following these steps will prepare your visualization for integration with Galaxy. Once everything is set up, you can submit your pull request.
+Following these steps will prepare your visualization for integration with Galaxy. Once everything is set up, you can open your pull request against Galaxy's `dev` branch.

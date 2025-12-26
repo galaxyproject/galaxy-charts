@@ -138,9 +138,9 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             type="line"
             animated
             class="flex-1 min-h-0"
-            pane-wrapper-class="!h-full !min-h-0 !overflow-hidden"
+            pane-wrapper-class="h-full"
             :tab-class="showTabs ? '' : '!hidden'">
-            <n-tab-pane v-if="hasTracks" name="tracks" class="h-full">
+            <n-tab-pane v-if="hasTracks" name="tracks" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
@@ -153,7 +153,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values-array="onUpdateTracks" />
                 </div>
             </n-tab-pane>
-            <n-tab-pane v-if="hasSettings" name="settings" class="h-full">
+            <n-tab-pane v-if="hasSettings" name="settings" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
@@ -171,7 +171,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values="onUpdateSettings" />
                 </div>
             </n-tab-pane>
-            <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full">
+            <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>
                     <span class="mx-1">Assistant</span>

@@ -69,7 +69,7 @@ async function onSave(): Promise<void> {
                 messageType.value = "success";
                 emit("update:visualization-id", newVisualizationId);
             } else {
-                message.value = "Something went wrong.";
+                message.value = "Verify that you are logged in and Galaxy is accessible.";
                 messageType.value = "error";
             }
         }

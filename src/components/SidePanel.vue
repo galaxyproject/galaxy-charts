@@ -120,7 +120,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2" />
-        <div class="bg-blue-50 text-blue-900 rounded my-2 p-2">
+        <div class="bg-blue-50 text-blue-900 rounded mt-2 p-2">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">
@@ -134,15 +134,10 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
             </div>
         </div>
-        <div>
-            <div class="font-bold">Title</div>
-            <div class="text-xs py-1">Specify a visualization title.</div>
-            <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
-        </div>
         <n-tabs
             type="line"
             animated
-            class="mt-2 flex-1 min-h-0"
+            class="flex-1 min-h-0"
             pane-wrapper-class="!h-full !min-h-0 !overflow-hidden"
             :tab-class="showTabs ? '' : '!hidden'">
             <n-tab-pane v-if="hasTracks" name="tracks" class="h-full">
@@ -164,6 +159,11 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     <span class="mx-1">Settings</span>
                 </template>
                 <div class="h-full overflow-auto">
+                    <div class="pb-2">
+                        <div class="font-bold">Title</div>
+                        <div class="text-xs py-1">Specify a visualization title.</div>
+                        <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
+                    </div>
                     <InputForm
                         :dataset-id="datasetId"
                         :inputs="settingInputs"

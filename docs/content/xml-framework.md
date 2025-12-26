@@ -62,7 +62,7 @@ Galaxy Charts includes a minimal JavaScript-based visualization interface called
 </html>
 ```
 
-In this template, Galaxy populates the css, src, and container attributes with static values from the visualization XML. The `data-incoming` attribute is dynamically populated by Galaxy with details such as the dataset ID, settings, and visualization plugin metadata.
+In this template, Galaxy populates the `css`, `src`, and `container` attributes with static values from the visualization XML. The `data-incoming` attribute is dynamically populated by Galaxy with details such as the dataset ID, settings, and visualization plugin metadata.
 
 ## The Minimal Visualization Plugin
 
@@ -70,7 +70,7 @@ Armed with this foundational knowledge, let’s explore a simple, concrete examp
 
 ### Step 1: Start with XML Configuration
 
-The plugin XML file (`plugin.xml`) defines the plugin’s name, a brief description, and specifies `minimal.js` as the entry point for the functionality:
+The plugin XML file (`minimal.xml`) defines the plugin’s name, a brief description, and specifies `minimal.js` as the entry point for the functionality:
 
 ```xml
 <visualization name="Minimal Plugin">
@@ -92,6 +92,8 @@ element.innerText = element.dataset.incoming;
 This basic setup captures the essentials of a visualization plugin: it identifies where to find the incoming data, processes it (in this case, by parsing and converting it to a readable format), and outputs it to the screen.
 
 This minimal plugin example provides a foundation on which more complex visualization functionalities can be built, with ease of modification and scalability in mind.
+
+A similar example is shipped with Galaxy at: https://github.com/galaxyproject/galaxy/tree/dev/config/plugins/visualizations/example.
 
 ::: tip Note
 For this plugin, as well as any other, all further interactions with Galaxy should be conducted through the Galaxy API.

@@ -108,7 +108,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 </script>
 
 <template>
-    <div class="overflow-auto select-none bg-white z-10 p-2">
+    <div class="flex flex-col h-screen overflow-hidden select-none bg-white p-2 z-10">
         <div v-if="hasDataset" class="flex">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
@@ -142,32 +142,36 @@ function onUpdateVisualizationTitle(newTitle: string): void {
         <n-tabs
             type="line"
             animated
-            class="mt-2"
-            pane-wrapper-class="!overflow-visible"
+            class="mt-2 flex-1 min-h-0"
+            pane-wrapper-class="!h-full !min-h-0 !overflow-hidden"
             :tab-class="showTabs ? '' : '!hidden'">
-            <n-tab-pane v-if="hasTracks" name="tracks">
+            <n-tab-pane v-if="hasTracks" name="tracks" class="h-full">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                <InputRepeats
-                    :dataset-id="datasetId"
-                    :inputs="trackInputs"
-                    :values-array="trackValues"
-                    @update:values-array="onUpdateTracks" />
+                <div class="h-full overflow-auto">
+                    <InputRepeats
+                        :dataset-id="datasetId"
+                        :inputs="trackInputs"
+                        :values-array="trackValues"
+                        @update:values-array="onUpdateTracks" />
+                </div>
             </n-tab-pane>
-            <n-tab-pane v-if="hasSettings" name="settings">
+            <n-tab-pane v-if="hasSettings" name="settings" class="h-full">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
                 </template>
-                <InputForm
-                    :dataset-id="datasetId"
-                    :inputs="settingInputs"
-                    :values="settingValues"
-                    @update:values="onUpdateSettings" />
+                <div class="h-full overflow-auto">
+                    <InputForm
+                        :dataset-id="datasetId"
+                        :inputs="settingInputs"
+                        :values="settingValues"
+                        @update:values="onUpdateSettings" />
+                </div>
             </n-tab-pane>
-            <n-tab-pane v-if="hasAssistant" name="assistant">
+            <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full">
                 <template #tab>
                     <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>
                     <span class="mx-1">Assistant</span>

@@ -34,8 +34,6 @@ const emit = defineEmits<{
     (event: "click"): void;
 }>();
 
-
-
 const TEST_DATA = "test-data/1.tabular";
 
 const viewport = ref<HTMLElement | null>(null);
@@ -133,20 +131,10 @@ function scrollToBottom() {
 onMounted(() => {
     onInit();
 });
-
-
-
 </script>
 
 <template>
-
-<div class="flex flex-col h-screen bg-gray-900 text-white">
-        <!-- Header -->
-        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700">
-            <div class="font-semibold text-lg">ChatAnalysis</div>
-            <div class="text-sm text-gray-400 truncate">Dataset: {{ props.datasetId }}</div>
-        </div>
-
+    <div class="flex flex-col h-full bg-gray-900 text-white">
         <!-- Messages -->
         <div ref="viewport" class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
             <div
@@ -182,6 +170,4 @@ onMounted(() => {
             </form>
         </div>
     </div>
-
-
 </template>

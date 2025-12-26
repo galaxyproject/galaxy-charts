@@ -130,7 +130,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
                 <div class="overflow-hidden break-words p-1">
                     <span class="font-bold">{{ html }}</span>
-                    <div class="text-xs" v-html="description" />
+                    <div class="text-xs line-clamp-3">{{ description }}</div>
                 </div>
             </div>
         </div>

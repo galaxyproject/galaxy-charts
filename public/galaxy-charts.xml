@@ -14,6 +14,7 @@
     <entry_point src="index.js" css="index.css" />
     <specs>
         <type>spec_type</type>
+        <ai_prompt>ai_prompt</ai_prompt>
     </specs>
     <macros>
         <import>galaxy-charts.macro.xml</import>

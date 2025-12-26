@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import {
     AdjustmentsHorizontalIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
     ChevronDoubleRightIcon,
     CloudArrowUpIcon,
     Square3Stack3DIcon,
@@ -13,6 +14,7 @@ import InputForm from "@/components/inputs/InputForm.vue";
 import InputRepeats from "@/components/inputs/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
+import SideAssistant from "./SideAssistant.vue";
 import SideButton from "./SideButton.vue";
 import type { InputElementType, InputValuesType, MessageType } from "@/types";
 import ChartsLogo from "./ChartsLogo.vue";
@@ -25,6 +27,7 @@ const props = defineProps<{
     name: string;
     settingInputs: InputElementType[];
     settingValues: InputValuesType;
+    specValues: InputValuesType;
     trackInputs: InputElementType[];
     trackValues: InputValuesType[];
     visualizationId: string | null;
@@ -44,8 +47,17 @@ const emit = defineEmits<{
 const message = ref<string>("");
 const messageType = ref<MessageType>("info");
 
-// Determine if tabs should be hidden based on input arrays
-const hideTabs = computed(() => props.settingInputs.length === 0 || props.trackInputs.length === 0);
+// Identify available tabs
+const hasAssistant = computed(() => !!props.specValues.ai_prompt);
+const hasDataset = computed(() => !!props.datasetId);
+const hasSettings = computed(() => props.settingInputs.length > 0);
+const hasTracks = computed(() => props.trackInputs.length > 0);
+
+// Determine if the tabs header should be shown
+const showTabs = computed(() => {
+    const count = [hasAssistant.value, hasSettings.value, hasTracks.value];
+    return count.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) >= 2;
+});
 
 // Save or create the visualization
 async function onSave(): Promise<void> {
@@ -97,7 +109,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 
 <template>
     <div class="overflow-auto select-none bg-white z-10 p-2">
-        <div v-if="datasetId" class="flex">
+        <div v-if="hasDataset" class="flex">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
@@ -132,8 +144,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             animated
             class="mt-2"
             pane-wrapper-class="!overflow-visible"
-            :tab-class="hideTabs ? '!hidden' : ''">
-            <n-tab-pane v-if="trackInputs.length > 0" name="tracks">
+            :tab-class="showTabs ? '' : '!hidden'">
+            <n-tab-pane v-if="hasTracks" name="tracks">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
@@ -144,7 +156,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     :values-array="trackValues"
                     @update:values-array="onUpdateTracks" />
             </n-tab-pane>
-            <n-tab-pane v-if="settingInputs.length > 0" name="settings">
+            <n-tab-pane v-if="hasSettings" name="settings">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
@@ -154,6 +166,17 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     :inputs="settingInputs"
                     :values="settingValues"
                     @update:values="onUpdateSettings" />
+            </n-tab-pane>
+            <n-tab-pane v-if="hasAssistant" name="assistant">
+                <template #tab>
+                    <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>
+                    <span class="mx-1">Assistant</span>
+                </template>
+                <SideAssistant
+                    :dataset-id="datasetId"
+                    :settings="settingValues"
+                    :specs="specValues"
+                    :tracks="trackValues" />
             </n-tab-pane>
         </n-tabs>
     </div>

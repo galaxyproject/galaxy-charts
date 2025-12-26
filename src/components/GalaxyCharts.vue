@@ -4,7 +4,7 @@ import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline"
 import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
 import { parsePlugin } from "@/utilities/parsePlugin";
-import { NAlert, NButton, NIcon, NTooltip } from "naive-ui";
+import { NAlert } from "naive-ui";
 import { datasetsGetUrl } from "@/api/datasets";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
@@ -77,8 +77,14 @@ const datasetUrl = computed(() => {
 // Determine logo URL
 const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
 
-// Hide panel condition
-const hidePanel = computed(() => settingInputs.value.length === 0 && trackInputs.value.length === 0);
+// Identify available tabs
+const hasAssistant = computed(() => !!specValues.value.ai_prompt);
+const hasDataset = computed(() => !!datasetId.value);
+const hasSettings = computed(() => settingInputs.value.length > 0);
+const hasTracks = computed(() => trackInputs.value.length > 0);
+
+// Determine wether the panel should be shown
+const hasPanel = computed(() => hasAssistant || hasSettings || hasTracks);
 
 // Toggle side panel visibility
 async function onToggle(): Promise<void> {
@@ -187,7 +193,7 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_17rem]': !collapsePanel && !hidePanel && datasetId }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_20rem]': !collapsePanel && hasPanel && hasDataset }">
         <div v-if="datasetId" class="relative max-w-full h-screen overflow-hidden">
             <slot
                 :dataset-id="datasetId"
@@ -203,10 +209,10 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             cls="m-2 absolute right-0"
             :icon="ChevronDoubleLeftIcon"
             title="Expand"
-            :visible="collapsePanel && !hidePanel && !!datasetId"
+            :visible="collapsePanel && hasPanel && hasDataset"
             @click="onToggle" />
         <SidePanel
-            v-show="(!collapsePanel && !hidePanel) || !datasetId"
+            v-show="(!collapsePanel && hasPanel) || !hasDataset"
             :dataset-id="datasetId"
             :description="description"
             :html="html"
@@ -214,6 +220,7 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             :name="name"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
+            :spec-values="specValues"
             :track-inputs="trackInputs"
             :track-values="trackValues"
             :visualization-id="currentVisualizationId"

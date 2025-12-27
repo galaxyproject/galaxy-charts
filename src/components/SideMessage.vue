@@ -36,16 +36,16 @@ function renderMarkdown(source: string) {
             :class="`border-${color}-200 bg-${color}-50 text-${color}-900`">
             <span v-if="thinking">
                 <n-icon>
-                    <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
+                    <ArrowPathIcon class="animate-spin size-4 inline" />
                 </n-icon>
-                <span>Thinking...</span>
+                <span class="ml-1">Thinking...</span>
             </span>
             <span v-else-if="content" v-html="renderMarkdown(content)" />
             <span v-else>
                 <n-icon>
-                    <FaceFrownIcon class="size-4 inline mr-1" />
+                    <FaceFrownIcon class="size-4 inline" />
                 </n-icon>
-                <span>No reply.</span>
+                <span class="ml-1">No reply.</span>
             </span>
         </div>
     </div>

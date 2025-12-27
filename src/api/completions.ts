@@ -16,7 +16,6 @@ export interface CompletionsMessage {
     id: number;
     role: Role;
     content: string;
-    type: string;
 }
 
 const MAX_TOKENS = 1000;

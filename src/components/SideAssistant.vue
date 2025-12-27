@@ -32,6 +32,7 @@ const TEST_DATA = "test-data/1.tabular";
 const viewport = ref<HTMLElement | null>(null);
 const input = ref("");
 const messages = ref<CompletionsMessage[]>([]);
+const waiting = ref<boolean>(false);
 
 let nextId = 0;
 
@@ -40,7 +41,6 @@ for (let i = 0; i < 20; i++)
         id: nextId++,
         role: i % 2 ? "user" : "assistant",
         content: "Hi, I am here to help!",
-        type: "1",
     });
 
 async function onInit() {
@@ -53,7 +53,6 @@ async function onInit() {
     messages.value.push({
         id: nextId++,
         role: "system",
-        type: "1",
         content: `You are a dataset analysis assistant.
 
 The following dataset is provided for analysis.
@@ -77,7 +76,6 @@ async function onMessage() {
             id: nextId++,
             role: "user",
             content: text,
-            type: "1",
         });
         input.value = "";
         await requestAssistantReply();
@@ -90,7 +88,6 @@ async function requestAssistantReply() {
         id: assistantId,
         role: "assistant",
         content: "Thinking…",
-        type: "1",
     });
     nextTick(scrollToBottom);
     try {
@@ -143,17 +140,15 @@ onMounted(() => {
                         'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
                         'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
                     }">
-                    <span v-if="msg.content == 'Thinking…'">
-                        <n-icon>
-                            <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
-                        </n-icon>
-                        Thinking...
-                    </span>
-                    <div v-else>
                         {{ msg.content }}
-                    </div>
                 </div>
             </div>
+            <span v-if="waiting" class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words border-green-200 bg-green-50 text-green-900">
+                <n-icon>
+                    <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
+                </n-icon>
+                Thinking...
+            </span>
         </div>
 
         <!-- Input -->

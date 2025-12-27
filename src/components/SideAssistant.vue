@@ -5,6 +5,18 @@ import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
 import { ArrowPathIcon, PaperAirplaneIcon } from "@heroicons/vue/24/outline";
 import { completionsPost, type CompletionsMessage } from "@/api/completions";
+import MarkdownIt from "markdown-it";
+import DOMPurify from "dompurify";
+
+const md = new MarkdownIt({
+    linkify: true,
+    breaks: true,
+});
+
+function renderMarkdown(source: string) {
+    const html = md.render(source);
+    return DOMPurify.sanitize(html);
+}
 
 const configStore = useConfigStore();
 const root = configStore.getRoot();
@@ -120,8 +132,7 @@ onMounted(() => {
                     :class="{
                         'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
                         'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
-                    }">
-                    {{ msg.content }}
+                    }" v-html="renderMarkdown(msg.content)">
                 </div>
             </div>
             <span

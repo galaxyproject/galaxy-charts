@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted, ref, nextTick, computed } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/outline";
-import { completionsPost, type CompletionsMessage } from "@/api/completions";
+import { completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
+import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
 
 const configStore = useConfigStore();
@@ -34,65 +35,47 @@ const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
 const INITIAL_MESSAGE = "Hi, I am here to help!";
 
 const container = ref<HTMLElement | null>(null);
+const errorMessage = ref<string>("");
 const input = ref("");
 const messages = ref<CompletionsMessage[]>([]);
 const thinking = ref<boolean>(false);
 
-let nextId = 0;
+const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
+
+function addMessage(content: string, role: CompletionsRole) {
+    messages.value.push({ role, content });
+}
 
 async function onInit() {
-    messages.value.push({
-        id: nextId++,
-        role: "system",
-        content: DEFAULT_PROMPT,
-    });
-    messages.value.push({
-        id: nextId++,
-        role: "assistant",
-        content: INITIAL_MESSAGE,
-    });
+    if (messages.value.length === 0) {
+        addMessage(props.specs?.ai_prompt || DEFAULT_PROMPT, "system");
+        addMessage(INITIAL_MESSAGE, "assistant");
+    }
     nextTick(scrollToBottom);
 }
 
 async function onMessage() {
     const text = input.value.trim();
     if (text) {
-        messages.value.push({
-            id: nextId++,
-            role: "user",
-            content: text,
-        });
+        addMessage(text, "user");
         input.value = "";
-        await requestCompletions();
+        thinking.value = true;
+        nextTick(scrollToBottom);
+        try {
+            const reply = await completionsPost({
+                aiBaseUrl: aiBaseUrl.value,
+                aiApiKey: props.specs.ai_api_key || "unknown",
+                aiModel: props.specs.ai_model || "unknown",
+                messages: messages.value,
+            });
+            addMessage(reply, "assistant");
+        } catch (e) {
+            errorMessage.value = String(e);
+            console.error(e);
+        }
+        thinking.value = false;
+        nextTick(scrollToBottom);
     }
-}
-
-async function requestCompletions() {
-    thinking.value = true;
-    nextTick(scrollToBottom);
-    try {
-        const aiBaseUrl = props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`;
-        const reply = await completionsPost({
-            aiBaseUrl,
-            aiApiKey: props.specs.ai_api_key || "",
-            aiModel: props.specs.ai_model || "",
-            messages: messages.value,
-        });
-        const assistantId = nextId++;
-        messages.value.push({
-            id: assistantId,
-            role: "assistant",
-            content: reply || "No response.",
-        });
-    } catch (e) {
-        console.log(e);
-        /*const msg = messages.value.find((m) => m.id === assistantId);
-        if (msg) {
-            msg.content = "Error contacting AI service.";
-        }*/
-    }
-    thinking.value = false;
-    nextTick(scrollToBottom);
 }
 
 function scrollToBottom() {
@@ -108,8 +91,12 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col h-full">
+        <AlertNotify :message="errorMessage" message-type="error" @timeout="errorMessage = ''" />
         <div ref="container" class="flex-1 overflow-y-auto space-y-2">
-            <div v-for="msg in messages" :key="msg.id" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
+            <div
+                v-for="(msg, msgIndex) in messages"
+                :key="msgIndex"
+                :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
                 <SideMessage :content="msg.content" :role="msg.role" />
             </div>
             <SideMessage v-if="thinking" role="assistant" :thinking="true" />

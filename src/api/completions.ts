@@ -1,7 +1,6 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 
 export interface CompletionsMessage {
-    id: number;
     role: CompletionsRole;
     content: string;
 }

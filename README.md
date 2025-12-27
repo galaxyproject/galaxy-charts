@@ -4,7 +4,7 @@ An optional user interface package for the Galaxy Charts visualization framework
 
 Galaxy Charts UI provides reusable UI components for configuring Galaxy visualizations, such as auto-generated input forms and a configurable side panel.
 
-💡 This package is not required to build Galaxy visualizations.
+This package is not required to build Galaxy visualizations.
 Galaxy Charts visualizations can be implemented with plain JavaScript or any framework of your choice, with or without this UI package.
 
 Galaxy Charts itself is a modern JavaScript visualization framework for the [Galaxy Project](https://galaxyproject.org), providing the core infrastructure for developing Galaxy visualizations through a simple and extensible plugin interface. Galaxy Charts UI builds on top of this foundation by offering an optional Vue-based user interface.

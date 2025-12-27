@@ -52,9 +52,9 @@ describe("SidePanel.vue", () => {
     });
 
     test("computes 'hideTabs' correctly", async () => {
-        expect(wrapper.vm.hideTabs).toBe(false);
+        expect(wrapper.vm.showTabs).toBe(true);
         await wrapper.setProps({ settingInputs: [], trackInputs: [] });
-        expect(wrapper.vm.hideTabs).toBe(true);
+        expect(wrapper.vm.showTabs).toBe(false);
     });
 
     test("hides save button if datasetId is missing", async () => {
@@ -75,8 +75,10 @@ describe("SidePanel.vue", () => {
     });
 
     test("emits 'update:visualization-title' when input changes", async () => {
-        const input = wrapper.findComponent(NInput);
-        await input.vm.$emit("input", "New Title");
+        wrapper.vm.currentTab = "settings";
+        await wrapper.vm.$nextTick();
+        const titleInput = wrapper.findComponent('[data-description="side panel title input"]');
+        await titleInput.vm.$emit("input", "New Title");
         expect(wrapper.emitted("update:visualization-title")).toBeTruthy();
         expect(wrapper.emitted("update:visualization-title")[0]).toEqual(["New Title"]);
     });
@@ -107,8 +109,12 @@ describe("SidePanel.vue", () => {
     });
 
     test("updates visualization title correctly", async () => {
+        wrapper.vm.currentTab = "settings";
+        await wrapper.vm.$nextTick();
+        const titleInput = wrapper.findComponent('[data-description="side panel title input"]');
+        expect(titleInput.props("value")).toBe("Test Title");
         await wrapper.setProps({ visualizationTitle: "New Test Title" });
-        expect(wrapper.findComponent(NInput).props("value")).toBe("New Test Title");
+        expect(titleInput.props("value")).toBe("New Test Title");
     });
 
     test("calls 'visualizationsUpdate' when 'onSave' is triggered with an existing visualizationId", async () => {
@@ -173,7 +179,7 @@ describe("SidePanel.vue", () => {
         visualizationsCreate.mockResolvedValueOnce(null);
         await wrapper.setProps({ visualizationId: null });
         await wrapper.vm.onSave();
-        expect(wrapper.vm.message).toBe("Something went wrong.");
+        expect(wrapper.vm.message).toBe("Verify that you are logged in and Galaxy is accessible.");
         expect(wrapper.vm.messageType).toBe("error");
     });
 

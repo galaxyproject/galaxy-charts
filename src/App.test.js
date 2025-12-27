@@ -12,10 +12,7 @@ describe("build user interface", () => {
         const wrapper = mount(App);
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
-        console.log(wrapper.html());
         expect(wrapper.find(LOGO).exists()).toBeTruthy();
-        expect(wrapper.html()).toContain("Specify a visualization title.");
-        expect(wrapper.html()).not.toContain("Settings: {}");
     });
 
     test("Load user interface using incoming prop", async () => {

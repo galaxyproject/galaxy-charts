@@ -43,12 +43,15 @@ const emit = defineEmits<{
     (event: "toggle"): void;
 }>();
 
+// Current tab
+const currentTab = ref<string | undefined>(undefined);
+
 // Manage message and message type for notifications
 const message = ref<string>("");
 const messageType = ref<MessageType>("info");
 
 // Identify available tabs
-const hasAssistant = computed(() => !!props.specValues.ai_prompt);
+const hasAssistant = computed(() => !!props.specValues?.ai_prompt);
 const hasDataset = computed(() => !!props.datasetId);
 const hasSettings = computed(() => props.settingInputs.length > 0);
 const hasTracks = computed(() => props.trackInputs.length > 0);
@@ -109,7 +112,6 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 
 <template>
     <div class="flex flex-col h-screen overflow-hidden select-none bg-white z-10">
-        <!-- Header -->
         <div v-if="hasDataset" class="flex mt-2 mx-2">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
@@ -120,10 +122,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <SideButton :icon="ChevronDoubleRightIcon" title="Collapse" @click="emit('toggle')" />
             </div>
         </div>
-
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2 mx-2" />
-
-        <!-- Plugin info card -->
         <div class="bg-blue-50 text-blue-900 rounded mt-2 mx-2 p-2">
             <div class="flex">
                 <div class="flex justify-center center-items">
@@ -140,15 +139,14 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
             </div>
         </div>
-
-        <!-- Tabs -->
         <n-tabs
-            type="line"
+            v-model:value="currentTab"
             animated
             class="flex flex-col flex-1 min-h-0"
             pane-wrapper-class="flex-1 min-h-0"
             :tabs-padding="10"
-            :tab-class="showTabs ? '' : '!hidden'">
+            :tab-class="showTabs ? '' : '!hidden'"
+            type="line">
             <n-tab-pane v-if="hasTracks" name="tracks" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
@@ -162,7 +160,6 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values-array="onUpdateTracks" />
                 </div>
             </n-tab-pane>
-
             <n-tab-pane v-if="hasSettings" name="settings" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
@@ -172,7 +169,10 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     <div class="pb-2">
                         <div class="font-bold">Title</div>
                         <div class="text-xs py-1">Specify a visualization title.</div>
-                        <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
+                        <n-input
+                            :value="visualizationTitle"
+                            data-description="side panel title input"
+                            @input="onUpdateVisualizationTitle" />
                     </div>
                     <InputForm
                         class="pb-2"
@@ -182,7 +182,6 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values="onUpdateSettings" />
                 </div>
             </n-tab-pane>
-
             <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>

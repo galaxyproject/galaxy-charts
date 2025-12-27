@@ -1,0 +1,160 @@
+import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import { mount } from "@vue/test-utils";
+import SideAssistant from "@/components/SideAssistant.vue";
+import { completionsPost } from "@/api/completions";
+import { COMPLETIONS_KEY } from "@/api/completions";
+import AlertNotify from "@/components/AlertNotify.vue";
+import SideMessage from "@/components/SideMessage.vue";
+import { NButton, NIcon, NInput } from "naive-ui";
+
+const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
+const INITIAL_MESSAGE = "Hi, I am here to help!";
+
+vi.mock("@/api/completions", () => ({
+    COMPLETIONS_KEY: "__AI_MESSAGES__",
+    completionsPost: vi.fn(),
+}));
+
+vi.mock("@/store/configStore", () => ({
+    useConfigStore: () => ({
+        getRoot: () => "/root",
+    }),
+}));
+
+function mountTarget(propsData = {}) {
+    return mount(SideAssistant, {
+        propsData: {
+            datasetId: "ds-1",
+            pluginName: "test-plugin",
+            settings: {},
+            specs: {
+                ai_api_key: "key",
+                ai_model: "model",
+            },
+            tracks: [],
+            ...propsData,
+        },
+        global: {
+            components: {
+                NButton,
+                NIcon,
+                NInput,
+                AlertNotify,
+                SideMessage,
+            },
+        },
+    });
+}
+describe("SideAssistant.vue", () => {
+    afterEach(() => {
+        vi.clearAllMocks();
+    });
+
+    test("initializes with system and assistant messages", async () => {
+        const wrapper = mountTarget();
+        const messages = wrapper.vm.messages;
+        expect(messages.length).toBe(2);
+        expect(messages[0].role).toBe("system");
+        expect(messages[0].content).toBe(DEFAULT_PROMPT);
+        expect(messages[1].role).toBe("assistant");
+    });
+
+    test("uses ai_prompt from specs when provided", async () => {
+        const wrapper = mountTarget({
+            specs: {
+                ai_prompt: "Custom system prompt",
+            },
+        });
+        const messages = wrapper.vm.messages;
+        expect(messages[0].content).toBe("Custom system prompt");
+    });
+
+    test("emits full message snapshot on user message", async () => {
+        const wrapper = mountTarget();
+        completionsPost.mockResolvedValueOnce("Assistant reply");
+        wrapper.vm.input = "Hello";
+        await wrapper.vm.onMessage();
+        const emitted = wrapper.emitted("update:messages");
+        expect(emitted).toBeTruthy();
+        const lastEmission = emitted[emitted.length - 1][0];
+        expect(Array.isArray(lastEmission)).toBe(true);
+        expect(lastEmission[lastEmission.length - 1].role).toBe("assistant");
+    });
+
+    test("calls completionsPost with full message history", async () => {
+        const wrapper = mountTarget();
+        completionsPost.mockResolvedValueOnce("Reply");
+        wrapper.vm.input = "Test message";
+        await wrapper.vm.onMessage();
+        expect(completionsPost).toHaveBeenCalledTimes(1);
+        const payload = completionsPost.mock.calls[0][0];
+        expect(payload.messages.length).toBeGreaterThan(2);
+        expect(payload.messages.at(-2).role).toBe("user");
+        expect(payload.messages.at(-2).content).toBe("Test message");
+        expect(payload.messages.at(-1).role).toBe("assistant");
+        expect(payload.messages.at(-1).content).toBe("Reply");
+    });
+
+    test("does not emit messages when input is empty", async () => {
+        const wrapper = mountTarget();
+        wrapper.vm.input = "   ";
+        await wrapper.vm.onMessage();
+        expect(wrapper.emitted("update:messages").length).toBe(2);
+        expect(completionsPost).not.toHaveBeenCalled();
+    });
+
+    test("handles completionsPost errors", async () => {
+        const wrapper = mountTarget();
+        completionsPost.mockRejectedValueOnce(new Error("API error"));
+        wrapper.vm.input = "Hello";
+        await wrapper.vm.onMessage();
+        expect(wrapper.vm.errorMessage).toContain("Error");
+    });
+
+    test("reset clears messages and reinitializes", async () => {
+        const wrapper = mountTarget();
+        wrapper.vm.messages.push({ role: "user", content: "Extra" });
+        wrapper.vm.onReset();
+        const messages = wrapper.vm.messages;
+        expect(messages.length).toBe(2);
+        expect(messages[0].role).toBe("system");
+    });
+
+    test("loads persisted messages from settings on mount", async () => {
+        const persisted = [
+            { role: "system", content: "persisted prompt" },
+            { role: "assistant", content: "persisted message" },
+        ];
+        const wrapper = mountTarget({
+            settings: { [COMPLETIONS_KEY]: persisted },
+        });
+        expect(wrapper.vm.messages).toEqual(persisted);
+    });
+
+    test("does not mutate incoming settings object", async () => {
+        const wrapper = mountTarget();
+        const originalSettings = {};
+        await wrapper.setProps({ settings: originalSettings });
+        wrapper.vm.input = "Hello";
+        completionsPost.mockResolvedValueOnce("Reply");
+        await wrapper.vm.onMessage();
+        expect(originalSettings).toEqual({});
+    });
+
+    test("thinking flag toggles during request lifecycle", async () => {
+        const wrapper = mountTarget();
+        let resolve;
+        completionsPost.mockImplementation(
+            () =>
+                new Promise((r) => {
+                    resolve = r;
+                }),
+        );
+        wrapper.vm.input = "Hello";
+        const promise = wrapper.vm.onMessage();
+        expect(wrapper.vm.thinking).toBe(true);
+        resolve("Reply");
+        await promise;
+        expect(wrapper.vm.thinking).toBe(false);
+    });
+});

@@ -192,4 +192,21 @@ describe("SidePanel.vue", () => {
         await wrapper.setProps({ datasetId: "" });
         expect(wrapper.find('[data-description="sidepanel save button"]').exists()).toBe(false);
     });
+
+    test("emits full messages snapshot on update:messages", async () => {
+        const messages = [
+            { role: "system", content: "System prompt" },
+            { role: "assistant", content: "Hello" },
+            { role: "user", content: "Hi" },
+        ];
+        wrapper.vm.onUpdateMessages(messages);
+        expect(wrapper.emitted("update:messages")).toBeTruthy();
+        expect(wrapper.emitted("update:messages")[0][0]).toEqual(messages);
+    });
+
+    test("does not mutate incoming settingValues when updating messages", async () => {
+        const originalSettings = { ...props.settingValues };
+        wrapper.vm.onUpdateMessages([{ role: "assistant", content: "Test reply" }]);
+        expect(props.settingValues).toEqual(originalSettings);
+    });
 });

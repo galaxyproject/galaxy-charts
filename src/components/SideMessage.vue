@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import MarkdownIt from "markdown-it";
 import DOMPurify from "dompurify";
+import MarkdownIt from "markdown-it";
+import { NIcon } from "naive-ui";
+import { computed } from "vue";
 import { ArrowPathIcon, FaceFrownIcon } from "@heroicons/vue/24/outline";
 import { type CompletionsRole } from "@/api/completions";
 

@@ -3,8 +3,8 @@ import { onMounted, ref, nextTick, computed } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
-import { PaperAirplaneIcon } from "@heroicons/vue/24/outline";
-import { completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
+import { PaperAirplaneIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { COMPLETIONS_KEY, completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
 import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
 
@@ -28,7 +28,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (event: "click"): void;
+    (event: "update:messages", messages: CompletionsMessage[]): void;
 }>();
 
 const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
@@ -41,12 +41,14 @@ const messages = ref<CompletionsMessage[]>([]);
 const thinking = ref<boolean>(false);
 
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
+const hasMessages = computed(() => messages.value.length > 2);
 
 function addMessage(content: string, role: CompletionsRole) {
     messages.value.push({ role, content });
+    emit("update:messages", messages.value);
 }
 
-async function onInit() {
+async function initialize() {
     if (messages.value.length === 0) {
         addMessage(props.specs?.ai_prompt || DEFAULT_PROMPT, "system");
         addMessage(INITIAL_MESSAGE, "assistant");
@@ -78,6 +80,11 @@ async function onMessage() {
     }
 }
 
+function onReset() {
+    messages.value = [];
+    initialize();
+}
+
 function scrollToBottom() {
     if (container.value) {
         container.value.scrollTop = container.value.scrollHeight;
@@ -85,7 +92,8 @@ function scrollToBottom() {
 }
 
 onMounted(() => {
-    onInit();
+    messages.value = props.settings[COMPLETIONS_KEY] || [];
+    initialize();
 });
 </script>
 
@@ -109,8 +117,19 @@ onMounted(() => {
                     placeholder="Talk to me..."
                     @keydown.enter.prevent="onMessage" />
             </div>
-            <n-button data-description="side assistent submit" :disabled="!input" type="primary" @click="onMessage">
+            <n-button
+                data-description="side assistent submit"
+                :disabled="thinking || !input"
+                type="primary"
+                @click="onMessage">
                 <n-icon><PaperAirplaneIcon /></n-icon>
+            </n-button>
+            <n-button
+                data-description="side assistent reset"
+                :disabled="thinking || !hasMessages"
+                type="error"
+                @click="onReset">
+                <n-icon><TrashIcon /></n-icon>
             </n-button>
         </div>
     </div>

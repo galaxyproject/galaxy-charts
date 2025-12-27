@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NIcon, NInput, NTabs, NTabPane } from "naive-ui";
 import { computed, ref } from "vue";
 import {
     AdjustmentsHorizontalIcon,
@@ -7,17 +8,17 @@ import {
     CloudArrowUpIcon,
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
-import { NIcon, NInput, NTabs, NTabPane } from "naive-ui";
+import type { CompletionsMessage } from "@/api/completions";
 import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
-import { errorMessageAsString } from "@/utilities/simpleError";
 import InputForm from "@/components/inputs/InputForm.vue";
 import InputRepeats from "@/components/inputs/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
-import SideAssistant from "./SideAssistant.vue";
-import SideButton from "./SideButton.vue";
+import ChartsLogo from "@/components/ChartsLogo.vue";
+import SideAssistant from "@/components/SideAssistant.vue";
+import SideButton from "@/components/SideButton.vue";
 import type { InputElementType, InputValuesType, MessageType } from "@/types";
-import ChartsLogo from "./ChartsLogo.vue";
+import { errorMessageAsString } from "@/utilities/simpleError";
 
 const props = defineProps<{
     datasetId: string;
@@ -36,8 +37,9 @@ const props = defineProps<{
 
 // Emit events with TypeScript
 const emit = defineEmits<{
-    (event: "update:tracks", newValues: InputValuesType[]): void;
+    (event: "update:messages", newValues: CompletionsMessage[]): void;
     (event: "update:settings", newValues: InputValuesType): void;
+    (event: "update:tracks", newValues: InputValuesType[]): void;
     (event: "update:visualization-id", newId: string): void;
     (event: "update:visualization-title", newTitle: string): void;
     (event: "toggle"): void;
@@ -92,6 +94,11 @@ async function onSave(): Promise<void> {
         message.value = errorMessageAsString(err);
         messageType.value = "error";
     }
+}
+
+// Update messages handler
+function onUpdateMessages(newValues: CompletionsMessage[]): void {
+    emit("update:messages", newValues);
 }
 
 // Update settings handler
@@ -193,7 +200,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         :plugin-name="props.pluginName"
                         :settings="settingValues"
                         :specs="specValues"
-                        :tracks="trackValues" />
+                        :tracks="trackValues"
+                        @update:messages="onUpdateMessages" />
                 </div>
             </n-tab-pane>
         </n-tabs>

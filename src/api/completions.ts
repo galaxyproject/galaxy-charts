@@ -17,6 +17,8 @@ export interface CompletionsPayload {
 
 export type CompletionsRole = "user" | "assistant" | "system";
 
+export const COMPLETIONS_KEY = "__AI_MESSAGES__";
+
 const MAX_TOKENS = 1000;
 const TEMPERATURE = 0.3;
 const TOP_P = 0.8;

@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { NAlert } from "naive-ui";
 import { computed, nextTick, ref } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
+import { COMPLETIONS_KEY, type CompletionsMessage } from "@/api/completions";
+import { datasetsGetUrl } from "@/api/datasets";
+import { visualizationsSave } from "@/api/visualizations";
 import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
-import { parsePlugin } from "@/utilities/parsePlugin";
-import { NAlert } from "naive-ui";
-import { datasetsGetUrl } from "@/api/datasets";
-import { parseIncoming } from "@/utilities/parseIncoming";
 import { useConfigStore } from "@/store/configStore";
 import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
-import { visualizationsSave } from "@/api/visualizations";
+import { parsePlugin } from "@/utilities/parsePlugin";
+import { parseIncoming } from "@/utilities/parseIncoming";
 
 import "@/style.css";
 
@@ -123,6 +124,11 @@ function serialize() {
         tracks: trackValues.value,
     };
 }
+// Event handler for updating settings
+function updateMessages(newSettings: CompletionsMessage[]): void {
+    settingValues.value[COMPLETIONS_KEY] = { ...newSettings };
+    postMessage();
+}
 
 // Event handler for updating settings
 function updateSettings(newSettings: InputValuesType): void {
@@ -225,6 +231,7 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             :track-values="trackValues"
             :visualization-id="currentVisualizationId"
             :visualization-title="currentVisualizationTitle"
+            @update:messages="updateMessages"
             @update:settings="updateSettings"
             @update:tracks="updateTracks"
             @update:visualization-id="updateVisualizationId"

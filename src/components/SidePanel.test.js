@@ -21,10 +21,10 @@ describe("SidePanel.vue", () => {
 
     const props = {
         datasetId: "123",
-        description: "Test description",
         logoUrl: "http://example.com/logo.png",
-        html: "<strong>Visualization</strong>",
-        name: "Test Visualization",
+        pluginDescription: "Test description",
+        pluginHtml: "<strong>Visualization</strong>",
+        pluginName: "Test Visualization",
         settingInputs: [{ name: "Setting1", type: "text" }],
         settingValues: { Setting1: "Value1" },
         trackInputs: [{ name: "Track1", type: "float" }],

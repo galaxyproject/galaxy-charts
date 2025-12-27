@@ -23,6 +23,7 @@ const props = defineProps<{
         ai_prompt?: string;
         ai_temperature?: string;
         ai_top_p?: string;
+        ai_contract?: any;
     };
     tracks: InputValuesType[];
 }>();

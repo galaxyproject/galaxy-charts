@@ -12,27 +12,17 @@
         <param required="true">dataset_id</param>
     </params>
     <entry_point src="index.js" css="index.css" />
-    <specs>
-        <type>spec_type</type>
-        <ai_api_key>ollama</ai_api_key>
-        <ai_api_base_url>http://localhost:11434/v1/</ai_api_base_url>
-        <ai_max_tokens>8096</ai_max_tokens>
-        <ai_model>qwen3:8b</ai_model>
-        <ai_prompt>You are data analysis and data visualization expert.</ai_prompt>
-        <ai_temperature>0.3</ai_temperature>
-        <ai_top_p>0.9</ai_top_p>
-        <ai_contract>
-            <input name="dataset" />
-            <input name="visualization" />
-        </ai_contract>
-    </specs>
     <macros>
         <import>galaxy-charts.macro.xml</import>
+        <import>galaxy-charts.specs.xml</import>
     </macros>
     <settings>
-        <expand macro="inputs"/>
+        <expand macro="inputs" />
     </settings>
+    <specs>
+        <expand macro="specs" />
+    </specs>
     <tracks>
-        <expand macro="inputs"/>
+        <expand macro="inputs" />
     </tracks>
 </visualization>

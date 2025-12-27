@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, nextTick } from "vue";
-import type { Component } from "vue";
-import { NButton, NIcon, NInput, NTooltip } from "naive-ui";
+import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
 import { ArrowPathIcon, PaperAirplaneIcon } from "@heroicons/vue/24/outline";
-
-type Role = "user" | "assistant" | "system";
-
-interface Message {
-    id: number;
-    role: Role;
-    content: string;
-}
+import { completionsPost, type CompletionsMessage } from "@/api/completions";
 
 const configStore = useConfigStore();
 const root = configStore.getRoot();
@@ -39,7 +31,7 @@ const TEST_DATA = "test-data/1.tabular";
 
 const viewport = ref<HTMLElement | null>(null);
 const input = ref("");
-const messages = ref<Message[]>([]);
+const messages = ref<CompletionsMessage[]>([]);
 
 let nextId = 0;
 
@@ -48,6 +40,7 @@ for (let i = 0; i < 20; i++)
         id: nextId++,
         role: i % 2 ? "user" : "assistant",
         content: "Hi, I am here to help!",
+        type: "1",
     });
 
 async function onInit() {
@@ -60,6 +53,7 @@ async function onInit() {
     messages.value.push({
         id: nextId++,
         role: "system",
+        type: "1",
         content: `You are a dataset analysis assistant.
 
 The following dataset is provided for analysis.
@@ -83,6 +77,7 @@ async function onMessage() {
             id: nextId++,
             role: "user",
             content: text,
+            type: "1",
         });
         input.value = "";
         await requestAssistantReply();
@@ -95,28 +90,19 @@ async function requestAssistantReply() {
         id: assistantId,
         role: "assistant",
         content: "Thinking…",
+        type: "1",
     });
     nextTick(scrollToBottom);
     try {
         const payloadMessages = messages.value
             .filter((m) => m.id !== assistantId)
             .map(({ role, content }) => ({ role, content }));
-        const response = await fetch(`${props.specs.ai_api_base_url}chat/completions`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.specs.ai_api_key}`,
-            },
-            body: JSON.stringify({
-                max_tokens: parseInt(props.specs.ai_max_tokens || "1000"),
-                messages: payloadMessages,
-                model: props.specs.ai_model,
-                temperature: parseFloat(props.specs.ai_temperature || "0.3"),
-                top_p: parseFloat(props.specs.ai_top_p || "0.8"),
-            }),
+        const reply = await completionsPost({
+            aiBaseUrl: props.specs.ai_api_base_url || "/",
+            aiApiKey: props.specs.ai_api_key || "",
+            aiModel: props.specs.ai_model || "",
+            messages: payloadMessages as CompletionsMessage[],
         });
-        const data = await response.json();
-        const reply = data.choices?.[0]?.message?.content;
         const msg = messages.value.find((m) => m.id === assistantId);
         if (msg) {
             msg.content = reply || "No response.";

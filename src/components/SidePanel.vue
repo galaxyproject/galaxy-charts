@@ -152,7 +152,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                <div class="h-full min-h-0 overflow-y-auto px-2">
+                <div class="h-full min-h-0 overflow-y-auto px-2 pt-1">
                     <InputRepeats
                         :dataset-id="datasetId"
                         :inputs="trackInputs"

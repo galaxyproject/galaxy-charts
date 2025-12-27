@@ -48,7 +48,7 @@ function addMessage(content: string, role: CompletionsRole) {
     emit("update:messages", messages.value);
 }
 
-async function initialize() {
+function initialize() {
     if (messages.value.length === 0) {
         addMessage(props.specs?.ai_prompt || DEFAULT_PROMPT, "system");
         addMessage(INITIAL_MESSAGE, "assistant");

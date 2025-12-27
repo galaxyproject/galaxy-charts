@@ -126,7 +126,7 @@ function serialize() {
 }
 // Event handler for updating settings
 function updateMessages(newSettings: CompletionsMessage[]): void {
-    settingValues.value[COMPLETIONS_KEY] = { ...newSettings };
+    settingValues.value[COMPLETIONS_KEY] = [...newSettings];
     postMessage();
 }
 

@@ -4,7 +4,7 @@ import type { Component } from "vue";
 import { NButton, NIcon, NInput, NTooltip } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
-import { PaperAirplaneIcon } from "@heroicons/vue/24/outline";
+import { ArrowPathIcon, PaperAirplaneIcon } from "@heroicons/vue/24/outline";
 
 type Role = "user" | "assistant" | "system";
 
@@ -157,7 +157,15 @@ onMounted(() => {
                         'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
                         'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
                     }">
-                    {{ msg.content }}
+                    <span v-if="msg.content == 'Thinking…'">
+                        <n-icon >
+                            <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
+                        </n-icon>
+                        Thinking...
+                    </span>
+                    <div v-else>
+                        {{ msg.content }}
+                    </div>
                 </div>
             </div>
         </div>

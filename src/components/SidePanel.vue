@@ -108,7 +108,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 </script>
 
 <template>
-    <div class="flex flex-col h-screen overflow-hidden select-none bg-white p-2 z-10">
+    <div class="flex flex-col h-screen overflow-visible select-none bg-white p-2 z-10">
         <div v-if="hasDataset" class="flex">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>

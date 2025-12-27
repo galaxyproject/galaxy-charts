@@ -40,7 +40,8 @@ function normalize(v: number | undefined, min: number, max: number, fallback: nu
 
 export async function completionsPost(payload: CompletionsPayload) {
     try {
-        const response = await fetch(`${payload.aiBaseUrl}chat/completions`, {
+        const url = `${payload.aiBaseUrl}chat/completions`;
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -17,6 +17,7 @@ const props = defineProps<{
         ai_api_key?: string;
         ai_max_tokens?: string;
         ai_model?: string;
+        ai_prompt?: string;
         ai_temperature?: string;
         ai_top_p?: string;
     };
@@ -27,45 +28,27 @@ const emit = defineEmits<{
     (event: "click"): void;
 }>();
 
-const TEST_DATA = "test-data/1.tabular";
+const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
+const INITIAL_MESSAGE = "Hi, I am here to help!";
 
 const viewport = ref<HTMLElement | null>(null);
 const input = ref("");
 const messages = ref<CompletionsMessage[]>([]);
-const waiting = ref<boolean>(false);
+const thinking = ref<boolean>(false);
 
 let nextId = 0;
 
-for (let i = 0; i < 20; i++)
-    messages.value.push({
-        id: nextId++,
-        role: i % 2 ? "user" : "assistant",
-        content: "Hi, I am here to help!",
-    });
-
 async function onInit() {
-    const isTestData = props.datasetId === "__test__";
-    const url = isTestData ? TEST_DATA : `${root}api/datasets/${props.datasetId}/display`;
-
-    const response = await fetch(url);
-    const content = await response.text();
-
     messages.value.push({
         id: nextId++,
         role: "system",
-        content: `You are a dataset analysis assistant.
-
-The following dataset is provided for analysis.
-
-# DATASTART
-${content}
-# DATAEND
-
-
-Respond with a structured Vega JSON.
-`,
+        content: DEFAULT_PROMPT,
     });
-
+    messages.value.push({
+        id: nextId++,
+        role: "assistant",
+        content: INITIAL_MESSAGE,
+    });
     nextTick(scrollToBottom);
 }
 
@@ -78,38 +61,35 @@ async function onMessage() {
             content: text,
         });
         input.value = "";
-        await requestAssistantReply();
+        await requestCompletions();
     }
 }
 
-async function requestAssistantReply() {
-    const assistantId = nextId++;
-    messages.value.push({
-        id: assistantId,
-        role: "assistant",
-        content: "Thinking…",
-    });
+async function requestCompletions() {
+    thinking.value = true;
     nextTick(scrollToBottom);
     try {
-        const payloadMessages = messages.value
-            .filter((m) => m.id !== assistantId)
-            .map(({ role, content }) => ({ role, content }));
         const reply = await completionsPost({
             aiBaseUrl: props.specs.ai_api_base_url || "/",
             aiApiKey: props.specs.ai_api_key || "",
             aiModel: props.specs.ai_model || "",
-            messages: payloadMessages as CompletionsMessage[],
+            messages: messages.value,
         });
-        const msg = messages.value.find((m) => m.id === assistantId);
-        if (msg) {
-            msg.content = reply || "No response.";
-        }
+        const assistantId = nextId++;
+        messages.value.push({
+            id: assistantId,
+            role: "assistant",
+            content: reply || "No response.",
+        });
+        nextTick(scrollToBottom);
     } catch (e) {
-        const msg = messages.value.find((m) => m.id === assistantId);
+        console.log(e);
+        /*const msg = messages.value.find((m) => m.id === assistantId);
         if (msg) {
             msg.content = "Error contacting AI service.";
-        }
+        }*/
     }
+    thinking.value = false;
     nextTick(scrollToBottom);
 }
 
@@ -140,10 +120,12 @@ onMounted(() => {
                         'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
                         'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
                     }">
-                        {{ msg.content }}
+                    {{ msg.content }}
                 </div>
             </div>
-            <span v-if="waiting" class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words border-green-200 bg-green-50 text-green-900">
+            <span
+                v-if="thinking"
+                class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words border-green-200 bg-green-50 text-green-900">
                 <n-icon>
                     <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
                 </n-icon>

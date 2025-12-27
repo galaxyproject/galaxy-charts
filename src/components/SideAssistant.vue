@@ -70,8 +70,9 @@ async function requestCompletions() {
     thinking.value = true;
     nextTick(scrollToBottom);
     try {
+        const aiBaseUrl = props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`;
         const reply = await completionsPost({
-            aiBaseUrl: props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`,
+            aiBaseUrl,
             aiApiKey: props.specs.ai_api_key || "",
             aiModel: props.specs.ai_model || "",
             messages: messages.value,
@@ -82,7 +83,6 @@ async function requestCompletions() {
             role: "assistant",
             content: reply || "No response.",
         });
-        nextTick(scrollToBottom);
     } catch (e) {
         console.log(e);
         /*const msg = messages.value.find((m) => m.id === assistantId);

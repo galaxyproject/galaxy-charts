@@ -43,7 +43,7 @@ const messages = ref<Message[]>([]);
 
 let nextId = 0;
 
-for (let i = 0; i < 1; i++)
+for (let i = 0; i < 20; i++)
     messages.value.push({
         id: nextId++,
         role: i % 2 ? "user" : "assistant",
@@ -158,7 +158,7 @@ onMounted(() => {
                         'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
                     }">
                     <span v-if="msg.content == 'Thinking…'">
-                        <n-icon >
+                        <n-icon>
                             <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
                         </n-icon>
                         Thinking...
@@ -171,7 +171,7 @@ onMounted(() => {
         </div>
 
         <!-- Input -->
-        <div class="pt-4 pb-2 flex items-center gap-2">
+        <div class="pt-2 pb-2 flex items-center gap-2">
             <div class="flex-1">
                 <n-input
                     v-model:value="input"

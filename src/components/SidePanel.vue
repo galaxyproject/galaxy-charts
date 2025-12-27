@@ -108,8 +108,9 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 </script>
 
 <template>
-    <div class="flex flex-col h-screen overflow-visible select-none bg-white p-2 z-10">
-        <div v-if="hasDataset" class="flex">
+    <div class="flex flex-col h-screen overflow-hidden select-none bg-white z-10">
+        <!-- Header -->
+        <div v-if="hasDataset" class="flex px-2 pt-2">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
@@ -119,8 +120,11 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <SideButton :icon="ChevronDoubleRightIcon" title="Collapse" @click="emit('toggle')" />
             </div>
         </div>
-        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2" />
-        <div class="bg-blue-50 text-blue-900 rounded mt-2 p-2">
+
+        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2 mx-2 px-2" />
+
+        <!-- Plugin info card -->
+        <div class="bg-blue-50 text-blue-900 rounded mt-2 mx-2 p-2">
             <div class="flex">
                 <div class="flex justify-center center-items">
                     <div class="m-2">
@@ -130,22 +134,27 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 </div>
                 <div class="overflow-hidden break-words p-1">
                     <span class="font-bold">{{ html }}</span>
-                    <div class="text-xs line-clamp-3">{{ description }}</div>
+                    <div class="text-xs line-clamp-3">
+                        {{ description }}
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Tabs -->
         <n-tabs
             type="line"
             animated
-            class="flex-1 min-h-0"
-            pane-wrapper-class="h-full"
+            class="flex flex-col flex-1 min-h-0"
+            pane-wrapper-class="flex-1 min-h-0"
+            :tabs-padding="10"
             :tab-class="showTabs ? '' : '!hidden'">
             <n-tab-pane v-if="hasTracks" name="tracks" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>
                     <span class="mx-1">Tracks</span>
                 </template>
-                <div class="h-full overflow-auto">
+                <div class="h-full min-h-0 overflow-y-auto px-2">
                     <InputRepeats
                         :dataset-id="datasetId"
                         :inputs="trackInputs"
@@ -153,34 +162,39 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values-array="onUpdateTracks" />
                 </div>
             </n-tab-pane>
+
             <n-tab-pane v-if="hasSettings" name="settings" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><AdjustmentsHorizontalIcon /></n-icon>
                     <span class="mx-1">Settings</span>
                 </template>
-                <div class="h-full overflow-auto">
+                <div class="h-full min-h-0 overflow-y-auto px-2">
                     <div class="pb-2">
                         <div class="font-bold">Title</div>
                         <div class="text-xs py-1">Specify a visualization title.</div>
                         <n-input :value="visualizationTitle" @input="onUpdateVisualizationTitle" />
                     </div>
                     <InputForm
+                        class="pb-2"
                         :dataset-id="datasetId"
                         :inputs="settingInputs"
                         :values="settingValues"
                         @update:values="onUpdateSettings" />
                 </div>
             </n-tab-pane>
+
             <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>
                     <span class="mx-1">Assistant</span>
                 </template>
-                <SideAssistant
-                    :dataset-id="datasetId"
-                    :settings="settingValues"
-                    :specs="specValues"
-                    :tracks="trackValues" />
+                <div class="h-full min-h-0 overflow-y-auto px-2">
+                    <SideAssistant
+                        :dataset-id="datasetId"
+                        :settings="settingValues"
+                        :specs="specValues"
+                        :tracks="trackValues" />
+                </div>
             </n-tab-pane>
         </n-tabs>
     </div>

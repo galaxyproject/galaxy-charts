@@ -11,6 +11,7 @@ const root = configStore.getRoot();
 
 const props = defineProps<{
     datasetId: string;
+    pluginName: string;
     settings: InputValuesType;
     specs: {
         ai_api_base_url?: string;
@@ -70,7 +71,7 @@ async function requestCompletions() {
     nextTick(scrollToBottom);
     try {
         const reply = await completionsPost({
-            aiBaseUrl: props.specs.ai_api_base_url || "/",
+            aiBaseUrl: props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`,
             aiApiKey: props.specs.ai_api_key || "",
             aiModel: props.specs.ai_model || "",
             messages: messages.value,

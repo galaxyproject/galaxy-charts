@@ -21,10 +21,10 @@ import ChartsLogo from "./ChartsLogo.vue";
 
 const props = defineProps<{
     datasetId: string;
-    description: string;
     logoUrl: string;
-    html: string;
-    name: string;
+    pluginDescription: string;
+    pluginHtml: string;
+    pluginName: string;
     settingInputs: InputElementType[];
     settingValues: InputValuesType;
     specValues: InputValuesType;
@@ -74,7 +74,7 @@ async function onSave(): Promise<void> {
             message.value = "Successfully saved.";
             messageType.value = "success";
         } else {
-            const newVisualizationId = await visualizationsCreate(props.name, props.visualizationTitle, {
+            const newVisualizationId = await visualizationsCreate(props.pluginName, props.visualizationTitle, {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
                 tracks: props.trackValues,
@@ -132,9 +132,9 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     </div>
                 </div>
                 <div class="overflow-hidden break-words p-1">
-                    <span class="font-bold">{{ html }}</span>
+                    <span class="font-bold">{{ pluginHtml }}</span>
                     <div class="text-xs line-clamp-3">
-                        {{ description }}
+                        {{ pluginDescription }}
                     </div>
                 </div>
             </div>
@@ -190,6 +190,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <div class="h-full min-h-0 overflow-y-auto px-2">
                     <SideAssistant
                         :dataset-id="datasetId"
+                        :plugin-name="props.pluginName"
                         :settings="settingValues"
                         :specs="specValues"
                         :tracks="trackValues" />

@@ -27,12 +27,12 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 
 // References with reactive types
 const collapsePanel = ref<boolean>(true);
-const description = ref<string>("");
 const errorMessage = ref<string>("");
-const html = ref<string>("");
 const isLoading = ref<boolean>(true);
-const logo = ref<string>("");
-const name = ref<string>("");
+const pluginDescription = ref<string>("");
+const pluginHtml = ref<string>("");
+const pluginLogo = ref<string>("");
+const pluginName = ref<string>("");
 const settingInputs = ref<Array<InputElementType>>([]);
 const settingValues = ref<InputValuesType>({});
 const specValues = ref<InputValuesType>({});
@@ -50,11 +50,11 @@ configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings
 parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
-    description.value = plugin.description || "";
-    html.value = plugin.html || "";
     isLoading.value = false;
-    logo.value = plugin.logo || "";
-    name.value = plugin.name || "";
+    pluginDescription.value = plugin.description || "";
+    pluginHtml.value = plugin.html || "";
+    pluginLogo.value = plugin.logo || "";
+    pluginName.value = plugin.name || "";
     settingInputs.value = plugin.settings || [];
     settingValues.value = settings;
     specValues.value = specs || {};
@@ -75,7 +75,7 @@ const datasetUrl = computed(() => {
 });
 
 // Determine logo URL
-const logoUrl = computed(() => logo.value && `${root}${logo.value}`);
+const logoUrl = computed(() => pluginLogo.value && `${root}${pluginLogo.value}`);
 
 // Identify available tabs
 const hasAssistant = computed(() => !!specValues.value.ai_prompt);
@@ -153,7 +153,7 @@ async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) 
     update(settings, tracks);
     try {
         const newVisualizationId = await visualizationsSave(
-            name.value,
+            pluginName.value,
             currentVisualizationId.value,
             currentVisualizationTitle.value,
             serialize(),
@@ -214,10 +214,10 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
         <SidePanel
             v-show="(!collapsePanel && hasPanel) || !hasDataset"
             :dataset-id="datasetId"
-            :description="description"
-            :html="html"
             :logo-url="logoUrl"
-            :name="name"
+            :plugin-description="pluginDescription"
+            :plugin-html="pluginHtml"
+            :plugin-name="pluginName"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
             :spec-values="specValues"

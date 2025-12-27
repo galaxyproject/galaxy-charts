@@ -24,7 +24,7 @@
         "./dist/galaxy-charts.d.ts"
     ],
     "scripts": {
-        "dev": "npm run build && vite",
+        "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
         "prettier": "prettier --config ./prettier.config.js --write '*.json' '**/*.{css,js,ts,vue}'",

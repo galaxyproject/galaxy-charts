@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { GalaxyCharts, type PluginIncomingType } from "galaxy-charts";
+import GalaxyCharts from "@/components/GalaxyCharts.vue";
+import { type PluginIncomingType } from "@/types";
 import Plugin from "./Plugin.vue";
 
 defineProps<{

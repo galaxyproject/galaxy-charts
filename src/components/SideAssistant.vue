@@ -3,20 +3,9 @@ import { onMounted, ref, nextTick } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
-import { ArrowPathIcon, PaperAirplaneIcon } from "@heroicons/vue/24/outline";
+import { PaperAirplaneIcon } from "@heroicons/vue/24/outline";
 import { completionsPost, type CompletionsMessage } from "@/api/completions";
-import MarkdownIt from "markdown-it";
-import DOMPurify from "dompurify";
-
-const md = new MarkdownIt({
-    linkify: true,
-    breaks: true,
-});
-
-function renderMarkdown(source: string) {
-    const html = md.render(source);
-    return DOMPurify.sanitize(html);
-}
+import SideMessage from "@/components/SideMessage.vue";
 
 const configStore = useConfigStore();
 const root = configStore.getRoot();
@@ -44,7 +33,7 @@ const emit = defineEmits<{
 const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
 const INITIAL_MESSAGE = "Hi, I am here to help!";
 
-const viewport = ref<HTMLElement | null>(null);
+const container = ref<HTMLElement | null>(null);
 const input = ref("");
 const messages = ref<CompletionsMessage[]>([]);
 const thinking = ref<boolean>(false);
@@ -107,8 +96,8 @@ async function requestCompletions() {
 }
 
 function scrollToBottom() {
-    if (viewport.value) {
-        viewport.value.scrollTop = viewport.value.scrollHeight;
+    if (container.value) {
+        container.value.scrollTop = container.value.scrollHeight;
     }
 }
 
@@ -119,33 +108,12 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col h-full">
-        <!-- Messages -->
-        <div ref="viewport" class="flex-1 overflow-y-auto space-y-2">
-            <div
-                v-for="msg in messages"
-                :key="msg.id"
-                class="flex"
-                :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <div
-                    v-if="msg.role != 'system'"
-                    class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words"
-                    :class="{
-                        'border-green-200 bg-green-50 text-green-900': msg.role === 'assistant',
-                        'border-blue-200 bg-blue-50 text-blue-900': msg.role === 'user',
-                    }" v-html="renderMarkdown(msg.content)">
-                </div>
+        <div ref="container" class="flex-1 overflow-y-auto space-y-2">
+            <div v-for="msg in messages" :key="msg.id" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
+                <SideMessage :content="msg.content" :role="msg.role" />
             </div>
-            <span
-                v-if="thinking"
-                class="max-w-[90%] px-4 py-2 rounded-lg border border-solid whitespace-normal break-words border-green-200 bg-green-50 text-green-900">
-                <n-icon>
-                    <ArrowPathIcon class="animate-spin size-4 inline mr-1" />
-                </n-icon>
-                Thinking...
-            </span>
+            <SideMessage v-if="thinking" role="assistant" :thinking="true" />
         </div>
-
-        <!-- Input -->
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">
                 <n-input

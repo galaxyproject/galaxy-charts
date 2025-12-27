@@ -1,6 +1,10 @@
 import { rethrowSimple } from "@/utilities/simpleError";
 
-export type Role = "user" | "assistant" | "system";
+export interface CompletionsMessage {
+    id: number;
+    role: CompletionsRole;
+    content: string;
+}
 
 export interface CompletionsPayload {
     aiApiKey: string;
@@ -12,11 +16,7 @@ export interface CompletionsPayload {
     messages: CompletionsMessage[];
 }
 
-export interface CompletionsMessage {
-    id: number;
-    role: Role;
-    content: string;
-}
+export type CompletionsRole = "user" | "assistant" | "system";
 
 const MAX_TOKENS = 1000;
 const TEMPERATURE = 0.3;

@@ -1,8 +1,16 @@
-# <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="24" /> Galaxy Charts 
+# <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="24" /> Galaxy Charts UI
 
-A modern JavaScript visualization framework for the [Galaxy Project](https://galaxyproject.org), built with [Vue 3](https://vuejs.org/) and [Vite](https://vitejs.dev/). It provides the core infrastructure for developing Galaxy visualizations using a simple and extensible plugin interface.
+An optional user interface package for the Galaxy Charts visualization framework, built with [Vue 3](https://vuejs.org/) and [Vite](https://vitejs.dev/).
 
-> 💡 To quickly start building your own Galaxy visualizations, use the [Galaxy Charts Starter Template](https://github.com/guerler/galaxy-charts-starter) and run `npm install && npm run dev`.
+Galaxy Charts UI provides reusable UI components for configuring Galaxy visualizations, such as auto-generated input forms and a configurable side panel.
+
+💡 This package is not required to build Galaxy visualizations.
+Galaxy Charts visualizations can be implemented with plain JavaScript or any framework of your choice, with or without this UI package.
+
+Galaxy Charts itself is a modern JavaScript visualization framework for the [Galaxy Project](https://galaxyproject.org), providing the core infrastructure for developing Galaxy visualizations through a simple and extensible plugin interface. Galaxy Charts UI builds on top of this foundation by offering an optional Vue-based user interface.
+
+💡 To quickly start building your own Galaxy visualizations using Galaxy Charts UI, use the [Galaxy Charts Starter Template](https://github.com/guerler/galaxy-charts-starter) and run `npm install && npm run dev`.
+
 
 📘 **Documentation**: [https://charts.galaxyproject.org](https://charts.galaxyproject.org)
 

@@ -114,7 +114,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
     <div class="flex flex-col h-screen overflow-hidden select-none bg-white z-10">
         <div v-if="hasDataset" class="flex mt-2 mx-2">
             <div class="flex-1 font-thin text-lg mt-1">
-                <span>Charts</span>
+                <span>Charts UI</span>
                 <ApiStatus />
             </div>
             <div>

@@ -110,7 +110,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
 <template>
     <div class="flex flex-col h-screen overflow-hidden select-none bg-white z-10">
         <!-- Header -->
-        <div v-if="hasDataset" class="flex px-2 pt-2">
+        <div v-if="hasDataset" class="flex mt-2 mx-2">
             <div class="flex-1 font-thin text-lg mt-1">
                 <span>Charts</span>
                 <ApiStatus />
@@ -121,7 +121,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
         </div>
 
-        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2 mx-2 px-2" />
+        <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2 mx-2" />
 
         <!-- Plugin info card -->
         <div class="bg-blue-50 text-blue-900 rounded mt-2 mx-2 p-2">

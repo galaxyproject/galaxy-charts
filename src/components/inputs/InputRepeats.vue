@@ -57,8 +57,9 @@ function onUpdate(index: number, values: InputValuesType): void {
                 :inputs="inputs"
                 :values="values"
                 @update:values="onUpdate(valuesArray.length - 1 - index, $event)" />
-            <div class="w-full mt-2">
+            <div class="mt-2">
                 <n-button
+                    block
                     data-description="remove repeat block"
                     :disabled="valuesArray.length <= 1"
                     size="tiny"

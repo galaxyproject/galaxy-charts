@@ -148,7 +148,7 @@ describe("InputForm.vue", () => {
             colorInput: null,
             conditionalInput: null,
             dataInput: null,
-            dataColumnInput: null,
+            dataColumnInput: "auto",
             floatInput: null,
             selectInput: null,
             textareaInput: null,

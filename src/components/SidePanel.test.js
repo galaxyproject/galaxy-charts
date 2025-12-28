@@ -27,6 +27,7 @@ describe("SidePanel.vue", () => {
         pluginName: "Test Visualization",
         settingInputs: [{ name: "Setting1", type: "text" }],
         settingValues: { Setting1: "Value1" },
+        specValues: {},
         trackInputs: [{ name: "Track1", type: "float" }],
         trackValues: [{ Track1: 10 }],
         visualizationId: "vis-001",

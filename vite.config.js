@@ -50,6 +50,7 @@ export default defineConfig({
         },
     },
     test: {
+        setupFiles: ["./test.setup.js"],
         coverage: {
             enabled: true,
             reportsDirectory: "./coverage",

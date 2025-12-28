@@ -4,6 +4,7 @@ export interface CompletionsMessage {
     role: CompletionsRole;
     content: string;
     hidden?: boolean;
+    json?: any;
 }
 
 export interface CompletionsPayload {
@@ -24,6 +25,45 @@ const MAX_TOKENS = 1000;
 const TEMPERATURE = 0.3;
 const TOP_P = 0.8;
 
+// Emit json tool
+const EMIT_JSON = {
+    type: "function",
+    function: {
+        name: "emit_json",
+        description: "Return structured JSON payload",
+        parameters: {
+            type: "object",
+            additionalProperties: true,
+        },
+    },
+};
+
+export async function completionsPost(payload: CompletionsPayload): Promise<{ content: string; json?: any }> {
+    try {
+        const url = `${payload.aiBaseUrl}chat/completions`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${payload.aiApiKey}` },
+            body: JSON.stringify({
+                model: payload.aiModel,
+                messages: payload.messages,
+                max_tokens: normalize(payload.aiMaxTokens, 1, Infinity, MAX_TOKENS),
+                temperature: normalize(payload.aiTemperature, 0, Infinity, TEMPERATURE),
+                top_p: normalize(payload.aiTopP, Number.EPSILON, 1, TOP_P),
+                tools: [EMIT_JSON],
+                tool_choice: "auto",
+            }),
+        });
+        const data = await response.json();
+        const msg = data.choices?.[0]?.message;
+        const content = msg?.content || "";
+        const json = getJSON(msg?.tool_calls || []);
+        return { content, json };
+    } catch (e) {
+        rethrowSimple(e);
+    }
+}
+
 function normalize(v: number | undefined, min: number, max: number, fallback: number) {
     if (v == null) {
         return fallback;
@@ -40,26 +80,14 @@ function normalize(v: number | undefined, min: number, max: number, fallback: nu
     }
 }
 
-export async function completionsPost(payload: CompletionsPayload) {
-    try {
-        const url = `${payload.aiBaseUrl}chat/completions`;
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${payload.aiApiKey}`,
-            },
-            body: JSON.stringify({
-                model: payload.aiModel,
-                messages: payload.messages,
-                max_tokens: normalize(payload.aiMaxTokens, 1, Infinity, MAX_TOKENS),
-                temperature: normalize(payload.aiTemperature, 0, Infinity, TEMPERATURE),
-                top_p: normalize(payload.aiTopP, Number.EPSILON, 1, TOP_P),
-            }),
-        });
-        const data = await response.json();
-        return data.choices?.[0]?.message?.content;
-    } catch (e) {
-        rethrowSimple(e);
+function getJSON(toolCalls: Array<any>): any {
+    if (toolCalls.length > 0) {
+        const call = toolCalls.find((c: any) => c?.function?.name === "emit_json");
+        if (call) {
+            try {
+                return JSON.parse(call.function.arguments || "{}");
+            } catch {}
+        }
     }
+    return undefined;
 }

@@ -47,7 +47,7 @@ function mountTarget(propsData = {}) {
 }
 describe("SideAssistant.vue", () => {
     afterEach(() => {
-        vi.clearAllMocks();
+        vi.resetAllMocks();
     });
 
     test("initializes with system and assistant messages", async () => {
@@ -71,7 +71,7 @@ describe("SideAssistant.vue", () => {
 
     test("emits full message snapshot on user message", async () => {
         const wrapper = mountTarget();
-        completionsPost.mockResolvedValueOnce("Assistant reply");
+        completionsPost.mockResolvedValueOnce({ content: "Reply" });
         wrapper.vm.input = "Hello";
         await wrapper.vm.onMessage();
         const emitted = wrapper.emitted("update:messages");
@@ -83,21 +83,27 @@ describe("SideAssistant.vue", () => {
 
     test("calls completionsPost with full message history", async () => {
         const wrapper = mountTarget();
-        completionsPost.mockResolvedValueOnce("Reply");
-        wrapper.vm.input = "Test message";
+        completionsPost.mockResolvedValueOnce({ content: "Reply" });
+        wrapper.vm.userInput = "Test message";
         await wrapper.vm.onMessage();
         expect(completionsPost).toHaveBeenCalledTimes(1);
         const payload = completionsPost.mock.calls[0][0];
         expect(payload.messages.length).toBeGreaterThan(2);
-        expect(payload.messages.at(-2).role).toBe("user");
-        expect(payload.messages.at(-2).content).toBe("Test message");
+        expect(payload.messages.at(0).role).toBe("system");
+        expect(payload.messages.at(0).content).toContain("analysis");
+        expect(payload.messages.at(1).role).toBe("assistant");
+        expect(payload.messages.at(1).content).toContain("help");
+        expect(payload.messages.at(2).role).toBe("user");
+        expect(payload.messages.at(2).content).toContain("sharing my latest");
+        expect(payload.messages.at(3).role).toBe("user");
+        expect(payload.messages.at(3).content).toContain("Test message");
         expect(payload.messages.at(-1).role).toBe("assistant");
         expect(payload.messages.at(-1).content).toBe("Reply");
     });
 
     test("does not emit messages when input is empty", async () => {
         const wrapper = mountTarget();
-        wrapper.vm.input = "   ";
+        wrapper.vm.userInput = "   ";
         await wrapper.vm.onMessage();
         expect(wrapper.emitted("update:messages").length).toBe(2);
         expect(completionsPost).not.toHaveBeenCalled();
@@ -106,7 +112,7 @@ describe("SideAssistant.vue", () => {
     test("handles completionsPost errors", async () => {
         const wrapper = mountTarget();
         completionsPost.mockRejectedValueOnce(new Error("API error"));
-        wrapper.vm.input = "Hello";
+        wrapper.vm.userInput = "Hello";
         await wrapper.vm.onMessage();
         expect(wrapper.vm.errorMessage).toContain("Error");
     });
@@ -135,7 +141,7 @@ describe("SideAssistant.vue", () => {
         const wrapper = mountTarget();
         const originalSettings = {};
         await wrapper.setProps({ settings: originalSettings });
-        wrapper.vm.input = "Hello";
+        wrapper.vm.userInput = "Hello";
         completionsPost.mockResolvedValueOnce("Reply");
         await wrapper.vm.onMessage();
         expect(originalSettings).toEqual({});
@@ -150,7 +156,7 @@ describe("SideAssistant.vue", () => {
                     resolve = r;
                 }),
         );
-        wrapper.vm.input = "Hello";
+        wrapper.vm.userInput = "Hello";
         const promise = wrapper.vm.onMessage();
         expect(wrapper.vm.isThinking).toBe(true);
         resolve("Reply");

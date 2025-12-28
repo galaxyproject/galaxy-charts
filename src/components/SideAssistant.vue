@@ -83,7 +83,8 @@ async function onMessage() {
                 aiModel: props.specs.ai_model || "unknown",
                 messages: messages.value,
             });
-            addMessage(reply?.json, "assistant");
+            //return reply
+            //addMessage(reply?.json, "assistant");
             addMessage(reply?.content || "", "assistant");
         } catch (e) {
             errorMessage.value = String(e);

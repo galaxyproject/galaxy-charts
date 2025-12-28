@@ -3,6 +3,7 @@ import { rethrowSimple } from "@/utilities/simpleError";
 export interface CompletionsMessage {
     role: CompletionsRole;
     content: string;
+    hidden?: boolean;
 }
 
 export interface CompletionsPayload {

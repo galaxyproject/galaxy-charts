@@ -34,19 +34,30 @@ const emit = defineEmits<{
 
 const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
 const INITIAL_MESSAGE = "Hi, I am here to help!";
+const STATE_MESSAGE = "I am sharing my latest settings and tracks as state.";
 
+const currentState = ref<string>("");
 const container = ref<HTMLElement | null>(null);
 const errorMessage = ref<string>("");
-const input = ref("");
 const messages = ref<CompletionsMessage[]>([]);
-const thinking = ref<boolean>(false);
+const isThinking = ref<boolean>(false);
+const userInput = ref("");
 
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
 const hasMessages = computed(() => messages.value.length > 2);
 
-function addMessage(content: string, role: CompletionsRole) {
-    messages.value.push({ role, content });
+function addMessage(content: string, role: CompletionsRole, hidden: boolean = false) {
+    messages.value.push({ role, content, hidden });
     emit("update:messages", messages.value);
+}
+
+function addState() {
+    const { [COMPLETIONS_KEY]: _, ...settings } = props.settings;
+    const newState = JSON.stringify({ settings, tracks: props.tracks });
+    if (newState !== currentState.value) {
+        addMessage(`${STATE_MESSAGE} ${newState}`, "user", true);
+        currentState.value = newState;
+    }
 }
 
 function initialize() {
@@ -58,11 +69,12 @@ function initialize() {
 }
 
 async function onMessage() {
-    const text = input.value.trim();
+    const text = userInput.value.trim();
     if (text) {
+        addState();
         addMessage(text, "user");
-        input.value = "";
-        thinking.value = true;
+        userInput.value = "";
+        isThinking.value = true;
         nextTick(scrollToBottom);
         try {
             const reply = await completionsPost({
@@ -76,7 +88,7 @@ async function onMessage() {
             errorMessage.value = String(e);
             console.error(e);
         }
-        thinking.value = false;
+        isThinking.value = false;
         nextTick(scrollToBottom);
     }
 }
@@ -106,28 +118,28 @@ onMounted(() => {
                 v-for="(msg, msgIndex) in messages"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage :content="msg.content" :role="msg.role" />
+                <SideMessage v-if="!msg.hidden" :content="msg.content" :role="msg.role" />
             </div>
-            <SideMessage v-if="thinking" role="assistant" :thinking="true" />
+            <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">
                 <n-input
-                    v-model:value="input"
+                    v-model:value="userInput"
                     type="text"
                     placeholder="Talk to me..."
                     @keydown.enter.prevent="onMessage" />
             </div>
             <n-button
                 data-description="side assistent submit"
-                :disabled="thinking || !input"
+                :disabled="isThinking || !userInput"
                 type="primary"
                 @click="onMessage">
                 <n-icon><PaperAirplaneIcon /></n-icon>
             </n-button>
             <n-button
                 data-description="side assistent reset"
-                :disabled="thinking || !hasMessages"
+                :disabled="isThinking || !hasMessages"
                 type="error"
                 @click="onReset">
                 <n-icon><TrashIcon /></n-icon>

@@ -115,6 +115,7 @@ function initializePrompt(incomingMessages: CompletionsMessage[] = []) {
         }
         addMessage({ content: systemPrompt, role: "system" });
     }
+    nextTick(scrollToBottom);
 }
 
 async function onMessage() {

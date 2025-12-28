@@ -21,5 +21,6 @@
                 <type>context</type>
             </ai_inputs>
         </ai_inputs>
+        <ai_schema>https://github.com/vega/schema/blob/master/vega/v3.0.0-beta.16.json</ai_schema>
     </xml>
 </macros>

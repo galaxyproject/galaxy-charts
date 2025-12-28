@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, nextTick, computed } from "vue";
+import { computed, onMounted, ref, nextTick } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
@@ -21,6 +21,7 @@ const props = defineProps<{
         ai_max_tokens?: string;
         ai_message_initial?: string;
         ai_model?: string;
+        ai_schema?: string;
         ai_prompt?: string;
         ai_temperature?: string;
         ai_top_p?: string;
@@ -33,9 +34,10 @@ const emit = defineEmits<{
     (event: "update:messages", messages: CompletionsMessage[]): void;
 }>();
 
-const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
-const INITIAL_MESSAGE = "Assistant ready.";
-const STATE_MESSAGE = "I am sharing my latest settings and tracks as state.";
+const MESSAGE_INITIAL = "Assistant ready.";
+const PROMPT_DEFAULT = "Respond to user messages. Context state may be provided.";
+const PROMPT_STATE = "Context state follows.";
+const PROMPT_SCHEMA = "Output schema";
 
 const currentState = ref<string>("");
 const container = ref<HTMLElement | null>(null);
@@ -46,6 +48,7 @@ const userInput = ref("");
 
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
 const hasMessages = computed(() => messages.value.length > 2);
+const initialMessage = computed(() => props.specs?.ai_message_initial || MESSAGE_INITIAL);
 
 function addMessage({
     content,
@@ -67,7 +70,7 @@ function addState() {
     const newState = JSON.stringify({ settings, tracks: props.tracks });
     if (newState !== currentState.value) {
         addMessage({
-            content: `${STATE_MESSAGE} ${newState}`,
+            content: `${PROMPT_STATE} ${newState}`,
             role: "user",
             hidden: true,
         });
@@ -75,18 +78,15 @@ function addState() {
     }
 }
 
-function initialize() {
+function initialize(incomingMessages: CompletionsMessage[] = []) {
+    messages.value = incomingMessages;
     if (messages.value.length === 0) {
-        addMessage({
-            content: props.specs?.ai_prompt || DEFAULT_PROMPT,
-            role: "system",
-        });
-        addMessage({
-            content: props.specs?.ai_message_initial || INITIAL_MESSAGE,
-            role: "assistant",
-        });
+        let systemPrompt = props.specs?.ai_prompt || PROMPT_DEFAULT;
+        if (props.specs?.ai_schema) {
+            systemPrompt += `\n\n${PROMPT_SCHEMA}:\n${props.specs.ai_schema}`;
+        }
+        addMessage({ content: systemPrompt, role: "system" });
     }
-    nextTick(scrollToBottom);
 }
 
 async function onMessage() {
@@ -115,7 +115,6 @@ async function onMessage() {
 }
 
 function onReset() {
-    messages.value = [];
     initialize();
 }
 
@@ -126,8 +125,7 @@ function scrollToBottom() {
 }
 
 onMounted(() => {
-    messages.value = props.settings[COMPLETIONS_KEY] || [];
-    initialize();
+    initialize(props.settings[COMPLETIONS_KEY]);
 });
 </script>
 
@@ -135,6 +133,7 @@ onMounted(() => {
     <div class="flex flex-col h-full">
         <AlertNotify :message="errorMessage" message-type="error" @timeout="errorMessage = ''" />
         <div ref="container" class="flex-1 overflow-y-auto space-y-2">
+            <SideMessage :content="initialMessage" role="assistant" />
             <div
                 v-for="(msg, msgIndex) in messages"
                 :key="msgIndex"

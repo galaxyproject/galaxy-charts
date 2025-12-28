@@ -21,11 +21,6 @@ export type CompletionsRole = "user" | "assistant" | "system";
 
 export const COMPLETIONS_KEY = "__AI_MESSAGES__";
 
-const MAX_TOKENS = 1000;
-const TEMPERATURE = 0.3;
-const TOP_P = 0.8;
-
-// Emit json tool
 const EMIT_JSON = {
     type: "function",
     function: {
@@ -37,6 +32,10 @@ const EMIT_JSON = {
         },
     },
 };
+
+const MAX_TOKENS = 1000;
+const TEMPERATURE = 0.3;
+const TOP_P = 0.8;
 
 export async function completionsPost(
     payload: CompletionsPayload,

@@ -7,8 +7,7 @@ import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 
-const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
-const INITIAL_MESSAGE = "Hi, I am here to help!";
+const DEFAULT_PROMPT = "Respond to user messages. Context state may be provided.";
 
 vi.mock("@/api/completions", () => ({
     COMPLETIONS_KEY: "__AI_MESSAGES__",
@@ -53,10 +52,9 @@ describe("SideAssistant.vue", () => {
     test("initializes with system and assistant messages", async () => {
         const wrapper = mountTarget();
         const messages = wrapper.vm.messages;
-        expect(messages.length).toBe(2);
+        expect(messages.length).toBe(1);
         expect(messages[0].role).toBe("system");
         expect(messages[0].content).toBe(DEFAULT_PROMPT);
-        expect(messages[1].role).toBe("assistant");
     });
 
     test("uses ai_prompt from specs when provided", async () => {
@@ -72,7 +70,7 @@ describe("SideAssistant.vue", () => {
     test("emits full message snapshot on user message", async () => {
         const wrapper = mountTarget();
         completionsPost.mockResolvedValueOnce({ content: "Reply" });
-        wrapper.vm.input = "Hello";
+        wrapper.vm.userInput = "Hello";
         await wrapper.vm.onMessage();
         const emitted = wrapper.emitted("update:messages");
         expect(emitted).toBeTruthy();
@@ -90,13 +88,11 @@ describe("SideAssistant.vue", () => {
         const payload = completionsPost.mock.calls[0][0];
         expect(payload.messages.length).toBeGreaterThan(2);
         expect(payload.messages.at(0).role).toBe("system");
-        expect(payload.messages.at(0).content).toContain("analysis");
-        expect(payload.messages.at(1).role).toBe("assistant");
-        expect(payload.messages.at(1).content).toContain("help");
+        expect(payload.messages.at(0).content).toContain("user messages");
+        expect(payload.messages.at(1).role).toBe("user");
+        expect(payload.messages.at(1).content).toContain("state follows");
         expect(payload.messages.at(2).role).toBe("user");
-        expect(payload.messages.at(2).content).toContain("sharing my latest");
-        expect(payload.messages.at(3).role).toBe("user");
-        expect(payload.messages.at(3).content).toContain("Test message");
+        expect(payload.messages.at(2).content).toContain("Test message");
         expect(payload.messages.at(-1).role).toBe("assistant");
         expect(payload.messages.at(-1).content).toBe("Reply");
     });
@@ -105,7 +101,7 @@ describe("SideAssistant.vue", () => {
         const wrapper = mountTarget();
         wrapper.vm.userInput = "   ";
         await wrapper.vm.onMessage();
-        expect(wrapper.emitted("update:messages").length).toBe(2);
+        expect(wrapper.emitted("update:messages").length).toBe(1);
         expect(completionsPost).not.toHaveBeenCalled();
     });
 
@@ -122,7 +118,7 @@ describe("SideAssistant.vue", () => {
         wrapper.vm.messages.push({ role: "user", content: "Extra" });
         wrapper.vm.onReset();
         const messages = wrapper.vm.messages;
-        expect(messages.length).toBe(2);
+        expect(messages.length).toBe(1);
         expect(messages[0].role).toBe("system");
     });
 

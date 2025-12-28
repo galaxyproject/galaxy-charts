@@ -97,7 +97,7 @@ async function initializeInputs() {
                 const content = await response.text();
                 resolvedInputs.value += `\n\nDataset content follows.\n${content}`;
             } else {
-                console.error(`Unable to resolve ai input: ${aiInput.name}`);
+                console.error(`Unable to resolve required input: ${aiInput.name}`);
             }
         }
     }

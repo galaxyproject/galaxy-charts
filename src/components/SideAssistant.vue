@@ -46,8 +46,18 @@ const userInput = ref("");
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
 const hasMessages = computed(() => messages.value.length > 2);
 
-function addMessage(content: string, role: CompletionsRole, hidden: boolean = false) {
-    messages.value.push({ role, content, hidden });
+function addMessage({
+    content,
+    hidden,
+    json,
+    role,
+}: {
+    content: string;
+    hidden?: boolean;
+    json?: any;
+    role: CompletionsRole;
+}) {
+    messages.value.push({ role, content, json, hidden });
     emit("update:messages", messages.value);
 }
 
@@ -55,15 +65,25 @@ function addState() {
     const { [COMPLETIONS_KEY]: _, ...settings } = props.settings;
     const newState = JSON.stringify({ settings, tracks: props.tracks });
     if (newState !== currentState.value) {
-        addMessage(`${STATE_MESSAGE} ${newState}`, "user", true);
+        addMessage({
+            content: `${STATE_MESSAGE} ${newState}`,
+            role: "user",
+            hidden: true,
+        });
         currentState.value = newState;
     }
 }
 
 function initialize() {
     if (messages.value.length === 0) {
-        addMessage(props.specs?.ai_prompt || DEFAULT_PROMPT, "system");
-        addMessage(INITIAL_MESSAGE, "assistant");
+        addMessage({
+            content: props.specs?.ai_prompt || DEFAULT_PROMPT,
+            role: "system",
+        });
+        addMessage({
+            content: INITIAL_MESSAGE,
+            role: "assistant",
+        });
     }
     nextTick(scrollToBottom);
 }
@@ -72,7 +92,7 @@ async function onMessage() {
     const text = userInput.value.trim();
     if (text) {
         addState();
-        addMessage(text, "user");
+        addMessage({ content: text, role: "user" });
         userInput.value = "";
         isThinking.value = true;
         nextTick(scrollToBottom);
@@ -83,9 +103,7 @@ async function onMessage() {
                 aiModel: props.specs.ai_model || "unknown",
                 messages: messages.value,
             });
-            //return reply
-            //addMessage(reply?.json, "assistant");
-            addMessage(reply?.content || "", "assistant");
+            addMessage({ content: reply?.content || "", json: reply?.json, role: "assistant" });
         } catch (e) {
             errorMessage.value = String(e);
             console.error(e);

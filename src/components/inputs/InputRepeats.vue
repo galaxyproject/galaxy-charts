@@ -52,23 +52,23 @@ function onUpdate(index: number, values: InputValuesType): void {
         :key="valuesArray.length - 1 - index"
         class="py-2">
         <div class="border border-dotted border-green-600 rounded p-2">
-            <InputForm
-                :dataset-id="datasetId"
-                :inputs="inputs"
-                :values="values"
-                @update:values="onUpdate(valuesArray.length - 1 - index, $event)" />
-            <div class="mt-2">
+            <div class="mb-2">
                 <n-button
                     block
                     data-description="remove repeat block"
                     :disabled="valuesArray.length <= 1"
                     size="tiny"
-                    type="primary"
+                    type="error"
                     @click="onRemove(valuesArray.length - 1 - index)">
                     <n-icon><TrashIcon /></n-icon>
                     <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
                 </n-button>
             </div>
+            <InputForm
+                :dataset-id="datasetId"
+                :inputs="inputs"
+                :values="values"
+                @update:values="onUpdate(valuesArray.length - 1 - index, $event)" />
         </div>
     </div>
 </template>

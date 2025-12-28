@@ -19,6 +19,7 @@ const props = defineProps<{
         ai_api_base_url?: string;
         ai_api_key?: string;
         ai_max_tokens?: string;
+        ai_message_initial?: string;
         ai_model?: string;
         ai_prompt?: string;
         ai_temperature?: string;
@@ -81,7 +82,7 @@ function initialize() {
             role: "system",
         });
         addMessage({
-            content: INITIAL_MESSAGE,
+            content: props.specs?.ai_message_initial || INITIAL_MESSAGE,
             role: "assistant",
         });
     }

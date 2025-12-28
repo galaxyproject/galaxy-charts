@@ -41,7 +41,7 @@ async function main() {
 
     // Mount the app
     createApp({
-        render: () => h(App, { container: "custom", credentials: process.env.credentials }),
+        render: () => h(App, { collapse: false, container: "custom", credentials: process.env.credentials }),
     }).mount("#custom");
 }
 

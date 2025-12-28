@@ -4,6 +4,7 @@ import { type PluginIncomingType } from "@/types";
 import Plugin from "./Plugin.vue";
 
 defineProps<{
+    collapse?: boolean;
     container?: string;
     credentials?: RequestCredentials;
     incoming?: PluginIncomingType;
@@ -11,7 +12,7 @@ defineProps<{
 </script>
 
 <template>
-    <GalaxyCharts :container="container" :credentials="credentials" :incoming="incoming">
+    <GalaxyCharts :collapse="collapse" :container="container" :credentials="credentials" :incoming="incoming">
         <template #default="{ datasetId, datasetUrl, root, save, settings, specs, tracks, update }">
             <Plugin
                 :dataset-id="datasetId"

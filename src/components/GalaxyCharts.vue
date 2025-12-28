@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NAlert } from "naive-ui";
-import { computed, nextTick, ref } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import { COMPLETIONS_KEY, type CompletionsMessage } from "@/api/completions";
 import { datasetsGetUrl } from "@/api/datasets";
@@ -15,6 +15,7 @@ import { parseIncoming } from "@/utilities/parseIncoming";
 import "@/style.css";
 
 const props = defineProps<{
+    collapse?: boolean;
     container?: string;
     credentials?: RequestCredentials;
     incoming?: PluginIncomingType;
@@ -27,7 +28,7 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 );
 
 // References with reactive types
-const collapsePanel = ref<boolean>(true);
+const collapsePanel = ref<boolean>(props.collapse);
 const errorMessage = ref<string>("");
 const isLoading = ref<boolean>(true);
 const pluginDescription = ref<string>("");
@@ -185,6 +186,14 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
         updateTracks(mergedTracks);
     }
 }
+
+// Watch for prop changes
+watch(
+    () => props.collapse,
+    () => {
+        collapsePanel.value = props.collapse;
+    },
+);
 </script>
 
 <template>

@@ -3,28 +3,16 @@ import App from "./App.vue";
 import { parseXML } from "galaxy-charts-xml-parser";
 
 async function main() {
+    // Determine page url in dev environment, `window.location` is not available in production
+    const pageUrl = new URL(window.location.href);
+
     // Construct the incoming data object with mock configuration and data
     const dataIncoming = {
         visualization_config: {
             // Placeholder for dataset ID
-            dataset_id: process.env.dataset_id || "__test__",
+            dataset_id: pageUrl.searchParams.get("dataset_id") || process.env.dataset_id || "__test__",
             // Placeholder for additional visualization settings
-            settings: {
-                my_data_name: {
-                    hid: 1,
-                    id: "dataset_id",
-                    name: "dataset name",
-                },
-                my_data_table_name: {
-                    id: "my_data_table_entry",
-                },
-                my_text_name: "My Test Setting",
-                my_boolean_name: true,
-                setting_conditional: {
-                    case_false: "something else",
-                    test_condition: "false",
-                },
-            },
+            settings: {},
         },
         // Parse and load the visualization XML configuration
         visualization_plugin: await parseXML("galaxy-charts.xml"),

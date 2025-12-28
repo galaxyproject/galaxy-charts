@@ -40,7 +40,8 @@ const TOP_P = 0.8;
 export async function completionsPost(
     payload: CompletionsPayload,
 ): Promise<{ content: string; json?: any } | undefined> {
-    const url = `${payload.aiBaseUrl}chat/completions`;
+    const baseUrl = payload.aiBaseUrl.replace(/\/+$/, "");
+    const url = `${baseUrl}/chat/completions`;
     const payloadMessages = sanitizeMessages(payload.messages);
     try {
         const response = await fetch(url, {

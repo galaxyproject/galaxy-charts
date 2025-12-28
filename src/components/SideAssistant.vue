@@ -46,7 +46,7 @@ const messages = ref<CompletionsMessage[]>([]);
 const isThinking = ref<boolean>(false);
 const userInput = ref("");
 
-const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
+const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}api/ai/plugins/${props.pluginName}`);
 const hasMessages = computed(() => messages.value.length > 2);
 const initialMessage = computed(() => props.specs?.ai_message_initial || MESSAGE_INITIAL);
 

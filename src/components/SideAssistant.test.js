@@ -16,7 +16,7 @@ vi.mock("@/api/completions", () => ({
 
 vi.mock("@/store/configStore", () => ({
     useConfigStore: () => ({
-        getRoot: () => "/root",
+        getRoot: () => "/root/",
     }),
 }));
 
@@ -47,6 +47,17 @@ function mountTarget(propsData = {}) {
 describe("SideAssistant.vue", () => {
     afterEach(() => {
         vi.resetAllMocks();
+    });
+
+    test("validate provider base url handling", async () => {
+        const wrapper = mountTarget({
+            specs: {
+                ai_prompt: "Custom system prompt",
+            },
+        });
+        expect(wrapper.vm.aiBaseUrl).toBe("/root/api/ai/plugins/test-plugin");
+        await wrapper.setProps({ specs: { ai_api_base_url: "http://someother.provider.com" } });
+        expect(wrapper.vm.aiBaseUrl).toBe("http://someother.provider.com");
     });
 
     test("initializes with system and assistant messages", async () => {

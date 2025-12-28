@@ -85,6 +85,17 @@ describe("completions.ts", () => {
         expect(url).toBe("http://api/chat/completions");
     });
 
+    test("uses full chat/completions endpoint with missing slash", async () => {
+        fetchMock.mockResolvedValueOnce({
+            json: async () => ({
+                choices: [{ message: { content: "ok" } }],
+            }),
+        });
+        await completionsPost({ ...payload, aiBaseUrl: "http://api" });
+        const [url] = fetchMock.mock.calls[0];
+        expect(url).toBe("http://api/chat/completions");
+    });
+
     test("throws on fetch failure", async () => {
         fetchMock.mockRejectedValueOnce(new Error("network"));
         await expect(completionsPost(payload)).rejects.toBeTruthy();

@@ -7,6 +7,7 @@ import { PaperAirplaneIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { COMPLETIONS_KEY, completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
 import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
+import { toBoolean } from "@/utilities/toBoolean";
 
 const configStore = useConfigStore();
 const root = configStore.getRoot();
@@ -18,11 +19,16 @@ const props = defineProps<{
     specs: {
         ai_api_base_url?: string;
         ai_api_key?: string;
+        ai_inputs?: Array<{
+            name: string;
+            type?: string;
+            resolve?: string;
+        }>;
         ai_max_tokens?: string;
         ai_message_initial?: string;
         ai_model?: string;
-        ai_schema?: string;
         ai_prompt?: string;
+        ai_schema?: string;
         ai_temperature?: string;
         ai_top_p?: string;
         ai_contract?: any;
@@ -36,14 +42,16 @@ const emit = defineEmits<{
 
 const MESSAGE_INITIAL = "Assistant ready.";
 const PROMPT_DEFAULT = "Respond to user messages. Context state may be provided.";
+const PROMPT_SCHEMA = "Output schema follows.";
 const PROMPT_STATE = "Context state follows.";
-const PROMPT_SCHEMA = "Output schema";
+const TEST_DATA = "test-data/1.tabular";
 
 const currentState = ref<string>("");
 const container = ref<HTMLElement | null>(null);
 const errorMessage = ref<string>("");
 const messages = ref<CompletionsMessage[]>([]);
 const isThinking = ref<boolean>(false);
+const resolvedInputs = ref<string>("");
 const userInput = ref("");
 
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}/ai/plugins/${props.pluginName}`);
@@ -78,12 +86,32 @@ function addState() {
     }
 }
 
-function initialize(incomingMessages: CompletionsMessage[] = []) {
+async function initializeInputs() {
+    const aiInputs = props.specs?.ai_inputs || [];
+    for (const aiInput of aiInputs) {
+        if (toBoolean(aiInput.resolve)) {
+            if (aiInput.name === "dataset") {
+                const isTestData = props.datasetId === "__test__";
+                const url = isTestData ? TEST_DATA : `${root}api/datasets/${props.datasetId}/display`;
+                const response = await fetch(url);
+                const content = await response.text();
+                resolvedInputs.value += `\n\nDataset content follows.\n${content}`;
+            } else {
+                console.error(`Unable to resolve ai input: ${aiInput.name}`);
+            }
+        }
+    }
+}
+
+function initializePrompt(incomingMessages: CompletionsMessage[] = []) {
     messages.value = incomingMessages;
     if (messages.value.length === 0) {
         let systemPrompt = props.specs?.ai_prompt || PROMPT_DEFAULT;
         if (props.specs?.ai_schema) {
-            systemPrompt += `\n\n${PROMPT_SCHEMA}:\n${props.specs.ai_schema}`;
+            systemPrompt += `\n\n${PROMPT_SCHEMA}\n${props.specs.ai_schema}`;
+        }
+        if (resolvedInputs.value) {
+            systemPrompt += resolvedInputs.value;
         }
         addMessage({ content: systemPrompt, role: "system" });
     }
@@ -115,7 +143,7 @@ async function onMessage() {
 }
 
 function onReset() {
-    initialize();
+    initializePrompt();
 }
 
 function scrollToBottom() {
@@ -124,8 +152,9 @@ function scrollToBottom() {
     }
 }
 
-onMounted(() => {
-    initialize(props.settings[COMPLETIONS_KEY]);
+onMounted(async () => {
+    await initializeInputs();
+    initializePrompt(props.settings[COMPLETIONS_KEY]);
 });
 </script>
 

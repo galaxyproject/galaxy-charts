@@ -3,7 +3,7 @@ import DOMPurify from "dompurify";
 import MarkdownIt from "markdown-it";
 import { NIcon } from "naive-ui";
 import { computed } from "vue";
-import { AdjustmentsHorizontalIcon, ArrowPathIcon, FaceFrownIcon } from "@heroicons/vue/24/outline";
+import { ArrowPathIcon } from "@heroicons/vue/24/outline";
 import { type CompletionsRole } from "@/api/completions";
 
 const props = defineProps<{
@@ -41,19 +41,9 @@ function renderMarkdown(source: string) {
                 </n-icon>
                 <span class="ml-1">Thinking...</span>
             </div>
-            <div v-else-if="!content && !json">
-                <n-icon>
-                    <FaceFrownIcon class="size-4 inline" />
-                </n-icon>
-                <span class="ml-1">No reply.</span>
-            </div>
+            <div v-else-if="!content && !json" class="ml-1">No content returned.</div>
             <div v-else>
-                <div v-if="json">
-                    <n-icon>
-                        <AdjustmentsHorizontalIcon class="size-4 inline" />
-                    </n-icon>
-                    <span class="ml-1">I generated structured data!</span>
-                </div>
+                <div v-if="json" class="ml-1">Structured data available.</div>
                 <div v-if="content" v-html="renderMarkdown(content)" />
             </div>
         </div>

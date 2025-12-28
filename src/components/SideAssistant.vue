@@ -33,7 +33,7 @@ const emit = defineEmits<{
 }>();
 
 const DEFAULT_PROMPT = "You are data analysis and data visualization expert.";
-const INITIAL_MESSAGE = "Hi, I am here to help!";
+const INITIAL_MESSAGE = "Assistant ready.";
 const STATE_MESSAGE = "I am sharing my latest settings and tracks as state.";
 
 const currentState = ref<string>("");

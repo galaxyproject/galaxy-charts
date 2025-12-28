@@ -38,15 +38,20 @@ const EMIT_JSON = {
     },
 };
 
-export async function completionsPost(payload: CompletionsPayload): Promise<{ content: string; json?: any }> {
+export async function completionsPost(
+    payload: CompletionsPayload,
+): Promise<{ content: string; json?: any } | undefined> {
+    const url = `${payload.aiBaseUrl}chat/completions`;
+    const payloadMessages = payload.messages
+        .filter((m) => typeof m.content === "string" && m.content.length > 0)
+        .map((m) => ({ role: m.role, content: m.content }));
     try {
-        const url = `${payload.aiBaseUrl}chat/completions`;
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${payload.aiApiKey}` },
             body: JSON.stringify({
                 model: payload.aiModel,
-                messages: payload.messages,
+                messages: payloadMessages,
                 max_tokens: normalize(payload.aiMaxTokens, 1, Infinity, MAX_TOKENS),
                 temperature: normalize(payload.aiTemperature, 0, Infinity, TEMPERATURE),
                 top_p: normalize(payload.aiTopP, Number.EPSILON, 1, TOP_P),
@@ -56,9 +61,11 @@ export async function completionsPost(payload: CompletionsPayload): Promise<{ co
         });
         const data = await response.json();
         const msg = data.choices?.[0]?.message;
-        const content = msg?.content || "";
-        const json = getJSON(msg?.tool_calls || []);
-        return { content, json };
+        if (msg) {
+            const content = msg?.content || "";
+            const json = getJSON(msg?.tool_calls || []);
+            return { content, json };
+        }
     } catch (e) {
         rethrowSimple(e);
     }

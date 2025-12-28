@@ -152,9 +152,9 @@ describe("SideAssistant.vue", () => {
         );
         wrapper.vm.input = "Hello";
         const promise = wrapper.vm.onMessage();
-        expect(wrapper.vm.thinking).toBe(true);
+        expect(wrapper.vm.isThinking).toBe(true);
         resolve("Reply");
         await promise;
-        expect(wrapper.vm.thinking).toBe(false);
+        expect(wrapper.vm.isThinking).toBe(false);
     });
 });

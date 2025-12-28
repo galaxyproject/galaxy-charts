@@ -38,7 +38,7 @@ describe("completions.ts", () => {
         expect(body.max_tokens).toBeGreaterThan(0);
         expect(body.temperature).toBeGreaterThanOrEqual(0);
         expect(body.top_p).toBeGreaterThan(0);
-        expect(result).toBe("reply");
+        expect(result.content).toBe("reply");
     });
 
     test("preserves temperature zero", async () => {

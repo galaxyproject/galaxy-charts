@@ -42,9 +42,7 @@ export async function completionsPost(
     payload: CompletionsPayload,
 ): Promise<{ content: string; json?: any } | undefined> {
     const url = `${payload.aiBaseUrl}chat/completions`;
-    const payloadMessages = payload.messages
-        .filter((m) => typeof m.content === "string" && m.content.length > 0)
-        .map((m) => ({ role: m.role, content: m.content }));
+    const payloadMessages = sanitizeMessages(payload.messages);
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -52,9 +50,9 @@ export async function completionsPost(
             body: JSON.stringify({
                 model: payload.aiModel,
                 messages: payloadMessages,
-                max_tokens: normalize(payload.aiMaxTokens, 1, Infinity, MAX_TOKENS),
-                temperature: normalize(payload.aiTemperature, 0, Infinity, TEMPERATURE),
-                top_p: normalize(payload.aiTopP, Number.EPSILON, 1, TOP_P),
+                max_tokens: normalizeParameter(payload.aiMaxTokens, 1, Infinity, MAX_TOKENS),
+                temperature: normalizeParameter(payload.aiTemperature, 0, Infinity, TEMPERATURE),
+                top_p: normalizeParameter(payload.aiTopP, Number.EPSILON, 1, TOP_P),
                 tools: [EMIT_JSON],
                 tool_choice: "auto",
             }),
@@ -71,7 +69,19 @@ export async function completionsPost(
     }
 }
 
-function normalize(v: number | undefined, min: number, max: number, fallback: number) {
+function getJSON(toolCalls: Array<any>): any {
+    if (toolCalls.length > 0) {
+        const call = toolCalls.find((c: any) => c?.function?.name === "emit_json");
+        if (call) {
+            try {
+                return JSON.parse(call.function.arguments || "{}");
+            } catch {}
+        }
+    }
+    return undefined;
+}
+
+function normalizeParameter(v: number | undefined, min: number, max: number, fallback: number) {
     if (v == null) {
         return fallback;
     } else {
@@ -87,14 +97,8 @@ function normalize(v: number | undefined, min: number, max: number, fallback: nu
     }
 }
 
-function getJSON(toolCalls: Array<any>): any {
-    if (toolCalls.length > 0) {
-        const call = toolCalls.find((c: any) => c?.function?.name === "emit_json");
-        if (call) {
-            try {
-                return JSON.parse(call.function.arguments || "{}");
-            } catch {}
-        }
-    }
-    return undefined;
+function sanitizeMessages(messages: CompletionsMessage[]) {
+    return messages
+        .filter((m) => typeof m.content === "string" && m.content.length > 0)
+        .map((m) => ({ role: m.role, content: m.content }));
 }

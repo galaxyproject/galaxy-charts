@@ -138,7 +138,7 @@ onMounted(() => {
                 v-for="(msg, msgIndex) in messages"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage v-if="!msg.hidden" :content="msg.content" :role="msg.role" />
+                <SideMessage v-if="!msg.hidden" :content="msg.content" :json="msg.json" :role="msg.role" />
             </div>
             <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>

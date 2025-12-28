@@ -4,6 +4,7 @@ import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/inputs/InputForm.vue";
 import { computed } from "vue";
 import { parseValues } from "@/utilities/parsePlugin";
+import { toOrdinal } from "@/utilities/toOrdinal";
 import { InputElementType, InputValuesType } from "@/types";
 
 const props = defineProps<{
@@ -52,16 +53,15 @@ function onUpdate(index: number, values: InputValuesType): void {
         :key="valuesArray.length - 1 - index"
         class="py-2">
         <div class="border border-dotted border-green-600 rounded p-2">
-            <div class="mb-2">
+            <div v-if="valuesArray.length > 1" class="mb-2">
                 <n-button
                     block
                     data-description="remove repeat block"
-                    :disabled="valuesArray.length <= 1"
                     size="tiny"
                     type="error"
                     @click="onRemove(valuesArray.length - 1 - index)">
                     <n-icon><TrashIcon /></n-icon>
-                    <span class="mx-1">Remove Track {{ valuesArray.length - index }}</span>
+                    <span class="mx-1">Remove {{ toOrdinal(valuesArray.length - index) }} Track</span>
                 </n-button>
             </div>
             <InputForm

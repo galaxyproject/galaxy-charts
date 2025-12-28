@@ -57,8 +57,7 @@ describe("InputRepeats Component", () => {
             props: { datasetId, inputs, valuesArray: [...initialValues] },
         });
         const removeButtons = wrapper.findAll('[data-description="remove repeat block"]');
-        expect(removeButtons.length).toBe(1);
-        expect(removeButtons.at(0).attributes("disabled")).toBeDefined();
+        expect(removeButtons.length).toBe(0);
     });
 
     test("updates a track when InputForm emits update", async () => {

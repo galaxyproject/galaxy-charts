@@ -128,7 +128,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             <div>
                 <SideButton
                     :circle="true"
-                    cls="mr-2"
+                    button-class="mr-2"
                     :icon="CloudArrowUpIcon"
                     :secondary="true"
                     title="Save"

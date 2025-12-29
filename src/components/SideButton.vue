@@ -4,7 +4,7 @@ import { NButton, NIcon, NTooltip } from "naive-ui";
 
 const props = withDefaults(
     defineProps<{
-        cls?: string;
+        buttonClass?: string;
         circle?: boolean;
         disabled?: boolean;
         icon: Component;
@@ -19,7 +19,6 @@ const props = withDefaults(
         disabled: false,
         secondary: false,
         type: "info",
-        visible: true,
     },
 );
 
@@ -29,9 +28,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <n-tooltip v-if="visible" trigger="hover" :to="false">
+    <n-tooltip trigger="hover" :to="false">
         <template #trigger>
-            <span :class="cls">
+            <span :class="buttonClass">
                 <n-button
                     :circle="circle"
                     :data-description="`sidebutton ${title.toLowerCase()}`"

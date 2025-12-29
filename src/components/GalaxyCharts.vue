@@ -247,11 +247,11 @@ watch(
                 :update="update" />
         </div>
         <SideButton
-            cls="m-2 absolute right-0"
+            v-if="collapsePanel && hasPanel && hasDataset"
+            button-class="m-2 absolute right-0"
             :circle="true"
             :icon="ChevronDoubleLeftIcon"
             title="Expand"
-            :visible="collapsePanel && hasPanel && hasDataset"
             @click="onToggle" />
         <SidePanel
             v-show="(!collapsePanel && hasPanel) || !hasDataset"

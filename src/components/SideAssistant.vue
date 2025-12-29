@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, nextTick } from "vue";
+import { computed, onMounted, ref, nextTick, watch } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
@@ -142,6 +142,11 @@ function scrollToBottom() {
 onMounted(() => {
     initializePrompt(props.settings[COMPLETIONS_KEY]);
 });
+
+watch(
+    () => props.settings[COMPLETIONS_KEY],
+    () => messages.value = props.settings[COMPLETIONS_KEY],
+);
 </script>
 
 <template>

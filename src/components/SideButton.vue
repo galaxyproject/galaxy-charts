@@ -9,6 +9,7 @@ const props = withDefaults(
         disabled?: boolean;
         icon: Component;
         secondary?: boolean;
+        size?: "small" | "medium" | "large";
         title: string;
         type?: "error" | "info" | "primary" | "warning";
         visible?: boolean;
@@ -18,6 +19,7 @@ const props = withDefaults(
         circle: false,
         disabled: false,
         secondary: false,
+        size: "medium",
         type: "info",
     },
 );
@@ -36,6 +38,7 @@ const emit = defineEmits<{
                     :data-description="`sidebutton ${title.toLowerCase()}`"
                     :disabled="disabled"
                     :secondary="secondary"
+                    :size="size"
                     strong
                     :type="props.type"
                     @click="emit('click')">

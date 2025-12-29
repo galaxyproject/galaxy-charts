@@ -176,7 +176,11 @@ async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) 
 }
 
 // Event handler for updating settings and tracks
-function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
+function update(
+    settings: InputValuesType,
+    tracks?: Array<InputValuesType>,
+    transcripts?: Array<TranscriptMessageType>,
+) {
     updateSettings({ ...settingValues.value, ...settings });
     if (tracks) {
         const nTracks = Math.max(trackValues.value.length, tracks.length);
@@ -186,6 +190,9 @@ function update(settings: InputValuesType, tracks?: Array<InputValuesType>) {
             return { ...originalTrack, ...incomingTrack };
         });
         updateTracks(mergedTracks);
+    }
+    if (transcripts) {
+        updateTranscripts([...transcripts]);
     }
 }
 
@@ -219,6 +226,7 @@ watch(
                 :settings="settingValues"
                 :specs="specValues"
                 :tracks="trackValues"
+                :transcripts="transcriptValues"
                 :save="save"
                 :update="update" />
         </div>

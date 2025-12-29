@@ -11,6 +11,7 @@ const props = defineProps<{
     settings: InputValuesType;
     specs: Record<string, string>;
     tracks: Array<InputValuesType>;
+    transcripts: Array<TranscriptMessageType>;
 }>();
 
 // Emit events with TypeScript
@@ -28,11 +29,11 @@ const columnsList = ref();
 async function render() {
     /** Place your render function here! */
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
-    /*const messages = { ...props.settings["__AI_MESSAGES__"] };
-    if (messages.length > 0 && messages[messages.length - 1].role == "user") {
-        messages.push({ content: "got it", role: "assistant" });
-        emit("update", { __AI_MESSAGES__: messages });
-    }*/
+    const transcripts = [...props.transcripts];
+    if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
+        transcripts.push({ content: "got it", role: "assistant" });
+        emit("update", {}, {}, transcripts);
+    }
 }
 
 function onSave() {

@@ -33,7 +33,7 @@ function addMessage({
     role: TranscriptRoleType;
     variant?: TranscriptVariantType;
 }) {
-    const next = [ ...transcripts.value, { content, role, variant } ];
+    const next = [...transcripts.value, { content, role, variant }];
     emit("update:transcripts", next);
 }
 
@@ -58,11 +58,10 @@ function scrollToBottom() {
 
 watch(
     () => props.transcripts,
-    () => (transcripts.value = [ ...props.transcripts ]),
+    () => (transcripts.value = [...props.transcripts]),
     { immediate: true },
 );
 </script>
-
 
 <template>
     <div class="flex flex-col h-full">

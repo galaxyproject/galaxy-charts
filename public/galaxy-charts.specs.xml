@@ -13,7 +13,7 @@
         <ai_max_tokens>8096</ai_max_tokens>
         <ai_model>qwen3:8b</ai_model>
         <ai_prompt>You are data analysis and data visualization expert. The user will share a state with you.</ai_prompt>
-        </ai_share_state>true</ai_share_state>
+        <ai_share_state>true</ai_share_state>
         <ai_temperature>0.3</ai_temperature>
         <ai_top_p>0.9</ai_top_p>
     </xml>

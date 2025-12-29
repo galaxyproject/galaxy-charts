@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, nextTick, watch } from "vue";
 import { NInput } from "naive-ui";
-import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantType } from "@/types";
+import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantChatType } from "@/types";
 import { PaperAirplaneIcon, NoSymbolIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import SideButton from "./SideButton.vue";
 import SideConfirm from "@/components/SideConfirm.vue";
@@ -33,7 +33,7 @@ function addTranscript({
 }: {
     content: any;
     role: TranscriptRoleType;
-    variant?: TranscriptVariantType;
+    variant?: TranscriptVariantChatType;
 }) {
     const next = [...props.transcripts, { content, role, variant }];
     emit("update:transcripts", next);

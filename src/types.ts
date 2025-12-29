@@ -91,4 +91,6 @@ export interface TranscriptMessageType {
 
 export type TranscriptRoleType = "assistant" | "system" | "user";
 
-export type TranscriptVariantType = "accept" | "confirm" | "reject" | "stop";
+export type TranscriptVariantChatType = "accept" | "confirm" | "reject" | "stop";
+
+export type TranscriptVariantType = TranscriptVariantChatType | (string & {});

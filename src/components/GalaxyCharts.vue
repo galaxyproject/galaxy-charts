@@ -125,9 +125,10 @@ function serialize() {
         tracks: trackValues.value,
     };
 }
-// Event handler for updating settings
-function updateMessages(newSettings: CompletionsMessage[]): void {
-    settingValues.value[COMPLETIONS_KEY] = [...newSettings];
+
+// Event handler for updating messages
+function updateMessages(newMessages: CompletionsMessage[]): void {
+    settingValues.value[COMPLETIONS_KEY] = [...newMessages];
     postMessage();
 }
 

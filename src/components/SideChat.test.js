@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import SideChat from "@/components/SideChat.vue";
-import SideChatMessage from "@/components/SideChatMessage.vue";
+import SideMessage from "@/components/SideMessage.vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 
 function mountTarget(transcripts = []) {
@@ -14,7 +14,7 @@ function mountTarget(transcripts = []) {
                 NButton,
                 NIcon,
                 NInput,
-                SideChatMessage,
+                SideMessage,
             },
         },
     });
@@ -31,7 +31,7 @@ describe("SideChat.vue", () => {
             { role: "user", content: "hi" },
         ];
         const wrapper = mountTarget(transcripts);
-        expect(wrapper.findAllComponents(SideChatMessage).length).toBe(3);
+        expect(wrapper.findAllComponents(SideMessage).length).toBe(3);
     });
 
     test("emits full transcript snapshot on user message", async () => {

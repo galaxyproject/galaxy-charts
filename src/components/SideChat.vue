@@ -4,8 +4,8 @@ import { NInput } from "naive-ui";
 import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantType } from "@/types";
 import { PaperAirplaneIcon, NoSymbolIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import SideButton from "./SideButton.vue";
-import SideChatConfirm from "@/components/SideChatConfirm.vue";
-import SideChatMessage from "@/components/SideChatMessage.vue";
+import SideConfirm from "@/components/SideConfirm.vue";
+import SideMessage from "@/components/SideMessage.vue";
 
 const props = defineProps<{
     transcripts: TranscriptMessageType[];
@@ -86,14 +86,14 @@ watch(
                 v-for="(msg, msgIndex) in props.transcripts"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideChatMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
-                <SideChatConfirm
+                <SideMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
+                <SideConfirm
                     v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'"
                     :content="msg.content"
                     @accept="onAccept"
                     @reject="onReject" />
             </div>
-            <SideChatMessage v-if="isThinking" role="assistant" :is-thinking="true" />
+            <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">

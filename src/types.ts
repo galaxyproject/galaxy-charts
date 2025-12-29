@@ -1,3 +1,5 @@
+/** Inputs */
+
 export type InputAtomicType = boolean | string | number | null | undefined;
 
 export interface InputElementType {
@@ -42,6 +44,8 @@ export type InputValuesType = {
     [key: string]: any;
 };
 
+/** Plugin */
+
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
 
 export interface PluginConfigType {
@@ -50,6 +54,7 @@ export interface PluginConfigType {
     dataset_url?: string;
     settings?: InputValuesType;
     tracks?: Array<InputValuesType>;
+    transcripts?: Array<TranscriptMessageType>;
 }
 
 export interface PluginIncomingType {
@@ -70,6 +75,20 @@ export interface PluginType {
     tracks?: Array<InputElementType>;
 }
 
+/** Requests */
+
 export type RequestOptionsType = Record<string, any>;
 
 export type ResponseType = Promise<{ data: any; response: Response }>;
+
+/** Transcripts */
+
+export interface TranscriptMessageType {
+    role: TransciptRoleType;
+    content: string;
+    variant?: TranscriptVariantType;
+}
+
+export type TransciptRoleType = "assistant" | "system" | "user";
+
+export type TranscriptVariantType = "confirmation" | "json" | "hidden";

@@ -1,4 +1,4 @@
-import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType } from "@/types";
+import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType, TranscriptMessageType } from "@/types";
 import { toBoolean } from "./toBoolean";
 
 interface ParsedPlugin {
@@ -6,6 +6,7 @@ interface ParsedPlugin {
     settings: InputValuesType;
     specs: Record<string, string> | undefined;
     tracks: Array<InputValuesType>;
+    transcripts: Array<TranscriptMessageType>;
 }
 
 // Parse plugin either from incoming object or XML
@@ -13,7 +14,8 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
     const settings = parseValues(plugin.settings, config.settings);
     const specs = plugin.specs;
     const tracks = parseTracks(plugin.tracks, config.tracks);
-    return { plugin, settings, specs, tracks };
+    const transcripts = config.transcripts || [];
+    return { plugin, settings, specs, tracks, transcripts };
 }
 
 // Format value according to input type

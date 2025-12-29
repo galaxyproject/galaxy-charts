@@ -37,7 +37,7 @@ describe("parsePlugin function", () => {
     test("Handles empty settings and tracks gracefully", async () => {
         const emptyPlugin = { settings: [], specs: {}, tracks: [] };
         const result = await parsePlugin(emptyPlugin, {});
-        expect(result).toEqual({ plugin: emptyPlugin, settings: {}, specs: {}, tracks: [{}] });
+        expect(result).toEqual({ plugin: emptyPlugin, settings: {}, specs: {}, tracks: [{}], transcripts: [] });
     });
 
     test("Handles missing config settings by using defaults", async () => {

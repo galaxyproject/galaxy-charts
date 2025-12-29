@@ -40,6 +40,7 @@ const settingValues = ref<InputValuesType>({});
 const specValues = ref<InputValuesType>({});
 const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<InputValuesType>>([]);
+const transcriptValues = ref<any>();
 
 // Create local copies of props with reactivity
 const currentVisualizationId = ref<string | null>(visualizationId);
@@ -51,7 +52,7 @@ configStore.setCredentials(props.credentials || "include");
 configStore.setRoot(root || "/");
 
 // Collect plugin details and parse incoming settings
-parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks }) => {
+parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, specs, tracks, transcripts }) => {
     isLoading.value = false;
     pluginDescription.value = plugin.description || "";
     pluginHtml.value = plugin.html || "";
@@ -62,6 +63,7 @@ parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, 
     specValues.value = specs || {};
     trackInputs.value = plugin.tracks || [];
     trackValues.value = tracks;
+    transcriptValues.value = transcripts;
 });
 
 // Get visualization dataset id

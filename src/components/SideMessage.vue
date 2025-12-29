@@ -3,10 +3,10 @@ import DOMPurify from "dompurify";
 import MarkdownIt from "markdown-it";
 import { NIcon } from "naive-ui";
 import { ArrowPathIcon } from "@heroicons/vue/24/outline";
-import { type TranscriptRoleType } from "@/types";
+import type { TranscriptRoleType, TranscriptContentType } from "@/types";
 
 const props = defineProps<{
-    content?: string;
+    content?: TranscriptContentType;
     isThinking?: boolean;
     role: TranscriptRoleType;
 }>();
@@ -34,7 +34,7 @@ function renderMarkdown(source: string) {
                 </n-icon>
                 <span class="ml-1">Thinking...</span>
             </div>
-            <div v-else-if="content" v-html="renderMarkdown(content)" />
+            <div v-else-if="content && typeof content === 'string'" v-html="renderMarkdown(content)" />
             <div v-else class="ml-1">No content returned.</div>
         </div>
     </div>

@@ -83,9 +83,11 @@ export type ResponseType = Promise<{ data: any; response: Response }>;
 
 /** Transcripts */
 
+export type TranscriptContentType = string | { schema: string; payload: unknown };
+
 export interface TranscriptMessageType {
     role: TranscriptRoleType;
-    content: string;
+    content: TranscriptContentType;
     variant?: TranscriptVariantType;
 }
 

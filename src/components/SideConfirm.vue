@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { CheckIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import SideButton from "./SideButton.vue";
+import SideButton from "@/components/SideButton.vue";
+import { TranscriptContentType } from "@/types";
 
 const props = defineProps<{
-    content?: string;
+    content?: TranscriptContentType;
 }>();
 
 const emit = defineEmits<{

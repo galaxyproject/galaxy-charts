@@ -73,6 +73,7 @@ async function onSave(): Promise<void> {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
                 tracks: props.trackValues,
+                transcripts: props.transcriptValues,
             });
             message.value = "Successfully saved.";
             messageType.value = "success";
@@ -81,6 +82,7 @@ async function onSave(): Promise<void> {
                 dataset_id: props.datasetId,
                 settings: props.settingValues,
                 tracks: props.trackValues,
+                transcripts: props.transcriptValues,
             });
             if (newVisualizationId) {
                 message.value = "Successfully created.";

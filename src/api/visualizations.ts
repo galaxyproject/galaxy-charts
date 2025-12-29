@@ -1,11 +1,12 @@
 import { GalaxyApi } from "@/api/client";
-import { InputValuesType } from "@/types";
+import { InputValuesType, TranscriptMessageType } from "@/types";
 import { rethrowSimple } from "@/utilities/simpleError";
 
 export interface VisualizationConfig {
     dataset_id: string;
     settings: InputValuesType;
     tracks: Array<InputValuesType>;
+    transcripts: Array<TranscriptMessageType>;
 }
 
 export async function visualizationsCreate(

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, nextTick, watch } from "vue";
 import { NButton, NIcon, NInput } from "naive-ui";
-import type { InputValuesType } from "@/types";
+import type { InputValuesType, TranscriptMessageType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import {
@@ -36,6 +36,7 @@ const props = defineProps<{
         ai_contract?: any;
     };
     tracks: InputValuesType[];
+    transcripts: TranscriptMessageType[];
 }>();
 
 const emit = defineEmits<{
@@ -145,7 +146,7 @@ onMounted(() => {
 
 watch(
     () => props.settings[COMPLETIONS_KEY],
-    () => messages.value = props.settings[COMPLETIONS_KEY],
+    () => (messages.value = props.settings[COMPLETIONS_KEY]),
 );
 </script>
 

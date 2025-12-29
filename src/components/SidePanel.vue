@@ -8,7 +8,6 @@ import {
     CloudArrowUpIcon,
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
-import type { CompletionsMessage } from "@/api/completions";
 import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
 import InputForm from "@/components/inputs/InputForm.vue";
 import InputRepeats from "@/components/inputs/InputRepeats.vue";
@@ -17,7 +16,7 @@ import ApiStatus from "@/components/ApiStatus.vue";
 import ChartsLogo from "@/components/ChartsLogo.vue";
 import SideAssistant from "@/components/SideAssistant.vue";
 import SideButton from "@/components/SideButton.vue";
-import type { InputElementType, InputValuesType, MessageType } from "@/types";
+import type { InputElementType, InputValuesType, MessageType, TranscriptMessageType } from "@/types";
 import { errorMessageAsString } from "@/utilities/simpleError";
 
 const props = defineProps<{
@@ -31,15 +30,16 @@ const props = defineProps<{
     specValues: InputValuesType;
     trackInputs: InputElementType[];
     trackValues: InputValuesType[];
+    transcriptValues: TranscriptMessageType[];
     visualizationId: string | null;
     visualizationTitle: string;
 }>();
 
 // Emit events with TypeScript
 const emit = defineEmits<{
-    (event: "update:messages", newValues: CompletionsMessage[]): void;
     (event: "update:settings", newValues: InputValuesType): void;
     (event: "update:tracks", newValues: InputValuesType[]): void;
+    (event: "update:transcripts", newValues: TranscriptMessageType[]): void;
     (event: "update:visualization-id", newId: string): void;
     (event: "update:visualization-title", newTitle: string): void;
     (event: "toggle"): void;
@@ -96,11 +96,6 @@ async function onSave(): Promise<void> {
     }
 }
 
-// Update messages handler
-function onUpdateMessages(newValues: CompletionsMessage[]): void {
-    emit("update:messages", newValues);
-}
-
 // Update settings handler
 function onUpdateSettings(newValues: InputValuesType): void {
     emit("update:settings", newValues);
@@ -109,6 +104,11 @@ function onUpdateSettings(newValues: InputValuesType): void {
 // Update tracks handler
 function onUpdateTracks(newValues: InputValuesType[]): void {
     emit("update:tracks", newValues);
+}
+
+// Update transcripts handler
+function onUpdateTranscripts(newValues: TranscriptMessageType[]): void {
+    emit("update:transcripts", newValues);
 }
 
 // Update title handler
@@ -201,7 +201,8 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         :settings="settingValues"
                         :specs="specValues"
                         :tracks="trackValues"
-                        @update:messages="onUpdateMessages" />
+                        :transcripts="transcriptValues"
+                        @update:transcripts="onUpdateTranscripts" />
                 </div>
             </n-tab-pane>
         </n-tabs>

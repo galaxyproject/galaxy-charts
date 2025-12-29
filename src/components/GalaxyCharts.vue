@@ -2,13 +2,12 @@
 import { NAlert } from "naive-ui";
 import { computed, nextTick, ref, watch } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
-import { COMPLETIONS_KEY, type CompletionsMessage } from "@/api/completions";
 import { datasetsGetUrl } from "@/api/datasets";
 import { visualizationsSave } from "@/api/visualizations";
 import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType, InputValuesType, PluginIncomingType } from "@/types";
+import { InputElementType, InputValuesType, PluginIncomingType, TranscriptMessageType } from "@/types";
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { parseIncoming } from "@/utilities/parseIncoming";
 
@@ -40,7 +39,7 @@ const settingValues = ref<InputValuesType>({});
 const specValues = ref<InputValuesType>({});
 const trackInputs = ref<Array<InputElementType>>([]);
 const trackValues = ref<Array<InputValuesType>>([]);
-const transcriptValues = ref<any>();
+const transcriptValues = ref<Array<TranscriptMessageType>>([]);
 
 // Create local copies of props with reactivity
 const currentVisualizationId = ref<string | null>(visualizationId);
@@ -128,12 +127,6 @@ function serialize() {
     };
 }
 
-// Event handler for updating messages
-function updateMessages(newMessages: CompletionsMessage[]): void {
-    settingValues.value[COMPLETIONS_KEY] = [...newMessages];
-    postMessage();
-}
-
 // Event handler for updating settings
 function updateSettings(newSettings: InputValuesType): void {
     settingValues.value = { ...newSettings };
@@ -143,6 +136,12 @@ function updateSettings(newSettings: InputValuesType): void {
 // Event handler for updating tracks
 function updateTracks(newTracks: Array<InputValuesType>): void {
     trackValues.value = [...newTracks];
+    postMessage();
+}
+
+// Event handler for updating transcripts
+function updateTranscripts(newTranscripts: TranscriptMessageType[]): void {
+    transcriptValues.value = [...newTranscripts];
     postMessage();
 }
 
@@ -241,11 +240,12 @@ watch(
             :spec-values="specValues"
             :track-inputs="trackInputs"
             :track-values="trackValues"
+            :transcript-values="transcriptValues"
             :visualization-id="currentVisualizationId"
             :visualization-title="currentVisualizationTitle"
-            @update:messages="updateMessages"
             @update:settings="updateSettings"
             @update:tracks="updateTracks"
+            @update:transcripts="updateTranscripts"
             @update:visualization-id="updateVisualizationId"
             @update:visualization-title="updateVisualizationTitle"
             @toggle="onToggle" />

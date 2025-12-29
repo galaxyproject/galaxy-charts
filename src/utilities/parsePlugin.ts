@@ -1,4 +1,11 @@
-import type { InputAtomicType, InputElementType, InputValuesType, PluginConfigType, PluginType, TranscriptMessageType } from "@/types";
+import type {
+    InputAtomicType,
+    InputElementType,
+    InputValuesType,
+    PluginConfigType,
+    PluginType,
+    TranscriptMessageType,
+} from "@/types";
 import { toBoolean } from "./toBoolean";
 
 interface ParsedPlugin {

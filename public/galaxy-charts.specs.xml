@@ -3,11 +3,6 @@
         <ai_message_initial>Hi, I am here to help!</ai_message_initial>
         <ai_api_key>ollama</ai_api_key>
         <ai_api_base_url>http://localhost:11434/v1/</ai_api_base_url>
-        <ai_max_tokens>8096</ai_max_tokens>
-        <ai_model>qwen3:8b</ai_model>
-        <ai_prompt>You are data analysis and data visualization expert. The user will share a state with you.</ai_prompt>
-        <ai_temperature>0.3</ai_temperature>
-        <ai_top_p>0.9</ai_top_p>
         <ai_inputs>
             <ai_inputs>
                 <name>dataset</name>
@@ -15,5 +10,11 @@
                 <resolve>true</resolve>
             </ai_inputs>
         </ai_inputs>
+        <ai_max_tokens>8096</ai_max_tokens>
+        <ai_model>qwen3:8b</ai_model>
+        <ai_prompt>You are data analysis and data visualization expert. The user will share a state with you.</ai_prompt>
+        </ai_share_state>true</ai_share_state>
+        <ai_temperature>0.3</ai_temperature>
+        <ai_top_p>0.9</ai_top_p>
     </xml>
 </macros>

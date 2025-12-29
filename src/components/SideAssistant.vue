@@ -7,6 +7,7 @@ import { PaperAirplaneIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { COMPLETIONS_KEY, completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
 import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
+import { toBoolean } from "@/utilities/toBoolean";
 
 const configStore = useConfigStore();
 const root = configStore.getRoot();
@@ -23,6 +24,7 @@ const props = defineProps<{
         ai_model?: string;
         ai_prompt?: string;
         ai_schema?: string;
+        ai_share_state?: string;
         ai_temperature?: string;
         ai_top_p?: string;
         ai_contract?: any;
@@ -66,15 +68,17 @@ function addMessage({
 }
 
 function addState() {
-    const { [COMPLETIONS_KEY]: _, ...settings } = props.settings;
-    const newState = JSON.stringify({ settings, tracks: props.tracks });
-    if (newState !== currentState.value) {
-        addMessage({
-            content: `${PROMPT_STATE} ${newState}`,
-            role: "user",
-            hidden: true,
-        });
-        currentState.value = newState;
+    if (toBoolean(props.specs.ai_share_state)) {
+        const { [COMPLETIONS_KEY]: _, ...settings } = props.settings;
+        const newState = JSON.stringify({ settings, tracks: props.tracks });
+        if (newState !== currentState.value) {
+            addMessage({
+                content: `${PROMPT_STATE} ${newState}`,
+                role: "user",
+                hidden: true,
+            });
+            currentState.value = newState;
+        }
     }
 }
 

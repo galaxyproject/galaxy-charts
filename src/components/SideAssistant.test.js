@@ -91,7 +91,7 @@ describe("SideAssistant.vue", () => {
     });
 
     test("calls completionsPost with full message history", async () => {
-        const wrapper = mountTarget();
+        const wrapper = mountTarget({ specs: { ai_share_state: "true" } });
         completionsPost.mockResolvedValueOnce({ content: "Reply" });
         wrapper.vm.userInput = "Test message";
         await wrapper.vm.onMessage();
@@ -104,6 +104,22 @@ describe("SideAssistant.vue", () => {
         expect(payload.messages.at(1).content).toContain("state follows");
         expect(payload.messages.at(2).role).toBe("user");
         expect(payload.messages.at(2).content).toContain("Test message");
+        expect(payload.messages.at(-1).role).toBe("assistant");
+        expect(payload.messages.at(-1).content).toBe("Reply");
+    });
+
+    test("calls completionsPost with full message history without state", async () => {
+        const wrapper = mountTarget({ specs: { ai_share_state: "false" } });
+        completionsPost.mockResolvedValueOnce({ content: "Reply" });
+        wrapper.vm.userInput = "Test message";
+        await wrapper.vm.onMessage();
+        expect(completionsPost).toHaveBeenCalledTimes(1);
+        const payload = completionsPost.mock.calls[0][0];
+        expect(payload.messages.length).toBeGreaterThan(2);
+        expect(payload.messages.at(0).role).toBe("system");
+        expect(payload.messages.at(0).content).toContain("user messages");
+        expect(payload.messages.at(1).role).toBe("user");
+        expect(payload.messages.at(1).content).toContain("Test message");
         expect(payload.messages.at(-1).role).toBe("assistant");
         expect(payload.messages.at(-1).content).toBe("Reply");
     });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import type { InputValuesType } from "galaxy-charts";
-import { useColumnsStore } from "galaxy-charts";
+import type { InputValuesType } from "@/types";
+import { useColumnsStore } from "@/store/columnsStore";
 import { NButton } from "naive-ui";
 
 const props = defineProps<{

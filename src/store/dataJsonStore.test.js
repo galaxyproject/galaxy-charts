@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useDataJsonStore } from "./DataJsonStore";
+import { useDataJsonStore } from "@/store/dataJsonStore";
 
 describe("useDataJsonStore", () => {
     let store;

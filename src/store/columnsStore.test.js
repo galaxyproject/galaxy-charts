@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useColumnsStore } from "./columnsStore";
+import { useColumnsStore } from "@/store/columnsStore";
 import { datasetsGetColumns } from "@/api/datasets";
 
 vi.mock("@/api/datasets", () => ({

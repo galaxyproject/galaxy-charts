@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useDataTableStore } from "./dataTableStore";
+import { useDataTableStore } from "@/store/dataTableStore";
 import { GalaxyApi } from "@/api/client";
 
 vi.mock("@/api/client", () => ({

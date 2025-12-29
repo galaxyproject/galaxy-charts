@@ -37,7 +37,7 @@ describe("SideChat.vue", () => {
     test("emits full transcript snapshot on user message", async () => {
         const wrapper = mountTarget([]);
         wrapper.vm.userInput = "Hello";
-        await wrapper.vm.onMessage();
+        await wrapper.vm.onInput();
         const emitted = wrapper.emitted("update:transcripts");
         expect(emitted).toBeTruthy();
         const snapshot = emitted[0][0];
@@ -49,7 +49,7 @@ describe("SideChat.vue", () => {
     test("does not emit when input is empty", async () => {
         const wrapper = mountTarget([]);
         wrapper.vm.userInput = "   ";
-        await wrapper.vm.onMessage();
+        await wrapper.vm.onInput();
         expect(wrapper.emitted("update:transcripts")).toBeUndefined();
     });
 
@@ -65,7 +65,7 @@ describe("SideChat.vue", () => {
         const original = [{ role: "assistant", content: "x" }];
         const wrapper = mountTarget(original);
         wrapper.vm.userInput = "y";
-        await wrapper.vm.onMessage();
+        await wrapper.vm.onInput();
         expect(original).toEqual([{ role: "assistant", content: "x" }]);
     });
 

@@ -32,7 +32,11 @@ async function render() {
     const transcripts = [...props.transcripts];
     if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
         transcripts.push({ content: "response", role: "assistant" });
-        transcripts.push({ content: "confirm?", role: "assistant", variant: "confirm" });
+        transcripts.push({
+            content: "Do you want to continue?",
+            role: "assistant",
+            variant: "confirm",
+        });
         emit("update", { transcripts });
     }
 }

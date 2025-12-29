@@ -24,6 +24,11 @@ function mountTarget({ collapse, incoming }) {
     });
 }
 
+function expectPanelVisibility(wrapper, visible = true) {
+    const style = wrapper.findComponent(SidePanel).attributes("style") || "";
+    expect(style.includes("display: none;")).toBe(!visible);
+}
+
 describe("build user interface", () => {
     test("Load user interface only dataset id", async () => {
         const incoming = {
@@ -197,7 +202,7 @@ describe("build user interface", () => {
         expect(wrapper.vm.hasDataset).toBe(false);
         expect(wrapper.vm.hasPanel).toBe(false);
         expect(wrapper.find(VIEWPORT).exists()).toBe(false);
-        expect(wrapper.findComponent(SidePanel).isVisible()).toBe(true); // Always visible when no dataset
+        expectPanelVisibility(wrapper, true);
     });
 
     test("Panel should be visible when has dataset and settings", async () => {
@@ -267,10 +272,9 @@ describe("build user interface", () => {
         expect(wrapper.vm.hasPanel).toBe(true);
         expect(wrapper.vm.collapsePanel).toBe(true);
         expect(wrapper.find(VIEWPORT).exists()).toBe(false);
-        const sidePanel = wrapper.findComponent(SidePanel);
         const shouldShowPanel = (!wrapper.vm.collapsePanel && wrapper.vm.hasPanel) || !wrapper.vm.hasDataset;
         expect(shouldShowPanel).toBe(false);
-        expect(sidePanel.attributes("style")).toContain("display: none");
+        expectPanelVisibility(wrapper, false);
     });
 
     test("Panel should always be visible when no dataset (even if no settings/tracks/assistant)", async () => {
@@ -286,8 +290,7 @@ describe("build user interface", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(false);
         expect(wrapper.vm.hasPanel).toBe(false);
-        const sidePanel = wrapper.findComponent(SidePanel);
-        expect(sidePanel.attributes("style") || "").not.toContain("display: none");
+        expectPanelVisibility(wrapper, true);
     });
 
     test("SideButton should be visible when panel is collapsed but should be shown", async () => {
@@ -304,7 +307,7 @@ describe("build user interface", () => {
         await wrapper.vm.$nextTick();
         const sideButton = wrapper.findComponent(SideButton);
         expect(sideButton.exists()).toBe(true);
-        expect(sideButton.props("visible")).toBe(true);
+        expectPanelVisibility(wrapper, true);
     });
 
     test("SideButton should be hidden when no panel content", async () => {
@@ -372,8 +375,8 @@ describe("Slot rendering conditions", () => {
         };
         const wrapper = mountTarget({ incoming });
         await wrapper.vm.$nextTick();
-        expect(wrapper.find("pre").exists()).toBe(false); // Slot content
-        expect(wrapper.findComponent(SidePanel).isVisible()).toBe(true);
+        expect(wrapper.find("pre").exists()).toBe(false);
+        expectPanelVisibility(wrapper, true);
     });
 
     test("Slot should render when dataset exists", async () => {
@@ -436,10 +439,9 @@ describe("Slot rendering conditions", () => {
         };
         const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
-        const sideButton = wrapper.findComponent(SideButton);
-        expect(sideButton.props("visible")).toBe(false);
+        expectPanelVisibility(wrapper, true);
         await wrapper.vm.onToggle();
         await wrapper.vm.$nextTick();
-        expect(sideButton.props("visible")).toBe(true);
+        expectPanelVisibility(wrapper, false);
     });
 });

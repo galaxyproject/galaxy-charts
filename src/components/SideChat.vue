@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, nextTick } from "vue";
-import { NButton, NIcon, NInput, NTooltip } from "naive-ui";
+import { computed, ref, nextTick, watch } from "vue";
+import { NInput } from "naive-ui";
 import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantType } from "@/types";
 import { PaperAirplaneIcon, NoSymbolIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import SideButton from "./SideButton.vue";
+import SideChatConfirm from "@/components/SideChatConfirm.vue";
 import SideChatMessage from "@/components/SideChatMessage.vue";
 
 const props = defineProps<{
@@ -19,10 +20,11 @@ const userInput = ref("");
 
 const hasTranscripts = computed(() => props.transcripts.length > 0);
 const lastTranscript = computed(() => hasTranscripts.value && props.transcripts[props.transcripts.length - 1]);
+const isConfirm = computed(() => lastTranscript.value && lastTranscript.value.variant == "confirm");
 const isStop = computed(() => lastTranscript.value && lastTranscript.value.variant == "stop");
 const isThinking = computed(() => lastTranscript.value && lastTranscript.value.role == "user");
 
-function addMessage({
+function addTranscript({
     content,
     role,
     variant,
@@ -35,12 +37,23 @@ function addMessage({
     emit("update:transcripts", next);
 }
 
-async function onMessage() {
+function onAccept() {
+    if (isConfirm.value) {
+        addTranscript({ content: "", role: "user", variant: "accept" });
+    }
+}
+
+function onInput() {
     const text = userInput.value.trim();
-    if (text && !isThinking.value) {
-        addMessage({ content: text, role: "user" });
+    if (text && !isThinking.value && !isConfirm.value) {
+        addTranscript({ content: text, role: "user" });
         userInput.value = "";
-        nextTick(scrollToBottom);
+    }
+}
+
+function onReject() {
+    if (isConfirm.value) {
+        addTranscript({ content: "", role: "user", variant: "reject" });
     }
 }
 
@@ -50,7 +63,7 @@ function onReset() {
 
 function onStop() {
     if (!isStop.value) {
-        addMessage({ content: "", role: "user", variant: "stop" });
+        addTranscript({ content: "", role: "user", variant: "stop" });
     }
 }
 
@@ -59,6 +72,11 @@ function scrollToBottom() {
         container.value.scrollTop = container.value.scrollHeight;
     }
 }
+
+watch(
+    () => props.transcripts,
+    () => nextTick(scrollToBottom),
+);
 </script>
 
 <template>
@@ -69,9 +87,11 @@ function scrollToBottom() {
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
                 <SideChatMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
-                <div v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'">
-                    {{ msg.content }}
-                </div>
+                <SideChatConfirm
+                    v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'"
+                    :content="msg.content"
+                    @accept="onAccept"
+                    @reject="onReject" />
             </div>
             <SideChatMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>
@@ -81,16 +101,16 @@ function scrollToBottom() {
                     v-model:value="userInput"
                     type="text"
                     placeholder="Talk to me..."
-                    @keydown.enter.prevent="onMessage" />
+                    @keydown.enter.prevent="onInput" />
             </div>
             <SideButton v-if="isThinking" :icon="NoSymbolIcon" title="Stop" type="warning" @click="onStop" />
             <SideButton
                 v-else
-                :disabled="!userInput"
+                :disabled="isConfirm || isThinking || !userInput"
                 :icon="PaperAirplaneIcon"
                 title="Submit"
                 type="primary"
-                @click="onMessage" />
+                @click="onInput" />
             <SideButton
                 :disabled="isThinking || !hasTranscripts"
                 :icon="TrashIcon"

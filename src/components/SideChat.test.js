@@ -1,6 +1,5 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import AlertNotify from "@/components/AlertNotify.vue";
 import SideChat from "@/components/SideChat.vue";
 import SideMessage from "@/components/SideMessage.vue";
 import { NButton, NIcon, NInput } from "naive-ui";
@@ -15,7 +14,6 @@ function mountTarget(transcripts = []) {
                 NButton,
                 NIcon,
                 NInput,
-                AlertNotify,
                 SideMessage,
             },
         },
@@ -27,7 +25,7 @@ describe("SideChat.vue", () => {
         vi.resetAllMocks();
     });
 
-    test("renders provided transcripts", () => {
+    test("renders provided transcripts and thinking indicator", () => {
         const transcripts = [
             { role: "assistant", content: "hello" },
             { role: "user", content: "hi" },
@@ -71,13 +69,31 @@ describe("SideChat.vue", () => {
         expect(original).toEqual([{ role: "assistant", content: "x" }]);
     });
 
-    test("thinking state true when last role is user", async () => {
+    test("thinking state true when last role is user", () => {
         const wrapper = mountTarget([{ role: "user", content: "pending" }]);
         expect(wrapper.vm.isThinking).toBe(true);
     });
 
-    test("thinking state false when last role is assistant", async () => {
+    test("thinking state false when last role is assistant", () => {
         const wrapper = mountTarget([{ role: "assistant", content: "done" }]);
         expect(wrapper.vm.isThinking).toBe(false);
+    });
+
+    test("stop emits transcript entry with stop variant", async () => {
+        const wrapper = mountTarget([{ role: "user", content: "working" }]);
+        await wrapper.vm.onStop();
+        const emitted = wrapper.emitted("update:transcripts");
+        expect(emitted).toBeTruthy();
+        const snapshot = emitted[0][0];
+        const last = snapshot[snapshot.length - 1];
+        expect(last.role).toBe("user");
+        expect(last.variant).toBe("stop");
+        expect(last.content).toBe("");
+    });
+
+    test("stop does not emit twice in a row", async () => {
+        const wrapper = mountTarget([{ role: "user", content: "working", variant: "stop" }]);
+        await wrapper.vm.onStop();
+        expect(wrapper.emitted("update:transcripts")).toBeUndefined();
     });
 });

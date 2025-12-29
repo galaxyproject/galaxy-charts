@@ -30,10 +30,10 @@ async function render() {
     /** Place your render function here! */
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
     const transcripts = [...props.transcripts];
-    if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
+    /*if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
         transcripts.push({ content: "response", role: "assistant" });
         emit("update", { transcripts });
-    }
+    }*/
 }
 
 function onSave() {
@@ -68,6 +68,7 @@ watch(
         <div class="bg-gray-600 text-white p-2">
             <pre class="p-2 whitespace-pre overflow-auto">Settings: {{ settings }}</pre>
             <pre class="p-2 whitespace-pre overflow-auto">Tracks: {{ tracks }}</pre>
+            <pre class="p-2 whitespace-pre overflow-auto">Transcripts: {{ transcripts }}</pre>
             <pre class="p-2 whitespace-pre overflow-auto">{{ columnsList }}</pre>
         </div>
         <div class="m-2">

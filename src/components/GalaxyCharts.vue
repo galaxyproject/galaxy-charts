@@ -159,8 +159,16 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 }
 
 // Event handler for updating settings and saving visualization
-async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) {
-    update(settings, tracks);
+async function save({
+    settings,
+    tracks,
+    transcripts,
+}: {
+    settings?: InputValuesType;
+    tracks?: Array<InputValuesType>;
+    transcripts?: Array<TranscriptMessageType>;
+}) {
+    update({ settings, tracks, transcripts });
     try {
         const newVisualizationId = await visualizationsSave(
             pluginName.value,
@@ -177,12 +185,18 @@ async function save(settings: InputValuesType, tracks?: Array<InputValuesType>) 
 }
 
 // Event handler for updating settings and tracks
-function update(
-    settings: InputValuesType,
-    tracks?: Array<InputValuesType>,
-    transcripts?: Array<TranscriptMessageType>,
-) {
-    updateSettings({ ...settingValues.value, ...settings });
+function update({
+    settings,
+    tracks,
+    transcripts,
+}: {
+    settings?: InputValuesType;
+    tracks?: Array<InputValuesType>;
+    transcripts?: Array<TranscriptMessageType>;
+}) {
+    if (settings) {
+        updateSettings({ ...settingValues.value, ...settings });
+    }
     if (tracks) {
         const nTracks = Math.max(trackValues.value.length, tracks.length);
         const mergedTracks: Array<InputValuesType> = Array.from({ length: nTracks }, (_, i) => {

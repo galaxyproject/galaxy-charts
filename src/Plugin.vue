@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import type { InputValuesType } from "@/types";
+import type { InputValuesType, TranscriptMessageType } from "@/types";
 import { useColumnsStore } from "@/store/columnsStore";
 import { NButton } from "naive-ui";
 
@@ -31,8 +31,8 @@ async function render() {
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
     const transcripts = [...props.transcripts];
     if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
-        transcripts.push({ content: "got it", role: "assistant" });
-        emit("update", {}, {}, transcripts);
+        transcripts.push({ content: "response", role: "assistant" });
+        emit("update", { transcripts });
     }
 }
 

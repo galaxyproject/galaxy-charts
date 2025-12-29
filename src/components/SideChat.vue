@@ -7,6 +7,8 @@ import SideButton from "./SideButton.vue";
 import SideConfirm from "@/components/SideConfirm.vue";
 import SideMessage from "@/components/SideMessage.vue";
 
+const PLACEHOLDER = "Talk to me...";
+
 const props = defineProps<{
     transcripts: TranscriptMessageType[];
 }>();
@@ -100,7 +102,7 @@ watch(
                 <n-input
                     v-model:value="userInput"
                     type="text"
-                    placeholder="Talk to me..."
+                    :placeholder="PLACEHOLDER"
                     @keydown.enter.prevent="onInput" />
             </div>
             <SideButton v-if="isThinking" :icon="NoSymbolIcon" title="Stop" type="warning" @click="onStop" />

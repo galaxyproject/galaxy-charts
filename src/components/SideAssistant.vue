@@ -37,7 +37,7 @@ const emit = defineEmits<{
 }>();
 
 const MESSAGE_INITIAL = "Assistant ready.";
-const PROMPT_DEFAULT = "Respond to user messages. Context state may be provided.";
+const PROMPT_DEFAULT = "Respond to user messages.";
 const PROMPT_SCHEMA = "Output schema follows.";
 const PROMPT_STATE = "Context state follows.";
 

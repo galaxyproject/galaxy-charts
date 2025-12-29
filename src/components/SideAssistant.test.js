@@ -7,7 +7,7 @@ import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
 import { NButton, NIcon, NInput } from "naive-ui";
 
-const DEFAULT_PROMPT = "Respond to user messages. Context state may be provided.";
+const DEFAULT_PROMPT = "Respond to user messages.";
 
 vi.mock("@/api/completions", () => ({
     COMPLETIONS_KEY: "__AI_MESSAGES__",

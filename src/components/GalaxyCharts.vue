@@ -124,6 +124,7 @@ function serialize() {
         dataset_id: datasetId.value,
         settings: settingValues.value,
         tracks: trackValues.value,
+        transcripts: transcriptValues.value,
     };
 }
 

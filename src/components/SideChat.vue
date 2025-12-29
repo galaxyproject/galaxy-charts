@@ -36,21 +36,21 @@ function addMessage({
 
 async function onMessage() {
     const text = userInput.value.trim();
-    if (text) {
+    if (text && !isThinking.value) {
         addMessage({ content: text, role: "user" });
         userInput.value = "";
         nextTick(scrollToBottom);
     }
 }
 
-async function onStop() {
+function onReset() {
+    emit("update:transcripts", []);
+}
+
+function onStop() {
     if (!isStop.value) {
         addMessage({ content: "", role: "user", variant: "stop" });
     }
-}
-
-function onReset() {
-    emit("update:transcripts", []);
 }
 
 function scrollToBottom() {
@@ -75,7 +75,6 @@ function scrollToBottom() {
             <div class="flex-1">
                 <n-input
                     v-model:value="userInput"
-                    :disabled="isThinking"
                     type="text"
                     placeholder="Talk to me..."
                     @keydown.enter.prevent="onMessage" />
@@ -98,7 +97,7 @@ function scrollToBottom() {
                         <n-icon><PaperAirplaneIcon /></n-icon>
                     </n-button>
                 </template>
-                <span class="text-xs">Submit Message</span>
+                <span class="text-xs">Submit</span>
             </n-tooltip>
             <n-tooltip trigger="hover" :to="false">
                 <template #trigger>
@@ -110,7 +109,7 @@ function scrollToBottom() {
                         <n-icon><TrashIcon /></n-icon>
                     </n-button>
                 </template>
-                <span class="text-xs">Clear Chat</span>
+                <span class="text-xs">Clear</span>
             </n-tooltip>
         </div>
     </div>

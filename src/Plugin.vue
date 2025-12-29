@@ -30,10 +30,10 @@ async function render() {
     /** Place your render function here! */
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
     const transcripts = [...props.transcripts];
-    /*if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
+    if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
         transcripts.push({ content: "response", role: "assistant" });
-        emit("update", { transcripts });
-    }*/
+        //emit("update", { transcripts });
+    }
 }
 
 function onSave() {

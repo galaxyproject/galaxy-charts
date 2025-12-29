@@ -3,7 +3,8 @@ import { computed, ref, nextTick } from "vue";
 import { NButton, NIcon, NInput, NTooltip } from "naive-ui";
 import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantType } from "@/types";
 import { PaperAirplaneIcon, NoSymbolIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import SideMessage from "@/components/SideMessage.vue";
+import SideButton from "./SideButton.vue";
+import SideChatMessage from "@/components/SideChatMessage.vue";
 
 const props = defineProps<{
     transcripts: TranscriptMessageType[];
@@ -67,9 +68,12 @@ function scrollToBottom() {
                 v-for="(msg, msgIndex) in props.transcripts"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
+                <SideChatMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
+                <div v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'">
+                    {{ msg.content }}
+                </div>
             </div>
-            <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
+            <SideChatMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">
@@ -79,38 +83,20 @@ function scrollToBottom() {
                     placeholder="Talk to me..."
                     @keydown.enter.prevent="onMessage" />
             </div>
-            <n-tooltip v-if="isThinking" trigger="hover" :to="false">
-                <template #trigger>
-                    <n-button data-description="side assistent submit" type="warning" @click="onStop">
-                        <n-icon><NoSymbolIcon /></n-icon>
-                    </n-button>
-                </template>
-                <span class="text-xs">Stop</span>
-            </n-tooltip>
-            <n-tooltip v-else trigger="hover" :to="false">
-                <template #trigger>
-                    <n-button
-                        data-description="side assistent submit"
-                        :disabled="!userInput"
-                        type="primary"
-                        @click="onMessage">
-                        <n-icon><PaperAirplaneIcon /></n-icon>
-                    </n-button>
-                </template>
-                <span class="text-xs">Submit</span>
-            </n-tooltip>
-            <n-tooltip trigger="hover" :to="false">
-                <template #trigger>
-                    <n-button
-                        data-description="side assistent reset"
-                        :disabled="isThinking || !hasTranscripts"
-                        type="error"
-                        @click="onReset">
-                        <n-icon><TrashIcon /></n-icon>
-                    </n-button>
-                </template>
-                <span class="text-xs">Clear</span>
-            </n-tooltip>
+            <SideButton v-if="isThinking" :icon="NoSymbolIcon" title="Stop" type="warning" @click="onStop" />
+            <SideButton
+                v-else
+                :disabled="!userInput"
+                :icon="PaperAirplaneIcon"
+                title="Submit"
+                type="primary"
+                @click="onMessage" />
+            <SideButton
+                :disabled="isThinking || !hasTranscripts"
+                :icon="TrashIcon"
+                title="Clear"
+                type="error"
+                @click="onReset" />
         </div>
     </div>
 </template>

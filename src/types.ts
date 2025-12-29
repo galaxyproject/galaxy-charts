@@ -91,4 +91,4 @@ export interface TranscriptMessageType {
 
 export type TranscriptRoleType = "assistant" | "system" | "user";
 
-export type TranscriptVariantType = "stop";
+export type TranscriptVariantType = "confirm" | "stop";

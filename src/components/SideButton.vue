@@ -5,12 +5,20 @@ import { NButton, NIcon, NTooltip } from "naive-ui";
 const props = withDefaults(
     defineProps<{
         cls?: string;
+        circle?: boolean;
+        disabled?: boolean;
         icon: Component;
+        secondary?: boolean;
         title: string;
+        type?: "error" | "info" | "primary" | "warning";
         visible?: boolean;
     }>(),
     {
         cls: "",
+        circle: false,
+        disabled: false,
+        secondary: false,
+        type: "info",
         visible: true,
     },
 );
@@ -25,11 +33,12 @@ const emit = defineEmits<{
         <template #trigger>
             <span :class="cls">
                 <n-button
-                    circle
+                    :circle="circle"
                     :data-description="`sidebutton ${title.toLowerCase()}`"
-                    secondary
-                    type="info"
+                    :disabled="disabled"
+                    :secondary="secondary"
                     strong
+                    :type="props.type"
                     @click="emit('click')">
                     <template #icon>
                         <n-icon><component :is="icon" /></n-icon>

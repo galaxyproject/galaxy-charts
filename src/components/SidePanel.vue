@@ -126,8 +126,19 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                 <ApiStatus />
             </div>
             <div>
-                <SideButton cls="mr-2" :icon="CloudArrowUpIcon" title="Save" @click="onSave" />
-                <SideButton :icon="ChevronDoubleRightIcon" title="Collapse" @click="emit('toggle')" />
+                <SideButton
+                    :circle="true"
+                    cls="mr-2"
+                    :icon="CloudArrowUpIcon"
+                    :secondary="true"
+                    title="Save"
+                    @click="onSave" />
+                <SideButton
+                    :circle="true"
+                    :icon="ChevronDoubleRightIcon"
+                    :secondary="true"
+                    title="Collapse"
+                    @click="emit('toggle')" />
             </div>
         </div>
         <AlertNotify :message="message" :message-type="messageType" @timeout="message = ''" class="mt-2 mx-2" />

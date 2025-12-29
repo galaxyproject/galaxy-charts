@@ -248,6 +248,7 @@ watch(
         </div>
         <SideButton
             cls="m-2 absolute right-0"
+            :circle="true"
             :icon="ChevronDoubleLeftIcon"
             title="Expand"
             :visible="collapsePanel && hasPanel && hasDataset"

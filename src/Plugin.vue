@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/** Test Plugin */
 import { onMounted, ref, watch } from "vue";
 import type { InputValuesType, TranscriptMessageType } from "@/types";
 import { useColumnsStore } from "@/store/columnsStore";
@@ -14,20 +15,15 @@ const props = defineProps<{
     transcripts: Array<TranscriptMessageType>;
 }>();
 
-// Emit events with TypeScript
 const emit = defineEmits<{
     (event: "save", newSettings: InputValuesType): void;
     (event: "update", newSettings: InputValuesType): void;
 }>();
 
-const viewport = ref(null);
-
 const columnsStore = useColumnsStore();
-
 const columnsList = ref();
 
 async function render() {
-    /** Place your render function here! */
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
     const transcripts = [...props.transcripts];
     if (transcripts.length > 0 && transcripts[transcripts.length - 1].role == "user") {
@@ -69,7 +65,7 @@ watch(
 </script>
 
 <template>
-    <div ref="viewport" class="h-screen overflow-auto">
+    <div class="h-screen overflow-auto">
         <div class="bg-gray-600 text-white p-2">
             <pre class="p-2 whitespace-pre overflow-auto">Settings: {{ settings }}</pre>
             <pre class="p-2 whitespace-pre overflow-auto">Tracks: {{ tracks }}</pre>

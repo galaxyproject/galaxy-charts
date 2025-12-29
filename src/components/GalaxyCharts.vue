@@ -10,6 +10,7 @@ import { useConfigStore } from "@/store/configStore";
 import { InputElementType, InputValuesType, PluginIncomingType, TranscriptMessageType } from "@/types";
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { parseIncoming } from "@/utilities/parseIncoming";
+import { toBoolean } from "@/utilities/toBoolean";
 
 import "@/style.css";
 
@@ -78,7 +79,7 @@ const datasetUrl = computed(() => {
 });
 
 // Identify available tabs
-const hasChat = computed(() => !!specValues.value.ui?.chat);
+const hasChat = computed(() => toBoolean(specValues.value.ui?.chat));
 const hasDataset = computed(() => !!datasetId.value);
 const hasSettings = computed(() => settingInputs.value.length > 0);
 const hasTracks = computed(() => trackInputs.value.length > 0);

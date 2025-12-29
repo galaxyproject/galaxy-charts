@@ -18,6 +18,7 @@ import SideChat from "@/components/SideChat.vue";
 import SideButton from "@/components/SideButton.vue";
 import type { InputElementType, InputValuesType, MessageType, TranscriptMessageType } from "@/types";
 import { errorMessageAsString } from "@/utilities/simpleError";
+import { toBoolean } from "@/utilities/toBoolean";
 
 const props = defineProps<{
     datasetId: string;
@@ -53,7 +54,7 @@ const message = ref<string>("");
 const messageType = ref<MessageType>("info");
 
 // Identify available tabs
-const hasChat = computed(() => !!props.specValues?.chat);
+const hasChat = computed(() => toBoolean(props.specValues.ui?.chat));
 const hasDataset = computed(() => !!props.datasetId);
 const hasSettings = computed(() => props.settingInputs.length > 0);
 const hasTracks = computed(() => props.trackInputs.length > 0);
@@ -195,14 +196,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                     <span class="mx-1">Chat</span>
                 </template>
                 <div class="h-full min-h-0 overflow-y-auto px-2">
-                    <SideChat
-                        :dataset-id="datasetId"
-                        :plugin-name="props.pluginName"
-                        :settings="settingValues"
-                        :specs="specValues"
-                        :tracks="trackValues"
-                        :transcripts="transcriptValues"
-                        @update:transcripts="onUpdateTranscripts" />
+                    <SideChat :transcripts="transcriptValues" @update:transcripts="onUpdateTranscripts" />
                 </div>
             </n-tab-pane>
         </n-tabs>

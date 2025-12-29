@@ -52,12 +52,14 @@ const currentState = ref<string>("");
 const container = ref<HTMLElement | null>(null);
 const errorMessage = ref<string>("");
 const messages = ref<CompletionsMessage[]>([]);
-const isThinking = ref<boolean>(false);
 const userInput = ref("");
 
 const aiBaseUrl = computed(() => props.specs.ai_api_base_url || `${root}api/ai/plugins/${props.pluginName}`);
 const hasMessages = computed(() => messages.value.length > 2);
 const initialMessage = computed(() => props.specs?.ai_message_initial || MESSAGE_INITIAL);
+const isThinking = computed(
+    () => messages.value.length > 0 && messages.value[messages.value.length - 1].role == "user",
+);
 
 function addMessage({
     content,
@@ -105,7 +107,6 @@ async function onMessage() {
         addState();
         addMessage({ content: text, role: "user" });
         userInput.value = "";
-        isThinking.value = true;
         nextTick(scrollToBottom);
         try {
             const reply = await completionsPost({
@@ -124,7 +125,6 @@ async function onMessage() {
             errorMessage.value = String(e);
             console.error(e);
         }
-        isThinking.value = false;
         nextTick(scrollToBottom);
     }
 }

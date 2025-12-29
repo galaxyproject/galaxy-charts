@@ -84,11 +84,11 @@ export type ResponseType = Promise<{ data: any; response: Response }>;
 /** Transcripts */
 
 export interface TranscriptMessageType {
-    role: TransciptRoleType;
+    role: TranscriptRoleType;
     content: string;
     variant?: TranscriptVariantType;
 }
 
-export type TransciptRoleType = "assistant" | "system" | "user";
+export type TranscriptRoleType = "assistant" | "system" | "user";
 
 export type TranscriptVariantType = "confirmation" | "json" | "hidden";

@@ -4,12 +4,12 @@ import MarkdownIt from "markdown-it";
 import { NIcon } from "naive-ui";
 import { computed } from "vue";
 import { ArrowPathIcon } from "@heroicons/vue/24/outline";
-import { type CompletionsRole } from "@/api/completions";
+import { type TranscriptRoleType } from "@/types";
 
 const props = defineProps<{
     content?: string;
     isThinking?: boolean;
-    role: CompletionsRole;
+    role: TranscriptRoleType;
 }>();
 
 const colorClasses = computed(() => {

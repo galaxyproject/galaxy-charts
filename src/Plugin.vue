@@ -28,11 +28,11 @@ const columnsList = ref();
 async function render() {
     /** Place your render function here! */
     columnsList.value = await columnsStore.fetchColumns(props.datasetId, props.tracks, ["x", "y", "z"]);
-    const messages = { ...props.settings["__AI_MESSAGES__"] };
+    /*const messages = { ...props.settings["__AI_MESSAGES__"] };
     if (messages.length > 0 && messages[messages.length - 1].role == "user") {
         messages.push({ content: "got it", role: "assistant" });
         emit("update", { __AI_MESSAGES__: messages });
-    }
+    }*/
 }
 
 function onSave() {

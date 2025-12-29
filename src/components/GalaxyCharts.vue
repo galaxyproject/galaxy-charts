@@ -78,7 +78,7 @@ const datasetUrl = computed(() => {
 });
 
 // Identify available tabs
-const hasChat = computed(() => !!specValues.value.chat);
+const hasChat = computed(() => !!specValues.value.ui?.chat);
 const hasDataset = computed(() => !!datasetId.value);
 const hasSettings = computed(() => settingInputs.value.length > 0);
 const hasTracks = computed(() => trackInputs.value.length > 0);

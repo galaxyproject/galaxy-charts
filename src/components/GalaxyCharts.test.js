@@ -240,7 +240,7 @@ describe("build user interface", () => {
             visualization_plugin: {
                 settings: [],
                 tracks: [],
-                specs: { chat: true },
+                specs: { ui: { chat: true } },
             },
         };
         const wrapper = mountTarget({ incoming });

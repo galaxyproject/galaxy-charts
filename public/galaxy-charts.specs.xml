@@ -1,5 +1,7 @@
 <macros>
     <xml name="specs">
-        <chat>true</chat>
+        <ui>
+            <chat>true</chat>
+        </ui>
     </xml>
 </macros>

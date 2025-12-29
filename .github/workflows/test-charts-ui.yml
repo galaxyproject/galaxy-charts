@@ -1,0 +1,54 @@
+name: Test Charts UI
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check for test script
+        id: check-test
+        run: |
+          if npm run 2>&1 | grep -q "test"; then
+            echo "has_test_script=true" >> $GITHUB_OUTPUT
+            echo "✅ Test script found in package.json"
+          else
+            echo "has_test_script=false" >> $GITHUB_OUTPUT
+            echo "❌ No test script found in package.json"
+          fi
+
+      - name: Run tests
+        if: steps.check-test.outputs.has_test_script == 'true'
+        run: npm test
+
+      - name: Build application
+        id: check-build
+        run: |
+          if npm run 2>&1 | grep -q "build"; then
+            echo "has_build_script=true" >> $GITHUB_OUTPUT
+            echo "✅ Build script found, running build..."
+          else
+            echo "has_build_script=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No build script found"
+          fi
+
+      - name: Run build
+        if: steps.check-build.outputs.has_build_script == 'true'
+        run: npm run build

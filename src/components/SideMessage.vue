@@ -8,7 +8,6 @@ import { type CompletionsRole } from "@/api/completions";
 
 const props = defineProps<{
     content?: string;
-    json?: any;
     isThinking?: boolean;
     role: CompletionsRole;
 }>();
@@ -44,11 +43,8 @@ function renderMarkdown(source: string) {
                 </n-icon>
                 <span class="ml-1">Thinking...</span>
             </div>
-            <div v-else-if="!content && !json" class="ml-1">No content returned.</div>
-            <div v-else>
-                <div v-if="json" class="ml-1">Structured data available.</div>
-                <div v-if="content" v-html="renderMarkdown(content)" />
-            </div>
+            <div v-else-if="content" v-html="renderMarkdown(content)" />
+            <div v-else class="ml-1">No content returned.</div>
         </div>
     </div>
 </template>

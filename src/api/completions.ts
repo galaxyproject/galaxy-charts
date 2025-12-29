@@ -3,9 +3,10 @@ import { rethrowSimple } from "@/utilities/simpleError";
 export interface CompletionsMessage {
     role: CompletionsRole;
     content: string;
-    hidden?: boolean;
-    json?: any;
+    variant?: CompletionsMessageVariant;
 }
+
+export type CompletionsMessageVariant = "confirmation" | "json" | "hidden";
 
 export interface CompletionsPayload {
     aiApiKey: string;
@@ -17,7 +18,7 @@ export interface CompletionsPayload {
     messages: CompletionsMessage[];
 }
 
-export type CompletionsRole = "user" | "assistant" | "system";
+export type CompletionsRole = "assistant" | "system" | "user";
 
 export const COMPLETIONS_KEY = "__AI_MESSAGES__";
 

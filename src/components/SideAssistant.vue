@@ -4,7 +4,13 @@ import { NButton, NIcon, NInput } from "naive-ui";
 import type { InputValuesType } from "@/types";
 import { useConfigStore } from "@/store/configStore";
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { COMPLETIONS_KEY, completionsPost, type CompletionsMessage, type CompletionsRole } from "@/api/completions";
+import {
+    COMPLETIONS_KEY,
+    completionsPost,
+    type CompletionsMessage,
+    type CompletionsMessageVariant,
+    type CompletionsRole,
+} from "@/api/completions";
 import AlertNotify from "@/components/AlertNotify.vue";
 import SideMessage from "@/components/SideMessage.vue";
 import { toBoolean } from "@/utilities/toBoolean";
@@ -37,6 +43,7 @@ const emit = defineEmits<{
 }>();
 
 const MESSAGE_INITIAL = "Assistant ready.";
+const MESSAGE_STRUCTURED = "Structured data available.";
 const PROMPT_DEFAULT = "Respond to user messages.";
 const PROMPT_SCHEMA = "Output schema follows.";
 const PROMPT_STATE = "Context state follows.";
@@ -54,16 +61,14 @@ const initialMessage = computed(() => props.specs?.ai_message_initial || MESSAGE
 
 function addMessage({
     content,
-    hidden,
-    json,
     role,
+    variant,
 }: {
-    content: string;
-    hidden?: boolean;
-    json?: any;
+    content: any;
     role: CompletionsRole;
+    variant?: CompletionsMessageVariant;
 }) {
-    messages.value.push({ role, content, json, hidden });
+    messages.value.push({ content, role, variant });
     emit("update:messages", messages.value);
 }
 
@@ -75,7 +80,7 @@ function addState() {
             addMessage({
                 content: `${PROMPT_STATE} ${newState}`,
                 role: "user",
-                hidden: true,
+                variant: "hidden",
             });
             currentState.value = newState;
         }
@@ -109,7 +114,12 @@ async function onMessage() {
                 aiModel: props.specs.ai_model || "unknown",
                 messages: messages.value,
             });
-            addMessage({ content: reply?.content || "", json: reply?.json, role: "assistant" });
+            if (reply?.json) {
+                addMessage({ content: reply?.content || MESSAGE_STRUCTURED, role: "assistant" });
+                addMessage({ content: reply?.json, role: "assistant", variant: "json" });
+            } else {
+                addMessage({ content: reply?.content || "", role: "assistant" });
+            }
         } catch (e) {
             errorMessage.value = String(e);
             console.error(e);
@@ -143,7 +153,7 @@ onMounted(() => {
                 v-for="(msg, msgIndex) in messages"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage v-if="!msg.hidden" :content="msg.content" :json="msg.json" :role="msg.role" />
+                <SideMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
             </div>
             <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
         </div>

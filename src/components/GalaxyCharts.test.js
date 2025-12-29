@@ -234,19 +234,19 @@ describe("build user interface", () => {
         expect(wrapper.find(VIEWPORT).exists()).toBe(true);
     });
 
-    test("Panel should be visible when has dataset and assistant", async () => {
+    test("Panel should be visible when has dataset and chat", async () => {
         const incoming = {
             visualization_config: { dataset_id: "DATASET_1" },
             visualization_plugin: {
                 settings: [],
                 tracks: [],
-                specs: { ai_prompt: "prompt text" },
+                specs: { chat: true },
             },
         };
         const wrapper = mountTarget({ incoming });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(true);
-        expect(wrapper.vm.hasAssistant).toBe(true);
+        expect(wrapper.vm.hasChat).toBe(true);
         expect(wrapper.vm.hasPanel).toBe(true);
         expect(wrapper.find(VIEWPORT).exists()).toBe(true);
     });
@@ -324,28 +324,14 @@ describe("build user interface", () => {
 });
 
 describe("Computed property edge cases", () => {
-    test("hasAssistant should be false when ai_prompt is empty string", async () => {
+    test("hasChat should be false when chat is not set", async () => {
         const incoming = {
             visualization_config: {},
-            visualization_plugin: {
-                specs: { ai_prompt: "" },
-            },
+            visualization_plugin: {},
         };
         const wrapper = mountTarget({ incoming });
         await wrapper.vm.$nextTick();
-        expect(wrapper.vm.hasAssistant).toBe(false);
-    });
-
-    test("hasAssistant should be true when ai_prompt is non-empty string", async () => {
-        const incoming = {
-            visualization_config: {},
-            visualization_plugin: {
-                specs: { ai_prompt: "Some prompt" },
-            },
-        };
-        const wrapper = mountTarget({ incoming });
-        await wrapper.vm.$nextTick();
-        expect(wrapper.vm.hasAssistant).toBe(true);
+        expect(wrapper.vm.hasChat).toBe(false);
     });
 
     test("hasDataset should handle empty string dataset_id", async () => {
@@ -425,7 +411,6 @@ describe("Slot rendering conditions", () => {
                 html: "<p>Test HTML</p>",
                 logo: "/logo.png",
                 settings: [{ name: "color", type: "text" }],
-                specs: { ai_prompt: "prompt" },
             },
         };
         const wrapper = mountTarget({ incoming });
@@ -439,7 +424,6 @@ describe("Slot rendering conditions", () => {
             pluginHtml: "<p>Test HTML</p>",
             settingInputs: [{ name: "color", type: "text" }],
             settingValues: { color: "red" },
-            specValues: { ai_prompt: "prompt" },
         });
     });
 

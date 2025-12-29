@@ -14,7 +14,7 @@ import InputRepeats from "@/components/inputs/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
 import ApiStatus from "@/components/ApiStatus.vue";
 import ChartsLogo from "@/components/ChartsLogo.vue";
-import SideAssistant from "@/components/SideAssistant.vue";
+import SideChat from "@/components/SideChat.vue";
 import SideButton from "@/components/SideButton.vue";
 import type { InputElementType, InputValuesType, MessageType, TranscriptMessageType } from "@/types";
 import { errorMessageAsString } from "@/utilities/simpleError";
@@ -53,14 +53,14 @@ const message = ref<string>("");
 const messageType = ref<MessageType>("info");
 
 // Identify available tabs
-const hasAssistant = computed(() => !!props.specValues?.ai_prompt);
+const hasChat = computed(() => !!props.specValues?.chat);
 const hasDataset = computed(() => !!props.datasetId);
 const hasSettings = computed(() => props.settingInputs.length > 0);
 const hasTracks = computed(() => props.trackInputs.length > 0);
 
 // Determine if the tabs header should be shown
 const showTabs = computed(() => {
-    const count = [hasAssistant.value, hasSettings.value, hasTracks.value];
+    const count = [hasChat.value, hasSettings.value, hasTracks.value];
     return count.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) >= 2;
 });
 
@@ -189,13 +189,13 @@ function onUpdateVisualizationTitle(newTitle: string): void {
                         @update:values="onUpdateSettings" />
                 </div>
             </n-tab-pane>
-            <n-tab-pane v-if="hasAssistant" name="assistant" class="h-full min-h-0">
+            <n-tab-pane v-if="hasChat" name="chat" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><ChatBubbleOvalLeftEllipsisIcon /></n-icon>
-                    <span class="mx-1">Assistant</span>
+                    <span class="mx-1">Chat</span>
                 </template>
                 <div class="h-full min-h-0 overflow-y-auto px-2">
-                    <SideAssistant
+                    <SideChat
                         :dataset-id="datasetId"
                         :plugin-name="props.pluginName"
                         :settings="settingValues"

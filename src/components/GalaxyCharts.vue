@@ -78,13 +78,13 @@ const datasetUrl = computed(() => {
 });
 
 // Identify available tabs
-const hasAssistant = computed(() => !!specValues.value.ai_prompt);
+const hasChat = computed(() => !!specValues.value.chat);
 const hasDataset = computed(() => !!datasetId.value);
 const hasSettings = computed(() => settingInputs.value.length > 0);
 const hasTracks = computed(() => trackInputs.value.length > 0);
 
 // Determine wether the panel should be shown
-const hasPanel = computed(() => hasAssistant.value || hasSettings.value || hasTracks.value);
+const hasPanel = computed(() => hasChat.value || hasSettings.value || hasTracks.value);
 
 // Determine logo URL
 const logoUrl = computed(() => pluginLogo.value && `${root}${pluginLogo.value}`);

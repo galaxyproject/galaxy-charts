@@ -119,7 +119,7 @@ describe("build user interface", () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
         wrapper.vm.settingValues = { foo: "bar" };
-        wrapper.vm["update"]({ baz: "qux" });
+        wrapper.vm["update"]({ settings: { baz: "qux" } });
         expect(wrapper.vm.settingValues).toEqual({ foo: "bar", baz: "qux" });
     });
 
@@ -155,7 +155,7 @@ describe("build user interface", () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
         wrapper.vm.trackValues = [{ a: 1 }, { b: 2 }];
-        wrapper.vm["update"]({}, [{ b: 20 }]); // only one incoming track
+        wrapper.vm["update"]({ tracks: [{ b: 20 }] }); // only one incoming track
         expect(wrapper.vm.trackValues).toEqual([{ a: 1, b: 20 }, { b: 2 }]);
     });
 
@@ -163,7 +163,7 @@ describe("build user interface", () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
         wrapper.vm.trackValues = [{ a: 1 }];
-        wrapper.vm["update"]({}, [{ a: 10 }, { b: 2 }]); // two incoming tracks
+        wrapper.vm["update"]({ tracks: [{ a: 10 }, { b: 2 }] }); // two incoming tracks
         expect(wrapper.vm.trackValues).toEqual([{ a: 10 }, { b: 2 }]);
     });
 
@@ -171,7 +171,7 @@ describe("build user interface", () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
         wrapper.vm.trackValues = [];
-        wrapper.vm["update"]({}, [{ x: 1 }]);
+        wrapper.vm["update"]({ tracks: [{ x: 1 }] });
         expect(wrapper.vm.trackValues).toEqual([{ x: 1 }]);
     });
 
@@ -179,7 +179,7 @@ describe("build user interface", () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
         wrapper.vm.trackValues = [{ a: 1 }, { b: 2 }];
-        wrapper.vm["update"]({}, []); // empty incoming tracks
+        wrapper.vm["update"]({}); // empty incoming tracks
         expect(wrapper.vm.trackValues).toEqual([{ a: 1 }, { b: 2 }]); // unchanged
     });
 

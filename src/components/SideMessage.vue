@@ -24,10 +24,7 @@ function renderMarkdown(source: string) {
 
 <template>
     <div class="flex" :class="role === 'user' ? 'justify-end' : 'justify-start'">
-        <div
-            v-if="role != 'system'"
-            class="chat-message max-w-[90%]"
-            :class="role == 'user' ? 'chat-message-user' : 'chat-message-assistant'">
+        <div class="chat-message max-w-[90%]" :class="role == 'user' ? 'chat-message-user' : 'chat-message-assistant'">
             <div v-if="isThinking">
                 <n-icon>
                     <ArrowPathIcon class="animate-spin size-4 inline" />

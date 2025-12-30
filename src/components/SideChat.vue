@@ -88,7 +88,7 @@ watch(
                 v-for="(msg, msgIndex) in props.transcripts"
                 :key="msgIndex"
                 :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage v-if="!msg.variant" :content="msg.content" :role="msg.role" />
+                <SideMessage v-if="msg.role !== 'system' && !msg.variant" :content="msg.content" :role="msg.role" />
                 <SideConfirm
                     v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'"
                     :content="msg.content"

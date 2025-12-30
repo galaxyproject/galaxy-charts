@@ -30,6 +30,7 @@ describe("SidePanel.vue", () => {
         specValues: {},
         trackInputs: [{ name: "Track1", type: "float" }],
         trackValues: [{ Track1: 10 }],
+        transcriptValues: [{ content: "content", role: "user" }],
         visualizationId: "vis-001",
         visualizationTitle: "Test Title",
     };
@@ -125,6 +126,12 @@ describe("SidePanel.vue", () => {
             dataset_id: "123",
             settings: { Setting1: "Value1" },
             tracks: [{ Track1: 10 }],
+            transcripts: [
+                {
+                    content: "content",
+                    role: "user",
+                },
+            ],
         });
         expect(wrapper.vm.message).toBe("Successfully saved.");
         expect(wrapper.vm.messageType).toBe("success");
@@ -138,6 +145,12 @@ describe("SidePanel.vue", () => {
             dataset_id: "123",
             settings: { Setting1: "Value1" },
             tracks: [{ Track1: 10 }],
+            transcripts: [
+                {
+                    content: "content",
+                    role: "user",
+                },
+            ],
         });
         expect(wrapper.vm.message).toBe("Successfully created.");
         expect(wrapper.vm.messageType).toBe("success");

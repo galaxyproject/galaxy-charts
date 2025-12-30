@@ -167,7 +167,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             pane-wrapper-class="flex-1 min-h-0"
             :tabs-padding="10"
             :tab-class="showTabs ? '' : '!hidden'"
-            type="line">
+            :type="showTabs ? 'line' : undefined">
             <n-tab-pane v-if="hasTracks" name="tracks" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

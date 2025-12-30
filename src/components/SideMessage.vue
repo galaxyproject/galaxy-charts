@@ -3,7 +3,7 @@ import DOMPurify from "dompurify";
 import MarkdownIt from "markdown-it";
 import { NIcon } from "naive-ui";
 import { ArrowPathIcon } from "@heroicons/vue/24/outline";
-import type { TranscriptRoleType, TranscriptContentType } from "@/types";
+import { type TranscriptRoleType, type TranscriptContentType, TRANSCRIPT_ROLE } from "@/types";
 
 const props = defineProps<{
     content?: TranscriptContentType;
@@ -23,8 +23,10 @@ function renderMarkdown(source: string) {
 </script>
 
 <template>
-    <div class="flex" :class="role === 'user' ? 'justify-end' : 'justify-start'">
-        <div class="chat-message max-w-[90%]" :class="role == 'user' ? 'chat-message-user' : 'chat-message-assistant'">
+    <div class="flex" :class="role === TRANSCRIPT_ROLE.USER ? 'justify-end' : 'justify-start'">
+        <div
+            class="chat-message max-w-[90%]"
+            :class="role == TRANSCRIPT_ROLE.USER ? 'chat-message-user' : 'chat-message-assistant'">
             <div v-if="isThinking">
                 <n-icon>
                     <ArrowPathIcon class="animate-spin size-4 inline" />

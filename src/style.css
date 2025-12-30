@@ -5,11 +5,15 @@
         @apply rounded-lg border border-solid whitespace-normal break-words px-4 py-2;
     }
 
-    .chat-message-user {
-        @apply border-blue-200 bg-blue-50 text-blue-900;
-    }
-
     .chat-message-assistant {
         @apply border-green-200 bg-green-50 text-green-900;
+    }
+
+    .chat-message-error {
+        @apply border-red-200 bg-red-50 text-red-900;
+    }
+
+    .chat-message-user {
+        @apply border-blue-200 bg-blue-50 text-blue-900;
     }
 }

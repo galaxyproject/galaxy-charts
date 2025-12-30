@@ -91,8 +91,21 @@ export interface TranscriptMessageType {
     variant?: TranscriptVariantType;
 }
 
-export type TranscriptRoleType = "assistant" | "system" | "user";
+export const TRANSCRIPT_ROLE = {
+    ASSISTANT: "assistant",
+    SYSTEM: "system",
+    USER: "user",
+};
 
-export type TranscriptVariantChatType = "accept" | "confirm" | "reject" | "stop";
+export type TranscriptRoleType = (typeof TRANSCRIPT_ROLE)[keyof typeof TRANSCRIPT_ROLE];
 
-export type TranscriptVariantType = TranscriptVariantChatType | (string & {});
+export const TRANSCRIPT_VARIANT = {
+    ACCEPT: "accept",
+    CONFIRM: "confirm",
+    REJECT: "reject",
+    STOP: "stop",
+};
+
+export type TranscriptVariantChatType = (typeof TRANSCRIPT_VARIANT)[keyof typeof TRANSCRIPT_VARIANT];
+
+export type TranscriptVariantType = string;

@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, nextTick, watch } from "vue";
 import { NInput } from "naive-ui";
-import type { TranscriptRoleType, TranscriptMessageType, TranscriptVariantChatType } from "@/types";
+import {
+    type TranscriptRoleType,
+    type TranscriptMessageType,
+    type TranscriptVariantChatType,
+    TRANSCRIPT_ROLE,
+    TRANSCRIPT_VARIANT,
+} from "@/types";
 import { PaperAirplaneIcon, NoSymbolIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import SideButton from "./SideButton.vue";
 import SideConfirm from "@/components/SideConfirm.vue";
@@ -22,9 +28,9 @@ const userInput = ref("");
 
 const hasTranscripts = computed(() => props.transcripts.length > 0);
 const lastTranscript = computed(() => hasTranscripts.value && props.transcripts[props.transcripts.length - 1]);
-const isConfirm = computed(() => lastTranscript.value && lastTranscript.value.variant == "confirm");
-const isStop = computed(() => lastTranscript.value && lastTranscript.value.variant == "stop");
-const isThinking = computed(() => lastTranscript.value && lastTranscript.value.role == "user");
+const isConfirm = computed(() => lastTranscript.value && lastTranscript.value.variant == TRANSCRIPT_VARIANT.CONFIRM);
+const isStop = computed(() => lastTranscript.value && lastTranscript.value.variant == TRANSCRIPT_VARIANT.STOP);
+const isThinking = computed(() => lastTranscript.value && lastTranscript.value.role == TRANSCRIPT_ROLE.USER);
 
 function addTranscript({
     content,
@@ -41,21 +47,21 @@ function addTranscript({
 
 function onAccept() {
     if (isConfirm.value) {
-        addTranscript({ content: "", role: "user", variant: "accept" });
+        addTranscript({ content: "", role: TRANSCRIPT_ROLE.USER, variant: TRANSCRIPT_VARIANT.ACCEPT });
     }
 }
 
 function onInput() {
     const text = userInput.value.trim();
     if (text && !isThinking.value && !isConfirm.value) {
-        addTranscript({ content: text, role: "user" });
+        addTranscript({ content: text, role: TRANSCRIPT_ROLE.USER });
         userInput.value = "";
     }
 }
 
 function onReject() {
     if (isConfirm.value) {
-        addTranscript({ content: "", role: "user", variant: "reject" });
+        addTranscript({ content: "", role: TRANSCRIPT_ROLE.USER, variant: TRANSCRIPT_VARIANT.REJECT });
     }
 }
 
@@ -65,7 +71,7 @@ function onReset() {
 
 function onStop() {
     if (!isStop.value) {
-        addTranscript({ content: "", role: "user", variant: "stop" });
+        addTranscript({ content: "", role: TRANSCRIPT_ROLE.USER, variant: TRANSCRIPT_VARIANT.STOP });
     }
 }
 
@@ -84,18 +90,18 @@ watch(
 <template>
     <div class="flex flex-col h-full">
         <div ref="container" class="flex-1 overflow-y-auto space-y-2">
-            <div
-                v-for="(msg, msgIndex) in props.transcripts"
-                :key="msgIndex"
-                :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
-                <SideMessage v-if="msg.role !== 'system' && !msg.variant" :content="msg.content" :role="msg.role" />
+            <div v-for="(msg, msgIndex) in props.transcripts" :key="msgIndex">
+                <SideMessage
+                    v-if="msg.role !== TRANSCRIPT_ROLE.SYSTEM && !msg.variant"
+                    :content="msg.content"
+                    :role="msg.role" />
                 <SideConfirm
-                    v-else-if="msg.role == 'assistant' && msg.variant == 'confirm'"
+                    v-else-if="msg.role == TRANSCRIPT_ROLE.ASSISTANT && msg.variant == TRANSCRIPT_VARIANT.CONFIRM"
                     :content="msg.content"
                     @accept="onAccept"
                     @reject="onReject" />
             </div>
-            <SideMessage v-if="isThinking" role="assistant" :is-thinking="true" />
+            <SideMessage v-if="isThinking" :role="TRANSCRIPT_ROLE.ASSISTANT" :is-thinking="true" />
         </div>
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">

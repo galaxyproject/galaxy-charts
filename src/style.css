@@ -5,6 +5,10 @@
         @apply rounded-lg border border-solid whitespace-normal break-words px-4 py-2;
     }
 
+    .chat-message pre {
+        @apply whitespace-pre-wrap break-words;
+    }
+
     .chat-message-assistant {
         @apply border-green-200 bg-green-50 text-green-900;
     }

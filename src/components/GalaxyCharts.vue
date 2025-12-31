@@ -248,7 +248,7 @@ watch(
         </div>
         <SideButton
             v-if="collapsePanel && hasPanel && hasDataset"
-            button-class="m-2 absolute right-0"
+            button-class="m-2 absolute right-0 z-[9999]"
             :circle="true"
             :icon="ChevronDoubleLeftIcon"
             title="Expand"

@@ -101,6 +101,7 @@ export type TranscriptRoleType = (typeof TRANSCRIPT_ROLE)[keyof typeof TRANSCRIP
 
 export const TRANSCRIPT_VARIANT_ASSISTANT = {
     CONFIRM: "confirm",
+    DATA: "data",
 };
 
 export const TRANSCRIPT_VARIANT_USER = {

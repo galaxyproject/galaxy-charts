@@ -88,7 +88,7 @@ watch(
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full select-text">
         <div ref="container" class="flex-1 overflow-y-auto space-y-2">
             <div v-for="(msg, msgIndex) in props.transcripts" :key="msgIndex">
                 <SideMessage

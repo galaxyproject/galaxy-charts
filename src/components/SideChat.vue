@@ -4,7 +4,7 @@ import { NInput } from "naive-ui";
 import {
     type TranscriptRoleType,
     type TranscriptMessageType,
-    type TranscriptVariantChatType,
+    type TranscriptVariantType,
     TRANSCRIPT_ROLE,
     TRANSCRIPT_VARIANT,
 } from "@/types";
@@ -39,7 +39,7 @@ function addTranscript({
 }: {
     content: any;
     role: TranscriptRoleType;
-    variant?: TranscriptVariantChatType;
+    variant?: TranscriptVariantType;
 }) {
     const next = [...props.transcripts, { content, role, variant }];
     emit("update:transcripts", next);

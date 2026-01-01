@@ -99,14 +99,17 @@ export const TRANSCRIPT_ROLE = {
 
 export type TranscriptRoleType = (typeof TRANSCRIPT_ROLE)[keyof typeof TRANSCRIPT_ROLE];
 
-export const TRANSCRIPT_VARIANT = {
-    ACCEPT: "accept",
+export const TRANSCRIPT_VARIANT_ASSISTANT = {
     CONFIRM: "confirm",
+};
+
+export const TRANSCRIPT_VARIANT_USER = {
+    ACCEPT: "accept",
     INFO: "info",
     REJECT: "reject",
     STOP: "stop",
 };
 
-export type TranscriptVariantChatType = (typeof TRANSCRIPT_VARIANT)[keyof typeof TRANSCRIPT_VARIANT];
+export const TRANSCRIPT_VARIANT = { ...TRANSCRIPT_VARIANT_ASSISTANT, ...TRANSCRIPT_VARIANT_USER };
 
-export type TranscriptVariantType = string;
+export type TranscriptVariantType = (typeof TRANSCRIPT_VARIANT)[keyof typeof TRANSCRIPT_VARIANT];

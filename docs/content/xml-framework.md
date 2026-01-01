@@ -4,7 +4,7 @@ The following sections offer valuable insights into the underlying details of th
 
 ## XML Parsing During Galaxy Startup
 
-Let's break down the XML structure and examine how Galaxy processes it to understand the Galaxy visualization framework. This will highlight the full capabilities of the framework, which can support any JavaScript-based plugin—not just those built with Vue.
+Let's break down the XML structure and examine how Galaxy processes it to understand the Galaxy visualization framework. This will highlight the full capabilities of the framework, which can support any JavaScript-based plugin.
 
 On startup, Galaxy installs visualization plugins from published `npm` packages. Each package must include a `static` directory.
 
@@ -38,7 +38,7 @@ Once the visualization and dataset are selected, Galaxy reads the `entry_point` 
 <entry_point src="index.js" css="index.css" container="app" />
 ```
 
-The entry_point section includes the following parameters:
+The `entry_point` section includes the following parameters:
 
 | Variable | Description |
 |----------|-------------|
@@ -70,7 +70,7 @@ Armed with this foundational knowledge, let’s explore a simple, concrete examp
 
 ### Step 1: Start with XML Configuration
 
-The plugin XML file (`minimal.xml`) defines the plugin’s name, a brief description, and specifies `minimal.js` as the entry point for the functionality:
+The plugin XML file (`minimal.xml`) defines the plugin’s name, a brief description, and specifies `minimal.js` as the `entry_point` for the functionality:
 
 ```xml
 <visualization name="Minimal Plugin">

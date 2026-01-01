@@ -100,14 +100,20 @@ export const TRANSCRIPT_ROLE = {
 export type TranscriptRoleType = (typeof TRANSCRIPT_ROLE)[keyof typeof TRANSCRIPT_ROLE];
 
 export const TRANSCRIPT_VARIANT_ASSISTANT = {
+    // present a question to the user
     CONFIRM: "confirm",
+    // encodes data not shown to user
     DATA: "data",
 };
 
 export const TRANSCRIPT_VARIANT_USER = {
+    // user accepts confirmation
     ACCEPT: "accept",
+    // info only shown to user
     INFO: "info",
+    // user rejects confirmation
     REJECT: "reject",
+    // user requests stop
     STOP: "stop",
 };
 

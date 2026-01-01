@@ -81,6 +81,10 @@ function scrollToBottom() {
     }
 }
 
+function showMessage(msg: TranscriptMessageType) {
+    return msg.role !== TRANSCRIPT_ROLE.SYSTEM && (!msg.variant || msg.variant === TRANSCRIPT_VARIANT.INFO);
+}
+
 watch(
     () => props.transcripts,
     () => nextTick(scrollToBottom),
@@ -92,10 +96,7 @@ watch(
     <div class="flex flex-col h-full select-text">
         <div ref="container" class="flex-1 overflow-y-auto space-y-2">
             <div v-for="(msg, msgIndex) in props.transcripts" :key="msgIndex">
-                <SideMessage
-                    v-if="msg.role !== TRANSCRIPT_ROLE.SYSTEM && !msg.variant"
-                    :content="msg.content"
-                    :role="msg.role" />
+                <SideMessage v-if="showMessage(msg)" :content="msg.content" :role="msg.role" />
                 <SideConfirm
                     v-else-if="msg.role == TRANSCRIPT_ROLE.ASSISTANT && msg.variant == TRANSCRIPT_VARIANT.CONFIRM"
                     :content="msg.content"

@@ -102,6 +102,7 @@ export type TranscriptRoleType = (typeof TRANSCRIPT_ROLE)[keyof typeof TRANSCRIP
 export const TRANSCRIPT_VARIANT = {
     ACCEPT: "accept",
     CONFIRM: "confirm",
+    INFO: "info",
     REJECT: "reject",
     STOP: "stop",
 };

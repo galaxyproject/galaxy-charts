@@ -25,6 +25,9 @@ describe("build user interface", () => {
                 },
                 tracks: [{ track_0: "track_0" }, { track_1: "track_1" }],
             },
+            visualization_plugin: {
+                settings: [{}],
+            },
         };
         const wrapper = mount(App, { props: { incoming } });
         expect(wrapper.html()).toContain("Please wait...");

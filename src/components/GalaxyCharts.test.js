@@ -24,11 +24,6 @@ function mountTarget({ collapse, incoming }) {
     });
 }
 
-function expectPanelVisibility(wrapper, visible = true) {
-    const style = wrapper.findComponent(SidePanel).attributes("style") || "";
-    expect(style.includes("display: none;")).toBe(!visible);
-}
-
 describe("build user interface", () => {
     test("Load user interface only dataset id", async () => {
         const incoming = {
@@ -40,7 +35,7 @@ describe("build user interface", () => {
         const elements = wrapper.findAll("pre");
         const values = ["MY_DATASET_ID", "/api/datasets/MY_DATASET_ID/display", "/", "{}", "{}", "[]"];
         values.forEach((x, index) => expect(elements[index].text()).toEqual(x));
-        expect(wrapper.html()).toContain('fill="#E30A17"');
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(false);
     });
 
     test("Load user interface", async () => {
@@ -53,6 +48,7 @@ describe("build user interface", () => {
             },
             visualization_plugin: {
                 specs: { spec: "SPECS" },
+                settings: [{}],
             },
         };
         const wrapper = mountTarget({ incoming });
@@ -202,7 +198,7 @@ describe("build user interface", () => {
         expect(wrapper.vm.hasDataset).toBe(false);
         expect(wrapper.vm.hasPanel).toBe(false);
         expect(wrapper.find(VIEWPORT).exists()).toBe(false);
-        expectPanelVisibility(wrapper, true);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(true);
     });
 
     test("Panel should be visible when has dataset and settings", async () => {
@@ -274,7 +270,7 @@ describe("build user interface", () => {
         expect(wrapper.find(VIEWPORT).exists()).toBe(false);
         const shouldShowPanel = (!wrapper.vm.collapsePanel && wrapper.vm.hasPanel) || !wrapper.vm.hasDataset;
         expect(shouldShowPanel).toBe(false);
-        expectPanelVisibility(wrapper, false);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(false);
     });
 
     test("Panel should always be visible when no dataset (even if no settings/tracks/assistant)", async () => {
@@ -290,7 +286,7 @@ describe("build user interface", () => {
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(false);
         expect(wrapper.vm.hasPanel).toBe(false);
-        expectPanelVisibility(wrapper, true);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(true);
     });
 
     test("SideButton should be visible when panel is collapsed but should be shown", async () => {
@@ -307,7 +303,7 @@ describe("build user interface", () => {
         await wrapper.vm.$nextTick();
         const sideButton = wrapper.findComponent(SideButton);
         expect(sideButton.exists()).toBe(true);
-        expectPanelVisibility(wrapper, true);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(true);
     });
 
     test("SideButton should be hidden when no panel content", async () => {
@@ -321,8 +317,7 @@ describe("build user interface", () => {
         };
         const wrapper = mountTarget({ collapse: true, incoming });
         await wrapper.vm.$nextTick();
-        const sideButton = wrapper.findComponent(SideButton);
-        expect(sideButton.props("visible")).toBe(false);
+        expect(wrapper.findComponent(SideButton).exists()).toBe(false);
     });
 });
 
@@ -376,7 +371,7 @@ describe("Slot rendering conditions", () => {
         const wrapper = mountTarget({ incoming });
         await wrapper.vm.$nextTick();
         expect(wrapper.find("pre").exists()).toBe(false);
-        expectPanelVisibility(wrapper, true);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(true);
     });
 
     test("Slot should render when dataset exists", async () => {
@@ -439,9 +434,9 @@ describe("Slot rendering conditions", () => {
         };
         const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
-        expectPanelVisibility(wrapper, true);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(true);
         await wrapper.vm.onToggle();
         await wrapper.vm.$nextTick();
-        expectPanelVisibility(wrapper, false);
+        expect(wrapper.findComponent(SidePanel).exists()).toBe(false);
     });
 });

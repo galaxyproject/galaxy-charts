@@ -254,7 +254,7 @@ watch(
             title="Expand"
             @click="onToggle" />
         <SidePanel
-            v-show="(!collapsePanel && hasPanel) || !hasDataset"
+            v-if="(!collapsePanel && hasPanel) || !hasDataset"
             :dataset-id="datasetId"
             :logo-url="logoUrl"
             :plugin-description="pluginDescription"

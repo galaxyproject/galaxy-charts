@@ -84,6 +84,7 @@ function scrollToBottom() {
 watch(
     () => props.transcripts,
     () => nextTick(scrollToBottom),
+    { immediate: true },
 );
 </script>
 

@@ -14,24 +14,18 @@ import { toBoolean } from "@/utilities/toBoolean";
 
 import "@/style.css";
 
-const props = withDefaults(
-    defineProps<{
-        collapse?: boolean;
-        container?: string;
-        credentials?: RequestCredentials;
-        incoming?: PluginIncomingType;
-    }>(),
-    {
-        collapse: true,
-    },
-);
+const props = defineProps<{
+    collapse?: boolean;
+    container?: string;
+    credentials?: RequestCredentials;
+    incoming?: PluginIncomingType;
+}>();
 
 // Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
     props.incoming,
     props.container,
 );
-
 // References with reactive types
 const collapsePanel = ref<boolean>(props.collapse);
 const errorMessage = ref<string>("");
@@ -202,7 +196,7 @@ function update({
     tracks?: Array<InputValuesType>;
     transcripts?: Array<TranscriptMessageType>;
 }) {
-    if (collapse) {
+    if (collapse !== undefined) {
         collapsePanel.value = collapse;
     }
     if (settings) {

@@ -29,7 +29,7 @@ describe("build user interface", () => {
         const incoming = {
             visualization_config: { dataset_id: "MY_DATASET_ID" },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
         const elements = wrapper.findAll("pre");
@@ -51,7 +51,7 @@ describe("build user interface", () => {
                 settings: [{}],
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         expect(wrapper.html()).toContain("Please wait...");
         await wrapper.vm.$nextTick();
         const elements = wrapper.findAll("pre");
@@ -210,7 +210,7 @@ describe("build user interface", () => {
                 specs: {},
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(true);
         expect(wrapper.vm.hasSettings).toBe(true);
@@ -227,7 +227,7 @@ describe("build user interface", () => {
                 specs: {},
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(true);
         expect(wrapper.vm.hasTracks).toBe(true);
@@ -244,7 +244,7 @@ describe("build user interface", () => {
                 specs: { ui: { chat: true } },
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasDataset).toBe(true);
         expect(wrapper.vm.hasChat).toBe(true);
@@ -299,7 +299,7 @@ describe("build user interface", () => {
                 specs: {},
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
         const sideButton = wrapper.findComponent(SideButton);
         expect(sideButton.exists()).toBe(true);
@@ -411,7 +411,7 @@ describe("Slot rendering conditions", () => {
                 settings: [{ name: "color", type: "text" }],
             },
         };
-        const wrapper = mountTarget({ incoming });
+        const wrapper = mountTarget({ collapse: false, incoming });
         await wrapper.vm.$nextTick();
 
         const sidePanel = wrapper.findComponent(SidePanel);

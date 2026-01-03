@@ -14,12 +14,17 @@ import { toBoolean } from "@/utilities/toBoolean";
 
 import "@/style.css";
 
-const props = defineProps<{
-    collapse?: boolean;
-    container?: string;
-    credentials?: RequestCredentials;
-    incoming?: PluginIncomingType;
-}>();
+const props = withDefaults(
+    defineProps<{
+        collapse?: boolean;
+        container?: string;
+        credentials?: RequestCredentials;
+        incoming?: PluginIncomingType;
+    }>(),
+    {
+        collapse: true,
+    },
+);
 
 // Parse incoming visualization details
 const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
@@ -187,14 +192,19 @@ async function save({
 
 // Event handler for updating settings and tracks
 function update({
+    collapse,
     settings,
     tracks,
     transcripts,
 }: {
+    collapse?: boolean;
     settings?: InputValuesType;
     tracks?: Array<InputValuesType>;
     transcripts?: Array<TranscriptMessageType>;
 }) {
+    if (collapse) {
+        collapsePanel.value = collapse;
+    }
     if (settings) {
         updateSettings({ ...settingValues.value, ...settings });
     }
@@ -211,14 +221,6 @@ function update({
         updateTranscripts([...transcripts]);
     }
 }
-
-// Watch for prop changes
-watch(
-    () => props.collapse,
-    () => {
-        collapsePanel.value = props.collapse;
-    },
-);
 </script>
 
 <template>

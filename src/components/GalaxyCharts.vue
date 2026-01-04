@@ -100,14 +100,8 @@ const hasPanel = computed(() => hasChat.value || hasSettings.value || hasTracks.
 const logoUrl = computed(() => pluginLogo.value && `${root}${pluginLogo.value}`);
 
 // Toggle side panel visibility
-async function onToggle(): Promise<void> {
-    currentCollapse.value = !currentCollapse.value;
-    await nextTick();
-    if (window) {
-        window.dispatchEvent(new Event("resize"));
-    } else {
-        console.warn("[charts] window unavailable.");
-    }
+function onToggle() {
+    updateCollapse(!currentCollapse.value);
 }
 
 // Send a message to the parent container
@@ -136,6 +130,17 @@ function serialize() {
         tracks: trackValues.value,
         transcripts: transcriptValues.value,
     };
+}
+
+// Event handler for updating the collapse state
+async function updateCollapse(collapse: boolean) {
+    currentCollapse.value = collapse;
+    await nextTick();
+    if (window) {
+        window.dispatchEvent(new Event("resize"));
+    } else {
+        console.warn("[charts] window unavailable.");
+    }
 }
 
 // Event handler for updating settings
@@ -194,7 +199,7 @@ async function save({ settings, tracks, transcripts }: EmitSaveType) {
 // Event handler for updating settings and tracks
 function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType) {
     if (collapse !== undefined) {
-        currentCollapse.value = collapse;
+        updateCollapse(collapse);
     }
     if (settings) {
         updateSettings({ ...settingValues.value, ...settings });

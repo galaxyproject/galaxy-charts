@@ -5,6 +5,9 @@
 *.ntvs*
 *.sln
 *.sw?
+*/build
+*/*.egg-info
+*/**/__pycache__/
 .DS_Store
 .vscode/*
 coverage
@@ -19,5 +22,6 @@ npm-debug.log*
 pnpm-debug.log*
 static
 temp
+test-results
 yarn-debug.log*
 yarn-error.log*

@@ -77,7 +77,7 @@ describe("SidePanel.vue", () => {
     });
 
     test("emits 'update:visualization-title' when input changes", async () => {
-        wrapper.vm.currentTab = "settings";
+        await wrapper.setProps({ currentTab: "settings" });
         await wrapper.vm.$nextTick();
         const titleInput = wrapper.findComponent('[data-description="side panel title input"]');
         await titleInput.vm.$emit("input", "New Title");
@@ -111,7 +111,7 @@ describe("SidePanel.vue", () => {
     });
 
     test("updates visualization title correctly", async () => {
-        wrapper.vm.currentTab = "settings";
+        await wrapper.setProps({ currentTab: "settings" });
         await wrapper.vm.$nextTick();
         const titleInput = wrapper.findComponent('[data-description="side panel title input"]');
         expect(titleInput.props("value")).toBe("Test Title");
@@ -222,5 +222,22 @@ describe("SidePanel.vue", () => {
         const originalSettings = { ...props.settingValues };
         wrapper.vm.onUpdateTranscripts([{ role: "assistant", content: "Test reply" }]);
         expect(props.settingValues).toEqual(originalSettings);
+    });
+
+    test("emits 'update:tab' when tab is clicked", async () => {
+        const tabs = wrapper.findAll(".n-tabs-tab");
+        expect(tabs.length).toBe(2);
+        await tabs[1].trigger("click");
+        await wrapper.vm.$nextTick();
+        let emitted = wrapper.emitted("update:tab");
+        expect(emitted.length).toBe(1);
+        expect(emitted[0][0]).toBe("settings");
+        await wrapper.setProps({ currentTab: "settings" });
+        await wrapper.vm.$nextTick();
+        await tabs[0].trigger("click");
+        await wrapper.vm.$nextTick();
+        emitted = wrapper.emitted("update:tab");
+        expect(emitted.length).toBe(2);
+        expect(emitted[1][0]).toBe("tracks");
     });
 });

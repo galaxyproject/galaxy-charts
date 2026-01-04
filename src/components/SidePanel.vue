@@ -16,11 +16,12 @@ import ApiStatus from "@/components/ApiStatus.vue";
 import ChartsLogo from "@/components/ChartsLogo.vue";
 import SideChat from "@/components/SideChat.vue";
 import SideButton from "@/components/SideButton.vue";
-import type { InputElementType, InputValuesType, MessageType, TranscriptMessageType } from "@/types";
+import type { InputElementType, InputValuesType, MessageType, TabType, TranscriptMessageType } from "@/types";
 import { errorMessageAsString } from "@/utilities/simpleError";
 import { toBoolean } from "@/utilities/toBoolean";
 
 const props = defineProps<{
+    currentTab?: string;
     datasetId: string;
     logoUrl: string;
     pluginDescription: string;
@@ -39,15 +40,13 @@ const props = defineProps<{
 // Emit events with TypeScript
 const emit = defineEmits<{
     (event: "update:settings", newValues: InputValuesType): void;
+    (event: "update:tab", newTab: TabType): void;
     (event: "update:tracks", newValues: InputValuesType[]): void;
     (event: "update:transcripts", newValues: TranscriptMessageType[]): void;
     (event: "update:visualization-id", newId: string): void;
     (event: "update:visualization-title", newTitle: string): void;
     (event: "toggle"): void;
 }>();
-
-// Current tab
-const currentTab = ref<string | undefined>(undefined);
 
 // Manage message and message type for notifications
 const message = ref<string>("");
@@ -102,6 +101,11 @@ async function onSave(): Promise<void> {
 // Update settings handler
 function onUpdateSettings(newValues: InputValuesType): void {
     emit("update:settings", newValues);
+}
+
+// Update tab handler
+function onUpdateTab(newTab: TabType): void {
+    emit("update:tab", newTab);
 }
 
 // Update tracks handler
@@ -161,13 +165,14 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
         </div>
         <n-tabs
-            v-model:value="currentTab"
+            :value="props.currentTab || undefined"
             animated
             class="flex flex-col flex-1 min-h-0"
             pane-wrapper-class="flex-1 min-h-0"
             :tabs-padding="10"
             :tab-class="showTabs ? '' : '!hidden'"
-            :type="showTabs ? 'line' : undefined">
+            :type="showTabs ? 'line' : undefined"
+            @update:value="onUpdateTab">
             <n-tab-pane v-if="hasTracks" name="tracks" class="h-full min-h-0">
                 <template #tab>
                     <n-icon><Square3Stack3DIcon /></n-icon>

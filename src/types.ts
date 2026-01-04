@@ -1,5 +1,19 @@
-/** Inputs */
+/** Emits */
+export interface EmitUpdateType {
+    collapse?: boolean;
+    settings?: InputValuesType;
+    tab?: TabType;
+    tracks?: Array<InputValuesType>;
+    transcripts?: Array<TranscriptMessageType>;
+}
 
+export interface EmitSaveType {
+    settings?: InputValuesType;
+    tracks?: Array<InputValuesType>;
+    transcripts?: Array<TranscriptMessageType>;
+}
+
+/** Inputs */
 export type InputAtomicType = boolean | string | number | null | undefined;
 
 export interface InputElementType {
@@ -44,10 +58,10 @@ export type InputValuesType = {
     [key: string]: any;
 };
 
-/** Plugin */
-
+/** Message */
 export type MessageType = "info" | "default" | "warning" | "error" | "success" | undefined;
 
+/** Plugin */
 export interface PluginConfigType {
     credentials?: RequestCredentials;
     dataset_id?: string;
@@ -76,13 +90,14 @@ export interface PluginType {
 }
 
 /** Requests */
-
 export type RequestOptionsType = Record<string, any>;
 
 export type ResponseType = Promise<{ data: any; response: Response }>;
 
-/** Transcripts */
+/** Tabs */
+export type TabType = "chat" | "settings" | "tracks";
 
+/** Transcripts */
 export type TranscriptContentType = string | { schema: string; payload: unknown };
 
 export interface TranscriptMessageType {

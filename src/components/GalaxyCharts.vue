@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { NAlert } from "naive-ui";
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, nextTick, ref } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import { datasetsGetUrl } from "@/api/datasets";
 import { visualizationsSave } from "@/api/visualizations";
 import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
 import { useConfigStore } from "@/store/configStore";
-import { InputElementType, InputValuesType, PluginIncomingType, TranscriptMessageType } from "@/types";
+import {
+    EmitUpdateType,
+    EmitSaveType,
+    InputElementType,
+    InputValuesType,
+    PluginIncomingType,
+    TabType,
+    TranscriptMessageType,
+} from "@/types";
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { toBoolean } from "@/utilities/toBoolean";
@@ -28,6 +36,7 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
 );
 // References with reactive types
 const collapsePanel = ref<boolean>(props.collapse);
+const currentTab = ref<string>("");
 const errorMessage = ref<string>("");
 const isLoading = ref<boolean>(true);
 const pluginDescription = ref<string>("");
@@ -134,6 +143,11 @@ function updateSettings(newSettings: InputValuesType): void {
     postMessage();
 }
 
+// Event handler for updating the current tab
+function updateTab(tab: TabType): void {
+    currentTab.value = tab;
+}
+
 // Event handler for updating tracks
 function updateTracks(newTracks: Array<InputValuesType>): void {
     trackValues.value = [...newTracks];
@@ -159,15 +173,7 @@ function updateVisualizationTitle(newVisualizationTitle: string): void {
 }
 
 // Event handler for updating settings and saving visualization
-async function save({
-    settings,
-    tracks,
-    transcripts,
-}: {
-    settings?: InputValuesType;
-    tracks?: Array<InputValuesType>;
-    transcripts?: Array<TranscriptMessageType>;
-}) {
+async function save({ settings, tracks, transcripts }: EmitSaveType) {
     update({ settings, tracks, transcripts });
     try {
         const newVisualizationId = await visualizationsSave(
@@ -185,22 +191,15 @@ async function save({
 }
 
 // Event handler for updating settings and tracks
-function update({
-    collapse,
-    settings,
-    tracks,
-    transcripts,
-}: {
-    collapse?: boolean;
-    settings?: InputValuesType;
-    tracks?: Array<InputValuesType>;
-    transcripts?: Array<TranscriptMessageType>;
-}) {
+function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType) {
     if (collapse !== undefined) {
         collapsePanel.value = collapse;
     }
     if (settings) {
         updateSettings({ ...settingValues.value, ...settings });
+    }
+    if (tab) {
+        updateTab(tab);
     }
     if (tracks) {
         const nTracks = Math.max(trackValues.value.length, tracks.length);
@@ -251,6 +250,7 @@ function update({
             @click="onToggle" />
         <SidePanel
             v-if="(!collapsePanel && hasPanel) || !hasDataset"
+            :current-tab="currentTab"
             :dataset-id="datasetId"
             :logo-url="logoUrl"
             :plugin-description="pluginDescription"
@@ -265,6 +265,7 @@ function update({
             :visualization-id="currentVisualizationId"
             :visualization-title="currentVisualizationTitle"
             @update:settings="updateSettings"
+            @update:tab="updateTab"
             @update:tracks="updateTracks"
             @update:transcripts="updateTranscripts"
             @update:visualization-id="updateVisualizationId"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /** Test Plugin */
 import { onMounted, ref, watch } from "vue";
-import type { InputValuesType, TranscriptMessageType } from "@/types";
+import type { InputValuesType, EmitSaveType, EmitUpdateType, TranscriptMessageType } from "@/types";
 import { useColumnsStore } from "@/store/columnsStore";
 import { NButton } from "naive-ui";
 
@@ -16,8 +16,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (event: "save", newSettings: InputValuesType): void;
-    (event: "update", newSettings: InputValuesType): void;
+    (event: "save", config: EmitSaveType): void;
+    (event: "update", config: EmitUpdateType): void;
 }>();
 
 const columnsStore = useColumnsStore();
@@ -75,6 +75,7 @@ function onUpdate() {
 
 onMounted(() => {
     render();
+    emit("update", { collapse: false, tab: "tracks" });
 });
 
 watch(

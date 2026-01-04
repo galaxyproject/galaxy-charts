@@ -75,7 +75,7 @@ function onUpdate() {
 
 onMounted(() => {
     render();
-    emit("update", { collapse: false, tab: "tracks" });
+    emit("update", { collapse: true, tab: "chat" });
 });
 
 watch(

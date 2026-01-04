@@ -27,6 +27,7 @@ const props = defineProps<{
     container?: string;
     credentials?: RequestCredentials;
     incoming?: PluginIncomingType;
+    tab?: TabType;
 }>();
 
 // Parse incoming visualization details
@@ -35,8 +36,8 @@ const { root, visualizationConfig, visualizationId, visualizationPlugin, visuali
     props.container,
 );
 // References with reactive types
-const collapsePanel = ref<boolean>(props.collapse);
-const currentTab = ref<string>("");
+const currentCollapse = ref<boolean>(props.collapse);
+const currentTab = ref<TabType | undefined>(props.tab);
 const errorMessage = ref<string>("");
 const isLoading = ref<boolean>(true);
 const pluginDescription = ref<string>("");
@@ -100,7 +101,7 @@ const logoUrl = computed(() => pluginLogo.value && `${root}${pluginLogo.value}`)
 
 // Toggle side panel visibility
 async function onToggle(): Promise<void> {
-    collapsePanel.value = !collapsePanel.value;
+    currentCollapse.value = !currentCollapse.value;
     await nextTick();
     if (window) {
         window.dispatchEvent(new Event("resize"));
@@ -193,7 +194,7 @@ async function save({ settings, tracks, transcripts }: EmitSaveType) {
 // Event handler for updating settings and tracks
 function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType) {
     if (collapse !== undefined) {
-        collapsePanel.value = collapse;
+        currentCollapse.value = collapse;
     }
     if (settings) {
         updateSettings({ ...settingValues.value, ...settings });
@@ -228,7 +229,7 @@ function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType
         </span>
         <span class="text-xs">Please wait...</span>
     </div>
-    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_20rem]': !collapsePanel && hasPanel && hasDataset }">
+    <div v-else class="grid h-screen" :class="{ 'grid-cols-[1fr_20rem]': !currentCollapse && hasPanel && hasDataset }">
         <div v-if="datasetId" class="relative max-w-full h-screen overflow-hidden">
             <slot
                 :dataset-id="datasetId"
@@ -242,14 +243,14 @@ function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType
                 :update="update" />
         </div>
         <SideButton
-            v-if="collapsePanel && hasPanel && hasDataset"
+            v-if="currentCollapse && hasPanel && hasDataset"
             button-class="m-2 absolute right-0 z-[9999]"
             :circle="true"
             :icon="ChevronDoubleLeftIcon"
             title="Expand"
             @click="onToggle" />
         <SidePanel
-            v-if="(!collapsePanel && hasPanel) || !hasDataset"
+            v-if="(!currentCollapse && hasPanel) || !hasDataset"
             :current-tab="currentTab"
             :dataset-id="datasetId"
             :logo-url="logoUrl"

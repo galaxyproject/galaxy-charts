@@ -108,12 +108,12 @@ describe("build user interface", () => {
         expect(wrapper.vm.errorMessage).toContain("Failed to save");
     });
 
-    test("onToggle switches collapsePanel state", async () => {
+    test("onToggle switches currentCollapse state", async () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
-        const original = wrapper.vm.collapsePanel;
+        const original = wrapper.vm.currentCollapse;
         await wrapper.vm["onToggle"]();
-        expect(wrapper.vm.collapsePanel).toBe(!original);
+        expect(wrapper.vm.currentCollapse).toBe(!original);
     });
 
     test("update merges settings correctly", async () => {
@@ -252,7 +252,7 @@ describe("build user interface", () => {
         expect(wrapper.find(VIEWPORT).exists()).toBe(true);
     });
 
-    test("Panel should be hidden when collapsed (hasPanel true but collapsePanel true)", async () => {
+    test("Panel should be hidden when collapsed (hasPanel true but currentCollapse true)", async () => {
         const wrapper = mountTarget({
             collapse: true,
             incoming: {
@@ -266,9 +266,9 @@ describe("build user interface", () => {
         });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.hasPanel).toBe(true);
-        expect(wrapper.vm.collapsePanel).toBe(true);
+        expect(wrapper.vm.currentCollapse).toBe(true);
         expect(wrapper.find(VIEWPORT).exists()).toBe(false);
-        const shouldShowPanel = (!wrapper.vm.collapsePanel && wrapper.vm.hasPanel) || !wrapper.vm.hasDataset;
+        const shouldShowPanel = (!wrapper.vm.currentCollapse && wrapper.vm.hasPanel) || !wrapper.vm.hasDataset;
         expect(shouldShowPanel).toBe(false);
         expect(wrapper.findComponent(SidePanel).exists()).toBe(false);
     });

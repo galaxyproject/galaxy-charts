@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run linter
+        run: npm run lint
+
       - name: Check for test script
         id: check-test
         run: |

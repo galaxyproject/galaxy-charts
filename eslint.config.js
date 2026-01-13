@@ -1,14 +1,21 @@
 import js from "@eslint/js";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
+import vitest from "@vitest/eslint-plugin";
 
 export default tseslint.config(
+    // Ignored paths
     {
         ignores: ["dist/", "coverage/", "docs/", "node_modules/", "packages/", "**/*.d.ts"],
     },
+
+    // Base configurations
     js.configs.recommended,
     ...tseslint.configs.recommended,
     ...pluginVue.configs["flat/recommended"],
+
+    // Vue files need TypeScript parser
     {
         files: ["**/*.vue"],
         languageOptions: {
@@ -17,29 +24,42 @@ export default tseslint.config(
             },
         },
     },
+
+    // Source files - browser + node globals
     {
-        // Browser and Node globals for source files
+        files: ["src/**/*.{js,ts,vue}", "lib/**/*.ts"],
         languageOptions: {
             globals: {
-                // Browser
-                window: "readonly",
-                document: "readonly",
-                console: "readonly",
-                fetch: "readonly",
-                setTimeout: "readonly",
-                clearTimeout: "readonly",
-                Event: "readonly",
-                URL: "readonly",
-                HTMLElement: "readonly",
+                ...globals.browser,
+                ...globals.node,
+                // TypeScript DOM types not in globals package
                 RequestCredentials: "readonly",
-                Response: "readonly",
                 RequestInit: "readonly",
-                // Node
-                process: "readonly",
+            },
+        },
+    },
+
+    // Test files - vitest plugin
+    {
+        files: ["**/*.test.{js,ts}"],
+        plugins: {
+            vitest,
+        },
+        languageOptions: {
+            globals: {
+                ...vitest.environments.env.globals,
+                global: "readonly",
             },
         },
         rules: {
-            // Allow unused vars prefixed with underscore
+            ...vitest.configs.recommended.rules,
+        },
+    },
+
+    // Shared rules
+    {
+        rules: {
+            // TypeScript
             "@typescript-eslint/no-unused-vars": [
                 "error",
                 {
@@ -48,40 +68,18 @@ export default tseslint.config(
                     caughtErrorsIgnorePattern: "^_",
                 },
             ],
-            // Allow explicit any where needed (documented cases)
             "@typescript-eslint/no-explicit-any": "warn",
-            // Vue specific
+
+            // Vue
             "vue/multi-word-component-names": "off",
             "vue/html-indent": ["error", 4],
             "vue/max-attributes-per-line": "off",
             "vue/singleline-html-element-content-newline": "off",
             "vue/html-closing-bracket-newline": "off",
             "vue/require-default-prop": "off",
-            // Allow v-html (content is sanitized with DOMPurify)
-            "vue/no-v-html": "off",
-            // Stylistic - don't enforce attribute order
+            "vue/no-v-html": "off", // Content is sanitized with DOMPurify
             "vue/attributes-order": "off",
-            // Allow self-closing on void elements
             "vue/html-self-closing": "off",
-        },
-    },
-    {
-        // Test file specific config
-        files: ["**/*.test.{js,ts}"],
-        languageOptions: {
-            globals: {
-                // Vitest globals
-                describe: "readonly",
-                test: "readonly",
-                expect: "readonly",
-                vi: "readonly",
-                beforeEach: "readonly",
-                afterEach: "readonly",
-                beforeAll: "readonly",
-                afterAll: "readonly",
-                // Node/test environment
-                global: "readonly",
-            },
         },
     },
 );

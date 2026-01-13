@@ -616,7 +616,7 @@
     "@typescript-eslint/types" "^8.53.0"
     debug "^4.4.3"
 
-"@typescript-eslint/scope-manager@8.53.0":
+"@typescript-eslint/scope-manager@^8.51.0", "@typescript-eslint/scope-manager@8.53.0":
   version "8.53.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.53.0.tgz"
   integrity sha512-kWNj3l01eOGSdVBnfAF2K1BTh06WS0Yet6JUgb9Cmkqaz3Jlu0fdVUjj9UI8gPidBWSMqDIglmEXifSgDT/D0g==
@@ -660,7 +660,7 @@
     tinyglobby "^0.2.15"
     ts-api-utils "^2.4.0"
 
-"@typescript-eslint/utils@8.53.0":
+"@typescript-eslint/utils@^8.51.0", "@typescript-eslint/utils@8.53.0":
   version "8.53.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.53.0.tgz"
   integrity sha512-XDY4mXTez3Z1iRDI5mbRhH4DFSt46oaIFsLg+Zn97+sYrXACziXSQcSelMybnVZ5pa1P6xYkPr5cMJyunM1ZDA==
@@ -715,6 +715,14 @@
     magicast "^0.5.1"
     obug "^2.1.1"
     tinyrainbow "^3.0.3"
+
+"@vitest/eslint-plugin@^1.6.6":
+  version "1.6.6"
+  resolved "https://registry.npmjs.org/@vitest/eslint-plugin/-/eslint-plugin-1.6.6.tgz"
+  integrity sha512-bwgQxQWRtnTVzsUHK824tBmHzjV0iTx3tZaiQIYDjX3SA7TsQS8CuDVqxXrRY3FaOUMgbGavesCxI9MOfFLm7Q==
+  dependencies:
+    "@typescript-eslint/scope-manager" "^8.51.0"
+    "@typescript-eslint/utils" "^8.51.0"
 
 "@vitest/expect@4.0.16":
   version "4.0.16"
@@ -1436,7 +1444,7 @@ eslint-visitor-keys@^4.2.0, eslint-visitor-keys@^4.2.1:
   resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-4.2.1.tgz"
   integrity sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==
 
-"eslint@^6.0.0 || ^7.0.0 || >=8.0.0", "eslint@^8.57.0 || ^9.0.0", eslint@^9.39.2, eslint@>=9.39.1:
+"eslint@^6.0.0 || ^7.0.0 || >=8.0.0", "eslint@^8.57.0 || ^9.0.0", eslint@^9.39.2, eslint@>=8.57.0, eslint@>=9.39.1:
   version "9.39.2"
   resolved "https://registry.npmjs.org/eslint/-/eslint-9.39.2.tgz"
   integrity sha512-LEyamqS7W5HB3ujJyvi0HQK/dtVINZvd5mAAp9eT5S/ujByGjiZLCzPcHVzuXbpJDJF/cxwHlfceVUDZ2lnSTw==
@@ -1696,6 +1704,11 @@ globals@^14.0.0:
   version "14.0.0"
   resolved "https://registry.npmjs.org/globals/-/globals-14.0.0.tgz"
   integrity sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==
+
+globals@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.npmjs.org/globals/-/globals-17.0.0.tgz"
+  integrity sha512-gv5BeD2EssA793rlFWVPMMCqefTlpusw6/2TbAVMy0FzcG8wKJn4O+NqJ4+XWmmwrayJgw5TzrmWjFgmz1XPqw==
 
 gopd@^1.2.0:
   version "1.2.0"
@@ -2786,7 +2799,7 @@ vite@*, "vite@^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "vite@^5.2.0 || ^6 || ^7"
   optionalDependencies:
     fsevents "~2.3.3"
 
-vitest@^4.0.16, vitest@4.0.16:
+vitest@*, vitest@^4.0.16, vitest@4.0.16:
   version "4.0.16"
   resolved "https://registry.npmjs.org/vitest/-/vitest-4.0.16.tgz"
   integrity sha512-E4t7DJ9pESL6E3I8nFjPa4xGUd3PmiWDLsDztS2qXSJWfHtbQnwAWylaBvSNY48I3vr8PTqIZlyK8TE3V3CA4Q==

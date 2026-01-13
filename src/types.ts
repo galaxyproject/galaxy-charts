@@ -54,6 +54,12 @@ export type InputOptionType = {
     type?: string;
 };
 
+/**
+ * Dynamic form values - uses `any` intentionally because:
+ * 1. Form values are determined by runtime input configurations
+ * 2. Value types depend on input.type which is only known at runtime
+ * 3. Values can be primitives, arrays, or nested objects
+ */
 export type InputValuesType = {
     [key: string]: any;
 };
@@ -90,9 +96,10 @@ export interface PluginType {
 }
 
 /** Requests */
-export type RequestOptionsType = Record<string, any>;
+export type RequestOptionsType = Record<string, unknown>;
 
-export type ResponseType = Promise<{ data: any; response: Response }>;
+/** Generic API response - defaults to `any` for dynamic API responses */
+export type ResponseType<T = any> = Promise<{ data: T; response: Response }>;
 
 /** Tabs */
 export type TabType = "chat" | "settings" | "tracks";

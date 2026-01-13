@@ -1,7 +1,13 @@
 import { GalaxyApi } from "@/api/client";
 import { rethrowSimple } from "@/utilities/simpleError";
 
-export async function datasetsGetColumns(datasetId: string, columnList: string[]): Promise<any[][] | undefined> {
+/** Column value can be a string or number */
+export type ColumnValueType = string | number;
+
+export async function datasetsGetColumns(
+    datasetId: string,
+    columnList: string[],
+): Promise<ColumnValueType[][] | undefined> {
     const params = new URLSearchParams({
         data_type: "raw_data",
         provider: "dataset-column",
@@ -12,7 +18,7 @@ export async function datasetsGetColumns(datasetId: string, columnList: string[]
         const { data } = await GalaxyApi().GET(`/api/datasets/${datasetId}?${params}`);
         if (data.data && data.data.length > 0) {
             const columnLength = columnList.length;
-            const results: any[][] = new Array(columnLength).fill(null).map(() => []);
+            const results: ColumnValueType[][] = Array.from({ length: columnLength }, () => []);
             for (const row of data.data) {
                 for (const j in row) {
                     const index = Number(j);

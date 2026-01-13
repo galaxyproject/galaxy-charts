@@ -2,6 +2,7 @@
 import { computed, ref, nextTick, watch } from "vue";
 import { NInput } from "naive-ui";
 import {
+    type TranscriptContentType,
     type TranscriptRoleType,
     type TranscriptMessageType,
     type TranscriptVariantType,
@@ -37,7 +38,7 @@ function addTranscript({
     role,
     variant,
 }: {
-    content: any;
+    content: TranscriptContentType;
     role: TranscriptRoleType;
     variant?: TranscriptVariantType;
 }) {

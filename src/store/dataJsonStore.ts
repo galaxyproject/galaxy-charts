@@ -1,10 +1,11 @@
 import { ref } from "vue";
 import type { InputOptionType } from "@/types";
 
+/** JSON data entry - has required id and optional extra fields */
 type ValueType = {
     id: string;
     name?: string;
-    [key: string]: any;
+    [key: string]: unknown;
 };
 
 const dataJsonCache = ref<Record<string, Promise<Array<InputOptionType>>>>({});

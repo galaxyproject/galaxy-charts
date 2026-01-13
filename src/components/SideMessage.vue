@@ -5,7 +5,7 @@ import { NIcon } from "naive-ui";
 import { ArrowPathIcon } from "@heroicons/vue/24/outline";
 import { type TranscriptRoleType, type TranscriptContentType, TRANSCRIPT_ROLE } from "@/types";
 
-const props = defineProps<{
+defineProps<{
     content?: TranscriptContentType;
     isThinking?: boolean;
     role: TranscriptRoleType;

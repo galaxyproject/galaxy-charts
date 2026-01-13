@@ -22,7 +22,9 @@ let timeoutMessage: ReturnType<typeof setTimeout> | null = null;
 watch(
     () => props.message,
     () => {
-        timeoutMessage && clearTimeout(timeoutMessage);
+        if (timeoutMessage) {
+            clearTimeout(timeoutMessage);
+        }
         timeoutMessage = setTimeout(() => emit("timeout"), MESSAGE_TIMEOUT);
     },
 );

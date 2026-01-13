@@ -10,7 +10,7 @@ async function checkVersion() {
     try {
         const { data } = await GalaxyApi().GET("/api/version");
         version.value = data.version_major;
-    } catch (err) {
+    } catch (_err) {
         console.debug(`[charts] Unable to connect to Galaxy. Verify Galaxy is running and refer to docs.`);
         version.value = "";
     }

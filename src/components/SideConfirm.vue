@@ -3,7 +3,7 @@ import { CheckIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import SideButton from "@/components/SideButton.vue";
 import { TranscriptContentType } from "@/types";
 
-const props = defineProps<{
+defineProps<{
     content?: TranscriptContentType;
 }>();
 

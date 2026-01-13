@@ -28,23 +28,32 @@ const emit = defineEmits<{
 
 const currentValue = defineModel<InputValuesType | null>("value");
 const selectValue = ref<string | null>(null);
-const values = ref<Record<string, InputValuesType>>({});
 
-const mapped = computed(() => {
-    values.value = {};
-    const result = props.options.map((o) => {
+// Build lookup table from id to full value object (pure computed)
+const valuesLookup = computed(() => {
+    const lookup: Record<string, InputValuesType> = {};
+    for (const o of props.options) {
         if (o.value) {
-            values.value[o.value.id] = o.value;
+            lookup[o.value.id] = o.value;
         }
-        return {
-            label: o.label,
-            value: o.value?.id || "",
-            disabled: o.disabled,
-        };
-    });
+    }
+    // Include current value if not in options
+    if (currentValue.value?.id && !lookup[currentValue.value.id]) {
+        lookup[currentValue.value.id] = currentValue.value;
+    }
+    return lookup;
+});
 
-    if (currentValue.value && currentValue.value.id && !values.value[currentValue.value.id]) {
-        values.value[currentValue.value.id] = currentValue.value;
+// Map options to NSelect format (pure computed)
+const mapped = computed(() => {
+    const result = props.options.map((o) => ({
+        label: o.label,
+        value: o.value?.id || "",
+        disabled: o.disabled,
+    }));
+
+    // Add current value if not in options
+    if (currentValue.value?.id && !props.options.some((o) => o.value?.id === currentValue.value?.id)) {
         result.unshift({
             label: currentValue.value.name || currentValue.value.id,
             value: currentValue.value.id,
@@ -65,7 +74,7 @@ const mapped = computed(() => {
 
 function onUpdate(newId: string | null) {
     selectValue.value = newId;
-    currentValue.value = newId ? values.value[newId] : null;
+    currentValue.value = newId ? valuesLookup.value[newId] : null;
 }
 
 function renderLabel(option: { label: string }) {

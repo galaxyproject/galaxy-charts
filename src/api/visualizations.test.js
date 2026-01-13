@@ -18,7 +18,7 @@ const config = {
 };
 
 beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
 });
 
 describe("visualizationsCreate", () => {
@@ -32,6 +32,11 @@ describe("visualizationsCreate", () => {
         });
         expect(result).toBe("viz42");
     });
+
+    it("throws error on failure", async () => {
+        mockPost.mockRejectedValue(new Error("Create failed"));
+        await expect(visualizationsCreate("chart", "My Chart", config)).rejects.toThrow("Create failed");
+    });
 });
 
 describe("visualizationsUpdate", () => {
@@ -41,6 +46,11 @@ describe("visualizationsUpdate", () => {
             title: "Updated",
             config,
         });
+    });
+
+    it("throws error on failure", async () => {
+        mockPut.mockRejectedValue(new Error("Update failed"));
+        await expect(visualizationsUpdate("id123", "Updated", config)).rejects.toThrow("Update failed");
     });
 });
 
@@ -62,5 +72,15 @@ describe("visualizationsSave", () => {
             config,
         });
         expect(result).toBe("new-viz-id");
+    });
+
+    it("throws error when update fails", async () => {
+        mockPut.mockRejectedValue(new Error("Save update failed"));
+        await expect(visualizationsSave("chart", "id999", "Saved Update", config)).rejects.toThrow("Save update failed");
+    });
+
+    it("throws error when create fails", async () => {
+        mockPost.mockRejectedValue(new Error("Save create failed"));
+        await expect(visualizationsSave("chart", null, "New Viz", config)).rejects.toThrow("Save create failed");
     });
 });

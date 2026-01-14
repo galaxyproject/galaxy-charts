@@ -96,4 +96,111 @@ describe("SideChat.vue", () => {
         await wrapper.vm.onStop();
         expect(wrapper.emitted("update:transcripts")).toBeUndefined();
     });
+
+    describe("arrow key history navigation", () => {
+        test("arrow up shows most recent user message", () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "first" },
+                { role: "assistant", content: "response" },
+                { role: "user", content: "second" },
+            ]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("second");
+        });
+
+        test("arrow up cycles through history oldest to newest", () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "first" },
+                { role: "user", content: "second" },
+                { role: "user", content: "third" },
+            ]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("third");
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("second");
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("first");
+        });
+
+        test("arrow up stops at oldest message", () => {
+            const wrapper = mountTarget([{ role: "user", content: "only" }]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("only");
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("only");
+        });
+
+        test("arrow down returns to newer messages", () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "first" },
+                { role: "user", content: "second" },
+            ]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("first");
+            wrapper.vm.onKeydown({ key: "ArrowDown", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("second");
+        });
+
+        test("arrow down returns to draft at bottom", () => {
+            const wrapper = mountTarget([{ role: "user", content: "old" }]);
+            wrapper.vm.userInput = "my draft";
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("old");
+            wrapper.vm.onKeydown({ key: "ArrowDown", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("my draft");
+        });
+
+        test("arrow down does nothing when already at draft", () => {
+            const wrapper = mountTarget([{ role: "user", content: "old" }]);
+            wrapper.vm.userInput = "current";
+            wrapper.vm.onKeydown({ key: "ArrowDown", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("current");
+        });
+
+        test("history resets after submitting a message", async () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "old" },
+                { role: "assistant", content: "response" },
+            ]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("old");
+            wrapper.vm.userInput = "new message";
+            await wrapper.vm.onInput();
+            expect(wrapper.vm.historyIndex).toBe(-1);
+            expect(wrapper.vm.draftMessage).toBe("");
+        });
+
+        test("arrow keys do nothing when no user messages exist", () => {
+            const wrapper = mountTarget([{ role: "assistant", content: "hello" }]);
+            wrapper.vm.userInput = "typing";
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("typing");
+        });
+
+        test("filters out non-string user content", () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "text message" },
+                { role: "user", content: { schema: "data", payload: {} } },
+            ]);
+            wrapper.vm.onKeydown({ key: "ArrowUp", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("text message");
+        });
+
+        test("filters out empty user messages", () => {
+            const wrapper = mountTarget([
+                { role: "user", content: "valid" },
+                { role: "user", content: "   " },
+                { role: "user", content: "" },
+            ]);
+            expect(wrapper.vm.userMessages).toEqual(["valid"]);
+        });
+
+        test("ignores non-arrow keys", () => {
+            const wrapper = mountTarget([{ role: "user", content: "old" }]);
+            wrapper.vm.userInput = "current";
+            wrapper.vm.onKeydown({ key: "a", preventDefault: vi.fn() });
+            expect(wrapper.vm.userInput).toBe("current");
+        });
+    });
 });

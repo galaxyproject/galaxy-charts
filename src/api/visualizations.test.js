@@ -76,7 +76,9 @@ describe("visualizationsSave", () => {
 
     it("throws error when update fails", async () => {
         mockPut.mockRejectedValue(new Error("Save update failed"));
-        await expect(visualizationsSave("chart", "id999", "Saved Update", config)).rejects.toThrow("Save update failed");
+        await expect(visualizationsSave("chart", "id999", "Saved Update", config)).rejects.toThrow(
+            "Save update failed",
+        );
     });
 
     it("throws error when create fails", async () => {

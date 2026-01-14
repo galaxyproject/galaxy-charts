@@ -26,12 +26,19 @@ const emit = defineEmits<{
 
 const container = ref<HTMLElement | null>(null);
 const userInput = ref("");
+const historyIndex = ref(-1);
+const draftMessage = ref("");
 
 const hasTranscripts = computed(() => props.transcripts.length > 0);
 const lastTranscript = computed(() => hasTranscripts.value && props.transcripts[props.transcripts.length - 1]);
 const isConfirm = computed(() => lastTranscript.value && lastTranscript.value.variant == TRANSCRIPT_VARIANT.CONFIRM);
 const isStop = computed(() => lastTranscript.value && lastTranscript.value.variant == TRANSCRIPT_VARIANT.STOP);
 const isThinking = computed(() => lastTranscript.value && lastTranscript.value.role == TRANSCRIPT_ROLE.USER);
+const userMessages = computed(() =>
+    props.transcripts
+        .filter((t) => t.role === TRANSCRIPT_ROLE.USER && typeof t.content === "string" && t.content.trim())
+        .map((t) => t.content as string),
+);
 
 function addTranscript({
     content,
@@ -57,6 +64,39 @@ function onInput() {
     if (text && !isThinking.value && !isConfirm.value) {
         addTranscript({ content: text, role: TRANSCRIPT_ROLE.USER });
         userInput.value = "";
+        historyIndex.value = -1;
+        draftMessage.value = "";
+    }
+}
+
+function onKeydown(event: KeyboardEvent) {
+    if (event.key === "ArrowUp") {
+        event.preventDefault();
+        navigateHistory(1);
+    } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        navigateHistory(-1);
+    }
+}
+
+function navigateHistory(direction: number) {
+    const history = userMessages.value;
+    if (history.length === 0) return;
+
+    if (historyIndex.value === -1 && direction === 1) {
+        draftMessage.value = userInput.value;
+    }
+
+    const newIndex = historyIndex.value + direction;
+
+    if (newIndex < -1) {
+        return;
+    } else if (newIndex === -1) {
+        userInput.value = draftMessage.value;
+        historyIndex.value = -1;
+    } else if (newIndex < history.length) {
+        historyIndex.value = newIndex;
+        userInput.value = history[history.length - 1 - newIndex];
     }
 }
 
@@ -112,7 +152,8 @@ watch(
                     v-model:value="userInput"
                     type="text"
                     :placeholder="PLACEHOLDER"
-                    @keydown.enter.prevent="onInput" />
+                    @keydown.enter.prevent="onInput"
+                    @keydown="onKeydown" />
             </div>
             <SideButton v-if="isThinking" :icon="NoSymbolIcon" title="Stop" type="warning" @click="onStop" />
             <SideButton

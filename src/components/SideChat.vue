@@ -70,7 +70,10 @@ function onInput() {
 }
 
 function onKeydown(event: KeyboardEvent) {
-    if (event.key === "ArrowUp") {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        onInput();
+    } else if (event.key === "ArrowUp") {
         event.preventDefault();
         navigateHistory(1);
     } else if (event.key === "ArrowDown") {
@@ -148,12 +151,7 @@ watch(
         </div>
         <div class="pt-4 pb-2 flex items-center gap-2">
             <div class="flex-1">
-                <n-input
-                    v-model:value="userInput"
-                    type="text"
-                    :placeholder="PLACEHOLDER"
-                    @keydown.enter.prevent="onInput"
-                    @keydown="onKeydown" />
+                <n-input v-model:value="userInput" type="text" :placeholder="PLACEHOLDER" @keydown="onKeydown" />
             </div>
             <SideButton v-if="isThinking" :icon="NoSymbolIcon" title="Stop" type="warning" @click="onStop" />
             <SideButton

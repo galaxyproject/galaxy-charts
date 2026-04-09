@@ -28,6 +28,7 @@ const proxyGalaxy = () => ({
 
 // https://vitejs.dev/config/
 export const viteConfigCharts = defineConfig({
+    base: "./",
     build: {
         outDir: "./static",
         emptyOutDir: true,

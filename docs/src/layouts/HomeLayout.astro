@@ -21,7 +21,7 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} showSidebar={false} bare>
-    <div class="galaxy-banner relative overflow-hidden border-b-0">
+    <div class="home-banner relative overflow-hidden">
         <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
         <slot name="hero-after" />
 

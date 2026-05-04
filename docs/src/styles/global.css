@@ -60,11 +60,15 @@
     --prose-th-color: #ffffff;
 }
 
-/* Galaxy banner block — gradient + gold accent border.
-   Single recipe used by PageHeader and HomeLayout's hero. */
+/* Galaxy banner — gradient + gold accent border. Used by PageHeader. */
 .galaxy-banner {
     background: linear-gradient(135deg, var(--color-galaxy-dark) 0%, var(--color-galaxy-primary) 100%);
     border-bottom: 4px solid var(--color-galaxy-gold);
+}
+
+/* Home banner — full-bleed gradient backdrop, no border. Used by HomeLayout. */
+.home-banner {
+    background: linear-gradient(135deg, var(--color-galaxy-dark) 0%, var(--color-galaxy-primary) 100%);
 }
 
 @theme {

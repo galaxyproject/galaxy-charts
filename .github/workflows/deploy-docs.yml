@@ -1,10 +1,7 @@
-# Sample workflow for building and deploying a VitePress site to GitHub Pages
-#
-name: Deploy VitePress site to Pages
+# Build the Astro docs in `docs/` and publish to GitHub Pages.
+name: Deploy docs to Pages
 
 on:
-  # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-  # using the `master` branch as the default branch.
   push:
     branches: [main]
 
@@ -24,33 +21,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0 # Not needed if lastUpdated is not enabled
-      # - uses: pnpm/action-setup@v3 # Uncomment this if you're using pnpm
-      # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: 20
-          cache: npm # or pnpm / yarn
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Install dependencies
-        run: cd docs && npm ci # or pnpm install / yarn install / bun install
-      - name: Build with VitePress
-        run: cd docs && npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+        run: npm ci
+        working-directory: docs
+      - name: Build with Astro
+        run: npm run build
+        working-directory: docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: docs/.vitepress/dist
+          path: docs/dist
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages

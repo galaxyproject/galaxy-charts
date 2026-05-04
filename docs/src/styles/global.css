@@ -3,6 +3,63 @@
 @import "@fontsource/atkinson-hyperlegible/700.css";
 @plugin "@tailwindcss/typography";
 
+/* Class-based dark mode: Tailwind's `dark:` variant fires on any element
+   with `.dark` on `<html>` or any ancestor. ThemeToggle.vue toggles the class. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme-aware surface tokens. Components use `var(--surface-*)` so the entire
+   page palette flips when `.dark` is applied without per-component plumbing. */
+:root {
+    --surface-bg: #edf4fa; /* page background */
+    --surface-card: #ffffff; /* article + card surfaces */
+    --surface-text: #1f2937;
+    --surface-muted: #6b7280;
+    --surface-border: #e5e7eb;
+    --grid-line: rgba(37, 83, 123, 0.06);
+
+    --sidebar-bg: var(--color-light-bg);
+    --sidebar-text: #1f2937;
+    --sidebar-text-muted: rgba(31, 41, 55, 0.65);
+    --sidebar-border: #e5e7eb;
+    --sidebar-hover-bg: rgba(37, 83, 123, 0.06);
+    --sidebar-hover-text: var(--color-galaxy-primary);
+    --sidebar-active-bg: rgba(37, 83, 123, 0.1);
+    --sidebar-active-text: var(--color-galaxy-primary);
+
+    --prose-link: var(--color-galaxy-primary);
+    --prose-link-hover: var(--color-galaxy-gold);
+    --prose-code-bg: #f3f4f6;
+    --prose-quote-color: #4b5563;
+    --prose-quote-tint: rgba(255, 215, 0, 0.03);
+    --prose-th-bg: var(--color-galaxy-primary);
+    --prose-th-color: #ffffff;
+}
+.dark {
+    --surface-bg: var(--color-galaxy-dark);
+    --surface-card: var(--color-medium-bg);
+    --surface-text: rgba(248, 250, 252, 0.92);
+    --surface-muted: rgba(248, 250, 252, 0.6);
+    --surface-border: rgba(255, 255, 255, 0.1);
+    --grid-line: rgba(255, 255, 255, 0.04);
+
+    --sidebar-bg: var(--color-galaxy-dark);
+    --sidebar-text: rgba(248, 250, 252, 0.92);
+    --sidebar-text-muted: rgb(156 163 175);
+    --sidebar-border: var(--color-medium-bg);
+    --sidebar-hover-bg: var(--color-medium-bg);
+    --sidebar-hover-text: #ffffff;
+    --sidebar-active-bg: var(--color-medium-bg);
+    --sidebar-active-text: var(--color-galaxy-gold);
+
+    --prose-link: var(--color-galaxy-gold);
+    --prose-link-hover: var(--color-accent-hover);
+    --prose-code-bg: rgba(255, 255, 255, 0.06);
+    --prose-quote-color: rgba(248, 250, 252, 0.7);
+    --prose-quote-tint: rgba(255, 215, 0, 0.04);
+    --prose-th-bg: var(--color-galaxy-primary);
+    --prose-th-color: #ffffff;
+}
+
 /* Galaxy banner block — gradient + gold accent border.
    Single recipe used by PageHeader and HomeLayout's hero. */
 .galaxy-banner {
@@ -61,15 +118,16 @@ h6 {
 body {
     font-family: var(--font-sans);
     overflow-x: clip;
-    background-color: var(--color-light-bg);
-    color: #1f2937;
+    background-color: var(--surface-bg);
+    color: var(--surface-text);
 }
 
-/* Subtle grid background pattern (workflow-editor mesh) */
+/* Subtle grid background pattern (workflow-editor mesh).
+   Theme-aware via `--grid-line`. */
 .bg-grid {
     background-image:
-        linear-gradient(to right, rgba(37, 83, 123, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(37, 83, 123, 0.06) 1px, transparent 1px);
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
@@ -80,10 +138,14 @@ body {
     background-size: 24px 24px;
 }
 
-/* Galaxy-branded prose styles */
+/* Galaxy-branded prose styles. Colors come from theme-aware `--prose-*` and
+   `--surface-*` tokens, so dark mode flips automatically. */
 .prose {
-    --tw-prose-links: #25537b;
-    --tw-prose-headings: #2c3143;
+    --tw-prose-links: var(--prose-link);
+    --tw-prose-headings: var(--surface-text);
+    --tw-prose-body: var(--surface-text);
+    --tw-prose-bold: var(--surface-text);
+    --tw-prose-code: var(--surface-text);
 }
 
 .prose h1,
@@ -113,9 +175,9 @@ body {
 }
 
 .prose a:hover {
-    color: #ffd700;
+    color: var(--prose-link-hover);
     text-decoration: underline;
-    text-decoration-color: #ffd700;
+    text-decoration-color: var(--prose-link-hover);
 }
 
 .prose a:has(> img) {
@@ -123,7 +185,7 @@ body {
 }
 
 .prose code:not(pre code) {
-    background-color: #f3f4f6;
+    background-color: var(--prose-code-bg);
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     font-size: 0.875em;
@@ -162,22 +224,22 @@ body {
 
 .prose th,
 .prose td {
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--surface-border);
     padding: 0.5rem 0.75rem;
 }
 
 .prose th {
-    background-color: #25537b;
-    color: white;
+    background-color: var(--prose-th-bg);
+    color: var(--prose-th-color);
     font-weight: 600;
 }
 
 .prose blockquote {
-    border-left: 4px solid #ffd700;
+    border-left: 4px solid var(--color-galaxy-gold);
     padding-left: 1rem;
-    color: #4b5563;
+    color: var(--prose-quote-color);
     font-style: italic;
-    background-color: #ffd70008;
+    background-color: var(--prose-quote-tint);
     padding: 1rem;
     border-radius: 0 0.5rem 0.5rem 0;
 }

@@ -14,7 +14,7 @@ const filtered = visibleHeadings(headings);
 {
     hasToc(headings) && (
         <nav class="toc text-sm" aria-label="Table of Contents">
-            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{title}</h2>
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-[var(--surface-muted)] mb-3">{title}</h2>
             <ul class="list-none p-0 m-0">
                 {filtered.map((heading) => (
                     <li class={`toc-item toc-depth-${heading.depth}`}>
@@ -29,6 +29,8 @@ const filtered = visibleHeadings(headings);
 }
 
 <style>
+    /* TOC links share the sidebar's `--sidebar-*` palette so left-nav and
+       right-nav stay visually consistent in both light and dark mode. */
     .toc-item {
         margin-bottom: 0.25rem;
     }
@@ -43,23 +45,22 @@ const filtered = visibleHeadings(headings);
     }
     .toc-link {
         display: block;
-        padding: 0.25rem 0;
-        color: var(--color-galaxy-grey);
-        text-decoration: none;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
         line-height: 1.4;
+        color: var(--sidebar-text-muted);
+        text-decoration: none;
         transition:
-            color 0.15s ease-in-out,
-            padding-left 0.15s ease-in-out;
+            background-color 0.15s,
+            color 0.15s;
     }
     .toc-link:hover {
-        color: var(--color-galaxy-primary);
-        padding-left: 0.25rem;
+        background-color: var(--sidebar-hover-bg);
+        color: var(--sidebar-hover-text);
     }
     .toc-link.active {
-        color: var(--color-galaxy-primary);
-        font-weight: 500;
-        border-left: 2px solid var(--color-galaxy-gold);
-        padding-left: 0.5rem;
-        margin-left: -0.5rem;
+        color: var(--sidebar-active-text);
+        background-color: var(--sidebar-active-bg);
     }
 </style>

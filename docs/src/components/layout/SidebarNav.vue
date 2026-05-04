@@ -69,7 +69,7 @@ const isOpen = (title: string) => openSections.value.has(title);
     border-radius: 0.375rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: rgb(209 213 219);
+    color: var(--sidebar-text-muted);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -78,7 +78,7 @@ const isOpen = (title: string) => openSections.value.has(title);
         color 0.15s;
 }
 .section-trigger:hover {
-    background-color: var(--color-medium-bg);
-    color: white;
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-hover-text);
 }
 </style>

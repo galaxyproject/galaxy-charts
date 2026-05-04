@@ -34,14 +34,14 @@ const { prev, next } = pageNeighbors(nav, slug);
 const showToc = autotoc && hasToc(headings);
 
 const navLinkClass =
-    "block p-4 border border-gray-200 rounded-lg no-underline transition-colors hover:border-galaxy-primary hover:bg-galaxy-primary/5";
-const navLabelClass = "text-xs text-gray-500 uppercase tracking-wider mb-1";
-const navTitleClass = "font-semibold text-galaxy-primary";
+    "block p-4 border border-[var(--surface-border)] rounded-lg no-underline transition-colors hover:border-galaxy-primary hover:bg-galaxy-primary/5 dark:hover:border-galaxy-gold dark:hover:bg-galaxy-gold/10";
+const navLabelClass = "text-xs text-[var(--surface-muted)] uppercase tracking-wider mb-1";
+const navTitleClass = "font-semibold text-galaxy-primary dark:text-galaxy-gold";
 ---
 
 <BaseLayout title={title} description={description}>
     <div class="max-w-6xl mx-auto lg:flex lg:gap-6">
-        <article class="bg-white rounded-lg shadow-sm flex-1 min-w-0">
+        <article class="bg-[var(--surface-card)] rounded-lg shadow-sm flex-1 min-w-0">
             <PageHeader title={title} description={description} date={date} authors={authors} tags={tags} />
 
             <div class="prose prose-lg max-w-none px-6 sm:px-8 py-6">
@@ -51,7 +51,7 @@ const navTitleClass = "font-semibold text-galaxy-primary";
             {
                 (prev || next) && (
                     <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
-                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-gray-200">
+                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-[var(--surface-border)]">
                             {prev ? (
                                 <a
                                     href={resolveHref(prev.href, prev.external)}

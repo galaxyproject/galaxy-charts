@@ -34,17 +34,17 @@ const { item, active = false } = defineProps<Props>();
     padding: 0.375rem 0.75rem;
     border-radius: 0.375rem;
     font-size: 0.875rem;
-    color: rgb(156 163 175);
+    color: var(--sidebar-text-muted);
     transition:
         background-color 0.15s,
         color 0.15s;
 }
 .nav-link:hover {
-    background-color: var(--color-medium-bg);
-    color: white;
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-hover-text);
 }
 .nav-link-active {
-    color: var(--color-galaxy-gold);
-    background-color: var(--color-medium-bg);
+    color: var(--sidebar-active-text);
+    background-color: var(--sidebar-active-bg);
 }
 </style>

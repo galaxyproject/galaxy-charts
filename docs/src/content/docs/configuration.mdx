@@ -1,13 +1,13 @@
 ---
 title: Connect to Galaxy
-description: Connect Galaxy Charts to a Galaxy instance for API access.
+description: Connect to a Galaxy instance for API access.
 ---
 
 import Callout from "@/components/ui/Callout.astro";
 
-Galaxy Charts can be used to develop visualizations independently of Galaxy. However, to access Galaxy datasets, metadata, or run jobs, the visualization may need to connect to the Galaxy API.
+Galaxy Charts plugins are developed standalone, outside of any running Galaxy server. To pull datasets, metadata, or run jobs, the plugin needs to connect to a Galaxy API.
 
-To connect the Galaxy Charts standalone application to a Galaxy instance (either local or public), provide the following environment variables when running Galaxy Charts:
+Provide two environment variables when starting the dev server to connect to a Galaxy instance:
 
 - **`GALAXY_KEY`**: Your Galaxy API key.
 - **`GALAXY_ROOT`**: The Galaxy server URL e.g. `https://usegalaxy.org` for Galaxy main.
@@ -20,7 +20,7 @@ GALAXY_KEY=MY_API_KEY GALAXY_ROOT=MY_GALAXY_SERVER npm run dev
 
 ## Making Requests to the Galaxy API
 
-Once connected to Galaxy, you can make API requests by importing `GalaxyApi` as follows:
+Galaxy Charts UI provides `GalaxyApi`, a small wrapper around the Galaxy API:
 
 ```javascript
 import { GalaxyApi } from "galaxy-charts";
@@ -39,7 +39,7 @@ async function fetchGalaxyVersion() {
 
 ### Direct API Requests with Fetch
 
-If the `galaxy-charts` package is unavailable, you can still make API calls to remote Galaxy services directly using the [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) function. This method allows you to send HTTP requests to fetch data from remote servers or APIs. Below is an example of how you can use fetch to make a GET request:
+Plugins not using Galaxy Charts UI can call the Galaxy API directly with [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch). For example, a GET request:
 
 ```javascript
 async function fetchGalaxyVersion() {

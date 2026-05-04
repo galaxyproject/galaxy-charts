@@ -1,9 +1,9 @@
 ---
 title: Getting Started
-description: Set up a new Galaxy Charts visualization project.
+description: Set up a new Galaxy Charts visualization project using the Galaxy Charts UI starter.
 ---
 
-Follow these steps to start developing a new visualization for Galaxy using the standard Vue-based setup — or explore the [Vite-only, JS-agnostic alternative](/galaxy-charts/xml-framework#building-a-vite-plugin-vanilla-vue-react-and-more) if your visualization doesn't require the built-in Vue input form.
+The **Galaxy Charts UI** starter is the quickest path when you want auto-generated forms and Vue helpers. For other stacks, see the [Vite-only approach](/galaxy-charts/xml-framework#building-a-vite-plugin-vanillavuereact-and-more).
 
 ## 1. Set Up Your Repository
 

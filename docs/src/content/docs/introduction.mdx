@@ -1,0 +1,64 @@
+---
+title: What is Galaxy Charts?
+description: Galaxy Charts is the visualization plugin framework of the Galaxy platform.
+---
+
+import Callout from "@/components/ui/Callout.astro";
+
+Galaxy Charts is the visualization plugin framework of the Galaxy platform. It provides the core infrastructure for developing and embedding visualizations using a simple and extensible plugin interface.
+
+At its core, Galaxy Charts is **framework-agnostic**. Visualizations can be implemented with plain JavaScript or any frontend framework of your choice. See the [framework guide](/galaxy-charts/xml-introduction) for the XML wrapper and the runtime contract.
+
+### Key Features
+
+- **Local and Remote Data Access**: Load data locally or connect to a remote Galaxy instance to access data providers and resources through the Galaxy API.
+- **Modern Development Workflow**: Develop, test and iterate on plugins outside of Galaxy with hot-reloading and modern tooling.
+- **Embed Anything**: Any JavaScript-based visualization library can be packaged as a Galaxy Charts plugin.
+
+## Galaxy Charts UI
+
+Galaxy Charts UI is an **optional** Vue 3 package that builds on top of the framework and provides:
+
+- **Input Forms**: Renders complete input forms directly from a plugin's XML.
+- **Access Utilities**: Simplifies Galaxy server interaction and data retrieval.
+- **Starter Template**: Pre-configured Vue 3, Vite, Naive UI, and Tailwind stack.
+- **Generic Slot**: A generic slot for your plugin code using any frontend stack.
+
+<div class="grid grid-cols-5 gap-12 text-center my-10 not-prose">
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vite.svg" alt="vite" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vite</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vitest.svg" alt="vitest" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vitest</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vue.svg" alt="vue" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vue 3</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/naive-ui.svg" alt="naive-ui" class="w-16 h-16" />
+        <span class="font-bold mt-2">Naive UI</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/tailwind.svg" alt="tailwind" class="w-16 h-16" />
+        <span class="font-bold mt-2">Tailwind CSS</span>
+    </div>
+</div>
+
+<div class="flex justify-around items-center p-1 not-prose">
+    <img class="border-2 rounded border-gray-100" src="/galaxy-charts/galaxy-charts-demo.gif" alt="demo" width="80%" />
+</div>
+
+## Which path should I take?
+
+| If you want...                                                                  | Use                                                                                                  |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| A configurable input form auto-generated from your XML                          | [Galaxy Charts UI](/galaxy-charts/installation)                                                      |
+| Maximum flexibility with any framework (React, Svelte, Vanilla, Vue, and more) | [Vite-only approach](/galaxy-charts/xml-framework#building-a-vite-plugin-vanillavuereact-and-more)   |
+
+<Callout type="tip" title="Note">
+    Both approaches use Vite as the build tool. Only one includes the optional Galaxy Charts UI package. After
+    development, deploy the plugin to Galaxy via [Deploy to Galaxy](/galaxy-charts/deploy-plugin).
+</Callout>

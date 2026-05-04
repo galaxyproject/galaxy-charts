@@ -2,6 +2,9 @@
 /**
  * Callout — replaces VitePress ::: tip / ::: warning / ::: info containers.
  * Used inside .mdx files via <Callout type="tip">…</Callout>.
+ *
+ * Tints + label colors flip via Tailwind `dark:` variants so the component
+ * stays readable in both light and dark themes.
  */
 interface Props {
     type?: "tip" | "info" | "warning" | "danger";
@@ -16,26 +19,26 @@ const STYLES: Record<
 > = {
     tip: {
         border: "border-galaxy-gold",
-        bg: "bg-galaxy-gold/10",
-        label: "text-galaxy-gold-dark",
+        bg: "bg-galaxy-gold/10 dark:bg-galaxy-gold/15",
+        label: "text-galaxy-gold-dark dark:text-galaxy-gold",
         defaultTitle: "Tip",
     },
     info: {
-        border: "border-galaxy-primary",
-        bg: "bg-galaxy-primary/5",
-        label: "text-galaxy-primary",
+        border: "border-galaxy-primary dark:border-galaxy-gold",
+        bg: "bg-galaxy-primary/5 dark:bg-galaxy-gold/10",
+        label: "text-galaxy-primary dark:text-galaxy-gold",
         defaultTitle: "Info",
     },
     warning: {
         border: "border-amber-500",
-        bg: "bg-amber-50",
-        label: "text-amber-700",
+        bg: "bg-amber-50 dark:bg-amber-500/10",
+        label: "text-amber-700 dark:text-amber-300",
         defaultTitle: "Warning",
     },
     danger: {
         border: "border-red-500",
-        bg: "bg-red-50",
-        label: "text-red-700",
+        bg: "bg-red-50 dark:bg-red-500/10",
+        label: "text-red-700 dark:text-red-300",
         defaultTitle: "Danger",
     },
 };
@@ -48,7 +51,7 @@ const heading = title ?? style.defaultTitle;
     <div class:list={["callout-title text-sm font-semibold mb-2 uppercase tracking-wide", style.label]}>
         {heading}
     </div>
-    <div class="callout-body text-sm text-gray-700">
+    <div class="callout-body text-sm text-gray-700 dark:text-gray-200">
         <slot />
     </div>
 </aside>

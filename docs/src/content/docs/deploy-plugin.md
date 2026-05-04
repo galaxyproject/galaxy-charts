@@ -1,9 +1,9 @@
 ---
 title: Building and Publishing Your Visualization
-description: Build and publish your Galaxy Charts visualization to npm.
+description: Build and publish your Galaxy Charts plugin to npm.
 ---
 
-Once your visualization is complete and ready for deployment to Galaxy, you can publish it to `npm` and [submit a pull request](/galaxy-charts/deploy-request) to the Galaxy development repository.
+These steps apply to any Galaxy Charts plugin, regardless of stack. Publish your visualization to `npm`, then [submit a pull request](/galaxy-charts/deploy-request) to the Galaxy repository.
 
 ## Configure the Package Name and Files
 

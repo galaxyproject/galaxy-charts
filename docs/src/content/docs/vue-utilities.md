@@ -1,9 +1,9 @@
 ---
-title: Utilities
-description: Utility functions bundled with Galaxy Charts to simplify Galaxy API interaction.
+title: Galaxy Charts UI Utilities
+description: Utility functions bundled with the Galaxy Charts UI package to simplify Galaxy API interaction.
 ---
 
-Galaxy Charts is bundled with utilities to simplify interaction with Galaxy.
+[Galaxy Charts UI](/galaxy-charts/introduction#galaxy-charts-ui) ships utilities for common Galaxy API calls. Use them alongside the [`<GalaxyCharts>`](/galaxy-charts/vue-introduction) component.
 
 ## Function: `fetchColumns`
 

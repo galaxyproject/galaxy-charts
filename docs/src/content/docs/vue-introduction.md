@@ -1,9 +1,10 @@
 ---
-title: Vue Component
-description: The GalaxyCharts component embeds JavaScript visualizations in Galaxy.
+title: Galaxy Charts UI Component
+description: The Galaxy Charts UI component embeds JavaScript visualizations in Galaxy.
 ---
 
-The `GalaxyCharts` core component serves as a container for embedding JavaScript-based visualizations. Visualization code is placed within its `#default` slot. The component automatically retrieves static `data-incoming` options from the `#app` container, provided by Galaxy, to render both the visualization viewport and the input form.
+The `<GalaxyCharts>` core component is shipped by [Galaxy Charts UI](/galaxy-charts/introduction#galaxy-charts-ui) and serves as a container for embedding JavaScript-based visualizations. Visualization code is placed within its `#default` slot. The component automatically retriev
+es static `data-incoming` options from the `#app` container, provided by Galaxy, to render both the visualization viewport and the input form.
 
 ```vue
 <template>

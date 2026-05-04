@@ -34,7 +34,7 @@ export const nav: NavConfig = {
             ],
         },
         {
-            title: "Vue Component",
+            title: "Galaxy Charts UI",
             items: [
                 { label: "Introduction", href: "/vue-introduction" },
                 { label: "Utilities", href: "/vue-utilities" },

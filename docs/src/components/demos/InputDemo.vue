@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, defineAsyncComponent } from "vue";
 
-// naive-ui components are loaded lazily on the client to avoid SSR
-// resolver quirks with named exports. NColorPicker has been replaced with
-// a native <input type="color"> since it had hydration issues
-// (`color.includes is not a function`) and a system picker is visually fine
-// for a docs demo.
+// naive-ui components are loaded lazily on the client to avoid SSR resolver
+// quirks with named exports. NColorPicker is used in *uncontrolled* mode
+// (default-value + @update:value) because the controlled v-model path tripped
+// on the async-component hand-off (`color.includes is not a function`).
 const NSwitch = defineAsyncComponent(() => import("naive-ui").then((m) => m.NSwitch));
+const NColorPicker = defineAsyncComponent(() => import("naive-ui").then((m) => m.NColorPicker));
 const NSelect = defineAsyncComponent(() => import("naive-ui").then((m) => m.NSelect));
 const NSlider = defineAsyncComponent(() => import("naive-ui").then((m) => m.NSlider));
 const NInputNumber = defineAsyncComponent(() => import("naive-ui").then((m) => m.NInputNumber));
@@ -53,7 +53,7 @@ function initialValue() {
         case "boolean":
             return true;
         case "color":
-            return "#0284c7";
+            return "#E30A17";
         case "float":
         case "integer":
             return 0;
@@ -93,11 +93,11 @@ const isSelectKind = computed(() => ["select", "data", "data_json", "data_table"
 
             <NSwitch v-if="type === 'boolean'" v-model:value="value" />
 
-            <input
+            <NColorPicker
                 v-else-if="type === 'color'"
-                type="color"
-                v-model="value"
-                class="h-9 w-16 cursor-pointer rounded border border-gray-200 bg-transparent p-0" />
+                :default-value="String(value)"
+                :show-alpha="false"
+                @update:value="(v: string) => (value = v)" />
 
             <NSelect v-else-if="isSelectKind" v-model:value="value" :options="options as any" filterable />
 

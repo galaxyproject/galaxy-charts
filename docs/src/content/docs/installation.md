@@ -3,7 +3,7 @@ title: Getting Started
 description: Set up a new Galaxy Charts visualization project using the Galaxy Charts UI starter.
 ---
 
-The **Galaxy Charts UI** starter is the quickest path when you want auto-generated forms and Vue helpers. For other stacks, see the [Vite-only approach](/galaxy-charts/xml-framework#building-a-vite-plugin-vanillavuereact-and-more).
+The [Galaxy Charts UI](/galaxy-charts/introduction#galaxy-charts-ui) starter is the quickest path when you want auto-generated forms and Vue helpers. For other stacks, see the [Vite-only approach](/galaxy-charts/xml-framework#building-a-vite-plugin-vanillavuereact-and-more).
 
 ## 1. Set Up Your Repository
 

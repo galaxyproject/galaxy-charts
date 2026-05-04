@@ -1,27 +1,36 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-// naive-ui's package.json doesn't expose named ESM exports correctly under
-// Node's strict resolver, so use a namespace import (works in dev + SSR).
-import * as naiveui from 'naive-ui';
-const { NSwitch, NColorPicker, NSelect, NSlider, NInputNumber, NInput } = naiveui;
+import { ref, computed, defineAsyncComponent } from 'vue';
+
+// naive-ui components are loaded lazily on the client to avoid SSR
+// resolver quirks with named exports. NColorPicker has been replaced with
+// a native <input type="color"> since it had hydration issues
+// (`color.includes is not a function`) and a system picker is visually fine
+// for a docs demo.
+const NSwitch = defineAsyncComponent(() => import('naive-ui').then((m) => m.NSwitch));
+const NSelect = defineAsyncComponent(() => import('naive-ui').then((m) => m.NSelect));
+const NSlider = defineAsyncComponent(() => import('naive-ui').then((m) => m.NSlider));
+const NInputNumber = defineAsyncComponent(() => import('naive-ui').then((m) => m.NInputNumber));
+const NInput = defineAsyncComponent(() => import('naive-ui').then((m) => m.NInput));
 
 interface Option {
   label: string;
   value: string;
 }
 
+type InputType =
+  | 'boolean'
+  | 'color'
+  | 'data'
+  | 'data_json'
+  | 'data_table'
+  | 'float'
+  | 'integer'
+  | 'select'
+  | 'text'
+  | 'textarea';
+
 interface Props {
-  type:
-    | 'boolean'
-    | 'color'
-    | 'data'
-    | 'data_json'
-    | 'data_table'
-    | 'float'
-    | 'integer'
-    | 'select'
-    | 'text'
-    | 'textarea';
+  type: InputType;
   label: string;
   help: string;
   name: string;
@@ -29,7 +38,6 @@ interface Props {
   max?: number;
   step?: number;
   options?: Option[];
-  initial?: string | number | boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -39,8 +47,8 @@ const props = withDefaults(defineProps<Props>(), {
   options: () => [],
 });
 
-function defaultValue() {
-  if (props.initial !== undefined) return props.initial;
+// Per-type initial values — kept as a single switch so the rules are obvious.
+function initialValue() {
   switch (props.type) {
     case 'boolean':
       return true;
@@ -48,7 +56,7 @@ function defaultValue() {
       return '#0284c7';
     case 'float':
     case 'integer':
-      return 1;
+      return 0;
     case 'text':
       return 'My Text';
     case 'textarea':
@@ -61,14 +69,22 @@ function defaultValue() {
   }
 }
 
-const value = ref<string | number | boolean>(defaultValue() as string | number | boolean);
+// One ref shared by all input variants. Typed as `any` because each variant
+// uses a different naive-ui control with its own narrow prop type — runtime
+// values are always the right shape per the `initialValue()` switch above.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const value = ref<any>(initialValue());
 
 const display = computed(() => {
-  if (typeof value.value === 'string') return `"${value.value}"`;
-  return String(value.value);
+  const v = value.value;
+  if (typeof v === 'string') return `"${v}"`;
+  return String(v);
 });
 
 const sliderStep = computed(() => (props.type === 'float' ? 0.01 : props.step));
+const isSelectKind = computed(() =>
+  ['select', 'data', 'data_json', 'data_table'].includes(props.type),
+);
 </script>
 
 <template>
@@ -79,17 +95,17 @@ const sliderStep = computed(() => (props.type === 'float' ? 0.01 : props.step));
 
       <NSwitch v-if="type === 'boolean'" v-model:value="value" />
 
-      <NColorPicker
+      <input
         v-else-if="type === 'color'"
-        v-model:value="value"
-        :modes="['hex']"
-        :show-alpha="false"
+        type="color"
+        v-model="value"
+        class="h-9 w-16 cursor-pointer rounded border border-gray-200 bg-transparent p-0"
       />
 
       <NSelect
-        v-else-if="['select', 'data', 'data_json', 'data_table'].includes(type)"
+        v-else-if="isSelectKind"
         v-model:value="value"
-        :options="options"
+        :options="(options as any)"
         filterable
       />
 

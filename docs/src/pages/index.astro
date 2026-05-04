@@ -1,9 +1,9 @@
 ---
-import HomeLayout from '@/layouts/HomeLayout.astro';
-import Honeycomb from '@/components/home/Honeycomb.vue';
-import { hero, features } from '@/config/home';
+import HomeLayout from "@/layouts/HomeLayout.astro";
+import Honeycomb from "@/components/home/Honeycomb.vue";
+import { hero, features } from "@/config/home";
 ---
 
 <HomeLayout title="Galaxy Charts" hero={hero} features={features}>
-  <Honeycomb slot="hero-after" client:only="vue" />
+    <Honeycomb slot="hero-after" client:only="vue" />
 </HomeLayout>

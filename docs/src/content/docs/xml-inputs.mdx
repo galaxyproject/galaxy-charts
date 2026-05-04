@@ -3,7 +3,7 @@ title: Inputs
 description: Galaxy Charts input types — boolean, color, data, float, integer, select, text, textarea.
 ---
 
-import InputDemo from '@/components/demos/InputDemo.vue';
+import InputDemo from "@/components/demos/InputDemo.vue";
 
 You can specify input elements within the `settings` and `tracks` sections, allowing users to parameterize and customize their visualization. Galaxy Charts currently supports these input types: `boolean`, `color`, `data`, `data_json`, `data_table`, `float`, `integer`, `select`, `text`, and `textarea`.
 
@@ -24,6 +24,7 @@ Below is a template for a generic input element. It includes `label`, `help`, `n
 Boolean inputs are useful to display yes/no options to the user.
 
 Example:
+
 ```xml
 <input>
     <label>My Boolean Label</label>
@@ -35,13 +36,7 @@ Example:
 
 Translates to:
 
-<InputDemo
-  client:only="vue"
-  type="boolean"
-  label="My Boolean Label"
-  help="My Boolean Help"
-  name="my_boolean_name"
-/>
+<InputDemo client:only="vue" type="boolean" label="My Boolean Label" help="My Boolean Help" name="my_boolean_name" />
 
 ## Color
 
@@ -60,21 +55,15 @@ Example:
 
 Translates to:
 
-<InputDemo
-  client:only="vue"
-  type="color"
-  label="My Color Label"
-  help="My Color Help"
-  name="my_color_name"
-/>
+<InputDemo client:only="vue" type="color" label="My Color Label" help="My Color Help" name="my_color_name" />
 
 ## Data
 
 You can use a `data` input field to let users select a dataset from Galaxy, with optional filtering by file extension like `bed` or `tabular`. See the [list of supported datatypes](/galaxy-charts/xml-datasources) for details.
 
-| Option        | Type    | Default | Description           |
-|---------------|---------|---------|-----------------------|
-| **extension** | string  | none    | Filter by extension   |
+| Option        | Type   | Default | Description         |
+| ------------- | ------ | ------- | ------------------- |
+| **extension** | string | none    | Filter by extension |
 
 Example:
 
@@ -91,24 +80,24 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="data"
-  label="My Data Label"
-  help="My Data Help"
-  name="my_data_name"
-  options={[
-    { label: 'Galaxy Dataset A', value: 'dataset_id_a' },
-    { label: 'Galaxy Dataset B', value: 'dataset_id_b' },
-  ]}
+    client:only="vue"
+    type="data"
+    label="My Data Label"
+    help="My Data Help"
+    name="my_data_name"
+    options={[
+        { label: "Galaxy Dataset A", value: "dataset_id_a" },
+        { label: "Galaxy Dataset B", value: "dataset_id_b" },
+    ]}
 />
 
 ## Data JSON
 
 A `data_json` input field can load a JSON array of objects from a URL. Each object should have `id` and `name` attributes. Additional `key-value` pairs are allowed. The input populates a select field with these options.
 
-| Option  | Type    | Default | Description                    |
-|---------|---------|---------|--------------------------------|
-| **url** | string  | none    | URL pointing to the JSON Array |
+| Option  | Type   | Default | Description                    |
+| ------- | ------ | ------- | ------------------------------ |
+| **url** | string | none    | URL pointing to the JSON Array |
 
 Example:
 
@@ -125,24 +114,24 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="data_json"
-  label="My Data JSON"
-  help="My Data JSON"
-  name="my_data_json_name"
-  options={[
-    { label: 'JSON Entry Id A', value: 'json_entry_id_a' },
-    { label: 'JSON Entry Id B', value: 'json_entry_id_b' },
-  ]}
+    client:only="vue"
+    type="data_json"
+    label="My Data JSON"
+    help="My Data JSON"
+    name="my_data_json_name"
+    options={[
+        { label: "JSON Entry Id A", value: "json_entry_id_a" },
+        { label: "JSON Entry Id B", value: "json_entry_id_b" },
+    ]}
 />
 
 ## Data Table
 
 A `data_table` input field can load tool data tables from Galaxy and present each row as an option to the user. The tables must be publicly accessible.
 
-| Option     | Type    | Default | Description                                              |
-|------------|---------|---------|----------------------------------------------------------|
-| **tables** | array   | none    | List of publicly accessible Galaxy Tool Data table names |
+| Option     | Type  | Default | Description                                              |
+| ---------- | ----- | ------- | -------------------------------------------------------- |
+| **tables** | array | none    | List of publicly accessible Galaxy Tool Data table names |
 
 Example:
 
@@ -161,15 +150,15 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="data_table"
-  label="My Data Table"
-  help="My Data Table"
-  name="my_data_table_name"
-  options={[
-    { label: 'Galaxy Table Row 1', value: 'table_row_1' },
-    { label: 'Galaxy Table Row 2', value: 'table_row_2' },
-  ]}
+    client:only="vue"
+    type="data_table"
+    label="My Data Table"
+    help="My Data Table"
+    name="my_data_table_name"
+    options={[
+        { label: "Galaxy Table Row 1", value: "table_row_1" },
+        { label: "Galaxy Table Row 2", value: "table_row_2" },
+    ]}
 />
 
 ## Float
@@ -177,7 +166,7 @@ Translates to:
 `float` inputs support the following options:
 
 | Option  | Type  | Default | Description           |
-|---------|-------|---------|-----------------------|
+| ------- | ----- | ------- | --------------------- |
 | **min** | float | none    | Minimum allowed value |
 | **max** | float | none    | Maximum allowed value |
 
@@ -197,13 +186,13 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="float"
-  label="My Float Label"
-  help="My Float Help"
-  name="my_float_name"
-  min={0}
-  max={10}
+    client:only="vue"
+    type="float"
+    label="My Float Label"
+    help="My Float Help"
+    name="my_float_name"
+    min={0}
+    max={10}
 />
 
 ## Integer
@@ -211,7 +200,7 @@ Translates to:
 `integer` inputs support the following options:
 
 | Option  | Type    | Default | Description           |
-|---------|---------|---------|-----------------------|
+| ------- | ------- | ------- | --------------------- |
 | **min** | integer | none    | Minimum allowed value |
 | **max** | integer | none    | Maximum allowed value |
 
@@ -231,13 +220,13 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="integer"
-  label="My Integer Label"
-  help="My Integer Help"
-  name="my_integer_name"
-  min={0}
-  max={10}
+    client:only="vue"
+    type="integer"
+    label="My Integer Label"
+    help="My Integer Help"
+    name="my_integer_name"
+    min={0}
+    max={10}
 />
 
 ## Select
@@ -245,7 +234,7 @@ Translates to:
 You may also declare `select` fields.
 
 | Option         | Type    | Default | Description                               |
-|----------------|---------|---------|-------------------------------------------|
+| -------------- | ------- | ------- | ----------------------------------------- |
 | **filterable** | boolean | false   | Enable searching and filtering of options |
 
 Example:
@@ -275,15 +264,15 @@ Example:
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="select"
-  label="My Select Label"
-  help="My Select Help"
-  name="my_select_name"
-  options={[
-    { label: 'My Option A', value: 'my_option_a' },
-    { label: 'My Option B', value: 'my_option_b' },
-  ]}
+    client:only="vue"
+    type="select"
+    label="My Select Label"
+    help="My Select Help"
+    name="my_select_name"
+    options={[
+        { label: "My Option A", value: "my_option_a" },
+        { label: "My Option B", value: "my_option_b" },
+    ]}
 />
 
 ## Text
@@ -291,7 +280,7 @@ Translates to:
 You may also declare `text` inputs.
 
 | Option       | Type    | Default | Description                                                      |
-|--------------|---------|---------|------------------------------------------------------------------|
+| ------------ | ------- | ------- | ---------------------------------------------------------------- |
 | **deferred** | boolean | false   | Trigger update on every keystroke or only after input completion |
 
 Example:
@@ -308,13 +297,7 @@ Example:
 
 Translates to:
 
-<InputDemo
-  client:only="vue"
-  type="text"
-  label="My Text Label"
-  help="My Text Help"
-  name="my_text_name"
-/>
+<InputDemo client:only="vue" type="text" label="My Text Label" help="My Text Help" name="my_text_name" />
 
 ## Text Area
 
@@ -332,11 +315,11 @@ Last but not least, `textarea` inputs can be declared.
 Translates to:
 
 <InputDemo
-  client:only="vue"
-  type="textarea"
-  label="My Text Area Label"
-  help="My Text Area Help"
-  name="my_textarea_name"
+    client:only="vue"
+    type="textarea"
+    label="My Text Area Label"
+    help="My Text Area Help"
+    name="my_textarea_name"
 />
 
 ## Conditional

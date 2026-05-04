@@ -8,91 +8,86 @@
  * (`lg:p-pad`) share the `--spacing-pad` theme token, so they stay in sync
  * if the layout padding ever changes.
  */
-import BaseLayout from './BaseLayout.astro';
-import PageHeader from '@/components/layout/PageHeader.astro';
-import TableOfContents from '@/components/layout/TableOfContents.astro';
-import { nav } from '@/config/nav';
-import { resolveHref } from '@/utils/url';
-import { hasToc, type Heading } from '@/utils/toc';
-import { pageNeighbors } from '@/utils/pageNav';
+import BaseLayout from "./BaseLayout.astro";
+import PageHeader from "@/components/layout/PageHeader.astro";
+import TableOfContents from "@/components/layout/TableOfContents.astro";
+import { nav } from "@/config/nav";
+import { resolveHref } from "@/utils/url";
+import { hasToc, type Heading } from "@/utils/toc";
+import { pageNeighbors } from "@/utils/pageNav";
 
 interface Props {
-  title: string;
-  description?: string;
-  date?: Date | string;
-  authors?: Array<string | { name: string; href?: string }>;
-  tags?: string[];
-  headings?: Heading[];
-  autotoc?: boolean;
-  /** Slug of the current entry (matches `<slug>` in `/<slug>` href). */
-  slug?: string;
+    title: string;
+    description?: string;
+    date?: Date | string;
+    authors?: Array<string | { name: string; href?: string }>;
+    tags?: string[];
+    headings?: Heading[];
+    autotoc?: boolean;
+    /** Slug of the current entry (matches `<slug>` in `/<slug>` href). */
+    slug?: string;
 }
 
-const {
-  title,
-  description,
-  date,
-  authors = [],
-  tags = [],
-  headings = [],
-  autotoc = true,
-  slug,
-} = Astro.props;
+const { title, description, date, authors = [], tags = [], headings = [], autotoc = true, slug } = Astro.props;
 
 const { prev, next } = pageNeighbors(nav, slug);
 const showToc = autotoc && hasToc(headings);
 
 const navLinkClass =
-  'block p-4 border border-gray-200 rounded-lg no-underline transition-colors hover:border-galaxy-primary hover:bg-galaxy-primary/5';
-const navLabelClass = 'text-xs text-gray-500 uppercase tracking-wider mb-1';
-const navTitleClass = 'font-semibold text-galaxy-primary';
+    "block p-4 border border-gray-200 rounded-lg no-underline transition-colors hover:border-galaxy-primary hover:bg-galaxy-primary/5";
+const navLabelClass = "text-xs text-gray-500 uppercase tracking-wider mb-1";
+const navTitleClass = "font-semibold text-galaxy-primary";
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="max-w-6xl mx-auto lg:flex lg:gap-6">
-    <article class="bg-white rounded-lg shadow-sm flex-1 min-w-0">
-      <PageHeader title={title} description={description} date={date} authors={authors} tags={tags} />
+    <div class="max-w-6xl mx-auto lg:flex lg:gap-6">
+        <article class="bg-white rounded-lg shadow-sm flex-1 min-w-0">
+            <PageHeader title={title} description={description} date={date} authors={authors} tags={tags} />
 
-      <div class="prose prose-lg max-w-none px-6 sm:px-8 py-6">
-        <slot />
-      </div>
-
-      {
-        (prev || next) && (
-          <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
-            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-gray-200">
-              {prev ? (
-                <a href={resolveHref(prev.href, prev.external)} class:list={[navLinkClass, 'sm:flex-1']}>
-                  <div class={navLabelClass}>Previous page</div>
-                  <div class={navTitleClass}>
-                    <span aria-hidden="true">←</span> {prev.label}
-                  </div>
-                </a>
-              ) : (
-                <div class="sm:flex-1" />
-              )}
-              {next ? (
-                <a href={resolveHref(next.href, next.external)} class:list={[navLinkClass, 'sm:flex-1 text-right']}>
-                  <div class={navLabelClass}>Next page</div>
-                  <div class={navTitleClass}>
-                    {next.label} <span aria-hidden="true">→</span>
-                  </div>
-                </a>
-              ) : (
-                <div class="sm:flex-1" />
-              )}
+            <div class="prose prose-lg max-w-none px-6 sm:px-8 py-6">
+                <slot />
             </div>
-          </footer>
-        )
-      }
-    </article>
 
-    {
-      showToc && (
-        <aside class="hidden lg:block lg:w-56 lg:flex-shrink-0 lg:sticky lg:self-start lg:overflow-y-auto lg:top-pad lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]">
-          <TableOfContents headings={headings} />
-        </aside>
-      )
-    }
-  </div>
+            {
+                (prev || next) && (
+                    <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
+                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-gray-200">
+                            {prev ? (
+                                <a
+                                    href={resolveHref(prev.href, prev.external)}
+                                    class:list={[navLinkClass, "sm:flex-1"]}>
+                                    <div class={navLabelClass}>Previous page</div>
+                                    <div class={navTitleClass}>
+                                        <span aria-hidden="true">←</span> {prev.label}
+                                    </div>
+                                </a>
+                            ) : (
+                                <div class="sm:flex-1" />
+                            )}
+                            {next ? (
+                                <a
+                                    href={resolveHref(next.href, next.external)}
+                                    class:list={[navLinkClass, "sm:flex-1 text-right"]}>
+                                    <div class={navLabelClass}>Next page</div>
+                                    <div class={navTitleClass}>
+                                        {next.label} <span aria-hidden="true">→</span>
+                                    </div>
+                                </a>
+                            ) : (
+                                <div class="sm:flex-1" />
+                            )}
+                        </div>
+                    </footer>
+                )
+            }
+        </article>
+
+        {
+            showToc && (
+                <aside class="hidden lg:block lg:w-56 lg:flex-shrink-0 lg:sticky lg:self-start lg:overflow-y-auto lg:top-pad lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]">
+                    <TableOfContents headings={headings} />
+                </aside>
+            )
+        }
+    </div>
 </BaseLayout>

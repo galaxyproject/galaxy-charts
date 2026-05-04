@@ -8,17 +8,17 @@
  * `Astro.slots.has` because conditionally-rendered slot content isn't always
  * detected reliably).
  */
-import '../../styles/global.css';
+import "../../styles/global.css";
 
 interface Props {
-  /** Full document title — caller composes any "site name" suffix. */
-  pageTitle: string;
-  /** Meta description. */
-  pageDescription: string;
-  /** Resolved favicon URL (already prefixed with BASE_URL). */
-  faviconHref?: string;
-  /** Whether the caller is filling the `sidebar` slot. Default true. */
-  showSidebar?: boolean;
+    /** Full document title — caller composes any "site name" suffix. */
+    pageTitle: string;
+    /** Meta description. */
+    pageDescription: string;
+    /** Resolved favicon URL (already prefixed with BASE_URL). */
+    faviconHref?: string;
+    /** Whether the caller is filling the `sidebar` slot. Default true. */
+    showSidebar?: boolean;
 }
 
 const { pageTitle, pageDescription, faviconHref, showSidebar = true } = Astro.props;
@@ -26,28 +26,23 @@ const { pageTitle, pageDescription, faviconHref, showSidebar = true } = Astro.pr
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    {faviconHref && <link rel="icon" href={faviconHref} />}
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={pageDescription} />
-    <title>{pageTitle}</title>
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDescription} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-  </head>
-  <body class="min-h-screen text-foreground">
-    <slot name="sidebar" />
+    <head>
+        <meta charset="utf-8" />
+        {faviconHref && <link rel="icon" href={faviconHref} />}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={pageDescription} />
+        <title>{pageTitle}</title>
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+    </head>
+    <body class="min-h-screen text-foreground">
+        <slot name="sidebar" />
 
-    <main
-      class:list={[
-        'min-h-screen overflow-x-clip flex flex-col',
-        showSidebar && 'lg:ml-sidebar',
-      ]}
-    >
-      <slot />
-    </main>
-  </body>
+        <main class:list={["min-h-screen overflow-x-clip flex flex-col", showSidebar && "lg:ml-sidebar"]}>
+            <slot />
+        </main>
+    </body>
 </html>

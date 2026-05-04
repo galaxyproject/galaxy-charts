@@ -3,7 +3,7 @@ title: Understanding the Visualization Framework
 description: Inside the Galaxy visualization framework — XML, plugin lifecycle, Vite-based plugins.
 ---
 
-import Callout from '@/components/ui/Callout.astro';
+import Callout from "@/components/ui/Callout.astro";
 
 The following sections offer valuable insights into the underlying details of the visualization framework. These details enhance understanding of the framework's flexibility and the range of possibilities it offers.
 
@@ -14,6 +14,7 @@ Let's break down the XML structure and examine how Galaxy processes it to unders
 On startup, Galaxy installs visualization plugins from published `npm` packages. Each package must include a `static` directory.
 
 The `static` directory should contain:
+
 - The plugin's JavaScript code
 - A style sheet (if applicable)
 - An XML wrapper file
@@ -45,11 +46,11 @@ Once the visualization and dataset are selected, Galaxy reads the `entry_point` 
 
 The `entry_point` section includes the following parameters:
 
-| Variable | Description |
-|----------|-------------|
-| **src** | The path to the JavaScript bundle within the visualization's static directory. |
-| **css** | (Optional) The path to a CSS file within the visualization's static directory. |
-| **container** | The DOM container ID that the visualization will use (default is "app"). |
+| Variable      | Description                                                                    |
+| ------------- | ------------------------------------------------------------------------------ |
+| **src**       | The path to the JavaScript bundle within the visualization's static directory. |
+| **css**       | (Optional) The path to a CSS file within the visualization's static directory. |
+| **container** | The DOM container ID that the visualization will use (default is "app").       |
 
 ## Populating the Script Template
 
@@ -101,7 +102,8 @@ This minimal plugin example provides a foundation on which more complex visualiz
 A similar example is shipped with Galaxy at: https://github.com/galaxyproject/galaxy/tree/dev/config/plugins/visualizations/example.
 
 <Callout type="tip" title="Note">
-For this plugin, as well as any other, all further interactions with Galaxy should be conducted through the Galaxy API.
+    For this plugin, as well as any other, all further interactions with Galaxy should be conducted through the Galaxy
+    API.
 </Callout>
 
 ## Building a Vite Plugin (Vanilla/Vue/React and More)
@@ -196,7 +198,9 @@ const url = `${root}api/datasets/${datasetId}/display`;
 Once development is complete, you now can follow the steps in the [Deploy to Galaxy](/galaxy-charts/deploy-plugin) section to publish your visualization.
 
 <Callout type="tip" title="Note">
-Unlike the Galaxy Charts Vue package, the input form will not be automatically rendered. However, if your visualization does not require user-configurable settings, this approach might be a better fit. It introduces less overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.
+    Unlike the Galaxy Charts Vue package, the input form will not be automatically rendered. However, if your
+    visualization does not require user-configurable settings, this approach might be a better fit. It introduces less
+    overhead and offers greater flexibility, allowing you to work with a variety of JavaScript frameworks or libraries.
 </Callout>
 
 ## Use any JavaScript Technology!
@@ -206,52 +210,52 @@ In summary, the Galaxy framework is designed to be highly flexible, supporting a
 Here is a list of popular tools to consider for your visualization plugin:
 
 <div class="grid grid-cols-4 gap-12 text-center my-10 not-prose">
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/javascript.svg" alt="JavaScript" class="w-16 h-16" />
-    <span class="font-bold mt-2">JavaScript</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/typescript.svg" alt="TypeScript" class="w-16 h-16" />
-    <span class="font-bold mt-2">TypeScript</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/react.svg" alt="React" class="w-16 h-16" />
-    <span class="font-bold mt-2">React</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/next-js.svg" alt="Next.js" class="w-16 h-16" />
-    <span class="font-bold mt-2">Next.js</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/vue.svg" alt="Vue" class="w-16 h-16" />
-    <span class="font-bold mt-2">Vue</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/vite.svg" alt="Vite" class="w-16 h-16" />
-    <span class="font-bold mt-2">Vite</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/vuetify.svg" alt="Vuetify" class="w-16 h-16" />
-    <span class="font-bold mt-2">Vuetify</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/nuxt.svg" alt="Nuxt" class="w-16 h-16" />
-    <span class="font-bold mt-2">Nuxt</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/naive-ui.svg" alt="Naive UI" class="w-16 h-16" />
-    <span class="font-bold mt-2">Naive UI</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/tailwind.svg" alt="Tailwind CSS" class="w-16 h-16" />
-    <span class="font-bold mt-2">Tailwind CSS</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/eslint.svg" alt="ES Lint" class="w-16 h-16" />
-    <span class="font-bold mt-2">ES Lint</span>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="/galaxy-charts/prettier.svg" alt="Prettier" class="w-16 h-16" />
-    <span class="font-bold mt-2">Prettier</span>
-  </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/javascript.svg" alt="JavaScript" class="w-16 h-16" />
+        <span class="font-bold mt-2">JavaScript</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/typescript.svg" alt="TypeScript" class="w-16 h-16" />
+        <span class="font-bold mt-2">TypeScript</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/react.svg" alt="React" class="w-16 h-16" />
+        <span class="font-bold mt-2">React</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/next-js.svg" alt="Next.js" class="w-16 h-16" />
+        <span class="font-bold mt-2">Next.js</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vue.svg" alt="Vue" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vue</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vite.svg" alt="Vite" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vite</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/vuetify.svg" alt="Vuetify" class="w-16 h-16" />
+        <span class="font-bold mt-2">Vuetify</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/nuxt.svg" alt="Nuxt" class="w-16 h-16" />
+        <span class="font-bold mt-2">Nuxt</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/naive-ui.svg" alt="Naive UI" class="w-16 h-16" />
+        <span class="font-bold mt-2">Naive UI</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/tailwind.svg" alt="Tailwind CSS" class="w-16 h-16" />
+        <span class="font-bold mt-2">Tailwind CSS</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/eslint.svg" alt="ES Lint" class="w-16 h-16" />
+        <span class="font-bold mt-2">ES Lint</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <img src="/galaxy-charts/prettier.svg" alt="Prettier" class="w-16 h-16" />
+        <span class="font-bold mt-2">Prettier</span>
+    </div>
 </div>

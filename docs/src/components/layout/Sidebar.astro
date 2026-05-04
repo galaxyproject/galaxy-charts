@@ -5,55 +5,54 @@
  *   middle: navigation
  *   bottom: optional social links
  */
-import type { NavConfig, SiteConfig, SocialLink } from '@/config/types';
-import { resolveHref } from '@/utils/url';
-import SidebarNav from './SidebarNav.vue';
-import SocialLinks from './SocialLinks.astro';
+import type { NavConfig, SiteConfig, SocialLink } from "@/config/types";
+import { resolveHref } from "@/utils/url";
+import SidebarNav from "./SidebarNav.vue";
+import SocialLinks from "./SocialLinks.astro";
 
 interface Props {
-  site: SiteConfig;
-  nav: NavConfig;
-  /** Optional bottom-of-sidebar social links. */
-  social?: SocialLink[];
-  /** Server-resolved current path (e.g. `Astro.url.pathname`). */
-  currentPath: string;
+    site: SiteConfig;
+    nav: NavConfig;
+    /** Optional bottom-of-sidebar social links. */
+    social?: SocialLink[];
+    /** Server-resolved current path (e.g. `Astro.url.pathname`). */
+    currentPath: string;
 }
 
 const { site, nav, social = [], currentPath } = Astro.props;
-const homeHref = resolveHref('/');
+const homeHref = resolveHref("/");
 const logoSrc = resolveHref(site.logo.src);
 ---
 
 <aside
-  class="hidden lg:flex flex-col w-sidebar bg-galaxy-dark text-white fixed left-0 top-0 h-screen overflow-y-auto z-40"
->
-  <div class="p-4 border-b border-medium-bg flex justify-center">
-    <a href={homeHref} class="sidebar-logo block">
-      <img src={logoSrc} alt={site.logo.alt} class="h-10 w-auto" />
-    </a>
-  </div>
+    class="hidden lg:flex flex-col w-sidebar bg-galaxy-dark text-white fixed left-0 top-0 h-screen overflow-y-auto z-40">
+    <div class="p-4 border-b border-medium-bg flex justify-center">
+        <a href={homeHref} class="sidebar-logo block">
+            <img src={logoSrc} alt={site.logo.alt} class="h-10 w-auto" />
+        </a>
+    </div>
 
-  <div class="flex-1 p-4 overflow-y-auto">
-    <SidebarNav nav={nav} currentPath={currentPath} client:load />
-  </div>
+    <div class="flex-1 p-4 overflow-y-auto">
+        <SidebarNav nav={nav} currentPath={currentPath} client:load />
+    </div>
 
-  {
-    social.length > 0 && (
-      <div class="p-4 border-t border-medium-bg">
-        <SocialLinks links={social} />
-      </div>
-    )
-  }
+    {
+        social.length > 0 && (
+            <div class="p-4 border-t border-medium-bg">
+                <SocialLinks links={social} />
+            </div>
+        )
+    }
 </aside>
 
 <style>
-  .sidebar-logo {
-    transition:
-      transform 0.3s ease,
-      filter 0.3s ease;
-  }
-  .sidebar-logo:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
-  }
+    .sidebar-logo {
+        transition:
+            transform 0.3s ease,
+            filter 0.3s ease;
+    }
+    .sidebar-logo:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+    }
 </style>

@@ -8,11 +8,13 @@ Galaxy Charts is bundled with utilities to simplify interaction with Galaxy.
 ## Function: `fetchColumns`
 
 ### Description
+
 Fetches and caches tabular column data from a Galaxy server for use in visualizations. This utility function simplifies access to specific columns within a dataset by retrieving data based on column identifiers provided in the form of keys.
 
 ---
 
 ### Syntax
+
 ```javascript
 const store = useColumnsStore();
 const response = await store.fetchColumns(datasetId, tracks, keys);
@@ -20,11 +22,11 @@ const response = await store.fetchColumns(datasetId, tracks, keys);
 
 ### Parameters
 
-| Variable | Type | Description |
-|----------|------|-------------|
-| **datasetId** | `string` | The unique ID of the tabular dataset on the Galaxy server. |
-| **tracks** | `Array<Object>` | An array of track objects, each containing attribute-value pairs where values represent column indices. |
-| **keys** | `Array<string>` | An array of attribute names from the tracks array, each specifying a column number to fetch. |
+| Variable      | Type            | Description                                                                                             |
+| ------------- | --------------- | ------------------------------------------------------------------------------------------------------- |
+| **datasetId** | `string`        | The unique ID of the tabular dataset on the Galaxy server.                                              |
+| **tracks**    | `Array<Object>` | An array of track objects, each containing attribute-value pairs where values represent column indices. |
+| **keys**      | `Array<string>` | An array of attribute names from the tracks array, each specifying a column number to fetch.            |
 
 ### Return Value
 

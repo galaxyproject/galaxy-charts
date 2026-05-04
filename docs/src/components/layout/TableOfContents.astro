@@ -1,65 +1,65 @@
 ---
-import { visibleHeadings, hasToc, type Heading } from '@/utils/toc';
+import { visibleHeadings, hasToc, type Heading } from "@/utils/toc";
 
 interface Props {
-  headings: Heading[];
-  /** Heading text shown above the list. */
-  title?: string;
+    headings: Heading[];
+    /** Heading text shown above the list. */
+    title?: string;
 }
 
-const { headings, title = 'On this page' } = Astro.props;
+const { headings, title = "On this page" } = Astro.props;
 const filtered = visibleHeadings(headings);
 ---
 
 {
-  hasToc(headings) && (
-    <nav class="toc text-sm" aria-label="Table of Contents">
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{title}</h2>
-      <ul class="list-none p-0 m-0">
-        {filtered.map((heading) => (
-          <li class={`toc-item toc-depth-${heading.depth}`}>
-            <a href={`#${heading.slug}`} class="toc-link">
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )
+    hasToc(headings) && (
+        <nav class="toc text-sm" aria-label="Table of Contents">
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{title}</h2>
+            <ul class="list-none p-0 m-0">
+                {filtered.map((heading) => (
+                    <li class={`toc-item toc-depth-${heading.depth}`}>
+                        <a href={`#${heading.slug}`} class="toc-link">
+                            {heading.text}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
+    )
 }
 
 <style>
-  .toc-item {
-    margin-bottom: 0.25rem;
-  }
-  .toc-depth-2 {
-    padding-left: 0;
-  }
-  .toc-depth-3 {
-    padding-left: 0.75rem;
-  }
-  .toc-depth-4 {
-    padding-left: 1.5rem;
-  }
-  .toc-link {
-    display: block;
-    padding: 0.25rem 0;
-    color: var(--color-galaxy-grey);
-    text-decoration: none;
-    line-height: 1.4;
-    transition:
-      color 0.15s ease-in-out,
-      padding-left 0.15s ease-in-out;
-  }
-  .toc-link:hover {
-    color: var(--color-galaxy-primary);
-    padding-left: 0.25rem;
-  }
-  .toc-link.active {
-    color: var(--color-galaxy-primary);
-    font-weight: 500;
-    border-left: 2px solid var(--color-galaxy-gold);
-    padding-left: 0.5rem;
-    margin-left: -0.5rem;
-  }
+    .toc-item {
+        margin-bottom: 0.25rem;
+    }
+    .toc-depth-2 {
+        padding-left: 0;
+    }
+    .toc-depth-3 {
+        padding-left: 0.75rem;
+    }
+    .toc-depth-4 {
+        padding-left: 1.5rem;
+    }
+    .toc-link {
+        display: block;
+        padding: 0.25rem 0;
+        color: var(--color-galaxy-grey);
+        text-decoration: none;
+        line-height: 1.4;
+        transition:
+            color 0.15s ease-in-out,
+            padding-left 0.15s ease-in-out;
+    }
+    .toc-link:hover {
+        color: var(--color-galaxy-primary);
+        padding-left: 0.25rem;
+    }
+    .toc-link.active {
+        color: var(--color-galaxy-primary);
+        font-weight: 500;
+        border-left: 2px solid var(--color-galaxy-gold);
+        padding-left: 0.5rem;
+        margin-left: -0.5rem;
+    }
 </style>

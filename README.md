@@ -11,7 +11,6 @@ Galaxy Charts itself is a modern JavaScript visualization framework for the [Gal
 
 💡 To quickly start building your own Galaxy visualizations using Galaxy Charts UI, use the [Galaxy Charts Starter Template](https://github.com/guerler/galaxy-charts-starter) and run `npm install && npm run dev`.
 
-
 📘 **Documentation**: [https://charts.galaxyproject.org](https://charts.galaxyproject.org)
 
 ---
@@ -22,12 +21,13 @@ To build your own visualization:
 
 1. **Use the Starter Template**  
    Begin with the ready-to-go starter project:
-   ```bash
-   npx degit guerler/galaxy-charts-starter my-viz
-   cd my-viz
-   npm install
-   npm run dev
-   ```
+
+    ```bash
+    npx degit guerler/galaxy-charts-starter my-viz
+    cd my-viz
+    npm install
+    npm run dev
+    ```
 
 2. **Develop Your Plugin**  
    Customize the included plugin or create your own inside the `src/plugins` directory.

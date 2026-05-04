@@ -29,7 +29,7 @@
         "preview": "vite preview",
         "lint": "eslint 'src/**/*.{js,ts,vue}' 'lib/**/*.ts'",
         "lint:fix": "eslint 'src/**/*.{js,ts,vue}' 'lib/**/*.ts' --fix",
-        "prettier": "prettier --config ./prettier.config.js --write '*.json' '**/*.{css,js,ts,vue}'",
+        "prettier": "prettier --config ./prettier.config.js --write '*.json' '**/*.{css,js,ts,vue,astro,md,mdx}'",
         "test": "vitest --coverage.enabled --no-cache"
     },
     "devDependencies": {
@@ -53,6 +53,7 @@
         "markdown-it": "^14.1.0",
         "naive-ui": "^2.43.2",
         "prettier": "^3.7.4",
+        "prettier-plugin-astro": "^0.14.1",
         "tailwindcss": "^4.1.18",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.53.0",

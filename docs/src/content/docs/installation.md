@@ -19,11 +19,13 @@ Open a terminal window and clone your newly created repository:
 ```bash
 git clone https://github.com/USERNAME/MY_VISUALIZATION
 ```
+
 Replace USERNAME with your GitHub username and MY_VISUALIZATION with your repository name.
 
 ## 3. Initialize Your Visualization Project
 
 Navigate to your project directory and set up the environment:
+
 ```bash
 cd MY_VISUALIZATION
 npm install

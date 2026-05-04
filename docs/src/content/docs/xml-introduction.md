@@ -15,10 +15,10 @@ Galaxy Visualizations are configured using XML files. The files contain Visualiz
 
 This XML template includes the following variables:
 
-| Variable | Description |
-|----------|-------------|
-| **MY_VISUALIZATION** | Specifies the name of the visualization. |
-| **MY_DESCRIPTION** | Provides a brief description of the visualization, including references if it's a third-party plugin. |
+| Variable             | Description                                                                                           |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| **MY_VISUALIZATION** | Specifies the name of the visualization.                                                              |
+| **MY_DESCRIPTION**   | Provides a brief description of the visualization, including references if it's a third-party plugin. |
 
 ## Help
 

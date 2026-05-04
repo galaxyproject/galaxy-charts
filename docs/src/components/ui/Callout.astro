@@ -4,49 +4,51 @@
  * Used inside .mdx files via <Callout type="tip">…</Callout>.
  */
 interface Props {
-  type?: 'tip' | 'info' | 'warning' | 'danger';
-  title?: string;
+    type?: "tip" | "info" | "warning" | "danger";
+    title?: string;
 }
 
-const { type = 'tip', title } = Astro.props;
+const { type = "tip", title } = Astro.props;
 
-const STYLES: Record<NonNullable<Props['type']>, { border: string; bg: string; label: string; defaultTitle: string }> =
-  {
+const STYLES: Record<
+    NonNullable<Props["type"]>,
+    { border: string; bg: string; label: string; defaultTitle: string }
+> = {
     tip: {
-      border: 'border-galaxy-gold',
-      bg: 'bg-galaxy-gold/10',
-      label: 'text-galaxy-gold-dark',
-      defaultTitle: 'Tip',
+        border: "border-galaxy-gold",
+        bg: "bg-galaxy-gold/10",
+        label: "text-galaxy-gold-dark",
+        defaultTitle: "Tip",
     },
     info: {
-      border: 'border-galaxy-primary',
-      bg: 'bg-galaxy-primary/5',
-      label: 'text-galaxy-primary',
-      defaultTitle: 'Info',
+        border: "border-galaxy-primary",
+        bg: "bg-galaxy-primary/5",
+        label: "text-galaxy-primary",
+        defaultTitle: "Info",
     },
     warning: {
-      border: 'border-amber-500',
-      bg: 'bg-amber-50',
-      label: 'text-amber-700',
-      defaultTitle: 'Warning',
+        border: "border-amber-500",
+        bg: "bg-amber-50",
+        label: "text-amber-700",
+        defaultTitle: "Warning",
     },
     danger: {
-      border: 'border-red-500',
-      bg: 'bg-red-50',
-      label: 'text-red-700',
-      defaultTitle: 'Danger',
+        border: "border-red-500",
+        bg: "bg-red-50",
+        label: "text-red-700",
+        defaultTitle: "Danger",
     },
-  };
+};
 
 const style = STYLES[type];
 const heading = title ?? style.defaultTitle;
 ---
 
-<aside class:list={['callout not-prose my-4 rounded-md border-l-4 p-4', style.border, style.bg]}>
-  <div class:list={['callout-title text-sm font-semibold mb-2 uppercase tracking-wide', style.label]}>
-    {heading}
-  </div>
-  <div class="callout-body text-sm text-gray-700">
-    <slot />
-  </div>
+<aside class:list={["callout not-prose my-4 rounded-md border-l-4 p-4", style.border, style.bg]}>
+    <div class:list={["callout-title text-sm font-semibold mb-2 uppercase tracking-wide", style.label]}>
+        {heading}
+    </div>
+    <div class="callout-body text-sm text-gray-700">
+        <slot />
+    </div>
 </aside>

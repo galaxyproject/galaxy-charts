@@ -60,8 +60,9 @@ body {
 }
 
 .honeycomb {
-    position: absolute;
+    position: fixed;
     inset: 0;
+    top: 8rem;
     left: v-bind(-size + "px");
     width: 100%;
     height: 100%;

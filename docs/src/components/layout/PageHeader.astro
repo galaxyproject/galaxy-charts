@@ -1,6 +1,6 @@
 ---
 /**
- * Page header — Galaxy gradient + grid + gold accent.
+ * Page header — Galaxy banner (gradient + gold accent) with subtle grid overlay.
  * Content-agnostic: title/description/date/authors/tags via props.
  */
 import { formatDate, toIsoDate } from '@/utils/date';
@@ -31,8 +31,9 @@ const normalizedAuthors = (authorsRaw || [])
 const formattedDate = formatDate(date);
 ---
 
-<header class="page-header bg-galaxy-gradient relative px-8 py-10 text-white rounded-t-lg border-b-4 border-galaxy-gold">
-  <div class="page-header-content relative z-10">
+<header class="galaxy-banner relative overflow-hidden rounded-t-lg px-8 py-10 text-white">
+  <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
+  <div class="relative z-10">
     <div class="flex items-center gap-3 mb-4">
       <div class="w-1 h-8 bg-galaxy-gold"></div>
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">{title}</h1>
@@ -93,19 +94,3 @@ const formattedDate = formatDate(date);
     <slot />
   </div>
 </header>
-
-<style>
-  /* Subtle white grid overlay for visual texture. Bg-grid uses dark lines —
-     here we want light lines on the dark gradient. */
-  .page-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 24px 24px;
-    pointer-events: none;
-    border-radius: inherit;
-  }
-</style>

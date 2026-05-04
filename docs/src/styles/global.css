@@ -3,9 +3,11 @@
 @import '@fontsource/atkinson-hyperlegible/700.css';
 @plugin "@tailwindcss/typography";
 
-/* Reusable Galaxy brand gradient — used by PageHeader + HomeLayout hero. */
-.bg-galaxy-gradient {
+/* Galaxy banner block — gradient + gold accent border.
+   Single recipe used by PageHeader and HomeLayout's hero. */
+.galaxy-banner {
   background: linear-gradient(135deg, var(--color-galaxy-dark) 0%, var(--color-galaxy-primary) 100%);
+  border-bottom: 4px solid var(--color-galaxy-gold);
 }
 
 @theme {

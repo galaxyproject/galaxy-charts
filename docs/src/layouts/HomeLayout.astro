@@ -35,7 +35,7 @@ const { title, description, hero, features = [] } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} showSidebar={false} bare>
-  <section class="hero bg-galaxy-gradient relative overflow-hidden border-b-4 border-galaxy-gold">
+  <section class="galaxy-banner relative overflow-hidden">
     <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
     <div class="relative z-10 max-w-5xl mx-auto px-6 py-20 sm:py-28 text-center">
       {hero.name && <p class="text-galaxy-gold font-semibold tracking-wider uppercase mb-3">{hero.name}</p>}

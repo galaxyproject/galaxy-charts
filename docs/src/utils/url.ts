@@ -11,3 +11,13 @@ export function resolveHref(href: string, external?: boolean): string {
   const path = href.startsWith('/') ? href : '/' + href;
   return base + path;
 }
+
+/** Strip a trailing slash so `/foo/` and `/foo` compare as equal. */
+export function normalizePath(path: string): string {
+  return path.replace(/\/+$/, '');
+}
+
+/** Whether two paths refer to the same page (ignoring trailing slashes). */
+export function samePath(a: string, b: string): boolean {
+  return normalizePath(a) === normalizePath(b);
+}

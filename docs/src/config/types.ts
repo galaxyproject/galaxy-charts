@@ -12,11 +12,7 @@ export interface NavSection {
 }
 
 export interface NavConfig {
-  /** Flat links rendered above the collapsible sections. */
-  topLinks?: NavItem[];
   sections: NavSection[];
-  /** Flat links rendered below the sections (e.g. external resources). */
-  bottomLinks?: NavItem[];
 }
 
 export interface SocialLink {

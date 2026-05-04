@@ -41,6 +41,11 @@ const {
 
 const { prev, next } = pageNeighbors(nav, slug);
 const showToc = autotoc && hasToc(headings);
+
+const navLinkClass =
+  'block p-4 border border-gray-200 rounded-lg no-underline transition-colors hover:border-galaxy-primary hover:bg-galaxy-primary/5';
+const navLabelClass = 'text-xs text-gray-500 uppercase tracking-wider mb-1';
+const navTitleClass = 'font-semibold text-galaxy-primary';
 ---
 
 <BaseLayout title={title} description={description}>
@@ -57,9 +62,9 @@ const showToc = autotoc && hasToc(headings);
           <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
             <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-gray-200">
               {prev ? (
-                <a href={resolveHref(prev.href, prev.external)} class="page-nav-link sm:flex-1">
-                  <div class="page-nav-label">Previous page</div>
-                  <div class="page-nav-title">
+                <a href={resolveHref(prev.href, prev.external)} class:list={[navLinkClass, 'sm:flex-1']}>
+                  <div class={navLabelClass}>Previous page</div>
+                  <div class={navTitleClass}>
                     <span aria-hidden="true">←</span> {prev.label}
                   </div>
                 </a>
@@ -67,9 +72,9 @@ const showToc = autotoc && hasToc(headings);
                 <div class="sm:flex-1" />
               )}
               {next ? (
-                <a href={resolveHref(next.href, next.external)} class="page-nav-link sm:flex-1 text-right">
-                  <div class="page-nav-label">Next page</div>
-                  <div class="page-nav-title">
+                <a href={resolveHref(next.href, next.external)} class:list={[navLinkClass, 'sm:flex-1 text-right']}>
+                  <div class={navLabelClass}>Next page</div>
+                  <div class={navTitleClass}>
                     {next.label} <span aria-hidden="true">→</span>
                   </div>
                 </a>
@@ -84,45 +89,10 @@ const showToc = autotoc && hasToc(headings);
 
     {
       showToc && (
-        <aside
-          class="
-            hidden lg:block lg:w-56 lg:flex-shrink-0
-            lg:sticky lg:self-start lg:overflow-y-auto
-            lg:top-pad
-            lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]
-          "
-        >
+        <aside class="hidden lg:block lg:w-56 lg:flex-shrink-0 lg:sticky lg:self-start lg:overflow-y-auto lg:top-pad lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]">
           <TableOfContents headings={headings} />
         </aside>
       )
     }
   </div>
 </BaseLayout>
-
-<style>
-  .page-nav-link {
-    display: block;
-    padding: 0.875rem 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition:
-      border-color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out;
-  }
-  .page-nav-link:hover {
-    border-color: var(--color-galaxy-primary);
-    background-color: rgba(37, 83, 123, 0.04);
-  }
-  .page-nav-label {
-    font-size: 0.75rem;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-  }
-  .page-nav-title {
-    font-weight: 600;
-    color: var(--color-galaxy-primary);
-  }
-</style>

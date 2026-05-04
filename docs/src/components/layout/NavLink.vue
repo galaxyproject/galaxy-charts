@@ -4,12 +4,10 @@ import { resolveHref } from '@/utils/url';
 
 interface Props {
   item: NavItem;
-  /** Style variant: top/bottom flat links use 'flat'; section items use 'nested'. */
-  variant?: 'flat' | 'nested';
   active?: boolean;
 }
 
-const { item, variant = 'nested', active = false } = defineProps<Props>();
+const { item, active = false } = defineProps<Props>();
 </script>
 
 <template>
@@ -17,7 +15,7 @@ const { item, variant = 'nested', active = false } = defineProps<Props>();
     :href="resolveHref(item.href, item.external)"
     :target="item.external ? '_blank' : undefined"
     :rel="item.external ? 'noopener noreferrer' : undefined"
-    :class="[variant === 'flat' ? 'nav-link' : 'nav-sublink', active && (variant === 'flat' ? 'nav-link-active' : 'nav-sublink-active')]"
+    :class="['nav-link', active && 'nav-link-active']"
   >
     <span>{{ item.label }}</span>
     <svg
@@ -41,11 +39,10 @@ const { item, variant = 'nested', active = false } = defineProps<Props>();
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.75rem;
+  padding: 0.375rem 0.75rem;
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  color: rgb(209 213 219);
+  color: rgb(156 163 175);
   transition:
     background-color 0.15s,
     color 0.15s;
@@ -55,24 +52,6 @@ const { item, variant = 'nested', active = false } = defineProps<Props>();
   color: white;
 }
 .nav-link-active {
-  color: var(--color-galaxy-gold);
-}
-.nav-sublink {
-  display: flex;
-  align-items: center;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  color: rgb(156 163 175);
-  transition:
-    background-color 0.15s,
-    color 0.15s;
-}
-.nav-sublink:hover {
-  background-color: var(--color-medium-bg);
-  color: white;
-}
-.nav-sublink-active {
   color: var(--color-galaxy-gold);
   background-color: var(--color-medium-bg);
 }

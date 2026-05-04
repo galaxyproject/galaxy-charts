@@ -1,7 +1,6 @@
 import type { NavConfig } from './types';
 
 export const nav: NavConfig = {
-  topLinks: [{ label: 'Home', href: '/' }],
   sections: [
     {
       title: 'Introduction',

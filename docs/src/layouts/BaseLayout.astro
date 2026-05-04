@@ -3,6 +3,7 @@ import SiteShell from '@/components/layout/SiteShell.astro';
 import Sidebar from '@/components/layout/Sidebar.astro';
 import { site, social } from '@/config/site';
 import { nav } from '@/config/nav';
+import { resolveHref } from '@/utils/url';
 
 interface Props {
   title: string;
@@ -14,9 +15,18 @@ interface Props {
 }
 
 const { title, description, showSidebar = true, bare = false } = Astro.props;
+
+const pageTitle = `${title} | ${site.title}`;
+const pageDescription = description ?? site.description;
+const faviconHref = site.favicon ? resolveHref(site.favicon) : undefined;
 ---
 
-<SiteShell site={site} pageTitle={title} pageDescription={description} showSidebar={showSidebar}>
+<SiteShell
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  faviconHref={faviconHref}
+  showSidebar={showSidebar}
+>
   {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} />}
   {
     bare ? (

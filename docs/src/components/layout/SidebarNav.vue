@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import type { NavConfig, NavItem } from '@/config/types';
-import { resolveHref } from '@/utils/url';
+import { resolveHref, samePath } from '@/utils/url';
 import NavLink from './NavLink.vue';
 
 interface Props {
@@ -12,14 +12,9 @@ const props = defineProps<Props>();
 
 const openSections = ref<Set<string>>(new Set());
 
-/** Strip a trailing slash so `/foo/` and `/foo` compare as equal. */
-function normalize(path: string): string {
-  return path.replace(/\/+$/, '');
-}
-
 function isCurrentPage(href: string): boolean {
   if (typeof window === 'undefined') return false;
-  return normalize(window.location.pathname) === normalize(href);
+  return samePath(window.location.pathname, href);
 }
 
 // Open sections that contain the current page on mount, plus any flagged defaultOpen.
@@ -48,16 +43,6 @@ const isActive = (item: NavItem) => isCurrentPage(resolveHref(item.href, item.ex
 
 <template>
   <nav class="space-y-2">
-    <div v-if="nav.topLinks?.length" class="space-y-1">
-      <NavLink
-        v-for="link in nav.topLinks"
-        :key="link.href"
-        :item="link"
-        variant="flat"
-        :active="isActive(link)"
-      />
-    </div>
-
     <div v-for="section in nav.sections" :key="section.title">
       <button
         type="button"
@@ -79,10 +64,6 @@ const isActive = (item: NavItem) => isCurrentPage(resolveHref(item.href, item.ex
       <div v-show="isOpen(section.title)" class="pl-3 space-y-1 mt-1">
         <NavLink v-for="item in section.items" :key="item.href" :item="item" :active="isActive(item)" />
       </div>
-    </div>
-
-    <div v-if="nav.bottomLinks?.length" class="pt-4 border-t border-gray-700 space-y-1">
-      <NavLink v-for="link in nav.bottomLinks" :key="link.href" :item="link" :active="isActive(link)" />
     </div>
   </nav>
 </template>

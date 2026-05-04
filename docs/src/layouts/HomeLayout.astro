@@ -1,0 +1,82 @@
+---
+/**
+ * Landing page layout: full-bleed hero + features grid. No sidebar.
+ * Driven by props — no hardcoded content.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { resolveHref } from '@/utils/url';
+
+export interface HeroAction {
+  text: string;
+  href: string;
+  variant?: 'brand' | 'alt';
+}
+
+export interface Feature {
+  title: string;
+  details: string;
+  /** Emoji or short string rendered as the icon. */
+  icon?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  hero: {
+    name?: string;
+    text: string;
+    tagline?: string;
+    actions?: HeroAction[];
+  };
+  features?: Feature[];
+}
+
+const { title, description, hero, features = [] } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} showSidebar={false} bare>
+  <section class="hero bg-galaxy-gradient relative overflow-hidden border-b-4 border-galaxy-gold">
+    <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6 py-20 sm:py-28 text-center">
+      {hero.name && <p class="text-galaxy-gold font-semibold tracking-wider uppercase mb-3">{hero.name}</p>}
+      <h1 class="text-4xl sm:text-6xl font-bold text-white tracking-tight">{hero.text}</h1>
+      {hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">{hero.tagline}</p>}
+      {
+        hero.actions && hero.actions.length > 0 && (
+          <div class="mt-8 flex flex-wrap justify-center gap-3">
+            {hero.actions.map((action) => (
+              <a
+                href={resolveHref(action.href)}
+                class:list={[
+                  'inline-flex items-center px-5 py-2.5 rounded-md font-semibold transition-colors',
+                  action.variant === 'alt'
+                    ? 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    : 'bg-galaxy-gold text-galaxy-dark hover:bg-accent-hover',
+                ]}
+              >
+                {action.text}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    <slot name="hero-after" />
+  </section>
+
+  {
+    features.length > 0 && (
+      <section class="bg-light-bg bg-grid py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((f) => (
+            <article class="feature-card bg-white rounded-lg p-6 shadow-sm border border-gray-100 transition-transform hover:-translate-y-1">
+              {f.icon && <div class="text-3xl mb-3">{f.icon}</div>}
+              <h3 class="text-lg font-semibold text-galaxy-dark mb-2">{f.title}</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">{f.details}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

@@ -13,8 +13,7 @@
 coverage
 dist
 dist-ssr
-docs/.vitepress/cache
-docs/.vitepress/.temp
+docs/.astro
 lerna-debug.log*
 logs
 node_modules

@@ -1,0 +1,37 @@
+---
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import Honeycomb from '@/components/Honeycomb.vue';
+
+const hero = {
+  name: 'Galaxy Visualization',
+  text: 'Plugin Framework',
+  tagline: 'Develop, Test and Deploy JavaScript Visualizations',
+  actions: [
+    { text: 'What is Galaxy Charts?', href: '/introduction', variant: 'brand' as const },
+    { text: 'Examples', href: '/example-igv', variant: 'alt' as const },
+  ],
+};
+
+const features = [
+  {
+    title: 'Standalone',
+    details:
+      'Build your visualization in an independent, standalone environment with modern tools like Vite and Vue 3.',
+    icon: '🖥️',
+  },
+  {
+    title: 'Data Access',
+    details: 'Connect to local or public Galaxy instances to test your visualization with real-world data.',
+    icon: '🔗',
+  },
+  {
+    title: 'Deployment',
+    details: 'When your visualization is ready, deploy it to Galaxy for use by researchers worldwide.',
+    icon: '🚀',
+  },
+];
+---
+
+<HomeLayout title="Galaxy Charts" hero={hero} features={features}>
+  <Honeycomb slot="hero-after" client:only="vue" />
+</HomeLayout>

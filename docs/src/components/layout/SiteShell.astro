@@ -1,0 +1,52 @@
+---
+/**
+ * SiteShell — page chrome (optional sidebar + main).
+ *
+ * Nav-agnostic: callers fill the `sidebar` named slot when they want a sidebar.
+ * The explicit `showSidebar` prop drives the main-content offset; we don't rely
+ * on `Astro.slots.has()` because conditionally-rendered slot content
+ * (`{cond && <Foo slot="..."/>}`) doesn't always register reliably.
+ */
+import '../../styles/global.css';
+import type { SiteConfig } from '@/config/types';
+import { resolveHref } from '@/utils/url';
+
+interface Props {
+  site: SiteConfig;
+  pageTitle: string;
+  pageDescription?: string;
+  /** Whether the caller is filling the `sidebar` slot. Default true. */
+  showSidebar?: boolean;
+}
+
+const { site, pageTitle, pageDescription = site.description, showSidebar = true } = Astro.props;
+const faviconHref = site.favicon ? resolveHref(site.favicon) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    {faviconHref && <link rel="icon" href={faviconHref} />}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={pageDescription} />
+    <title>{pageTitle} | {site.title}</title>
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="min-h-screen text-foreground">
+    <slot name="sidebar" />
+
+    <main
+      class:list={[
+        'min-h-screen overflow-x-clip flex flex-col',
+        showSidebar && 'lg:ml-sidebar',
+      ]}
+    >
+      <slot />
+    </main>
+  </body>
+</html>

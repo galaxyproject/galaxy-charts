@@ -1,0 +1,43 @@
+---
+title: Data Sources
+description: Galaxy Charts data_sources — declaring compatible data types.
+---
+
+import DatatypesList from '@/components/demos/DatatypesList.vue';
+
+The Data Sources section is required in the Visualization XML to inform Galaxy of the compatible data types for your visualization.
+If your visualization does not need a pre-existing dataset, set `required="false"` on the `<param>` definition.
+
+```xml
+<data_sources>
+    <data_source>
+        <model_class>HistoryDatasetAssociation</model_class>
+        <test test_attr="ext">{{ COMPATIBLE_EXTENSION }}</test>
+    </data_source>
+</data_sources>
+<params>
+    <param required="true">dataset_id</param>
+</params>
+```
+
+## Tests
+
+You may also add a `<tests>` section which allows you to define **test cases** for your visualization. These help ensure that the plugin works correctly when given specific inputs. Each test can specify a URL to a file and its corresponding Galaxy datatype type (`ftype`). Users will be able to upload the dataset and invoke the visualization.
+
+```xml
+<tests>
+    <test>
+        <param name="dataset_id" value="http://cdn.jsdelivr.net/gh/galaxyproject/galaxy-test-data/1.{{ COMPATIBLE_EXTENSION }}" ftype="{{ COMPATIBLE_EXTENSION }}" />
+    </test>
+</tests>
+```
+
+You can use any public URL pointing to test data, ideally from a maintained repository such as `galaxy-test-data`.
+
+## Available Extensions
+
+Galaxy supports a variety of datatype extensions:
+
+<DatatypesList client:only="vue" />
+
+For more information on datatypes please refer to the Galaxy Documentation at: https://docs.galaxyproject.org/en/master/dev/data_types.html.

@@ -1,0 +1,111 @@
+---
+/**
+ * Page header — Galaxy gradient + grid + gold accent.
+ * Content-agnostic: title/description/date/authors/tags via props.
+ */
+import { formatDate, toIsoDate } from '@/utils/date';
+
+interface Author {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: Date | string;
+  authors?: Array<string | Author>;
+  tags?: string[];
+}
+
+const { title, description, date, authors: authorsRaw = [], tags = [] } = Astro.props;
+
+const normalizedAuthors = (authorsRaw || [])
+  .map((author) => {
+    if (!author) return null;
+    if (typeof author === 'string') return { name: author };
+    return author;
+  })
+  .filter(Boolean) as Author[];
+
+const formattedDate = formatDate(date);
+---
+
+<header class="page-header bg-galaxy-gradient relative px-8 py-10 text-white rounded-t-lg border-b-4 border-galaxy-gold">
+  <div class="page-header-content relative z-10">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-1 h-8 bg-galaxy-gold"></div>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">{title}</h1>
+    </div>
+    {description && <p class="text-white/80 text-lg max-w-2xl">{description}</p>}
+
+    {
+      (date || normalizedAuthors.length > 0) && (
+        <div class="flex flex-wrap items-center gap-4 text-sm text-white/70 mt-4">
+          {date && (
+            <time datetime={toIsoDate(date)} class="font-medium">
+              {formattedDate}
+            </time>
+          )}
+          {normalizedAuthors.length > 0 && (
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              <span class="flex flex-wrap gap-1.5">
+                {normalizedAuthors.map((author, idx) =>
+                  author.href ? (
+                    <a href={author.href} class="underline decoration-white/40 hover:decoration-galaxy-gold">
+                      {author.name}
+                      {idx < normalizedAuthors.length - 1 ? ',' : ''}
+                    </a>
+                  ) : (
+                    <span>
+                      {author.name}
+                      {idx < normalizedAuthors.length - 1 ? ',' : ''}
+                    </span>
+                  )
+                )}
+              </span>
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    {
+      tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {tags.map((tag) => (
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium border border-white/30 text-white/80">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+
+    <slot />
+  </div>
+</header>
+
+<style>
+  /* Subtle white grid overlay for visual texture. Bg-grid uses dark lines —
+     here we want light lines on the dark gradient. */
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+</style>

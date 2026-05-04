@@ -1,0 +1,128 @@
+---
+/**
+ * Article-style page: two clean columns on desktop —
+ *   left  = PageHeader + content + prev/next
+ *   right = sticky Table of Contents
+ *
+ * The sticky TOC offset (`lg:top-pad`) and BaseLayout wrapper padding
+ * (`lg:p-pad`) share the `--spacing-pad` theme token, so they stay in sync
+ * if the layout padding ever changes.
+ */
+import BaseLayout from './BaseLayout.astro';
+import PageHeader from '@/components/layout/PageHeader.astro';
+import TableOfContents from '@/components/layout/TableOfContents.astro';
+import { nav } from '@/config/nav';
+import { resolveHref } from '@/utils/url';
+import { hasToc, type Heading } from '@/utils/toc';
+import { pageNeighbors } from '@/utils/pageNav';
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: Date | string;
+  authors?: Array<string | { name: string; href?: string }>;
+  tags?: string[];
+  headings?: Heading[];
+  autotoc?: boolean;
+  /** Slug of the current entry (matches `<slug>` in `/<slug>` href). */
+  slug?: string;
+}
+
+const {
+  title,
+  description,
+  date,
+  authors = [],
+  tags = [],
+  headings = [],
+  autotoc = true,
+  slug,
+} = Astro.props;
+
+const { prev, next } = pageNeighbors(nav, slug);
+const showToc = autotoc && hasToc(headings);
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="max-w-6xl mx-auto lg:flex lg:gap-6">
+    <article class="bg-white rounded-lg shadow-sm flex-1 min-w-0">
+      <PageHeader title={title} description={description} date={date} authors={authors} tags={tags} />
+
+      <div class="prose prose-lg max-w-none px-6 sm:px-8 py-6">
+        <slot />
+      </div>
+
+      {
+        (prev || next) && (
+          <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-gray-200">
+              {prev ? (
+                <a href={resolveHref(prev.href, prev.external)} class="page-nav-link sm:flex-1">
+                  <div class="page-nav-label">Previous page</div>
+                  <div class="page-nav-title">
+                    <span aria-hidden="true">←</span> {prev.label}
+                  </div>
+                </a>
+              ) : (
+                <div class="sm:flex-1" />
+              )}
+              {next ? (
+                <a href={resolveHref(next.href, next.external)} class="page-nav-link sm:flex-1 text-right">
+                  <div class="page-nav-label">Next page</div>
+                  <div class="page-nav-title">
+                    {next.label} <span aria-hidden="true">→</span>
+                  </div>
+                </a>
+              ) : (
+                <div class="sm:flex-1" />
+              )}
+            </div>
+          </footer>
+        )
+      }
+    </article>
+
+    {
+      showToc && (
+        <aside
+          class="
+            hidden lg:block lg:w-56 lg:flex-shrink-0
+            lg:sticky lg:self-start lg:overflow-y-auto
+            lg:top-pad
+            lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]
+          "
+        >
+          <TableOfContents headings={headings} />
+        </aside>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page-nav-link {
+    display: block;
+    padding: 0.875rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition:
+      border-color 0.15s ease-in-out,
+      background-color 0.15s ease-in-out;
+  }
+  .page-nav-link:hover {
+    border-color: var(--color-galaxy-primary);
+    background-color: rgba(37, 83, 123, 0.04);
+  }
+  .page-nav-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+  .page-nav-title {
+    font-weight: 600;
+    color: var(--color-galaxy-primary);
+  }
+</style>

@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+@plugin "@tailwindcss/typography";
+
+/* Reusable Galaxy brand gradient — used by PageHeader + HomeLayout hero. */
+.bg-galaxy-gradient {
+  background: linear-gradient(135deg, var(--color-galaxy-dark) 0%, var(--color-galaxy-primary) 100%);
+}
+
+@theme {
+  /* Layout spacing tokens — single source of truth for inter-component coupling.
+     `--spacing-*` automatically generates Tailwind utilities like
+     `w-sidebar`, `ml-sidebar`, `p-pad`, `top-pad`, etc. */
+  --spacing-sidebar: 16rem;       /* Sidebar width + SiteShell main-offset */
+  --spacing-pad: 2rem;            /* BaseLayout wrapper padding + PageLayout sticky top */
+  --spacing-toc-buffer: 1rem;     /* breathing room below sticky TOC */
+
+  /* Galaxy Brand Colors — lifted from galaxy-hub */
+  --color-galaxy-primary: #25537b;
+  --color-galaxy-dark: #2c3143;
+  --color-galaxy-gold: #ffd700;
+  --color-galaxy-gold-dark: #d19e00;
+  --color-galaxy-grey: #58585a;
+
+  /* Background Colors */
+  --color-dark-bg: #2c3143;
+  --color-medium-bg: #3c435c;
+  --color-light-bg: #edf4fa;
+  --color-card-bg: #5d678d;
+
+  /* Accent/Highlight */
+  --color-accent: #ffd700;
+  --color-accent-hover: #ffe60d;
+
+  /* Typography */
+  --font-sans:
+    'Atkinson Hyperlegible', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  /* `clip` (vs `hidden`) keeps html out of the scroll-container path so
+     `position: sticky` on descendants works against the real viewport. */
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  scroll-margin-top: 6rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  background-color: var(--color-light-bg);
+  color: #1f2937;
+}
+
+/* Subtle grid background pattern (workflow-editor mesh) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(37, 83, 123, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 83, 123, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Galaxy-branded prose styles */
+.prose {
+  --tw-prose-links: #25537b;
+  --tw-prose-headings: #2c3143;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--tw-prose-headings);
+}
+
+.prose h2 {
+  border-bottom: 2px solid #ffd70033;
+  padding-bottom: 0.5rem;
+}
+
+.prose h3 {
+  margin-top: 2em;
+}
+
+.prose a {
+  color: var(--tw-prose-links);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--tw-prose-links) 40%, transparent);
+  text-underline-offset: 2px;
+  transition:
+    text-decoration-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+}
+
+.prose a:hover {
+  color: #ffd700;
+  text-decoration: underline;
+  text-decoration-color: #ffd700;
+}
+
+.prose a:has(> img) {
+  text-decoration: none;
+}
+
+.prose code:not(pre code) {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Remove backtick pseudo-elements injected by typography defaults */
+.prose code::before,
+.prose code::after {
+  content: none !important;
+}
+
+.prose pre {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose img {
+  border-radius: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prose li img {
+  display: inline;
+  margin: 0;
+  border-radius: 0;
+  vertical-align: middle;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+}
+
+.prose th {
+  background-color: #25537b;
+  color: white;
+  font-weight: 600;
+}
+
+.prose blockquote {
+  border-left: 4px solid #ffd700;
+  padding-left: 1rem;
+  color: #4b5563;
+  font-style: italic;
+  background-color: #ffd70008;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Heading anchor links */
+.heading-anchor {
+  opacity: 0;
+  text-decoration: none;
+  font-weight: 400;
+  color: #25537b;
+  margin-left: 0.5rem;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.heading-anchor::before {
+  content: '#';
+}
+
+.heading-anchor span {
+  display: none;
+}
+
+.heading-anchor:hover {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+h5:hover .heading-anchor,
+h6:hover .heading-anchor {
+  opacity: 1;
+}
+
+.heading-anchor:focus {
+  opacity: 1;
+  outline: 2px solid #25537b;
+  outline-offset: 2px;
+}
+
+@media (hover: none) {
+  .heading-anchor {
+    opacity: 0.5;
+  }
+}

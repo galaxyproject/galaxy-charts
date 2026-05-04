@@ -1,0 +1,112 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import type { NavConfig, NavItem } from '@/config/types';
+import { resolveHref } from '@/utils/url';
+import NavLink from './NavLink.vue';
+
+interface Props {
+  nav: NavConfig;
+}
+
+const props = defineProps<Props>();
+
+const openSections = ref<Set<string>>(new Set());
+
+/** Strip a trailing slash so `/foo/` and `/foo` compare as equal. */
+function normalize(path: string): string {
+  return path.replace(/\/+$/, '');
+}
+
+function isCurrentPage(href: string): boolean {
+  if (typeof window === 'undefined') return false;
+  return normalize(window.location.pathname) === normalize(href);
+}
+
+// Open sections that contain the current page on mount, plus any flagged defaultOpen.
+onMounted(() => {
+  for (const section of props.nav.sections) {
+    if (section.defaultOpen) {
+      openSections.value.add(section.title);
+      continue;
+    }
+    if (section.items.some((item) => isCurrentPage(resolveHref(item.href, item.external)))) {
+      openSections.value.add(section.title);
+    }
+  }
+  openSections.value = new Set(openSections.value);
+});
+
+function toggle(title: string) {
+  if (openSections.value.has(title)) openSections.value.delete(title);
+  else openSections.value.add(title);
+  openSections.value = new Set(openSections.value);
+}
+
+const isOpen = (title: string) => openSections.value.has(title);
+const isActive = (item: NavItem) => isCurrentPage(resolveHref(item.href, item.external));
+</script>
+
+<template>
+  <nav class="space-y-2">
+    <div v-if="nav.topLinks?.length" class="space-y-1">
+      <NavLink
+        v-for="link in nav.topLinks"
+        :key="link.href"
+        :item="link"
+        variant="flat"
+        :active="isActive(link)"
+      />
+    </div>
+
+    <div v-for="section in nav.sections" :key="section.title">
+      <button
+        type="button"
+        class="section-trigger"
+        :aria-expanded="isOpen(section.title)"
+        @click="toggle(section.title)"
+      >
+        <span>{{ section.title }}</span>
+        <svg
+          class="h-4 w-4 transition-transform duration-200"
+          :class="{ 'rotate-180': isOpen(section.title) }"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <div v-show="isOpen(section.title)" class="pl-3 space-y-1 mt-1">
+        <NavLink v-for="item in section.items" :key="item.href" :item="item" :active="isActive(item)" />
+      </div>
+    </div>
+
+    <div v-if="nav.bottomLinks?.length" class="pt-4 border-t border-gray-700 space-y-1">
+      <NavLink v-for="link in nav.bottomLinks" :key="link.href" :item="link" :active="isActive(link)" />
+    </div>
+  </nav>
+</template>
+
+<style scoped>
+.section-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(209 213 219);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+.section-trigger:hover {
+  background-color: var(--color-medium-bg);
+  color: white;
+}
+</style>

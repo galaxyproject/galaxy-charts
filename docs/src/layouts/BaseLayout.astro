@@ -1,0 +1,30 @@
+---
+import SiteShell from '@/components/layout/SiteShell.astro';
+import Sidebar from '@/components/layout/Sidebar.astro';
+import { site, social } from '@/config/site';
+import { nav } from '@/config/nav';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Toggle the desktop sidebar. Defaults to true (docs mode). */
+  showSidebar?: boolean;
+  /** When true, skip the padded bg-grid wrapper and let the slot go edge-to-edge. */
+  bare?: boolean;
+}
+
+const { title, description, showSidebar = true, bare = false } = Astro.props;
+---
+
+<SiteShell site={site} pageTitle={title} pageDescription={description} showSidebar={showSidebar}>
+  {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} />}
+  {
+    bare ? (
+      <slot />
+    ) : (
+      <div class="flex-1 p-4 sm:p-6 lg:p-pad bg-light-bg bg-grid">
+        <slot />
+      </div>
+    )
+  }
+</SiteShell>

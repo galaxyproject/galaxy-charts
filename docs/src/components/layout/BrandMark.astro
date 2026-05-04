@@ -1,0 +1,43 @@
+---
+/**
+ * BrandMark — site logo + brand label, linked home.
+ * Used at the top of the sidebar on docs pages and at the top-left of the
+ * landing page hero. Pulls all visuals from `site.logo`, `site.brand`,
+ * and `site.brandColor` so the component stays content-agnostic.
+ */
+import type { SiteConfig } from "@/config/types";
+import { resolveHref } from "@/utils/url";
+
+interface Props {
+    site: SiteConfig;
+}
+
+const { site } = Astro.props;
+const homeHref = resolveHref("/");
+const logoSrc = resolveHref(site.logo.src);
+---
+
+<a href={homeHref} class="brand-mark flex items-center gap-3">
+    <img src={logoSrc} alt={site.logo.alt} class="h-7 w-auto" />
+    {
+        site.brand && (
+            <span
+                class:list={["text-2xl font-normal", !site.brandColor && "text-galaxy-gold"]}
+                style={site.brandColor ? `color: ${site.brandColor};` : undefined}>
+                {site.brand}
+            </span>
+        )
+    }
+</a>
+
+<style>
+    .brand-mark {
+        transition:
+            transform 0.3s ease,
+            filter 0.3s ease;
+    }
+    .brand-mark:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+    }
+</style>

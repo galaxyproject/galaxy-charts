@@ -1,12 +1,12 @@
 ---
 /**
  * Desktop sidebar — content-agnostic.
- *   top:    logo block (linked to home)
+ *   top:    BrandMark (linked to home)
  *   middle: navigation
  *   bottom: optional social links
  */
 import type { NavConfig, SiteConfig, SocialLink } from "@/config/types";
-import { resolveHref } from "@/utils/url";
+import BrandMark from "./BrandMark.astro";
 import SidebarNav from "./SidebarNav.vue";
 import SocialLinks from "./SocialLinks.astro";
 
@@ -20,25 +20,12 @@ interface Props {
 }
 
 const { site, nav, social = [], currentPath } = Astro.props;
-const homeHref = resolveHref("/");
-const logoSrc = resolveHref(site.logo.src);
 ---
 
 <aside
     class="hidden lg:flex flex-col w-sidebar bg-galaxy-dark text-white fixed left-0 top-0 h-screen overflow-y-auto z-40">
     <div class="p-4 border-b border-medium-bg flex justify-center">
-        <a href={homeHref} class="sidebar-logo flex items-center gap-3">
-            <img src={logoSrc} alt={site.logo.alt} class="h-7 w-auto" />
-            {
-                site.brand && (
-                    <span
-                        class:list={["text-2xl font-normal", !site.brandColor && "text-galaxy-gold"]}
-                        style={site.brandColor ? `color: ${site.brandColor};` : undefined}>
-                        {site.brand}
-                    </span>
-                )
-            }
-        </a>
+        <BrandMark site={site} />
     </div>
 
     <div class="flex-1 p-4 overflow-y-auto">
@@ -53,15 +40,3 @@ const logoSrc = resolveHref(site.logo.src);
         )
     }
 </aside>
-
-<style>
-    .sidebar-logo {
-        transition:
-            transform 0.3s ease,
-            filter 0.3s ease;
-    }
-    .sidebar-logo:hover {
-        transform: scale(1.05);
-        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
-    }
-</style>

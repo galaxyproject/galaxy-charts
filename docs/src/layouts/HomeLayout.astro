@@ -4,7 +4,9 @@
  * Driven by props — no hardcoded content.
  */
 import BaseLayout from "./BaseLayout.astro";
+import BrandMark from "@/components/layout/BrandMark.astro";
 import { resolveHref } from "@/utils/url";
+import { site } from "@/config/site";
 import type { Feature, FeaturesHeader, HeroConfig } from "@/config/home";
 
 interface Props {
@@ -22,6 +24,11 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
     <div class="galaxy-banner relative overflow-hidden border-b-0">
         <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
         <slot name="hero-after" />
+
+        {/* Same on-screen position as the sidebar's BrandMark on docs pages. */}
+        <div class="absolute top-4 left-4 z-20">
+            <BrandMark site={site} />
+        </div>
 
         <section class="relative z-10 px-4 sm:px-6 lg:px-8">
             <div

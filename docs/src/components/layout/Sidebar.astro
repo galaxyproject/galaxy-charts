@@ -27,8 +27,17 @@ const logoSrc = resolveHref(site.logo.src);
 <aside
     class="hidden lg:flex flex-col w-sidebar bg-galaxy-dark text-white fixed left-0 top-0 h-screen overflow-y-auto z-40">
     <div class="p-4 border-b border-medium-bg flex justify-center">
-        <a href={homeHref} class="sidebar-logo block">
-            <img src={logoSrc} alt={site.logo.alt} class="h-10 w-auto" />
+        <a href={homeHref} class="sidebar-logo flex items-center gap-3">
+            <img src={logoSrc} alt={site.logo.alt} class="h-7 w-auto" />
+            {
+                site.brand && (
+                    <span
+                        class:list={["text-2xl font-normal", !site.brandColor && "text-galaxy-gold"]}
+                        style={site.brandColor ? `color: ${site.brandColor};` : undefined}>
+                        {site.brand}
+                    </span>
+                )
+            }
         </a>
     </div>
 

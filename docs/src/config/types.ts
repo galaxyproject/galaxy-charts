@@ -29,4 +29,8 @@ export interface SiteConfig {
     logo: { src: string; alt: string };
     /** Path (or absolute URL) to the favicon. */
     favicon?: string;
+    /** Short brand label shown next to the sidebar logo. */
+    brand?: string;
+    /** CSS color for the brand label. Falls back to `text-galaxy-gold`. */
+    brandColor?: string;
 }

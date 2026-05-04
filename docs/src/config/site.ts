@@ -4,6 +4,8 @@ export const site: SiteConfig = {
     title: "Galaxy Charts",
     description: "Documentation for Galaxy Charts — develop, test and deploy JavaScript visualizations for Galaxy.",
     logo: { src: "galaxy-charts.svg", alt: "Galaxy Charts" },
+    brand: "Charts",
+    brandColor: "#E30A17",
 };
 
 export const social: SocialLink[] = [

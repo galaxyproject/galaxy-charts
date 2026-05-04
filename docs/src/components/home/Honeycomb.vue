@@ -25,9 +25,7 @@ function buildHoneycomb() {
     const height = window.innerHeight + size;
     const cols = Math.ceil(width / size);
     const rows = Math.ceil(height / cols);
-    const base = import.meta.env.BASE_URL.endsWith('/')
-        ? import.meta.env.BASE_URL
-        : import.meta.env.BASE_URL + '/';
+    const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/";
     const allImages = Array.from({ length: totalImages }, (_, i) => `${base}honeycomb/${i + 1}.png`);
     const temp = [];
 

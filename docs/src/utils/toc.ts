@@ -6,17 +6,17 @@ export const TOC_MAX_DEPTH = 4;
 export const TOC_MIN_COUNT = 2;
 
 export interface Heading {
-  depth: number;
-  slug: string;
-  text: string;
+    depth: number;
+    slug: string;
+    text: string;
 }
 
 /** Filter a page's headings down to the set rendered in the TOC. */
 export function visibleHeadings(headings: Heading[]): Heading[] {
-  return headings.filter((h) => h.depth >= TOC_MIN_DEPTH && h.depth <= TOC_MAX_DEPTH);
+    return headings.filter((h) => h.depth >= TOC_MIN_DEPTH && h.depth <= TOC_MAX_DEPTH);
 }
 
 /** Whether a TOC has enough content to be worth rendering. */
 export function hasToc(headings: Heading[]): boolean {
-  return visibleHeadings(headings).length >= TOC_MIN_COUNT;
+    return visibleHeadings(headings).length >= TOC_MIN_COUNT;
 }

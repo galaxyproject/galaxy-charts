@@ -35,8 +35,7 @@ onMounted(() => {
     } catch {
         /* ignore */
     }
-    const prefersDark =
-        typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const dark = stored ? stored === "dark" : prefersDark;
     isDark.value = dark;
     applyTheme(dark);

@@ -26,27 +26,27 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
         <slot name="hero-after" />
 
         {/* Same on-screen position as the sidebar's BrandMark on docs pages. */}
-        {/* Wrapper offsets compensate for px-3 py-2 so the BrandMark inside
-            lands at exactly (1.5rem, 1rem) — matching the sidebar's BrandMark. */}
+        {
+            /* Wrapper offsets compensate for px-3 py-2 so the BrandMark inside
+            lands at exactly (1.5rem, 1rem) — matching the sidebar's BrandMark. */
+        }
         <div class="fixed top-2 left-8 z-20 bg-galaxy-dark rounded-lg px-3 py-2">
             <BrandMark site={site} />
         </div>
 
         <section class="relative z-10 px-4 sm:px-6 lg:px-8">
             <div
-                class="max-w-5xl mx-auto my-16 sm:my-20 px-6 py-12 sm:py-16 text-center rounded-xl bg-galaxy-dark opacity-95 border border-white/10">
+                class="max-w-5xl mx-auto my-16 sm:my-20 px-6 py-12 sm:py-16 text-left rounded-xl bg-galaxy-dark opacity-95 border border-white/10">
                 {
                     hero.name && (
-                        <p class="text-4xl sm:text-6xl text-galaxy-gold font-bold tracking-tight mb-3">{hero.name}</p>
+                        <p class="text-3xl sm:text-5xl text-galaxy-gold font-bold tracking-tight mb-3">{hero.name}</p>
                     )
                 }
-                <h1 class="text-4xl sm:text-6xl font-bold text-white tracking-tight">{hero.text}</h1>
-                {
-                    hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">{hero.tagline}</p>
-                }
+                <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight">{hero.text}</h1>
+                {hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl">{hero.tagline}</p>}
                 {
                     hero.actions && hero.actions.length > 0 && (
-                        <div class="mt-8 flex flex-wrap justify-center gap-3">
+                        <div class="mt-8 flex flex-wrap gap-3">
                             {hero.actions.map((action) => (
                                 <a
                                     href={resolveHref(action.href)}

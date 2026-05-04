@@ -32,7 +32,7 @@ export interface FeaturesHeader {
 export const hero: HeroConfig = {
     name: "Galaxy Visualization",
     text: "Plugin Framework",
-    tagline: "Develop, Test and Deploy JavaScript Visualizations",
+    tagline: "Develop, test and deploy JavaScript plugins.",
     actions: [
         { text: "What is Galaxy Charts?", href: "/introduction", variant: "brand" },
         { text: "Examples", href: "/example-igv", variant: "alt" },

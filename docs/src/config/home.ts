@@ -68,7 +68,7 @@ export const features: Feature[] = [
     },
     {
         title: "Deployment",
-        subtitle: "One step to publish",
+        subtitle: "Easy to publish",
         description: "When your visualization is ready, deploy it to Galaxy for use by researchers worldwide.",
         iconPath: ICON_UPLOAD,
     },

@@ -1,35 +1,29 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import type { NavConfig, NavItem } from '@/config/types';
 import { resolveHref, samePath } from '@/utils/url';
 import NavLink from './NavLink.vue';
 
 interface Props {
   nav: NavConfig;
+  /** Server-resolved current pathname. Used for both SSR and hydration so
+      the active link / open section don't flash on first paint. */
+  currentPath: string;
 }
 
 const props = defineProps<Props>();
 
-const openSections = ref<Set<string>>(new Set());
+const isCurrentPage = (href: string) => samePath(props.currentPath, href);
+const isActive = (item: NavItem) => isCurrentPage(resolveHref(item.href, item.external));
 
-function isCurrentPage(href: string): boolean {
-  if (typeof window === 'undefined') return false;
-  return samePath(window.location.pathname, href);
-}
+// Compute initial open sections eagerly so SSR + hydration match.
+const initiallyOpen = new Set<string>(
+  props.nav.sections
+    .filter((section) => section.defaultOpen || section.items.some(isActive))
+    .map((section) => section.title),
+);
 
-// Open sections that contain the current page on mount, plus any flagged defaultOpen.
-onMounted(() => {
-  for (const section of props.nav.sections) {
-    if (section.defaultOpen) {
-      openSections.value.add(section.title);
-      continue;
-    }
-    if (section.items.some((item) => isCurrentPage(resolveHref(item.href, item.external)))) {
-      openSections.value.add(section.title);
-    }
-  }
-  openSections.value = new Set(openSections.value);
-});
+const openSections = ref<Set<string>>(initiallyOpen);
 
 function toggle(title: string) {
   if (openSections.value.has(title)) openSections.value.delete(title);
@@ -38,7 +32,6 @@ function toggle(title: string) {
 }
 
 const isOpen = (title: string) => openSections.value.has(title);
-const isActive = (item: NavItem) => isCurrentPage(resolveHref(item.href, item.external));
 </script>
 
 <template>

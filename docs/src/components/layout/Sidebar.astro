@@ -15,9 +15,11 @@ interface Props {
   nav: NavConfig;
   /** Optional bottom-of-sidebar social links. */
   social?: SocialLink[];
+  /** Server-resolved current path (e.g. `Astro.url.pathname`). */
+  currentPath: string;
 }
 
-const { site, nav, social = [] } = Astro.props;
+const { site, nav, social = [], currentPath } = Astro.props;
 const homeHref = resolveHref('/');
 const logoSrc = resolveHref(site.logo.src);
 ---
@@ -32,7 +34,7 @@ const logoSrc = resolveHref(site.logo.src);
   </div>
 
   <div class="flex-1 p-4 overflow-y-auto">
-    <SidebarNav nav={nav} client:load />
+    <SidebarNav nav={nav} currentPath={currentPath} client:load />
   </div>
 
   {

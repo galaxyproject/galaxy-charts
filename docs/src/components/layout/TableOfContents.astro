@@ -3,16 +3,18 @@ import { visibleHeadings, hasToc, type Heading } from '@/utils/toc';
 
 interface Props {
   headings: Heading[];
+  /** Heading text shown above the list. */
+  title?: string;
 }
 
-const { headings } = Astro.props;
+const { headings, title = 'On this page' } = Astro.props;
 const filtered = visibleHeadings(headings);
 ---
 
 {
   hasToc(headings) && (
     <nav class="toc text-sm" aria-label="Table of Contents">
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">On this page</h2>
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">{title}</h2>
       <ul class="list-none p-0 m-0">
         {filtered.map((heading) => (
           <li class={`toc-item toc-depth-${heading.depth}`}>

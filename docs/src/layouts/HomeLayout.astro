@@ -5,29 +5,12 @@
  */
 import BaseLayout from './BaseLayout.astro';
 import { resolveHref } from '@/utils/url';
-
-export interface HeroAction {
-  text: string;
-  href: string;
-  variant?: 'brand' | 'alt';
-}
-
-export interface Feature {
-  title: string;
-  details: string;
-  /** Emoji or short string rendered as the icon. */
-  icon?: string;
-}
+import type { Feature, HeroConfig } from '@/config/home';
 
 interface Props {
   title: string;
   description?: string;
-  hero: {
-    name?: string;
-    text: string;
-    tagline?: string;
-    actions?: HeroAction[];
-  };
+  hero: HeroConfig;
   features?: Feature[];
 }
 

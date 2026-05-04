@@ -19,6 +19,10 @@ const { title, description, showSidebar = true, bare = false } = Astro.props;
 const pageTitle = `${title} | ${site.title}`;
 const pageDescription = description ?? site.description;
 const faviconHref = site.favicon ? resolveHref(site.favicon) : undefined;
+
+// Server-resolved current path so SidebarNav can highlight the active link
+// and pre-expand its parent section without waiting for client hydration.
+const currentPath = Astro.url.pathname;
 ---
 
 <SiteShell
@@ -27,7 +31,7 @@ const faviconHref = site.favicon ? resolveHref(site.favicon) : undefined;
   faviconHref={faviconHref}
   showSidebar={showSidebar}
 >
-  {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} />}
+  {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} currentPath={currentPath} />}
   {
     bare ? (
       <slot />

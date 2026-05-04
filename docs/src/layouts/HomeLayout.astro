@@ -5,16 +5,17 @@
  */
 import BaseLayout from "./BaseLayout.astro";
 import { resolveHref } from "@/utils/url";
-import type { Feature, HeroConfig } from "@/config/home";
+import type { Feature, FeaturesHeader, HeroConfig } from "@/config/home";
 
 interface Props {
     title: string;
     description?: string;
     hero: HeroConfig;
     features?: Feature[];
+    featuresHeader?: FeaturesHeader;
 }
 
-const { title, description, hero, features = [] } = Astro.props;
+const { title, description, hero, features = [], featuresHeader } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} showSidebar={false} bare>
@@ -48,17 +49,85 @@ const { title, description, hero, features = [] } = Astro.props;
 
     {
         features.length > 0 && (
-            <section class="bg-light-bg bg-grid py-16 px-4 sm:px-6 lg:px-8">
-                <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {features.map((f) => (
-                        <article class="feature-card bg-white rounded-lg p-6 shadow-sm border border-gray-100 transition-transform hover:-translate-y-1">
-                            {f.icon && <div class="text-3xl mb-3">{f.icon}</div>}
-                            <h3 class="text-lg font-semibold text-galaxy-dark mb-2">{f.title}</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed">{f.details}</p>
-                        </article>
-                    ))}
+            <section class="features-section relative bg-galaxy-dark px-4 py-16 sm:px-6 lg:px-8">
+                <div class="bg-grid-dark pointer-events-none absolute inset-0" />
+                <div class="relative max-w-6xl mx-auto">
+                    {(featuresHeader?.title || featuresHeader?.tagline) && (
+                        <header class="text-center mb-12">
+                            {(featuresHeader.title || featuresHeader.emphasis) && (
+                                <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                                    {featuresHeader.title}
+                                    {featuresHeader.emphasis && (
+                                        <span class="italic font-medium"> {featuresHeader.emphasis}</span>
+                                    )}
+                                </h2>
+                            )}
+                            {featuresHeader.tagline && (
+                                <p class="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{featuresHeader.tagline}</p>
+                            )}
+                        </header>
+                    )}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((f) => (
+                            <article class="feature-card">
+                                {f.iconPath && (
+                                    <div class="feature-icon">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d={f.iconPath}
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
+                                <h3 class="text-lg font-semibold text-white mb-1">{f.title}</h3>
+                                {f.subtitle && <p class="text-galaxy-gold text-sm mb-3">{f.subtitle}</p>}
+                                <p class="text-white/70 text-sm leading-relaxed">{f.description}</p>
+                            </article>
+                        ))}
+                    </div>
                 </div>
             </section>
         )
     }
 </BaseLayout>
+
+<style>
+    /* Pillar-style cards lifted from galaxy-hub: subtle white-on-dark surface
+       with a gold border + lift on hover. */
+    .feature-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+        border-color: var(--color-galaxy-gold);
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 215, 0, 0.1);
+    }
+
+    .feature-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: 1rem;
+        background: var(--color-galaxy-primary);
+        border-radius: 0.375rem;
+    }
+    .feature-icon svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: var(--color-galaxy-gold);
+    }
+</style>

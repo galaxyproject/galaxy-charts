@@ -189,6 +189,12 @@ body {
     text-decoration: none;
 }
 
+/* Allow long URLs in body copy to break at any character so they don't
+   overflow the viewport on mobile. */
+.prose a {
+    overflow-wrap: anywhere;
+}
+
 .prose code:not(pre code) {
     background-color: var(--prose-code-bg);
     padding: 0.125rem 0.375rem;

@@ -1,6 +1,8 @@
 ---
 import SiteShell from "@/components/layout/SiteShell.astro";
 import Sidebar from "@/components/layout/Sidebar.astro";
+import BrandMark from "@/components/layout/BrandMark.astro";
+import MobileNav from "@/components/layout/MobileNav.vue";
 import { site, social } from "@/config/site";
 import { nav } from "@/config/nav";
 import { resolveHref } from "@/utils/url";
@@ -26,6 +28,16 @@ const currentPath = Astro.url.pathname;
 ---
 
 <SiteShell pageTitle={pageTitle} pageDescription={pageDescription} faviconHref={faviconHref} showSidebar={showSidebar}>
+    {
+        showSidebar && (
+            <header
+                slot="mobile-bar"
+                class="lg:hidden fixed top-0 left-0 right-0 h-14 z-50 flex items-center justify-between px-4 bg-[var(--sidebar-bg)] border-b border-[var(--sidebar-border)]">
+                <BrandMark site={site} />
+                <MobileNav nav={nav} currentPath={currentPath} client:only="vue" />
+            </header>
+        )
+    }
     {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} currentPath={currentPath} />}
     {
         bare ? (

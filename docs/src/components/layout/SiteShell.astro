@@ -39,9 +39,15 @@ const { pageTitle, pageDescription, faviconHref, showSidebar = true } = Astro.pr
         <meta name="twitter:card" content="summary_large_image" />
     </head>
     <body class="min-h-screen text-foreground">
+        <slot name="mobile-bar" />
         <slot name="sidebar" />
 
-        <main class:list={["min-h-screen overflow-x-clip flex flex-col", showSidebar && "lg:ml-sidebar"]}>
+        <main
+            class:list={[
+                "min-h-screen overflow-x-clip flex flex-col",
+                showSidebar && "lg:ml-sidebar",
+                showSidebar && "pt-14 lg:pt-0",
+            ]}>
             <slot />
         </main>
     </body>

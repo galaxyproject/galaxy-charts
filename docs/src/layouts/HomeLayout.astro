@@ -19,94 +19,104 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} showSidebar={false} bare>
-    <section class="galaxy-banner relative overflow-hidden">
+    <div class="galaxy-banner relative overflow-hidden border-b-0">
         <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
-        <div class="relative z-10 max-w-5xl mx-auto px-6 py-20 sm:py-28 text-center">
-            {hero.name && <p class="text-galaxy-gold font-semibold tracking-wider uppercase mb-3">{hero.name}</p>}
-            <h1 class="text-4xl sm:text-6xl font-bold text-white tracking-tight">{hero.text}</h1>
-            {hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">{hero.tagline}</p>}
-            {
-                hero.actions && hero.actions.length > 0 && (
-                    <div class="mt-8 flex flex-wrap justify-center gap-3">
-                        {hero.actions.map((action) => (
-                            <a
-                                href={resolveHref(action.href)}
-                                class:list={[
-                                    "inline-flex items-center px-5 py-2.5 rounded-md font-semibold transition-colors",
-                                    action.variant === "alt"
-                                        ? "bg-white/10 text-white hover:bg-white/20 border border-white/20"
-                                        : "bg-galaxy-gold text-galaxy-dark hover:bg-accent-hover",
-                                ]}>
-                                {action.text}
-                            </a>
-                        ))}
-                    </div>
-                )
-            }
-        </div>
         <slot name="hero-after" />
-    </section>
 
-    {
-        features.length > 0 && (
-            <section class="features-section relative bg-galaxy-dark px-4 py-16 sm:px-6 lg:px-8">
-                <div class="bg-grid-dark pointer-events-none absolute inset-0" />
-                <div class="relative max-w-6xl mx-auto">
-                    {(featuresHeader?.title || featuresHeader?.tagline) && (
-                        <header class="text-center mb-12">
-                            {(featuresHeader.title || featuresHeader.emphasis) && (
-                                <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                                    {featuresHeader.title}
-                                    {featuresHeader.emphasis && (
-                                        <span class="italic font-medium"> {featuresHeader.emphasis}</span>
-                                    )}
-                                </h2>
-                            )}
-                            {featuresHeader.tagline && (
-                                <p class="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{featuresHeader.tagline}</p>
-                            )}
-                        </header>
-                    )}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {features.map((f) => (
-                            <article class="feature-card">
-                                {f.iconPath && (
-                                    <div class="feature-icon">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d={f.iconPath}
-                                            />
-                                        </svg>
-                                    </div>
+        <section class="relative z-10 px-4 sm:px-6 lg:px-8">
+            <div
+                class="max-w-5xl mx-auto my-16 sm:my-20 px-6 py-12 sm:py-16 text-center rounded-xl bg-galaxy-dark opacity-95 border border-white/10">
+                {
+                    hero.name && (
+                        <p class="text-4xl sm:text-6xl text-galaxy-gold font-bold tracking-tight mb-3">{hero.name}</p>
+                    )
+                }
+                <h1 class="text-4xl sm:text-6xl font-bold text-white tracking-tight">{hero.text}</h1>
+                {
+                    hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">{hero.tagline}</p>
+                }
+                {
+                    hero.actions && hero.actions.length > 0 && (
+                        <div class="mt-8 flex flex-wrap justify-center gap-3">
+                            {hero.actions.map((action) => (
+                                <a
+                                    href={resolveHref(action.href)}
+                                    class:list={[
+                                        "inline-flex items-center px-5 py-2.5 rounded-md font-semibold transition-colors",
+                                        action.variant === "alt"
+                                            ? "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                                            : "bg-galaxy-gold text-galaxy-dark hover:bg-accent-hover",
+                                    ]}>
+                                    {action.text}
+                                </a>
+                            ))}
+                        </div>
+                    )
+                }
+            </div>
+        </section>
+
+        {
+            features.length > 0 && (
+                <section class="relative z-10 px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20">
+                    <div class="max-w-5xl mx-auto">
+                        {(featuresHeader?.title || featuresHeader?.tagline) && (
+                            <header class="text-center mb-12">
+                                {(featuresHeader.title || featuresHeader.emphasis) && (
+                                    <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                                        {featuresHeader.title}
+                                        {featuresHeader.emphasis && (
+                                            <span class="italic font-medium"> {featuresHeader.emphasis}</span>
+                                        )}
+                                    </h2>
                                 )}
-                                <h3 class="text-lg font-semibold text-white mb-1">{f.title}</h3>
-                                {f.subtitle && <p class="text-galaxy-gold text-sm mb-3">{f.subtitle}</p>}
-                                <p class="text-white/70 text-sm leading-relaxed">{f.description}</p>
-                            </article>
-                        ))}
+                                {featuresHeader.tagline && (
+                                    <p class="mt-3 text-white/70 text-lg max-w-2xl mx-auto">{featuresHeader.tagline}</p>
+                                )}
+                            </header>
+                        )}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {features.map((f) => (
+                                <article class="feature-card">
+                                    {f.iconPath && (
+                                        <div class="feature-icon">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d={f.iconPath}
+                                                />
+                                            </svg>
+                                        </div>
+                                    )}
+                                    <h3 class="text-lg font-semibold text-white mb-1">{f.title}</h3>
+                                    {f.subtitle && <p class="text-galaxy-gold text-sm mb-3">{f.subtitle}</p>}
+                                    <p class="text-white/70 text-sm leading-relaxed">{f.description}</p>
+                                </article>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
-        )
-    }
+                </section>
+            )
+        }
+    </div>
 </BaseLayout>
 
 <style>
     /* Pillar-style cards lifted from galaxy-hub: subtle white-on-dark surface
        with a gold border + lift on hover. */
     .feature-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--color-galaxy-dark);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0.5rem;
         padding: 1.5rem;
         transition: all 0.3s ease;
+        opacity: 0.95;
     }
     .feature-card:hover {
         border-color: var(--color-galaxy-gold);

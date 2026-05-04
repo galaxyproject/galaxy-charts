@@ -1,8 +1,9 @@
 ---
 import HomeLayout from "@/layouts/HomeLayout.astro";
-// Honeycomb temporarily disabled for layout review
-// import Honeycomb from "@/components/home/Honeycomb.vue";
+import Honeycomb from "@/components/home/Honeycomb.vue";
 import { hero, features, featuresHeader } from "@/config/home";
 ---
 
-<HomeLayout title="Galaxy Charts" hero={hero} features={features} featuresHeader={featuresHeader} />
+<HomeLayout title="Galaxy Charts" hero={hero} features={features} featuresHeader={featuresHeader}>
+    <Honeycomb slot="hero-after" client:only="vue" />
+</HomeLayout>

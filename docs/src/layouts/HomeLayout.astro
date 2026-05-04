@@ -117,21 +117,14 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
 </BaseLayout>
 
 <style>
-    /* Pillar-style cards lifted from galaxy-hub: subtle white-on-dark surface
-       with a gold border + lift on hover. */
+    /* Pillar-style cards lifted from galaxy-hub: subtle white-on-dark surface.
+       No hover treatment — cards aren't interactive. */
     .feature-card {
         background: var(--color-galaxy-dark);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0.5rem;
         padding: 1.5rem;
-        transition: all 0.3s ease;
         opacity: 0.95;
-    }
-    .feature-card:hover {
-        border-color: var(--color-galaxy-gold);
-        box-shadow:
-            0 10px 40px rgba(0, 0, 0, 0.3),
-            0 0 20px rgba(255, 215, 0, 0.1);
     }
 
     .feature-icon {

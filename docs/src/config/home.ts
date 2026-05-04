@@ -39,11 +39,8 @@ export const hero: HeroConfig = {
     ],
 };
 
-export const featuresHeader: FeaturesHeader = {
-    // title: "...",
-    // emphasis: "...",
-    // tagline: "...",
-};
+// Add `title`, optional `emphasis`, `tagline` to render a section header above the cards.
+export const featuresHeader: FeaturesHeader = {};
 
 // Heroicons-outline style SVG paths.
 const ICON_MONITOR =

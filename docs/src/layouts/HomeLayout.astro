@@ -22,11 +22,11 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
 
 <BaseLayout title={title} description={description} showSidebar={false} bare>
     <div class="home-banner relative overflow-hidden">
-        <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
+        <div class="bg-grid absolute inset-0 pointer-events-none"></div>
         <slot name="hero-after" />
 
-        <div class="fixed top-2 left-4 z-20 bg-galaxy-dark rounded-lg px-3 py-2">
-            <BrandMark site={site} forceDark />
+        <div class="fixed top-2 left-4 z-20 rounded-lg px-3 py-2 bg-light-bg dark:bg-galaxy-dark">
+            <BrandMark site={site} />
         </div>
 
         <section class="relative z-10 px-4 sm:px-6 lg:px-8">

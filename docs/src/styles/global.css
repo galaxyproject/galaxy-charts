@@ -71,8 +71,12 @@
     border-bottom: 4px solid var(--color-galaxy-gold);
 }
 
-/* Home banner — full-bleed gradient backdrop, no border. Used by HomeLayout. */
+/* Home banner — full-bleed backdrop. Light mode matches the docs body so the
+   shared `--grid-line` overlay reads identically; dark mode keeps the gradient. */
 .home-banner {
+    background: var(--color-light-bg);
+}
+.dark .home-banner {
     background: var(--galaxy-gradient);
 }
 

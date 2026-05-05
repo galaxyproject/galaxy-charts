@@ -65,10 +65,12 @@
     --galaxy-gradient: linear-gradient(135deg, var(--color-galaxy-dark) 0%, var(--color-galaxy-primary) 100%);
 }
 
-/* Galaxy banner — gradient + gold accent border. Used by PageHeader. */
 .galaxy-banner {
-    background: var(--galaxy-gradient);
+    background: var(--color-galaxy-primary);
     border-bottom: 4px solid var(--color-galaxy-gold);
+}
+.dark .galaxy-banner {
+    background: var(--galaxy-gradient);
 }
 
 /* Home banner — full-bleed backdrop. Light mode matches the docs body so the

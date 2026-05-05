@@ -9,6 +9,11 @@
  * detected reliably).
  */
 import "../../styles/global.css";
+import { STORAGE_KEY, DEFAULT_DARK } from "@/utils/theme";
+
+// Tiny pre-paint boot script. Mirrors getInitialDark() in @/utils/theme; the
+// values are template-stringified in so the script stays self-contained.
+const themeBoot = `(function(){try{var s=localStorage.getItem(${JSON.stringify(STORAGE_KEY)});var d=s?s==="dark":${DEFAULT_DARK};if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
 
 interface Props {
     /** Full document title — caller composes any "site name" suffix. */
@@ -28,6 +33,8 @@ const { pageTitle, pageDescription, faviconHref, showSidebar = true } = Astro.pr
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        {/* Pre-paint theme boot — see @/utils/theme. */}
+        <script is:inline set:html={themeBoot} />
         {faviconHref && <link rel="icon" href={faviconHref} />}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={Astro.generator} />

@@ -1,27 +1,17 @@
 <script setup lang="ts">
 /**
- * Light/dark mode toggle. Persists choice in localStorage; falls back to
- * `prefers-color-scheme` for first-time visitors. Toggles the `.dark` class
- * on `<html>` so Tailwind v4's `dark:` variant applies site-wide.
+ * Light/dark mode toggle. Theme storage + boot logic live in @/utils/theme;
+ * this component is just the button + reactive state.
  */
 import { ref, onMounted } from "vue";
+import { applyTheme, getInitialDark, writeStoredTheme } from "@/utils/theme";
 
-const STORAGE_KEY = "theme";
 const isDark = ref(false);
-
-function applyTheme(dark: boolean) {
-    if (typeof document === "undefined") return;
-    document.documentElement.classList.toggle("dark", dark);
-}
 
 function setTheme(dark: boolean) {
     isDark.value = dark;
     applyTheme(dark);
-    try {
-        localStorage.setItem(STORAGE_KEY, dark ? "dark" : "light");
-    } catch {
-        /* localStorage may be blocked — fail quietly. */
-    }
+    writeStoredTheme(dark);
 }
 
 function toggle() {
@@ -29,16 +19,9 @@ function toggle() {
 }
 
 onMounted(() => {
-    let stored: string | null = null;
-    try {
-        stored = localStorage.getItem(STORAGE_KEY);
-    } catch {
-        /* ignore */
-    }
-    const prefersDark = typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const dark = stored ? stored === "dark" : prefersDark;
+    const dark = getInitialDark();
     isDark.value = dark;
-    applyTheme(dark);
+    applyTheme(dark); // idempotent re-sync; the boot script in SiteShell already did this
 });
 </script>
 

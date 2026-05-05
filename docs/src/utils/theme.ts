@@ -6,7 +6,7 @@
  */
 
 export const STORAGE_KEY = "theme";
-export const DEFAULT_DARK = true;
+export const DEFAULT_DARK = false;
 
 export function applyTheme(dark: boolean): void {
     if (typeof document === "undefined") return;

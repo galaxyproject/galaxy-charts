@@ -37,12 +37,8 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
         <section class="relative z-10 px-4 sm:px-6 lg:px-8">
             <div
                 class="max-w-5xl mx-auto my-16 sm:my-20 px-6 py-12 sm:py-16 text-left rounded-xl bg-galaxy-dark opacity-95 border border-white/10">
-                {
-                    hero.name && (
-                        <p class="text-3xl sm:text-5xl text-galaxy-gold font-bold tracking-tight mb-3">{hero.name}</p>
-                    )
-                }
-                <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight">{hero.text}</h1>
+                {hero.name && <p class="text-3xl sm:text-5xl text-white font-bold tracking-tight mb-3">{hero.name}</p>}
+                <h1 class="text-3xl sm:text-5xl font-bold text-galaxy-gold tracking-tight">{hero.text}</h1>
                 {hero.tagline && <p class="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl">{hero.tagline}</p>}
                 {
                     hero.actions && hero.actions.length > 0 && (
@@ -51,10 +47,10 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
                                 <a
                                     href={resolveHref(action.href)}
                                     class:list={[
-                                        "inline-flex items-center px-5 py-2.5 rounded-md font-semibold transition-colors",
+                                        "inline-flex items-center px-7 py-3.5 rounded-md transition-colors",
                                         action.variant === "alt"
                                             ? "bg-white/10 text-white hover:bg-white/20 border border-white/20"
-                                            : "bg-galaxy-gold text-galaxy-dark hover:bg-accent-hover",
+                                            : "bg-galaxy-gold text-galaxy-dark hover:bg-accent-hover font-semibold",
                                     ]}>
                                     {action.text}
                                 </a>
@@ -117,8 +113,6 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
 </BaseLayout>
 
 <style>
-    /* Pillar-style cards lifted from galaxy-hub: subtle white-on-dark surface.
-       No hover treatment — cards aren't interactive. */
     .feature-card {
         background: var(--color-galaxy-dark);
         border: 1px solid rgba(255, 255, 255, 0.1);

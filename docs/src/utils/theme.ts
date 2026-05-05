@@ -13,24 +13,10 @@ export function applyTheme(dark: boolean): void {
     document.documentElement.classList.toggle("dark", dark);
 }
 
-export function readStoredTheme(): "dark" | "light" | null {
-    try {
-        const v = localStorage.getItem(STORAGE_KEY);
-        return v === "dark" || v === "light" ? v : null;
-    } catch {
-        return null;
-    }
-}
-
 export function writeStoredTheme(dark: boolean): void {
     try {
         localStorage.setItem(STORAGE_KEY, dark ? "dark" : "light");
     } catch {
         /* localStorage may be blocked */
     }
-}
-
-export function getInitialDark(): boolean {
-    const stored = readStoredTheme();
-    return stored ? stored === "dark" : DEFAULT_DARK;
 }

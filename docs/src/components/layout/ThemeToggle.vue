@@ -1,10 +1,9 @@
 <script setup lang="ts">
 /**
- * Light/dark mode toggle. Theme storage + boot logic live in @/utils/theme;
- * this component is just the button + reactive state.
+ * Light/dark mode toggle button. Storage + resolution logic in @/utils/theme.
  */
 import { ref, onMounted } from "vue";
-import { applyTheme, getInitialDark, writeStoredTheme } from "@/utils/theme";
+import { applyTheme, writeStoredTheme } from "@/utils/theme";
 
 const isDark = ref(false);
 
@@ -19,9 +18,9 @@ function toggle() {
 }
 
 onMounted(() => {
-    const dark = getInitialDark();
-    isDark.value = dark;
-    applyTheme(dark); // idempotent re-sync; the boot script in SiteShell already did this
+    // The pre-paint boot script in SiteShell already resolved the theme and
+    // set the `.dark` class. Mirror that into our reactive state.
+    isDark.value = document.documentElement.classList.contains("dark");
 });
 </script>
 

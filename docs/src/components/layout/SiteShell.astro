@@ -11,9 +11,23 @@
 import "../../styles/global.css";
 import { STORAGE_KEY, DEFAULT_DARK } from "@/utils/theme";
 
-// Tiny pre-paint boot script. Mirrors getInitialDark() in @/utils/theme; the
-// values are template-stringified in so the script stays self-contained.
-const themeBoot = `(function(){try{var s=localStorage.getItem(${JSON.stringify(STORAGE_KEY)});var d=s?s==="dark":${DEFAULT_DARK};if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
+// Pre-paint theme boot. Resolution order matches getInitialDark() in
+// @/utils/theme: stored > prefers-color-scheme > DEFAULT_DARK. Values are
+// template-stringified in so the script stays self-contained.
+const themeBoot = `(function(){try{
+  var s = localStorage.getItem(${JSON.stringify(STORAGE_KEY)});
+  var d;
+  if (s) {
+    d = s === "dark";
+  } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    d = true;
+  } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+    d = false;
+  } else {
+    d = ${DEFAULT_DARK};
+  }
+  if (d) document.documentElement.classList.add("dark");
+} catch(e) {}})();`;
 
 interface Props {
     /** Full document title — caller composes any "site name" suffix. */

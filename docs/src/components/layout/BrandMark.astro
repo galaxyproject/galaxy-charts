@@ -1,31 +1,42 @@
 ---
 /**
- * BrandMark — site logo + brand label, linked home.
- * Used at the top of the sidebar on docs pages and at the top-left of the
- * landing page hero. Pulls all visuals from `site.logo`, `site.brand`,
- * and `site.brandColor` so the component stays content-agnostic.
+ * BrandMark — site logo linked home. Used at the top of the sidebar on
+ * docs pages and at the top-left of the landing-page hero.
+ *
+ * Theme behavior:
+ *   - Sidebar: swaps light/dark logo via Tailwind's `dark:` variant.
+ *   - Landing-page chip: pass `forceDark` because the chip background is
+ *     always dark regardless of the user's theme.
  */
 import type { SiteConfig } from "@/config/types";
 import { resolveHref } from "@/utils/url";
 
 interface Props {
     site: SiteConfig;
+    /** Force the dark-mode logo (used on always-dark surfaces). */
+    forceDark?: boolean;
+    /** Render at the larger sidebar size instead of the default chip size. */
+    large?: boolean;
 }
 
-const { site } = Astro.props;
+const { site, forceDark = false, large = false } = Astro.props;
 const homeHref = resolveHref("/");
-const logoSrc = resolveHref(site.logo.src);
+const logoLightSrc = resolveHref(site.logo.src);
+const logoDarkSrc = site.logo.srcDark ? resolveHref(site.logo.srcDark) : null;
+const sizeClass = large ? "h-10 w-auto" : "h-8 w-auto";
 ---
 
-<a href={homeHref} class="brand-mark flex items-center gap-3">
-    <img src={logoSrc} alt={site.logo.alt} class="h-6 w-auto" />
+<a href={homeHref} class="brand-mark inline-flex items-center">
     {
-        site.brand && (
-            <span
-                class:list={["text-xl font-normal", !site.brandColor && "text-galaxy-gold"]}
-                style={site.brandColor ? `color: ${site.brandColor};` : undefined}>
-                {site.brand}
-            </span>
+        forceDark && logoDarkSrc ? (
+            <img src={logoDarkSrc} alt={site.logo.alt} class={sizeClass} />
+        ) : logoDarkSrc ? (
+            <>
+                <img src={logoLightSrc} alt={site.logo.alt} class={`${sizeClass} block dark:hidden`} />
+                <img src={logoDarkSrc} alt={site.logo.alt} class={`${sizeClass} hidden dark:block`} />
+            </>
+        ) : (
+            <img src={logoLightSrc} alt={site.logo.alt} class={sizeClass} />
         )
     }
 </a>

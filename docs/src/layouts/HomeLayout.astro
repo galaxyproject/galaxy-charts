@@ -25,13 +25,8 @@ const { title, description, hero, features = [], featuresHeader } = Astro.props;
         <div class="bg-grid-dark absolute inset-0 pointer-events-none"></div>
         <slot name="hero-after" />
 
-        {/* Same on-screen position as the sidebar's BrandMark on docs pages. */}
-        {
-            /* Wrapper offsets compensate for px-3 py-2 so the BrandMark inside
-            lands at exactly (1.5rem, 1rem) — matching the sidebar's BrandMark. */
-        }
-        <div class="fixed top-2 left-8 z-20 bg-galaxy-dark rounded-lg px-3 py-2">
-            <BrandMark site={site} />
+        <div class="fixed top-2 left-4 z-20 bg-galaxy-dark rounded-lg px-3 py-2">
+            <BrandMark site={site} forceDark />
         </div>
 
         <section class="relative z-10 px-4 sm:px-6 lg:px-8">

@@ -25,12 +25,12 @@ export interface SocialLink {
 export interface SiteConfig {
     title: string;
     description: string;
-    /** Path (or absolute URL) to the site logo (used by HomeLayout / future chrome). */
-    logo: { src: string; alt: string };
+    /** Site logo. `src` is the light-mode variant; `srcDark` (optional) is the
+     *  dark-mode variant and the variant forced on always-dark surfaces (the
+     *  landing-page brand chip). When `srcDark` is omitted, `src` is used in
+     *  both themes.
+     */
+    logo: { src: string; srcDark?: string; alt: string };
     /** Path (or absolute URL) to the favicon. */
     favicon?: string;
-    /** Short brand label shown next to the sidebar logo. */
-    brand?: string;
-    /** CSS color for the brand label. Falls back to `text-galaxy-gold`. */
-    brandColor?: string;
 }

@@ -25,8 +25,8 @@ const { site, nav, social = [], currentPath } = Astro.props;
 
 <aside
     class="hidden lg:flex flex-col w-sidebar fixed left-0 top-0 h-screen overflow-y-auto z-40 bg-[var(--sidebar-bg)] text-[var(--sidebar-text)]">
-    <div class="p-4 pl-11 border-b border-[var(--sidebar-border)]">
-        <BrandMark site={site} />
+    <div class="px-4 py-6 flex justify-center border-b border-[var(--sidebar-border)]">
+        <BrandMark site={site} large />
     </div>
 
     <div class="flex-1 p-4 overflow-y-auto">

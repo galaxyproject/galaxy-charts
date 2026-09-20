@@ -6,6 +6,22 @@ import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
 import { viteConfigCharts } from "./vite.config.charts";
+import { readFileSync, writeFileSync } from "fs";
+
+/** Emit the input-type contract as JSON. */
+function emitInputTypeRegistry() {
+    return {
+        name: "emit-input-type-registry",
+        async closeBundle() {
+            const { inputTypeRegistry } = await import("./src/schema/inputTypes.ts");
+            const { version } = JSON.parse(readFileSync("./package.json", "utf8"));
+            writeFileSync(
+                path.resolve(__dirname, "dist/galaxy-charts.inputs.json"),
+                JSON.stringify(inputTypeRegistry(version), null, 2) + "\n",
+            );
+        },
+    };
+}
 
 export default defineConfig({
     ...viteConfigCharts,
@@ -23,6 +39,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        emitInputTypeRegistry(),
         vue(),
         tailwindcss(),
         cssInjectedByJsPlugin(),

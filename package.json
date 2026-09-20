@@ -16,12 +16,14 @@
             "types": "./dist/galaxy-charts.d.ts",
             "import": "./dist/galaxy-charts.js",
             "require": "./dist/galaxy-charts.umd.cjs"
-        }
+        },
+        "./galaxy-charts.inputs.json": "./dist/galaxy-charts.inputs.json"
     },
     "files": [
+        "./dist/galaxy-charts.d.ts",
+        "./dist/galaxy-charts.inputs.json",
         "./dist/galaxy-charts.js",
-        "./dist/galaxy-charts.umd.cjs",
-        "./dist/galaxy-charts.d.ts"
+        "./dist/galaxy-charts.umd.cjs"
     ],
     "scripts": {
         "dev": "vite",
@@ -63,6 +65,7 @@
         "vite-plugin-dts": "^4.5.4",
         "vitest": "^4.0.16",
         "vue": "^3.5.26",
-        "vue-tsc": "^3.2.1"
+        "vue-tsc": "^3.2.1",
+        "zod": "^4.6.5"
     }
 }

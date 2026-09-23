@@ -105,12 +105,13 @@ function onToggle() {
 }
 
 // Send a message to the parent container
-function postMessage() {
+function postMessage(visualizationSaved = false) {
     try {
         window.postMessage(
             {
                 container: props.container,
                 from: "galaxy-visualization",
+                visualization_saved: visualizationSaved,
                 visualization_config: JSON.parse(JSON.stringify(serialize())),
                 visualization_id: currentVisualizationId.value,
                 visualization_title: currentVisualizationTitle.value,
@@ -189,8 +190,9 @@ async function save({ settings, tracks, transcripts }: EmitSaveType) {
             serialize(),
         );
         if (newVisualizationId) {
-            updateVisualizationId(newVisualizationId);
+            currentVisualizationId.value = newVisualizationId;
         }
+        postMessage(true);
     } catch (e) {
         errorMessage.value = `Failed to save: ${e}`;
     }

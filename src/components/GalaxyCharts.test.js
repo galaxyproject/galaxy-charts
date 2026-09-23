@@ -99,6 +99,18 @@ describe("build user interface", () => {
         expect(wrapper.vm.errorMessage).toContain("Failed to postMessage");
     });
 
+    test("postMessage reports whether the state is saved", async () => {
+        const incoming = { visualization_config: {} };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+        const posted = [];
+        window.postMessage = (message) => posted.push(message);
+        wrapper.vm["postMessage"]();
+        wrapper.vm["postMessage"](true);
+        await wrapper.vm.$nextTick();
+        expect(posted.map((m) => m.visualization_saved)).toEqual([false, true]);
+    });
+
     test("save failure sets error message", async () => {
         const incoming = { visualization_config: {}, visualization_plugin: {} };
         const wrapper = mountTarget({ incoming });

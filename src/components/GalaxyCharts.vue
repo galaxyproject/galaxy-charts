@@ -111,9 +111,9 @@ function postMessage(visualizationSaved = false) {
             {
                 container: props.container,
                 from: "galaxy-visualization",
-                visualization_saved: visualizationSaved,
                 visualization_config: JSON.parse(JSON.stringify(serialize())),
                 visualization_id: currentVisualizationId.value,
+                visualization_saved: visualizationSaved,
                 visualization_title: currentVisualizationTitle.value,
             },
             "*",

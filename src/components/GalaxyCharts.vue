@@ -107,7 +107,7 @@ function onToggle() {
 // Send a message to the parent container
 function postMessage(visualizationSaved = false) {
     try {
-        window.postMessage(
+        window.parent.postMessage(
             {
                 container: props.container,
                 from: "galaxy-visualization",

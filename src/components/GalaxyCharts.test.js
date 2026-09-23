@@ -111,6 +111,34 @@ describe("build user interface", () => {
         expect(posted.map((m) => m.visualization_saved)).toEqual([false, true]);
     });
 
+    test("posts to the host window rather than its own", async () => {
+        const incoming = { visualization_config: {} };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+
+        const host = [];
+        const own = [];
+        const originalParent = Object.getOwnPropertyDescriptor(window, "parent");
+        const originalPost = window.postMessage;
+        Object.defineProperty(window, "parent", {
+            value: { postMessage: (message) => host.push(message) },
+            configurable: true,
+        });
+        window.postMessage = (message) => own.push(message);
+
+        wrapper.vm["postMessage"]();
+        await wrapper.vm.$nextTick();
+
+        window.postMessage = originalPost;
+        if (originalParent) {
+            Object.defineProperty(window, "parent", originalParent);
+        }
+
+        expect(host).toHaveLength(1);
+        expect(host[0].from).toBe("galaxy-visualization");
+        expect(own).toHaveLength(0);
+    });
+
     test("save failure sets error message", async () => {
         const incoming = { visualization_config: {}, visualization_plugin: {} };
         const wrapper = mountTarget({ incoming });

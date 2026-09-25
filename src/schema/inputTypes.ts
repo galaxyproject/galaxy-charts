@@ -40,7 +40,13 @@ export const INPUT_TYPES: Record<string, InputTypeSpec> = {
     select: { stores: z.string(), options: { kind: "declared", from: "data" } },
     // `is_number` and `is_text` filter which columns are offered, not what is stored.
     data_column: {
-        stores: z.string(),
+        stores: z
+            .string()
+            .regex(/^(auto|\d+)$/)
+            .describe(
+                'Zero-based column index as a string, or "auto". Never a column name. The form ' +
+                    'labels columns from 1, so the column shown as "Column: 5" stores "4".',
+            ),
         options: { kind: "dataset_column", filters: ["is_auto", "is_text", "is_number"] },
     },
     data: { stores: SelectedDataset, options: { kind: "history_dataset", from: "extension" } },

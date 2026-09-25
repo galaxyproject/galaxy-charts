@@ -42,6 +42,34 @@ describe("the published registry matches what the inputs actually write", () => 
             expect(typeof column.value).toBe("string");
         }
     });
+
+    test("a column name is not a column value", () => {
+        expect(INPUT_TYPES.data_column.stores.safeParse("Buried").success).toBe(false);
+        expect(INPUT_TYPES.data_column.stores.safeParse("auto").success).toBe(true);
+        expect(INPUT_TYPES.data_column.stores.safeParse("").success).toBe(false);
+    });
+
+    test("every value the form can produce satisfies the schema it publishes", () => {
+        const dataset = { metadata_column_types: { 0: "int", 1: "str", 2: "float" } };
+        for (const auto of [true, false]) {
+            for (const [isText, isNumber] of [
+                [false, false],
+                [true, false],
+                [false, true],
+            ]) {
+                for (const column of parseColumns(dataset, auto, isText, isNumber)) {
+                    expect(INPUT_TYPES.data_column.stores.safeParse(column.value).success).toBe(true);
+                }
+            }
+        }
+    });
+
+    test("the published contract says what a column value is, not merely that it is a string", () => {
+        const schema = inputTypeRegistry("test").types.data_column.stores;
+        expect(schema.pattern).toBe("^(auto|\\d+)$");
+        expect(schema.description).toMatch(/zero-based/i);
+        expect(schema.description).toMatch(/never a column name/i);
+    });
 });
 
 describe("the registry is complete and consumable", () => {

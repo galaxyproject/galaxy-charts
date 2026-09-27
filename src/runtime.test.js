@@ -36,7 +36,7 @@ function staticGraph(entry) {
 }
 
 describe("the runtime entry stays headless", () => {
-    const { modules, externals } = staticGraph(path.join(ROOT, "lib/runtime.ts"));
+    const { modules, externals } = staticGraph(path.join(ROOT, "lib/galaxy-charts-runtime.ts"));
 
     test("nothing it reaches imports vue", () => {
         expect(externals).not.toContain("vue");

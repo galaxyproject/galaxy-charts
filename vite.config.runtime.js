@@ -7,7 +7,7 @@ export default defineConfig({
     build: {
         emptyOutDir: false,
         lib: {
-            entry: path.resolve(__dirname, "lib/runtime.ts"),
+            entry: path.resolve(__dirname, "lib/galaxy-charts-runtime.ts"),
             fileName: "galaxy-charts.runtime",
             formats: ["es"],
         },
@@ -21,12 +21,12 @@ export default defineConfig({
     },
     plugins: [
         dts({
-            entry: path.resolve(__dirname, "lib/runtime.ts"),
+            entry: path.resolve(__dirname, "lib/galaxy-charts-runtime.ts"),
             outDir: path.resolve(__dirname, "dist"),
             rollupTypes: true,
             tsConfigFilePath: path.resolve(__dirname, "tsconfig.json"),
             copyDtsFiles: false,
-            include: ["lib/runtime.ts", "src/**/*.ts"],
+            include: ["lib/galaxy-charts-runtime.ts", "src/**/*.ts"],
             exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*"],
         }),
     ],

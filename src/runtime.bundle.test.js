@@ -20,7 +20,7 @@ function refuseVue() {
 }
 
 describe("a consumer can bundle the runtime entry with no vue installed", () => {
-    test("bundling lib/runtime.ts never resolves vue", async () => {
+    test("bundling lib/galaxy-charts-runtime.ts never resolves vue", async () => {
         const bundled = await build({
             configFile: false,
             logLevel: "silent",
@@ -29,7 +29,7 @@ describe("a consumer can bundle the runtime entry with no vue installed", () => 
             build: {
                 write: false,
                 target: "es2022",
-                lib: { entry: path.join(ROOT, "lib/runtime.ts"), formats: ["es"] },
+                lib: { entry: path.join(ROOT, "lib/galaxy-charts-runtime.ts"), formats: ["es"] },
             },
         });
         const [{ output }] = [].concat(bundled);

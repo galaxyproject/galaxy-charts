@@ -1,4 +1,3 @@
-import { GalaxyApi } from "@/api/client";
 import { historiesGetContents } from "@/api/histories";
 import { optionsFor } from "@/schema/inputOptions";
 import type { OptionInputType } from "@/schema/inputOptions";
@@ -19,7 +18,9 @@ export interface OptionContextType {
 }
 
 const DEFAULT_CLIENT: ClientType = {
+    // Imported on use, so a caller supplying a client never loads the store-backed one.
     async api(path: string) {
+        const { GalaxyApi } = await import("@/api/client");
         const { data } = await GalaxyApi().GET(`/${path}`);
         return data;
     },

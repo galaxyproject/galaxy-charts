@@ -143,22 +143,25 @@ describe("InputForm.vue", () => {
 
     test("sets default values when props.values is undefined", async () => {
         await wrapper.setProps({ values: undefined });
-        expect(wrapper.vm.currentValues).toEqual({
-            booleanInput: null,
-            colorInput: null,
-            conditionalInput: null,
-            dataInput: null,
-            dataColumnInput: "auto",
-            floatInput: null,
-            selectInput: null,
-            textareaInput: null,
-            textInput: null,
-        });
+        // The column options settle asynchronously, so wait for them rather than a tick count.
+        await vi.waitFor(() =>
+            expect(wrapper.vm.currentValues).toEqual({
+                booleanInput: null,
+                colorInput: null,
+                conditionalInput: null,
+                dataInput: null,
+                dataColumnInput: "auto",
+                floatInput: null,
+                selectInput: null,
+                textareaInput: null,
+                textInput: null,
+            }),
+        );
     });
 
     test("ensures boolean inputs correctly convert with toBoolean", async () => {
+        await vi.waitFor(() => expect(toBoolean).toHaveBeenCalledWith("false"));
         expect(toBoolean).toHaveBeenCalledWith("true");
-        expect(toBoolean).toHaveBeenCalledWith("false");
     });
 
     test("emits 'update:values' when integer input changes", async () => {

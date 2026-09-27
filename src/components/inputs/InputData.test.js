@@ -46,8 +46,8 @@ describe("InputData.vue", () => {
     });
 
     test("applies extension filter", async () => {
-        const wrapper = mountComponent({ input: { name: "ds", type: "data", extension: "bed" } });
-        await wrapper.vm.$nextTick();
+        mountComponent({ input: { name: "ds", type: "data", extension: "bed" } });
+        await flushPromises();
         expect(mockGet).toHaveBeenCalled();
         const calledUrl = mockGet.mock.calls.map(([url]) => url).find((url) => url.includes("/contents"));
         expect(calledUrl).toContain("extension-in");

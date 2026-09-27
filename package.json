@@ -17,17 +17,18 @@
             "import": "./dist/galaxy-charts.js",
             "require": "./dist/galaxy-charts.umd.cjs"
         },
-        "./galaxy-charts.inputs.json": "./dist/galaxy-charts.inputs.json"
+        "./galaxy-charts.inputs.json": "./dist/galaxy-charts.inputs.json",
+        "./runtime": {
+            "types": "./dist/galaxy-charts.runtime.d.ts",
+            "import": "./dist/galaxy-charts.runtime.js"
+        }
     },
     "files": [
-        "./dist/galaxy-charts.d.ts",
-        "./dist/galaxy-charts.inputs.json",
-        "./dist/galaxy-charts.js",
-        "./dist/galaxy-charts.umd.cjs"
+        "dist"
     ],
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "vite build && vite build --config vite.config.runtime.js",
         "preview": "vite preview",
         "lint": "eslint 'src/**/*.{js,ts,vue}' 'lib/**/*.ts'",
         "lint:fix": "eslint 'src/**/*.{js,ts,vue}' 'lib/**/*.ts' --fix",

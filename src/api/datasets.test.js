@@ -1,5 +1,5 @@
 import { datasetsGetColumns } from "@/api/datasets";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, test, expect, vi, beforeEach } from "vitest";
 
 global.fetch = vi.fn();
 
@@ -34,13 +34,16 @@ describe("datasetsGetColumns", () => {
         ]);
     });
 
-    it("should filter out invalid values and return correctly formatted data", async () => {
+    it("keeps every row's value, so columns of one dataset are the same length", async () => {
+        // This asserted that 2147483647 was dropped from its column while the other column kept
+        // its row, which is the desynchronisation itself: the shorter column then paired each
+        // later value with the wrong row.
         const datasetId = "dataset1";
         const columnList = [0, 1];
         const mockResponse = {
             data: [
                 ["Alanine", "Arginine"],
-                [0.61, 2147483647], // 2147483647 should be removed
+                [0.61, 2147483647],
             ],
         };
         fetch.mockResolvedValue({
@@ -51,7 +54,7 @@ describe("datasetsGetColumns", () => {
         expect(fetch).toHaveBeenCalled();
         expect(result).toEqual([
             ["Alanine", 0.61],
-            ["Arginine"], // 2147483647 is removed
+            ["Arginine", 2147483647],
         ]);
     });
 
@@ -73,5 +76,55 @@ describe("datasetsGetColumns", () => {
         fetch.mockRejectedValue(new Error("API Error"));
         await expect(datasetsGetColumns(datasetId, columnList)).rejects.toThrow("API Error");
         expect(fetch).toHaveBeenCalled();
+    });
+});
+
+describe("column rows stay aligned", () => {
+    // A cell equal to 2147483647 used to be filtered out of its own column while every other
+    // column kept its row, so the series desynchronised and each later point was drawn against
+    // the wrong x. Fixture: `a 10 / b 2147483647 / c 30 / d 40`, measured on Galaxy 26.2.
+    const rows = [
+        ["a", 10],
+        ["b", 2147483647],
+        ["c", 30],
+        ["d", 40],
+    ];
+
+    function serving(data) {
+        globalThis.fetch = vi.fn().mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ data }),
+        });
+    }
+
+    test("keeps 2147483647 as the value it is", async () => {
+        serving(rows);
+        const [x, y] = await datasetsGetColumns("d1", ["0", "1"]);
+        expect(x).toEqual(["a", "b", "c", "d"]);
+        expect(y).toEqual([10, 2147483647, 30, 40]);
+        expect(x).toHaveLength(y.length);
+    });
+
+    test("pairs every x with the y from its own row", async () => {
+        serving(rows);
+        const [x, y] = await datasetsGetColumns("d1", ["0", "1"]);
+        expect(x.map((value, index) => [value, y[index]])).toEqual([
+            ["a", 10],
+            ["b", 2147483647],
+            ["c", 30],
+            ["d", 40],
+        ]);
+    });
+
+    test("keeps a null for a cell Galaxy could not read, so the gap stays in place", async () => {
+        // The provider answers null for an empty cell, a literal NA and a ragged row alike.
+        serving([
+            ["a", 10],
+            ["b", null],
+            ["c", 30],
+        ]);
+        const [x, y] = await datasetsGetColumns("d1", ["0", "1"]);
+        expect(y).toEqual([10, null, 30]);
+        expect(x).toHaveLength(y.length);
     });
 });

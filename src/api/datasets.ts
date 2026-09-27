@@ -23,7 +23,9 @@ export async function datasetsGetColumns(
                 for (const j in row) {
                     const index = Number(j);
                     const value = row[j];
-                    if (value !== undefined && value != 2147483647 && index < columnLength) {
+                    // Every column takes one entry per row, so the series stay aligned. A cell
+                    // Galaxy could not read comes back as null and is kept as a gap.
+                    if (value !== undefined && index < columnLength) {
                         results[index].push(value);
                     }
                 }

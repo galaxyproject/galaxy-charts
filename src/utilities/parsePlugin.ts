@@ -52,8 +52,8 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
     } else {
         const testValue = result[testName] ?? input.test_param?.value;
         for (const inputCase of input.cases || []) {
-            if (inputCase.value === testValue) {
-                result[testName] = testValue;
+            if (String(inputCase.value) === String(testValue)) {
+                result[testName] = inputCase.value;
                 if (inputCase.inputs?.length) {
                     result = parseValues(inputCase.inputs, result);
                 }

@@ -82,6 +82,29 @@ describe("parsePlugin function", () => {
         expect(result.settings).toEqual({ mode: { modeType: "advanced", advancedSetting: 2.5 } });
     });
 
+    test("Selects a boolean case by its label, whichever way the value arrives", async () => {
+        // A case label is a string, so a stored `true` has to select the case a stored "true" does.
+        const booleanPlugin = {
+            settings: [
+                {
+                    name: "mode",
+                    type: "conditional",
+                    test_param: { name: "advanced", type: "boolean", value: "false" },
+                    cases: [
+                        { value: "true", inputs: [{ name: "depth", type: "integer", value: "7" }] },
+                        { value: "false", inputs: [] },
+                    ],
+                },
+            ],
+            tracks: [],
+        };
+
+        for (const stored of ["true", true]) {
+            const result = await parsePlugin(booleanPlugin, { settings: { mode: { advanced: stored } } });
+            expect(result.settings).toEqual({ mode: { advanced: "true", depth: 7 } });
+        }
+    });
+
     test("Logs error if conditional test parameter has no name", async () => {
         const consoleSpy = vi.spyOn(console, "error");
         const badPlugin = {

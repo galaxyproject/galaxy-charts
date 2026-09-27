@@ -1,33 +1,23 @@
 import { historiesGetContents } from "@/api/histories";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { GalaxyApi } from "@/api/client";
-import { rethrowSimple } from "@/utilities/simpleError";
-
-vi.mock("@/api/client", () => ({
-    GalaxyApi: vi.fn(),
-}));
-
-vi.mock("@/utilities/simpleError", () => ({
-    rethrowSimple: vi.fn(),
-}));
 
 describe("historiesGetContents", () => {
-    const mockGet = vi.fn();
+    const api = vi.fn();
+    const client = { api, url: vi.fn() };
     const historyId = "h1";
 
     beforeEach(() => {
         vi.clearAllMocks();
-        GalaxyApi.mockReturnValue({ GET: mockGet });
     });
 
     it("should call API with correct query string and return data", async () => {
         const mockData = [{ id: "d1" }];
-        mockGet.mockResolvedValue({ data: mockData });
-        const result = await historiesGetContents(historyId, "abc", "bam", 50);
-        expect(mockGet).toHaveBeenCalledWith(
-            expect.stringContaining(`/api/histories/${historyId}/contents?v=dev&order=hid&`),
+        api.mockResolvedValue(mockData);
+        const result = await historiesGetContents(client, historyId, "abc", "bam", 50);
+        expect(api).toHaveBeenCalledWith(
+            expect.stringContaining(`api/histories/${historyId}/contents?v=dev&order=hid&`),
         );
-        const callArg = mockGet.mock.calls[0][0];
+        const callArg = api.mock.calls[0][0];
         expect(callArg).toContain("q=deleted&qv=false");
         expect(callArg).toContain("q=visible&qv=true");
         expect(callArg).toContain("q=history_content_type&qv=dataset");
@@ -39,25 +29,23 @@ describe("historiesGetContents", () => {
 
     it("should omit optional filters when not provided", async () => {
         const mockData = [{ id: "d2" }];
-        mockGet.mockResolvedValue({ data: mockData });
-        const result = await historiesGetContents(historyId);
-        const callArg = mockGet.mock.calls[0][0];
+        api.mockResolvedValue(mockData);
+        const result = await historiesGetContents(client, historyId);
+        const callArg = api.mock.calls[0][0];
         expect(callArg).not.toContain("q=extension-in");
         expect(callArg).not.toContain("q=name-contains");
         expect(result).toEqual(mockData);
     });
 
-    it("should return data directly from API", async () => {
-        const mockData = [{ id: "xyz" }];
-        mockGet.mockResolvedValue({ data: mockData });
-        const result = await historiesGetContents(historyId);
-        expect(result).toEqual(mockData);
+    it("asks for no leading slash, so a caller's own client can route it", async () => {
+        api.mockResolvedValue([]);
+        await historiesGetContents(client, historyId);
+        expect(api.mock.calls[0][0].startsWith("api/")).toBe(true);
     });
 
-    it("should call rethrowSimple when API throws an error", async () => {
+    it("lets the client's failure reach the caller", async () => {
         const error = new Error("failure");
-        mockGet.mockRejectedValue(error);
-        await historiesGetContents(historyId);
-        expect(rethrowSimple).toHaveBeenCalledWith(error);
+        api.mockRejectedValue(error);
+        await expect(historiesGetContents(client, historyId)).rejects.toThrow("failure");
     });
 });

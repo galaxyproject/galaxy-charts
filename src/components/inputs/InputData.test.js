@@ -2,13 +2,17 @@ import { describe, test, expect, vi, afterEach } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import InputData from "@/components/inputs/InputData.vue";
 
-// Shared Galaxy API mock
-const mockGet = vi.fn().mockResolvedValue({
-    data: [
-        { id: "1", hid: "1", name: "dataset1.csv" },
-        { id: "2", hid: "2", name: "dataset2.csv" },
-    ],
-});
+// Shared Galaxy API mock: a dataset names the history its siblings are listed from
+const mockGet = vi.fn().mockImplementation(async (path) =>
+    path.includes("/api/datasets/")
+        ? { data: { id: "ds", history_id: "h1" } }
+        : {
+              data: [
+                  { id: "1", hid: "1", name: "dataset1.csv" },
+                  { id: "2", hid: "2", name: "dataset2.csv" },
+              ],
+          },
+);
 
 vi.mock("@/api/client", () => ({
     GalaxyApi: () => ({
@@ -45,7 +49,7 @@ describe("InputData.vue", () => {
         const wrapper = mountComponent({ input: { name: "ds", type: "data", extension: "bed" } });
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalled();
-        const calledUrl = mockGet.mock.calls[0][0];
+        const calledUrl = mockGet.mock.calls.map(([url]) => url).find((url) => url.includes("/contents"));
         expect(calledUrl).toContain("extension-in");
         expect(calledUrl).toContain("bed");
     });

@@ -7,10 +7,12 @@ import { parseColumns } from "@/utilities/parseColumns";
 
 vi.mock("@/api/client", () => ({
     GalaxyApi: () => ({
-        GET: vi.fn().mockResolvedValue({
-            // Galaxy returns hid as an integer.
-            data: [{ id: "1", hid: 1, name: "d.csv", extension: "csv" }],
-        }),
+        GET: vi.fn().mockImplementation(async (path) =>
+            path.includes("/api/datasets/")
+                ? { data: { id: "ds", history_id: "h1" } }
+                : // Galaxy returns hid as an integer.
+                  { data: [{ id: "1", hid: 1, name: "d.csv", extension: "csv" }] },
+        ),
     }),
 }));
 

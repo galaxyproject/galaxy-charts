@@ -150,3 +150,96 @@ describe("a lookup that fails says so", () => {
         ]);
     });
 });
+
+describe("a supplied client owns the transport", () => {
+    const stub = () => ({
+        api: vi.fn(async (path) => {
+            if (path.startsWith("api/datasets/")) {
+                return DATASET;
+            }
+            if (path === "api/tool_data/hg") {
+                return { columns: ["name", "value"], fields: [["hg38", "hg38.fa"]] };
+            }
+            if (path.includes("/contents")) {
+                return [{ id: "a1", extension: "bed", hid: 3, name: "peaks" }];
+            }
+            throw new Error(`no route for ${path}`);
+        }),
+        url: vi.fn(async () => [{ id: "hg19" }]),
+    });
+
+    test("galaxy-charts' own client is not used", async () => {
+        const client = stub();
+        const options = await getOptions({ type: "data_table", tables: ["hg"] }, { client });
+        expect(options[0].label).toBe("hg38");
+        expect(client.api).toHaveBeenCalledOnce();
+        expect(mockGet).not.toHaveBeenCalled();
+    });
+
+    test("api paths carry no leading slash", async () => {
+        const client = stub();
+        await getOptions({ type: "data_column" }, { client, datasetId: "d1" });
+        await getOptions({ type: "data" }, { client, datasetId: "d1" });
+        for (const [path] of client.api.mock.calls) {
+            expect(path.startsWith("api/")).toBe(true);
+        }
+    });
+
+    test("a declared url goes to url, not api", async () => {
+        const client = stub();
+        const options = await getOptions({ type: "data_json", url: "/genomes.json" }, { client });
+        expect(client.url).toHaveBeenCalledWith("/genomes.json");
+        expect(client.api).not.toHaveBeenCalled();
+        expect(options).toEqual([{ label: "hg19", value: { id: "hg19" } }]);
+    });
+
+    test("a declared select needs no client at all", async () => {
+        const client = stub();
+        const input = { type: "select", data: [{ label: "Bar", value: "bar" }] };
+        expect(await getOptions(input, { client })).toEqual([{ label: "Bar", value: "bar" }]);
+        expect(client.api).not.toHaveBeenCalled();
+        expect(client.url).not.toHaveBeenCalled();
+    });
+
+    test("the client's failure reaches the caller", async () => {
+        const client = stub();
+        client.url.mockRejectedValue(new Error("no route to host"));
+        await expect(getOptions({ type: "data_json", url: "/x.json" }, { client })).rejects.toThrow(
+            "no route to host",
+        );
+    });
+
+    test("galaxy-charts still owns the caching", async () => {
+        const client = stub();
+        const input = { type: "data_column", is_number: "true" };
+        await getOptions(input, { client, datasetId: "d1" });
+        await getOptions({ type: "data_column", is_text: "true" }, { client, datasetId: "d1" });
+        expect(client.api).toHaveBeenCalledOnce();
+    });
+
+    test("a dataset with no history is refused, not asked for with an empty path", async () => {
+        const client = stub();
+        client.api.mockImplementation(async (path) => {
+            if (path.startsWith("api/datasets/")) {
+                return { id: "d1" };
+            }
+            throw new Error(`no route for ${path}`);
+        });
+        await expect(getOptions({ type: "data" }, { client, datasetId: "d1" })).rejects.toThrow(
+            "reports no history",
+        );
+        expect(client.api.mock.calls.every(([path]) => !path.includes("//"))).toBe(true);
+    });
+
+    test("history contents are asked for through the same client", async () => {
+        const client = stub();
+        const options = await getOptions({ type: "data" }, { client, datasetId: "d1" });
+        expect(options).toEqual([
+            { label: "3: peaks", value: { id: "a1", extension: "bed", hid: 3, name: "peaks" } },
+        ]);
+        expect(client.api.mock.calls.map(([path]) => path.split("?")[0])).toEqual([
+            "api/datasets/d1",
+            "api/histories/h1/contents",
+        ]);
+    });
+});

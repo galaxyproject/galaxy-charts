@@ -1,9 +1,9 @@
-import { GalaxyApi } from "@/api/client";
-import { rethrowSimple } from "@/utilities/simpleError";
+import type { ClientType } from "@/types";
 
 const LIMIT = 100;
 
-export async function historiesGetContents(
+export function historiesGetContents(
+    client: ClientType,
     historyId: string,
     query: string = "",
     extension: string = "",
@@ -12,12 +12,7 @@ export async function historiesGetContents(
     const baseFilter = `q=deleted&qv=false&q=history_content_type&qv=dataset&q=visible&qv=true&`;
     const extensionFilter = extension ? `q=extension-in&qv=${extension}&` : "";
     const nameFilter = query ? `q=name-contains&qv=${query}&` : "";
-    try {
-        const { data } = await GalaxyApi().GET(
-            `/api/histories/${historyId}/contents?v=dev&order=hid&${baseFilter}${extensionFilter}${nameFilter}limit=${limit}`,
-        );
-        return data;
-    } catch (e) {
-        rethrowSimple(e);
-    }
+    return client.api(
+        `api/histories/${historyId}/contents?v=dev&order=hid&${baseFilter}${extensionFilter}${nameFilter}limit=${limit}`,
+    );
 }

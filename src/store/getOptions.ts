@@ -3,49 +3,56 @@ import { historiesGetContents } from "@/api/histories";
 import { optionsFor } from "@/schema/inputOptions";
 import type { OptionInputType } from "@/schema/inputOptions";
 import { INPUT_TYPES } from "@/schema/inputTypes";
-import type { InputOptionType } from "@/types";
+import type { InputOptionType, ClientType } from "@/types";
 import { getCache } from "./getCache";
 
 /** Page size for history dataset options. */
 export const HISTORY_LIMIT = 100;
 
 export interface OptionContextType {
+    /** Reaches Galaxy; defaults to galaxy-charts' own client. */
+    client?: ClientType;
     /** Dataset the options are drawn from. */
     datasetId?: string;
     /** Search term; not part of the option set. */
     query?: string;
 }
 
-function fetchDataset(datasetId: string) {
-    return getCache(`dataset:${datasetId}`, async () => {
-        const { data } = await GalaxyApi().GET(`/api/datasets/${datasetId}`);
+const DEFAULT_CLIENT: ClientType = {
+    async api(path: string) {
+        const { data } = await GalaxyApi().GET(`/${path}`);
         return data;
-    });
-}
-
-function fetchDataTable(table: string) {
-    return getCache(`table:${table}`, async () => {
-        const { data } = await GalaxyApi().GET(`/api/tool_data/${table}`);
-        return { ...data, table };
-    });
-}
-
-function fetchJsonEntries(url: string) {
-    return getCache(`json:${url}`, async () => {
-        const response = await fetch(url);
+    },
+    async url(target: string) {
+        const response = await fetch(target);
         if (!response.ok) {
             throw new Error(`Failed to request data json: ${response.status}`);
         }
         return await response.json();
+    },
+};
+
+function fetchDataset(client: ClientType, datasetId: string) {
+    return getCache(`dataset:${datasetId}`, () => client.api(`api/datasets/${datasetId}`));
+}
+
+function fetchDataTable(client: ClientType, table: string) {
+    return getCache(`table:${table}`, async () => {
+        const data = (await client.api(`api/tool_data/${table}`)) as Record<string, unknown>;
+        return { ...data, table };
     });
 }
 
+function fetchJsonEntries(client: ClientType, url: string) {
+    return getCache(`json:${url}`, () => client.url(url));
+}
+
 /** Skips a table that cannot be read. */
-async function fetchDataTables(tables: Array<string>) {
+async function fetchDataTables(client: ClientType, tables: Array<string>) {
     const payloads = [];
     for (const table of tables) {
         try {
-            payloads.push(await fetchDataTable(table));
+            payloads.push(await fetchDataTable(client, table));
         } catch (err) {
             console.debug("[charts] Failed to request data table.", err);
         }
@@ -58,13 +65,14 @@ export async function getOptions(
     input: OptionInputType,
     context: OptionContextType = {},
 ): Promise<Array<InputOptionType>> {
+    const client = context.client ?? DEFAULT_CLIENT;
     switch (INPUT_TYPES[input.type]?.options?.kind) {
         case "data_json":
-            return input.url ? optionsFor(input, await fetchJsonEntries(input.url)) : [];
+            return input.url ? optionsFor(input, await fetchJsonEntries(client, input.url)) : [];
         case "data_table":
-            return optionsFor(input, await fetchDataTables(input.tables ?? []));
+            return optionsFor(input, await fetchDataTables(client, input.tables ?? []));
         case "dataset_column":
-            return context.datasetId ? optionsFor(input, await fetchDataset(context.datasetId)) : [];
+            return context.datasetId ? optionsFor(input, await fetchDataset(client, context.datasetId)) : [];
         case "declared":
         case undefined:
             return optionsFor(input);
@@ -72,9 +80,14 @@ export async function getOptions(
             if (!context.datasetId) {
                 return [];
             }
-            const dataset = await fetchDataset(context.datasetId);
+            const dataset = (await fetchDataset(client, context.datasetId)) as { history_id?: unknown };
+            const historyId = dataset?.history_id;
+            if (typeof historyId !== "string" || !historyId) {
+                throw new Error(`Dataset ${context.datasetId} reports no history to list datasets from.`);
+            }
             const contents = await historiesGetContents(
-                dataset.history_id,
+                client,
+                historyId,
                 context.query,
                 input.extension,
                 HISTORY_LIMIT,

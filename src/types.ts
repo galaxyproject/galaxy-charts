@@ -7,6 +7,14 @@ export interface EmitUpdateType {
     transcripts?: Array<TranscriptMessageType>;
 }
 
+/** Transport galaxy-charts sends requests through; supply one to use a connection it does not own. */
+export interface ClientType {
+    /** A Galaxy API path without a leading slash, e.g. `api/tool_data/hg38`. */
+    api(path: string): Promise<unknown>;
+    /** A url an input declares. */
+    url(target: string): Promise<unknown>;
+}
+
 /** Outcome of a save. */
 export type SaveResultType =
     | { status: "created" }

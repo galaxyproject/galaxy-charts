@@ -62,21 +62,21 @@ npm install galaxy-charts
 
 ## ✨ Features
 
-- **Galaxy visualization contract** --- shared input and configuration
+- **Galaxy visualization contract:** Shared input and configuration
   semantics for Galaxy visualization plugins.
-- **Headless runtime** --- consume visualization semantics without
+- **Headless runtime:** Consume visualization semantics without
   depending on Vue or the Galaxy UI.
-- **Dynamic options** --- resolve dataset columns, history datasets,
+- **Dynamic options:** Resolve dataset columns, history datasets,
   Galaxy data tables, remote option sources, and declared options.
-- **Conditional inputs** --- define configuration structures whose
+- **Conditional inputs:** Define configuration structures whose
   available inputs depend on other selections.
-- **Vue 3 UI** --- optional reusable components for generated
+- **Vue 3 UI:** Optional reusable components for generated
   configuration forms and visualization interfaces.
-- **Galaxy integration** --- connect visualization configuration and
+- **Galaxy integration:** Connect visualization configuration and
   runtime behavior directly to Galaxy.
-- **Framework independent visualizations** --- visualization
+- **Framework independent visualizations:** Visualization
   implementations can use plain JavaScript or any UI framework.
-- **Vite-based development** --- fast local development and production
+- **Vite-based development:** Fast local development and production
   builds.
 
 ## 🔌 Plugins

@@ -1,62 +1,98 @@
-# <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="24" /> Galaxy Charts UI
+# <img src="https://cdn.jsdelivr.net/gh/galaxyproject/galaxy-charts/docs/public/galaxy-charts.svg" alt="Galaxy Charts Logo" width="24" /> Galaxy Charts
 
-An optional user interface package for the Galaxy Charts visualization framework, built with [Vue 3](https://vuejs.org/) and [Vite](https://vitejs.dev/).
+Galaxy Charts is the client-side visualization framework for the [Galaxy
+Project](https://galaxyproject.org).
 
-Galaxy Charts UI provides reusable UI components for configuring Galaxy visualizations, such as auto-generated input forms and a configurable side panel.
+It provides the shared contract and runtime for building Galaxy
+visualizations: declaring visualization inputs, resolving their values
+and options against Galaxy, managing configuration, and integrating
+visualizations with the Galaxy application.
 
-This package is not required to build Galaxy visualizations.
-Galaxy Charts visualizations can be implemented with plain JavaScript or any framework of your choice, with or without this UI package.
+Galaxy Charts also includes optional [Vue 3](https://vuejs.org/)
+components for building configuration interfaces, including generated
+input forms and a configurable side panel. Visualizations themselves are
+not required to use Vue and can be implemented with plain JavaScript or
+any framework of your choice.
 
-Galaxy Charts itself is a modern JavaScript visualization framework for the [Galaxy Project](https://galaxyproject.org), providing the core infrastructure for developing Galaxy visualizations through a simple and extensible plugin interface. Galaxy Charts UI builds on top of this foundation by offering an optional Vue-based user interface.
+📘 **Documentation:** https://charts.galaxyproject.org
 
-💡 To quickly start building your own Galaxy visualizations using Galaxy Charts UI, use the [Galaxy Charts Starter Template](https://github.com/guerler/galaxy-charts-starter) and run `npm install && npm run dev`.
+## 🧩 Architecture
 
-📘 **Documentation**: [https://charts.galaxyproject.org](https://charts.galaxyproject.org)
+Galaxy Charts separates the visualization framework from its user
+interface:
 
----
+-   **Declaration contract** --- input types, configuration shapes,
+    option sources, defaults, and conditional inputs.
+-   **Runtime** --- headless visualization semantics such as resolving
+    declared input options against Galaxy.
+-   **UI** --- optional Vue components for configuring and embedding
+    visualizations.
+
+The same runtime semantics used by the Galaxy Charts UI are available to
+headless consumers through:
+
+``` js
+import { getOptions } from "galaxy-charts/runtime";
+```
+
+The headless runtime does not depend on Vue. Callers provide a Galaxy
+client, allowing the runtime to be used outside the Galaxy Charts UI
+while preserving the same visualization semantics.
 
 ## 🚀 Getting Started
 
-To build your own visualization:
+The easiest way to start a visualization is with the [Galaxy Charts
+Starter Template](https://github.com/guerler/galaxy-charts-starter):
 
-1. **Use the Starter Template**  
-   Begin with the ready-to-go starter project:
+``` bash
+npx degit guerler/galaxy-charts-starter my-viz
+cd my-viz
+npm install
+npm run dev
+```
 
-    ```bash
-    npx degit guerler/galaxy-charts-starter my-viz
-    cd my-viz
-    npm install
-    npm run dev
-    ```
+The starter provides a development environment for building and testing
+a visualization against Galaxy datasets.
 
-2. **Develop Your Plugin**  
-   Customize the included plugin or create your own inside the `src/plugins` directory.
+You can also install Galaxy Charts directly:
 
-3. **Preview and Iterate**  
-   Use the development server (`http://localhost:3000`) to test your visualization live against Galaxy datasets.
-
----
+``` bash
+npm install galaxy-charts
+```
 
 ## ✨ Features
 
-- ⚡ **Built with Vite**: Fast bundling and lightning-fast hot module replacement.
-- 🎨 **Vue 3 Components**: Use composable and reactive components for visualizations.
-- 🔌 **Plugin Architecture**: Create, test, and extend visualizations as isolated plugins.
-- 🌐 **Connect to Galaxy**: Pull datasets from any accessible Galaxy instance.
-- 🧪 **Test with Real Data**: Debug and verify visualizations with real datasets before deployment.
-- 📦 **Deploy-Ready**: Easily publish plugins or integrate into Galaxy instances.
+-   **Galaxy visualization contract** --- shared input and configuration
+    semantics for Galaxy visualization plugins.
+-   **Headless runtime** --- consume visualization semantics without
+    depending on Vue or the Galaxy UI.
+-   **Dynamic options** --- resolve dataset columns, history datasets,
+    Galaxy data tables, remote option sources, and declared options.
+-   **Conditional inputs** --- define configuration structures whose
+    available inputs depend on other selections.
+-   **Vue 3 UI** --- optional reusable components for generated
+    configuration forms and visualization interfaces.
+-   **Galaxy integration** --- connect visualization configuration and
+    runtime behavior directly to Galaxy.
+-   **Framework independent visualizations** --- visualization
+    implementations can use plain JavaScript or any UI framework.
+-   **Vite-based development** --- fast local development and production
+    builds.
 
----
+## 🔌 Plugins
+
+Galaxy visualizations declare their configurable inputs through the
+Galaxy visualization plugin definition. Galaxy Charts interprets those
+declarations consistently across its UI and headless runtime.
+
+This keeps visualization semantics in the visualization framework rather
+than requiring each consumer to independently reproduce how Galaxy
+visualization inputs work.
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! To get started:
+Contributions are welcome. For fixes and smaller improvements, open a
+pull request with a clear description of the change.
 
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Make your changes.
-4. Open a pull request with a clear description of what you’ve done.
-
-For larger changes or questions, feel free to open an issue first to discuss it with the maintainers.
-
----
+For larger architectural changes, opening an issue first is recommended
+so the approach can be discussed before implementation.

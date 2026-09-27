@@ -11,8 +11,15 @@ interface Track {
 }
 
 export function useColumnsStore() {
+    /** Keys not set on every track. */
+    function missingColumns(tracks: Track[], keys: string[]): string[] {
+        return keys.filter(
+            (key) => !tracks.every((track) => typeof track[key] === "string" && track[key].trim() !== ""),
+        );
+    }
+
     function checkColumns(tracks: Track[], keys: string[]) {
-        return tracks.every((track) => keys.every((key) => typeof track[key] === "string" && track[key].trim() !== ""));
+        return missingColumns(tracks, keys).length === 0;
     }
 
     function getColumns(tracks: Track[], keys: string[]): string[] {
@@ -56,6 +63,10 @@ export function useColumnsStore() {
 
             return results;
         } else {
+            const missing = missingColumns(tracks, keys);
+            if (missing.length > 0) {
+                console.debug(`[charts] No columns to plot, unset on at least one track: ${missing.join(", ")}.`);
+            }
             return [];
         }
     }
@@ -64,5 +75,6 @@ export function useColumnsStore() {
         checkColumns,
         fetchColumns,
         getColumns,
+        missingColumns,
     };
 }

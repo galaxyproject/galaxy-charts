@@ -21,6 +21,7 @@ describe("InputData.vue", () => {
         mount(InputData, {
             props: {
                 datasetId: "123",
+                input: { name: "ds", type: "data" },
                 optional: false,
                 ...props,
             },
@@ -41,7 +42,7 @@ describe("InputData.vue", () => {
     });
 
     test("applies extension filter", async () => {
-        const wrapper = mountComponent({ extension: "bed" });
+        const wrapper = mountComponent({ input: { name: "ds", type: "data", extension: "bed" } });
         await wrapper.vm.$nextTick();
         expect(mockGet).toHaveBeenCalled();
         const calledUrl = mockGet.mock.calls[0][0];

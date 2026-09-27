@@ -127,6 +127,21 @@ describe("useColumnsStore", () => {
         expect(datasetsGetColumns).not.toHaveBeenCalled();
     });
 
+    it("names the keys that are not set on every track", () => {
+        const tracks = [{ x: "0", y: "1" }, { x: "0" }];
+        expect(store.missingColumns(tracks, ["x", "y"])).toEqual(["y"]);
+        expect(store.missingColumns(tracks, ["x"])).toEqual([]);
+        expect(store.checkColumns(tracks, ["x", "y"])).toBe(false);
+    });
+
+    it("says why nothing was returned instead of looking like an empty dataset", async () => {
+        const debug = vi.spyOn(console, "debug").mockImplementation(() => {});
+        const result = await store.fetchColumns("dataset1", [{ x: "0" }], ["x", "y"]);
+        expect(result).toEqual([]);
+        expect(debug.mock.calls.flat().join(" ")).toContain("y");
+        debug.mockRestore();
+    });
+
     it("should return an empty array when keys are empty", async () => {
         const datasetId = "dataset1";
         const tracks = [{ x: "0", y: "1" }];

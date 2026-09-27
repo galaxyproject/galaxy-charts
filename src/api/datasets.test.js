@@ -35,9 +35,6 @@ describe("datasetsGetColumns", () => {
     });
 
     it("keeps every row's value, so columns of one dataset are the same length", async () => {
-        // This asserted that 2147483647 was dropped from its column while the other column kept
-        // its row, which is the desynchronisation itself: the shorter column then paired each
-        // later value with the wrong row.
         const datasetId = "dataset1";
         const columnList = [0, 1];
         const mockResponse = {
@@ -80,9 +77,6 @@ describe("datasetsGetColumns", () => {
 });
 
 describe("column rows stay aligned", () => {
-    // A cell equal to 2147483647 used to be filtered out of its own column while every other
-    // column kept its row, so the series desynchronised and each later point was drawn against
-    // the wrong x. Fixture: `a 10 / b 2147483647 / c 30 / d 40`, measured on Galaxy 26.2.
     const rows = [
         ["a", 10],
         ["b", 2147483647],
@@ -117,7 +111,6 @@ describe("column rows stay aligned", () => {
     });
 
     test("keeps a null for a cell Galaxy could not read, so the gap stays in place", async () => {
-        // The provider answers null for an empty cell, a literal NA and a ragged row alike.
         serving([
             ["a", 10],
             ["b", null],

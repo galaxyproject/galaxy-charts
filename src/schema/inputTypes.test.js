@@ -19,7 +19,7 @@ const keysOf = (schema) => Object.keys(schema.shape ?? {});
 describe("the published registry matches what the inputs actually write", () => {
     test("a chosen dataset is stored as the object InputData emits", async () => {
         const wrapper = mount(InputData, {
-            props: { datasetId: "123", optional: false, value: null },
+            props: { datasetId: "123", input: { name: "ds", type: "data" }, optional: false, value: null },
         });
         await flushPromises();
 

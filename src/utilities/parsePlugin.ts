@@ -44,7 +44,7 @@ function formatValue(input: InputElementType, inputValue: InputAtomicType): Inpu
 
 // Format conditional values based on test cases
 function formatConditional(input: InputElementType, values: InputValuesType = {}): InputValuesType {
-    const result = values;
+    let result = { ...values };
     const testName = input.test_param?.name;
 
     if (!testName) {
@@ -55,7 +55,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
             if (inputCase.value === testValue) {
                 result[testName] = testValue;
                 if (inputCase.inputs?.length) {
-                    parseValues(inputCase.inputs, result);
+                    result = parseValues(inputCase.inputs, result);
                 }
             }
         }
@@ -65,7 +65,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
 
 // Parse values with conditional handling
 export function parseValues(inputs?: Array<InputElementType>, values?: InputValuesType): InputValuesType {
-    const result = values || {};
+    const result = { ...values };
 
     inputs?.forEach((input) => {
         if (input.type === "conditional") {
@@ -80,14 +80,12 @@ export function parseValues(inputs?: Array<InputElementType>, values?: InputValu
 
 // Parse tracks with nested values
 function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<InputValuesType>): Array<InputValuesType> {
-    const values = tracks || [];
+    const values = [...(tracks || [])];
     if (inputs) {
         if (values.length === 0) {
             values.push({});
         }
-        values.forEach((track, trackIndex) => {
-            values[trackIndex] = parseValues(inputs, track);
-        });
+        return values.map((track) => parseValues(inputs, track));
     }
     return values;
 }

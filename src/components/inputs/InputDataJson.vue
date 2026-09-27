@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InputSelect from "@/components/inputs/InputSelect.vue";
+import type { OptionInputType } from "@/schema/inputOptions";
 import type { InputOptionType } from "@/types";
-import { useDataJsonStore } from "@/store/dataJsonStore";
+import { getOptions } from "@/store/getOptions";
 
 type ValueType = {
     id: string;
@@ -10,24 +11,21 @@ type ValueType = {
 };
 
 const props = defineProps<{
-    datasetId?: string;
+    input: OptionInputType;
     optional?: boolean;
     placeholder?: string;
     title?: string;
-    url: string;
 }>();
 
 const currentOptions = ref<Array<InputOptionType>>([]);
 const currentValue = defineModel<ValueType | null>("value");
 const loading = ref(false);
 
-const { getDataJson } = useDataJsonStore();
-
 async function loadData(): Promise<void> {
     loading.value = true;
     try {
-        console.debug("[charts] Requesting data json from:", props.url);
-        const opts = await getDataJson(props.url);
+        console.debug("[charts] Requesting data json from:", props.input.url);
+        const opts = await getOptions(props.input);
         if (opts.length === 0) {
             console.debug("[charts] No entries found in data json.");
         } else {

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { NColorPicker, NInput, NInputNumber, NSelect, NSlider, NSwitch } from "naive-ui";
 import InputConditional from "@/components/inputs/InputConditional.vue";
 import InputData from "@/components/inputs/InputData.vue";
 import InputDataColumn from "@/components/inputs/InputDataColumn.vue";
 import InputDataJson from "@/components/inputs/InputDataJson.vue";
 import InputDataTable from "@/components/inputs/InputDataTable.vue";
+import { optionsFor, scalarOptions } from "@/schema/inputOptions";
 import { toBoolean } from "@/utilities/toBoolean";
 import type { InputElementType, InputValuesType } from "@/types";
 
@@ -36,6 +37,9 @@ function initialValues(): InputValuesType {
     return values;
 }
 
+// Inputs with a control to render
+const visibleInputs = computed(() => props.inputs.filter((input) => input.type !== "hidden"));
+
 // Trigger an update of values
 function onUpdate(): void {
     emit("update:values", currentValues.value);
@@ -53,9 +57,9 @@ watch(
 <template>
     <div class="select-none">
         <div
-            v-for="(input, inputIndex) in inputs"
+            v-for="(input, inputIndex) in visibleInputs"
             :key="inputIndex"
-            :class="inputIndex < inputs.length - 1 ? 'pb-2' : ''">
+            :class="inputIndex < visibleInputs.length - 1 ? 'pb-2' : ''">
             <div class="font-bold mb-1">{{ input.label || input.name }}</div>
             <div v-if="input.help" class="text-xs mb-1">{{ input.help }}</div>
             <div>
@@ -79,28 +83,26 @@ watch(
                     v-else-if="input.type === 'data'"
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
-                    :extension="input.extension"
+                    :input="input"
                     :optional="toBoolean(input.optional)"
                     @update:value="onUpdate" />
                 <InputDataColumn
                     v-else-if="input.type === 'data_column'"
                     v-model:value="currentValues[input.name]"
                     :dataset-id="datasetId"
-                    :is-auto="toBoolean(input.is_auto)"
-                    :is-text="toBoolean(input.is_text)"
-                    :is-number="toBoolean(input.is_number)"
+                    :input="input"
                     @update:value="onUpdate" />
                 <InputDataJson
                     v-else-if="input.type === 'data_json'"
                     v-model:value="currentValues[input.name]"
+                    :input="input"
                     :optional="toBoolean(input.optional)"
-                    :url="input.url"
                     @update:value="onUpdate" />
                 <InputDataTable
                     v-else-if="input.type === 'data_table'"
                     v-model:value="currentValues[input.name]"
+                    :input="input"
                     :optional="toBoolean(input.optional)"
-                    :tables="input.tables"
                     @update:value="onUpdate" />
                 <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider
@@ -123,7 +125,7 @@ watch(
                     v-else-if="input.type === 'select'"
                     v-model:value="currentValues[input.name]"
                     :filterable="toBoolean(input.filterable)"
-                    :options="input.data"
+                    :options="scalarOptions(optionsFor(input))"
                     @update:value="onUpdate" />
                 <n-input
                     v-else-if="input.type === 'textarea'"

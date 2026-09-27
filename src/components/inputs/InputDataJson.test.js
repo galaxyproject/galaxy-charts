@@ -8,7 +8,7 @@ describe("InputDataJson.vue", () => {
     const mountComponent = (props = {}) =>
         mount(InputDataJson, {
             props: {
-                url: "/mock/url",
+                input: { name: "entry", type: "data_json", url: "/mock/url" },
                 optional: false,
                 ...props,
             },
@@ -46,14 +46,14 @@ describe("InputDataJson.vue", () => {
             ok: false,
             status: 500,
         });
-        const wrapper = mountComponent({ url: "/mock/url_error" });
+        const wrapper = mountComponent({ input: { name: "entry", type: "data_json", url: "/mock/url_error" } });
         await flushPromises();
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });
 
     test("handles exception during fetch", async () => {
         mockFetch.mockRejectedValue(new Error("Network Error Test"));
-        const wrapper = mountComponent({ url: "/mock/url_error" });
+        const wrapper = mountComponent({ input: { name: "entry", type: "data_json", url: "/mock/url_error" } });
         await flushPromises();
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });

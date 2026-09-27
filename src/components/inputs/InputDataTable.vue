@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import InputSelect from "@/components/inputs/InputSelect.vue";
+import type { OptionInputType } from "@/schema/inputOptions";
 import type { InputOptionType } from "@/types";
-import { useDataTableStore } from "@/store/dataTableStore";
-
-const dataTableStore = useDataTableStore();
+import { getOptions } from "@/store/getOptions";
 
 type ValueType = {
     id: string;
@@ -14,10 +13,9 @@ type ValueType = {
 };
 
 const props = defineProps<{
-    datasetId?: string;
+    input: OptionInputType;
     optional?: boolean;
     placeholder?: string;
-    tables?: string[];
     title?: string;
 }>();
 
@@ -27,28 +25,13 @@ const loading = ref(false);
 
 async function loadData(): Promise<void> {
     loading.value = true;
-    const opts: InputOptionType[] = [];
-    const seen = new Set<string>();
-
-    if (props.tables && props.tables.length > 0) {
-        for (const table of props.tables) {
-            try {
-                const parsedOptions = await dataTableStore.getDataTable(table);
-                for (const option of parsedOptions) {
-                    const id = option?.value?.id;
-                    if (id && !seen.has(id)) {
-                        seen.add(id);
-                        opts.push(option);
-                    }
-                }
-            } catch (err) {
-                console.debug("[charts] Failed to request data table.", err);
-            }
-        }
+    try {
+        currentOptions.value = await getOptions(props.input);
+    } catch (err) {
+        console.debug("[charts] Failed to request data table.", err);
+    } finally {
+        loading.value = false;
     }
-
-    currentOptions.value = opts;
-    loading.value = false;
 }
 
 loadData();

@@ -26,9 +26,7 @@ describe("InputDataColumn.vue", () => {
         mount(InputDataColumn, {
             props: {
                 datasetId: "abc123",
-                isAuto: true,
-                isText: true,
-                isNumber: true,
+                input: { name: "col", type: "data_column", is_auto: "true", is_text: "true", is_number: "true" },
                 ...props,
             },
         });

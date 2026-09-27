@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import type { OptionInputType } from "@/schema/inputOptions";
 import { NInput, NSelect } from "naive-ui";
-import { parseColumns } from "@/utilities/parseColumns";
-import { useDatasetStore } from "@/store/datasetStore";
-
-// Get dataset store
-const { getDataset } = useDatasetStore();
+import { scalarOptions } from "@/schema/inputOptions";
+import { getOptions } from "@/store/getOptions";
 
 // Define props with TypeScript
 const props = defineProps<{
     datasetId?: string;
-    isAuto: boolean;
-    isText: boolean;
-    isNumber: boolean;
+    input: OptionInputType;
 }>();
 
 // Define refs with appropriate types
@@ -23,9 +19,7 @@ const currentValue = defineModel<string | null>("value");
 async function loadColumns(): Promise<void> {
     if (props.datasetId) {
         try {
-            const { data: dataset } = await getDataset(props.datasetId);
-            const columns = parseColumns(dataset, props.isAuto, props.isText, props.isNumber);
-            currentOptions.value = columns;
+            currentOptions.value = scalarOptions(await getOptions(props.input, { datasetId: props.datasetId }));
             initializeValue();
         } catch (err) {
             console.debug("[charts] Failed to handle dataset columns.", err);

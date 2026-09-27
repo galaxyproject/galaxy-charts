@@ -3,13 +3,14 @@ import { NAlert } from "naive-ui";
 import { computed, nextTick, ref } from "vue";
 import { ArrowPathIcon, ChevronDoubleLeftIcon } from "@heroicons/vue/24/outline";
 import { datasetsGetUrl } from "@/api/datasets";
-import { visualizationsSave } from "@/api/visualizations";
+import { visualizationsSave, type VisualizationConfig } from "@/api/visualizations";
 import SideButton from "@/components/SideButton.vue";
 import SidePanel from "@/components/SidePanel.vue";
 import { useConfigStore } from "@/store/configStore";
 import {
-    EmitUpdateType,
     EmitSaveType,
+    EmitUpdateType,
+    SaveResultType,
     InputElementType,
     InputValuesType,
     PluginIncomingType,
@@ -19,6 +20,7 @@ import {
 import { parsePlugin } from "@/utilities/parsePlugin";
 import { parseIncoming } from "@/utilities/parseIncoming";
 import { toBoolean } from "@/utilities/toBoolean";
+import { toOrigin } from "@/utilities/toOrigin";
 
 import "@/style.css";
 
@@ -54,6 +56,9 @@ const transcriptValues = ref<Array<TranscriptMessageType>>([]);
 // Create local copies of props with reactivity
 const currentVisualizationId = ref<string | null>(visualizationId);
 const currentVisualizationTitle = ref<string>(visualizationTitle);
+
+// Target origin for host messages
+const hostOrigin = toOrigin(root) ?? "*";
 
 // Store values in config store
 const configStore = useConfigStore();
@@ -116,7 +121,7 @@ function postMessage(visualizationSaved = false) {
                 visualization_saved: visualizationSaved,
                 visualization_title: currentVisualizationTitle.value,
             },
-            "*",
+            hostOrigin,
         );
     } catch (e) {
         errorMessage.value = `Failed to postMessage: ${e}`;
@@ -124,7 +129,7 @@ function postMessage(visualizationSaved = false) {
 }
 
 // Serialize state
-function serialize() {
+function serialize(): VisualizationConfig {
     return {
         dataset_id: datasetId.value,
         settings: settingValues.value,
@@ -167,21 +172,17 @@ function updateTranscripts(newTranscripts: TranscriptMessageType[]): void {
     postMessage();
 }
 
-// Event handler for updating visualization id
-function updateVisualizationId(newVisualizationId: string): void {
-    currentVisualizationId.value = newVisualizationId;
-    postMessage();
-}
-
 // Event handler for updating title
 function updateVisualizationTitle(newVisualizationTitle: string): void {
     currentVisualizationTitle.value = newVisualizationTitle;
     postMessage();
 }
 
-// Event handler for updating settings and saving visualization
-async function save({ settings, tracks, transcripts }: EmitSaveType) {
+// The single persistence path
+async function save({ settings, tracks, transcripts }: EmitSaveType = {}): Promise<SaveResultType> {
     update({ settings, tracks, transcripts });
+    const created = !currentVisualizationId.value;
+    errorMessage.value = "";
     try {
         const newVisualizationId = await visualizationsSave(
             pluginName.value,
@@ -189,13 +190,23 @@ async function save({ settings, tracks, transcripts }: EmitSaveType) {
             currentVisualizationTitle.value,
             serialize(),
         );
+        if (created && !newVisualizationId) {
+            return fail("Verify that you are logged in and Galaxy is accessible.");
+        }
         if (newVisualizationId) {
             currentVisualizationId.value = newVisualizationId;
         }
         postMessage(true);
+        return { status: created ? "created" : "updated" };
     } catch (e) {
-        errorMessage.value = `Failed to save: ${e}`;
+        return fail(`Failed to save: ${e}`);
     }
+}
+
+// Reports the error for callers that ignore the result
+function fail(message: string): SaveResultType {
+    errorMessage.value = message;
+    return { status: "error", message };
 }
 
 // Event handler for updating settings and tracks
@@ -264,6 +275,7 @@ function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType
             :plugin-description="pluginDescription"
             :plugin-html="pluginHtml"
             :plugin-name="pluginName"
+            :save="save"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
             :spec-values="specValues"
@@ -276,7 +288,6 @@ function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType
             @update:tab="updateTab"
             @update:tracks="updateTracks"
             @update:transcripts="updateTranscripts"
-            @update:visualization-id="updateVisualizationId"
             @update:visualization-title="updateVisualizationTitle"
             @toggle="onToggle" />
     </div>

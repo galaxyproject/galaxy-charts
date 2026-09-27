@@ -7,6 +7,12 @@ export interface EmitUpdateType {
     transcripts?: Array<TranscriptMessageType>;
 }
 
+/** Outcome of a save. */
+export type SaveResultType =
+    | { status: "created" }
+    | { status: "updated" }
+    | { status: "error"; message: string };
+
 export interface EmitSaveType {
     settings?: InputValuesType;
     tracks?: Array<InputValuesType>;
@@ -50,7 +56,7 @@ export interface InputElementType {
 export type InputOptionType = {
     disabled?: boolean;
     label: string;
-    value: InputValuesType | null;
+    value: InputValuesType | string | null;
     type?: string;
 };
 

@@ -2,6 +2,7 @@
 import { computed, h, ref, watch } from "vue";
 import { NSelect, NIcon } from "naive-ui";
 import { PlusIcon } from "@heroicons/vue/24/outline";
+import { optionValue } from "@/schema/inputOptions";
 import type { InputOptionType, InputValuesType } from "@/types";
 
 const props = withDefaults(
@@ -33,8 +34,9 @@ const selectValue = ref<string | null>(null);
 const valuesLookup = computed(() => {
     const lookup: Record<string, InputValuesType> = {};
     for (const o of props.options) {
-        if (o.value) {
-            lookup[o.value.id] = o.value;
+        const value = optionValue(o);
+        if (value) {
+            lookup[value.id] = value;
         }
     }
     // Include current value if not in options
@@ -48,12 +50,12 @@ const valuesLookup = computed(() => {
 const mapped = computed(() => {
     const result = props.options.map((o) => ({
         label: o.label,
-        value: o.value?.id || "",
+        value: optionValue(o)?.id || "",
         disabled: o.disabled,
     }));
 
     // Add current value if not in options
-    if (currentValue.value?.id && !props.options.some((o) => o.value?.id === currentValue.value?.id)) {
+    if (currentValue.value?.id && !props.options.some((o) => optionValue(o)?.id === currentValue.value?.id)) {
         result.unshift({
             label: currentValue.value.name || currentValue.value.id,
             value: currentValue.value.id,

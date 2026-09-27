@@ -5,7 +5,7 @@ import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
-import { viteConfigCharts } from "./vite.config.charts";
+import { viteConfigCharts } from "./vite.config.charts.ts";
 import { readFileSync, writeFileSync } from "fs";
 
 /** Emit the input-type contract as JSON. */
@@ -16,7 +16,7 @@ function emitInputTypeRegistry() {
             const { inputTypeRegistry } = await import("./src/schema/inputTypes.ts");
             const { version } = JSON.parse(readFileSync("./package.json", "utf8"));
             writeFileSync(
-                path.resolve(__dirname, "dist/galaxy-charts.inputs.json"),
+                path.resolve(import.meta.dirname, "dist/galaxy-charts.inputs.json"),
                 JSON.stringify(inputTypeRegistry(version), null, 2) + "\n",
             );
         },
@@ -27,7 +27,7 @@ export default defineConfig({
     ...viteConfigCharts,
     build: {
         lib: {
-            entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
+            entry: path.resolve(import.meta.dirname, "lib/galaxy-charts.ts"),
             name: "GalaxyCharts",
             fileName: "galaxy-charts",
         },
@@ -45,16 +45,16 @@ export default defineConfig({
         cssInjectedByJsPlugin(),
         Checker({
             vueTsc: {
-                tsconfigPath: path.resolve(__dirname, "tsconfig.json"),
+                tsconfigPath: path.resolve(import.meta.dirname, "tsconfig.json"),
                 terminal: true,
                 enableBuild: true,
             },
         }),
         dts({
-            entry: path.resolve(__dirname, "lib/galaxy-charts.ts"),
-            outDir: path.resolve(__dirname, "dist"),
+            entry: path.resolve(import.meta.dirname, "lib/galaxy-charts.ts"),
+            outDir: path.resolve(import.meta.dirname, "dist"),
             rollupTypes: true,
-            tsConfigFilePath: path.resolve(__dirname, "tsconfig.json"),
+            tsConfigFilePath: path.resolve(import.meta.dirname, "tsconfig.json"),
             copyDtsFiles: false,
             include: ["lib/**/*", "src/**/*"],
             exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/App.vue", "src/Plugin.vue"],
@@ -63,7 +63,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            "@": path.resolve(__dirname, "src"),
+            "@": path.resolve(import.meta.dirname, "src"),
         },
     },
     test: {

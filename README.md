@@ -21,11 +21,11 @@ any framework of your choice.
 Galaxy Charts separates the visualization framework from its user
 interface:
 
--   **Declaration contract** --- input types, configuration shapes,
+-   **Contract:** Input types, configuration shapes,
     option sources, defaults, and conditional inputs.
--   **Runtime** --- headless visualization semantics such as resolving
+-   **Runtime:** Headless visualization semantics such as resolving
     declared input options against Galaxy.
--   **UI** --- optional Vue components for configuring and embedding
+-   **UI:** Optional Vue components for configuring and embedding
     visualizations.
 
 The same runtime semantics used by the Galaxy Charts UI are available to

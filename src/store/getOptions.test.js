@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { GalaxyApi } from "@/api/client";
 import { resetCache } from "@/store/getCache";
-import { getOptions } from "@/store/galaxyOptions";
+import { getOptions } from "@/galaxy";
 import { getOptions as resolveOptions } from "@/store/getOptions";
 
 vi.mock("@/api/client", () => ({ GalaxyApi: vi.fn() }));

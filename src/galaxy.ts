@@ -1,11 +1,11 @@
 import { GalaxyApi } from "@/api/client";
-import { getOptions as resolve, HISTORY_LIMIT, type OptionContextType } from "./getOptions";
+import { getOptions as resolve, HISTORY_LIMIT, type OptionContextType } from "@/store/getOptions";
 import type { OptionInputType } from "@/schema/inputOptions";
 import type { ClientType, InputOptionType } from "@/types";
 
 export { HISTORY_LIMIT };
 
-/** Option lookups over the connection the config store holds. */
+/** Galaxy as the configured connection reaches it. */
 export const galaxyClient: ClientType = {
     async api(path: string) {
         const { data } = await GalaxyApi().GET(`/${path}`);

@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import type { OptionInputType } from "@/schema/inputOptions";
 import { NInput, NSelect } from "naive-ui";
 import { scalarOptions } from "@/schema/inputOptions";
-import { getOptions } from "@/store/galaxyOptions";
+import { getOptions } from "@/galaxy";
 
 // Define props with TypeScript
 const props = defineProps<{

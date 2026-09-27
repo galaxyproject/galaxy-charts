@@ -6,7 +6,11 @@ import type {
     PluginType,
     TranscriptMessageType,
 } from "@/types";
+import { inputTypeFallback } from "@/schema/inputTypes";
 import { toBoolean } from "./toBoolean";
+
+/** The optional string flags an input declares, which a schema fallback may require. */
+type InputFlagType = "is_auto" | "is_text" | "is_number";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -27,7 +31,9 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
 
 // Format value according to input type
 function formatValue(input: InputElementType, inputValue: InputAtomicType): InputAtomicType {
-    let value = inputValue ?? input.value;
+    // The schema owns the fallback, so a value resolves here rather than when an input mounts.
+    let value =
+        inputValue ?? input.value ?? inputTypeFallback(input.type, (flag) => toBoolean(input[flag as InputFlagType]));
     if (["float", "integer"].includes(input.type)) {
         value = Number(value);
     } else if (input.type === "boolean") {

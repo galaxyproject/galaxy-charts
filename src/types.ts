@@ -16,10 +16,7 @@ export interface ClientType {
 }
 
 /** Outcome of a save. */
-export type SaveResultType =
-    | { status: "created" }
-    | { status: "updated" }
-    | { status: "error"; message: string };
+export type SaveResultType = { status: "created" } | { status: "updated" } | { status: "error"; message: string };
 
 export interface EmitSaveType {
     settings?: InputValuesType;

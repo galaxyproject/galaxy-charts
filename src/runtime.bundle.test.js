@@ -34,7 +34,12 @@ describe("a consumer can bundle the runtime entry with no vue installed", () => 
         });
         const [{ output }] = [].concat(bundled);
         const chunks = output.filter((chunk) => chunk.type === "chunk");
-        expect(chunks.map((chunk) => chunk.code).join("").includes("getOptions")).toBe(true);
+        expect(
+            chunks
+                .map((chunk) => chunk.code)
+                .join("")
+                .includes("getOptions"),
+        ).toBe(true);
         // Nothing left to resolve at the consumer's end either.
         expect(chunks.flatMap((chunk) => chunk.imports ?? [])).toEqual([]);
     }, 60_000);

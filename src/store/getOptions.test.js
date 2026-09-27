@@ -235,9 +235,7 @@ describe("a supplied client owns the transport", () => {
     test("history contents are asked for through the same client", async () => {
         const client = stub();
         const options = await resolveOptions({ type: "data" }, { client, datasetId: "d1" });
-        expect(options).toEqual([
-            { label: "3: peaks", value: { id: "a1", extension: "bed", hid: 3, name: "peaks" } },
-        ]);
+        expect(options).toEqual([{ label: "3: peaks", value: { id: "a1", extension: "bed", hid: 3, name: "peaks" } }]);
         expect(client.api.mock.calls.map(([path]) => path.split("?")[0])).toEqual([
             "api/datasets/d1",
             "api/histories/h1/contents",

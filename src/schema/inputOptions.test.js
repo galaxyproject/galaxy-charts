@@ -53,7 +53,14 @@ describe("optionsFor", () => {
     test("tables merge with the first occurrence of an id winning", () => {
         const payload = [
             { table: "first", columns: ["name", "value"], fields: [["a", "shared"]] },
-            { table: "second", columns: ["name", "value"], fields: [["b", "shared"], ["c", "own"]] },
+            {
+                table: "second",
+                columns: ["name", "value"],
+                fields: [
+                    ["b", "shared"],
+                    ["c", "own"],
+                ],
+            },
         ];
         const options = optionsFor({ name: "row", type: "data_table" }, payload);
         expect(options.map((option) => option.label)).toEqual(["a", "c"]);
@@ -80,9 +87,7 @@ describe("optionsFor", () => {
             new Set(["declared", "dataset_column", "history_dataset", "data_table", "data_json"]),
         );
         const withOptions = Object.keys(INPUT_TYPES).filter((type) => INPUT_TYPES[type].options);
-        expect(withOptions.map((type) => Array.isArray(optionsFor({ type })))).toEqual(
-            withOptions.map(() => true),
-        );
+        expect(withOptions.map((type) => Array.isArray(optionsFor({ type })))).toEqual(withOptions.map(() => true));
     });
 
     test("a type with no options offers none", () => {
@@ -127,7 +132,6 @@ describe("helpers", () => {
         ];
         expect(scalarOptions(mixed)).toEqual([{ label: "a", value: "0" }]);
     });
-
 
     test("optionValue reads the object an option holds and ignores string values", () => {
         expect(optionValue({ label: "a", value: { id: "x", row: ["hg38"] } })).toEqual({ id: "x", row: ["hg38"] });

@@ -35,10 +35,7 @@ export interface DataJsonPayloadType {
     [key: string]: unknown;
 }
 
-function datasetColumnOptions(
-    input: OptionInputType,
-    dataset: Required<DatasetPayloadType>,
-): Array<InputOptionType> {
+function datasetColumnOptions(input: OptionInputType, dataset: Required<DatasetPayloadType>): Array<InputOptionType> {
     return parseColumns(dataset, toBoolean(input.is_auto), toBoolean(input.is_text), toBoolean(input.is_number));
 }
 

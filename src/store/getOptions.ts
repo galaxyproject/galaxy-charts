@@ -46,10 +46,7 @@ async function fetchDataTables(client: ClientType, tables: Array<string>) {
 }
 
 /** Fetches and maps the values an input may hold; selects none. */
-export async function getOptions(
-    input: OptionInputType,
-    context: OptionContextType,
-): Promise<Array<InputOptionType>> {
+export async function getOptions(input: OptionInputType, context: OptionContextType): Promise<Array<InputOptionType>> {
     const { client } = context;
     switch (INPUT_TYPES[input.type]?.options?.kind) {
         case "data_json":

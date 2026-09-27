@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { getOptions, HISTORY_LIMIT } from "@/store/getOptions";
+import { getOptions, HISTORY_LIMIT } from "@/store/galaxyOptions";
 import InputSelect from "@/components/inputs/InputSelect.vue";
 import type { OptionInputType } from "@/schema/inputOptions";
 import type { InputOptionType } from "@/types";

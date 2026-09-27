@@ -3,7 +3,7 @@ import { ref } from "vue";
 import InputSelect from "@/components/inputs/InputSelect.vue";
 import type { OptionInputType } from "@/schema/inputOptions";
 import type { InputOptionType } from "@/types";
-import { getOptions } from "@/store/getOptions";
+import { getOptions } from "@/store/galaxyOptions";
 
 type ValueType = {
     id: string;

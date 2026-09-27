@@ -9,29 +9,13 @@ import { getCache } from "./getCache";
 export const HISTORY_LIMIT = 100;
 
 export interface OptionContextType {
-    /** Reaches Galaxy; defaults to galaxy-charts' own client. */
-    client?: ClientType;
+    /** Reaches Galaxy. */
+    client: ClientType;
     /** Dataset the options are drawn from. */
     datasetId?: string;
     /** Search term; not part of the option set. */
     query?: string;
 }
-
-const DEFAULT_CLIENT: ClientType = {
-    // Imported on use, so a caller supplying a client never loads the store-backed one.
-    async api(path: string) {
-        const { GalaxyApi } = await import("@/api/client");
-        const { data } = await GalaxyApi().GET(`/${path}`);
-        return data;
-    },
-    async url(target: string) {
-        const response = await fetch(target);
-        if (!response.ok) {
-            throw new Error(`Failed to request data json: ${response.status}`);
-        }
-        return await response.json();
-    },
-};
 
 function fetchDataset(client: ClientType, datasetId: string) {
     return getCache(`dataset:${datasetId}`, () => client.api(`api/datasets/${datasetId}`));
@@ -64,9 +48,9 @@ async function fetchDataTables(client: ClientType, tables: Array<string>) {
 /** Fetches and maps the values an input may hold; selects none. */
 export async function getOptions(
     input: OptionInputType,
-    context: OptionContextType = {},
+    context: OptionContextType,
 ): Promise<Array<InputOptionType>> {
-    const client = context.client ?? DEFAULT_CLIENT;
+    const { client } = context;
     switch (INPUT_TYPES[input.type]?.options?.kind) {
         case "data_json":
             return input.url ? optionsFor(input, await fetchJsonEntries(client, input.url)) : [];

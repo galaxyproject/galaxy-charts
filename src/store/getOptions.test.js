@@ -1,7 +1,8 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { GalaxyApi } from "@/api/client";
 import { resetCache } from "@/store/getCache";
-import { getOptions } from "@/store/getOptions";
+import { getOptions } from "@/store/galaxyOptions";
+import { getOptions as resolveOptions } from "@/store/getOptions";
 
 vi.mock("@/api/client", () => ({ GalaxyApi: vi.fn() }));
 
@@ -170,7 +171,7 @@ describe("a supplied client owns the transport", () => {
 
     test("galaxy-charts' own client is not used", async () => {
         const client = stub();
-        const options = await getOptions({ type: "data_table", tables: ["hg"] }, { client });
+        const options = await resolveOptions({ type: "data_table", tables: ["hg"] }, { client });
         expect(options[0].label).toBe("hg38");
         expect(client.api).toHaveBeenCalledOnce();
         expect(mockGet).not.toHaveBeenCalled();
@@ -178,8 +179,8 @@ describe("a supplied client owns the transport", () => {
 
     test("api paths carry no leading slash", async () => {
         const client = stub();
-        await getOptions({ type: "data_column" }, { client, datasetId: "d1" });
-        await getOptions({ type: "data" }, { client, datasetId: "d1" });
+        await resolveOptions({ type: "data_column" }, { client, datasetId: "d1" });
+        await resolveOptions({ type: "data" }, { client, datasetId: "d1" });
         for (const [path] of client.api.mock.calls) {
             expect(path.startsWith("api/")).toBe(true);
         }
@@ -187,7 +188,7 @@ describe("a supplied client owns the transport", () => {
 
     test("a declared url goes to url, not api", async () => {
         const client = stub();
-        const options = await getOptions({ type: "data_json", url: "/genomes.json" }, { client });
+        const options = await resolveOptions({ type: "data_json", url: "/genomes.json" }, { client });
         expect(client.url).toHaveBeenCalledWith("/genomes.json");
         expect(client.api).not.toHaveBeenCalled();
         expect(options).toEqual([{ label: "hg19", value: { id: "hg19" } }]);
@@ -196,7 +197,7 @@ describe("a supplied client owns the transport", () => {
     test("a declared select needs no client at all", async () => {
         const client = stub();
         const input = { type: "select", data: [{ label: "Bar", value: "bar" }] };
-        expect(await getOptions(input, { client })).toEqual([{ label: "Bar", value: "bar" }]);
+        expect(await resolveOptions(input, { client })).toEqual([{ label: "Bar", value: "bar" }]);
         expect(client.api).not.toHaveBeenCalled();
         expect(client.url).not.toHaveBeenCalled();
     });
@@ -204,7 +205,7 @@ describe("a supplied client owns the transport", () => {
     test("the client's failure reaches the caller", async () => {
         const client = stub();
         client.url.mockRejectedValue(new Error("no route to host"));
-        await expect(getOptions({ type: "data_json", url: "/x.json" }, { client })).rejects.toThrow(
+        await expect(resolveOptions({ type: "data_json", url: "/x.json" }, { client })).rejects.toThrow(
             "no route to host",
         );
     });
@@ -212,8 +213,8 @@ describe("a supplied client owns the transport", () => {
     test("galaxy-charts still owns the caching", async () => {
         const client = stub();
         const input = { type: "data_column", is_number: "true" };
-        await getOptions(input, { client, datasetId: "d1" });
-        await getOptions({ type: "data_column", is_text: "true" }, { client, datasetId: "d1" });
+        await resolveOptions(input, { client, datasetId: "d1" });
+        await resolveOptions({ type: "data_column", is_text: "true" }, { client, datasetId: "d1" });
         expect(client.api).toHaveBeenCalledOnce();
     });
 
@@ -225,7 +226,7 @@ describe("a supplied client owns the transport", () => {
             }
             throw new Error(`no route for ${path}`);
         });
-        await expect(getOptions({ type: "data" }, { client, datasetId: "d1" })).rejects.toThrow(
+        await expect(resolveOptions({ type: "data" }, { client, datasetId: "d1" })).rejects.toThrow(
             "reports no history",
         );
         expect(client.api.mock.calls.every(([path]) => !path.includes("//"))).toBe(true);
@@ -233,7 +234,7 @@ describe("a supplied client owns the transport", () => {
 
     test("history contents are asked for through the same client", async () => {
         const client = stub();
-        const options = await getOptions({ type: "data" }, { client, datasetId: "d1" });
+        const options = await resolveOptions({ type: "data" }, { client, datasetId: "d1" });
         expect(options).toEqual([
             { label: "3: peaks", value: { id: "a1", extension: "bed", hid: 3, name: "peaks" } },
         ]);

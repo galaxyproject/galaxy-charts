@@ -23,7 +23,8 @@ export async function datasetsGetColumns(
                 for (const j in row) {
                     const index = Number(j);
                     const value = row[j];
-                    if (value !== undefined && value != 2147483647 && index < columnLength) {
+                    // One entry per row per column, so the series stay aligned.
+                    if (value !== undefined && index < columnLength) {
                         results[index].push(value);
                     }
                 }

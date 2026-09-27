@@ -1,20 +1,8 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import SidePanel from "@/components/SidePanel.vue";
-import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
-import { errorMessageAsString } from "@/utilities/simpleError";
 import { NButton, NIcon, NInput, NTab, NTooltip } from "naive-ui";
 import AlertNotify from "@/components/AlertNotify.vue";
-
-// Mock API functions
-vi.mock("@/api/visualizations", () => ({
-    visualizationsCreate: vi.fn(),
-    visualizationsUpdate: vi.fn(),
-}));
-
-vi.mock("@/utilities/simpleError", () => ({
-    errorMessageAsString: vi.fn(),
-}));
 
 describe("SidePanel.vue", () => {
     let wrapper;
@@ -31,6 +19,7 @@ describe("SidePanel.vue", () => {
         trackInputs: [{ name: "Track1", type: "float" }],
         trackValues: [{ Track1: 10 }],
         transcriptValues: [{ content: "content", role: "user" }],
+        save: vi.fn(),
         visualizationId: "vis-001",
         visualizationTitle: "Test Title",
     };
@@ -119,65 +108,31 @@ describe("SidePanel.vue", () => {
         expect(titleInput.props("value")).toBe("New Test Title");
     });
 
-    test("calls 'visualizationsUpdate' when 'onSave' is triggered with an existing visualizationId", async () => {
-        visualizationsUpdate.mockResolvedValueOnce({});
+    test("saving goes through the one persistence path rather than the API", async () => {
+        props.save.mockResolvedValueOnce({ status: "updated" });
         await wrapper.vm.onSave();
-        expect(visualizationsUpdate).toHaveBeenCalledWith("vis-001", "Test Title", {
-            dataset_id: "123",
-            settings: { Setting1: "Value1" },
-            tracks: [{ Track1: 10 }],
-            transcripts: [
-                {
-                    content: "content",
-                    role: "user",
-                },
-            ],
-        });
+        expect(props.save).toHaveBeenCalledOnce();
         expect(wrapper.vm.message).toBe("Successfully saved.");
         expect(wrapper.vm.messageType).toBe("success");
     });
 
-    test("calls 'visualizationsCreate' when 'onSave' is triggered without a visualizationId", async () => {
-        visualizationsCreate.mockResolvedValueOnce("new-vis-002");
-        await wrapper.setProps({ visualizationId: null });
+    test("reports a create separately from an update", async () => {
+        props.save.mockResolvedValueOnce({ status: "created" });
         await wrapper.vm.onSave();
-        expect(visualizationsCreate).toHaveBeenCalledWith("Test Visualization", "Test Title", {
-            dataset_id: "123",
-            settings: { Setting1: "Value1" },
-            tracks: [{ Track1: 10 }],
-            transcripts: [
-                {
-                    content: "content",
-                    role: "user",
-                },
-            ],
-        });
         expect(wrapper.vm.message).toBe("Successfully created.");
         expect(wrapper.vm.messageType).toBe("success");
-        expect(wrapper.emitted("update:visualization-id")[0]).toEqual(["new-vis-002"]);
     });
 
-    test("handles API errors in 'onSave'", async () => {
-        visualizationsUpdate.mockRejectedValueOnce(new Error("API error"));
-        errorMessageAsString.mockReturnValue("Error occurred");
+    test("a failure announces nothing here, because the framework alert reports it", async () => {
+        props.save.mockResolvedValueOnce({ status: "error", message: "Failed to save: nope" });
         await wrapper.vm.onSave();
-        expect(wrapper.vm.message).toBe("Error occurred");
-        expect(wrapper.vm.messageType).toBe("error");
+        expect(wrapper.vm.message).toBe("");
     });
 
     test("emits 'toggle' when collapse button is clicked", async () => {
         const toggleButton = wrapper.findAllComponents(NButton).at(1);
         await toggleButton.trigger("click");
         expect(wrapper.emitted("toggle")).toBeTruthy();
-    });
-
-    test("handles API errors in 'visualizationsCreate'", async () => {
-        visualizationsCreate.mockRejectedValueOnce(new Error("Create API error"));
-        errorMessageAsString.mockReturnValue("Create Error Occurred");
-        await wrapper.setProps({ visualizationId: null });
-        await wrapper.vm.onSave();
-        expect(wrapper.vm.message).toBe("Create Error Occurred");
-        expect(wrapper.vm.messageType).toBe("error");
     });
 
     test("updates tab visibility when inputs change dynamically", async () => {
@@ -187,14 +142,6 @@ describe("SidePanel.vue", () => {
         expect(wrapper.findAllComponents(NTab).length).toBe(1);
         await wrapper.setProps({ trackInputs: [{ name: "Track1", type: "float" }] });
         expect(wrapper.findAllComponents(NTab).length).toBe(2);
-    });
-
-    test("handles null return from visualizationsCreate", async () => {
-        visualizationsCreate.mockResolvedValueOnce(null);
-        await wrapper.setProps({ visualizationId: null });
-        await wrapper.vm.onSave();
-        expect(wrapper.vm.message).toBe("Verify that you are logged in and Galaxy is accessible.");
-        expect(wrapper.vm.messageType).toBe("error");
     });
 
     test("renders ChartsLogo when logoUrl is not provided", async () => {

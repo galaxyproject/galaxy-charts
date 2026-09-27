@@ -2,7 +2,6 @@
 import { PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { NButton, NIcon } from "naive-ui";
 import InputForm from "@/components/inputs/InputForm.vue";
-import { computed } from "vue";
 import { parseValues } from "@/utilities/parsePlugin";
 import { toOrdinal } from "@/utilities/toOrdinal";
 import { InputElementType, InputValuesType } from "@/types";
@@ -18,13 +17,15 @@ const emit = defineEmits<{
     (event: "update:values-array", newValuesArray: InputValuesType[]): void;
 }>();
 
-// Collect default values to populate new repeat blocks
-const defaultValues = computed(() => parseValues(props.inputs));
+// Values for a new block
+function defaultValues(): InputValuesType {
+    return parseValues(props.inputs);
+}
 
 // Add a new repeat block
 function onAdd(): void {
     const newValuesArray = [...props.valuesArray];
-    newValuesArray.push(defaultValues.value);
+    newValuesArray.push(defaultValues());
     emit("update:values-array", newValuesArray);
 }
 

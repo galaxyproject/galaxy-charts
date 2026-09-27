@@ -1,4 +1,5 @@
-import { describe, test, expect, vi, afterEach } from "vitest";
+import { describe, test, expect, vi, afterEach, beforeEach } from "vitest";
+import { resetCache } from "@/store/getCache";
 import { flushPromises, mount } from "@vue/test-utils";
 import InputDataTable from "@/components/inputs/InputDataTable.vue";
 
@@ -14,11 +15,15 @@ describe("InputDataTable.vue", () => {
     const mountComponent = (props = {}) =>
         mount(InputDataTable, {
             props: {
+                input: { name: "row", type: "data_table", tables: ["my_table"] },
                 optional: false,
-                tables: ["my_table"],
                 ...props,
             },
         });
+
+    beforeEach(() => {
+        resetCache();
+    });
 
     afterEach(() => {
         vi.clearAllMocks();
@@ -57,7 +62,7 @@ describe("InputDataTable.vue", () => {
                     fields: [["rowB", "valB"]],
                 },
             });
-        const wrapper = mountComponent({ tables: ["table1", "table2"] });
+        const wrapper = mountComponent({ input: { name: "row", type: "data_table", tables: ["table1", "table2"] } });
         await flushPromises();
         const labels = wrapper.vm.currentOptions.map((o) => o.label);
         expect(labels).toContain("rowA");
@@ -69,9 +74,8 @@ describe("InputDataTable.vue", () => {
         mockGet.mockResolvedValue({
             data: { columns: [], fields: [] },
         });
-        const wrapper = mountComponent({ tables: ["table3"] });
+        const wrapper = mountComponent({ input: { name: "row", type: "data_table", tables: ["my_table"] } });
         await flushPromises();
-        console.log(wrapper.vm.currentOptions);
         expect(wrapper.vm.currentOptions.length).toBe(0);
     });
 

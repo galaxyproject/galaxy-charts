@@ -6,7 +6,11 @@ import type {
     PluginType,
     TranscriptMessageType,
 } from "@/types";
+import { inputTypeFallback } from "@/schema/inputTypes";
 import { toBoolean } from "./toBoolean";
+
+/** The optional string flags an input declares, which a schema fallback may require. */
+type InputFlagType = "is_auto" | "is_text" | "is_number";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -27,7 +31,9 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
 
 // Format value according to input type
 function formatValue(input: InputElementType, inputValue: InputAtomicType): InputAtomicType {
-    let value = inputValue ?? input.value;
+    // The schema owns the fallback, so a value resolves here rather than when an input mounts.
+    let value =
+        inputValue ?? input.value ?? inputTypeFallback(input.type, (flag) => toBoolean(input[flag as InputFlagType]));
     if (["float", "integer"].includes(input.type)) {
         value = Number(value);
     } else if (input.type === "boolean") {
@@ -38,7 +44,7 @@ function formatValue(input: InputElementType, inputValue: InputAtomicType): Inpu
 
 // Format conditional values based on test cases
 function formatConditional(input: InputElementType, values: InputValuesType = {}): InputValuesType {
-    const result = values;
+    let result = { ...values };
     const testName = input.test_param?.name;
 
     if (!testName) {
@@ -49,7 +55,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
             if (inputCase.value === testValue) {
                 result[testName] = testValue;
                 if (inputCase.inputs?.length) {
-                    parseValues(inputCase.inputs, result);
+                    result = parseValues(inputCase.inputs, result);
                 }
             }
         }
@@ -59,7 +65,7 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
 
 // Parse values with conditional handling
 export function parseValues(inputs?: Array<InputElementType>, values?: InputValuesType): InputValuesType {
-    const result = values || {};
+    const result = { ...values };
 
     inputs?.forEach((input) => {
         if (input.type === "conditional") {
@@ -74,14 +80,12 @@ export function parseValues(inputs?: Array<InputElementType>, values?: InputValu
 
 // Parse tracks with nested values
 function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<InputValuesType>): Array<InputValuesType> {
-    const values = tracks || [];
+    const values = [...(tracks || [])];
     if (inputs) {
         if (values.length === 0) {
             values.push({});
         }
-        values.forEach((track, trackIndex) => {
-            values[trackIndex] = parseValues(inputs, track);
-        });
+        return values.map((track) => parseValues(inputs, track));
     }
     return values;
 }

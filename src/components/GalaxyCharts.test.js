@@ -111,6 +111,46 @@ describe("build user interface", () => {
         expect(posted.map((m) => m.visualization_saved)).toEqual([false, true]);
     });
 
+    test("posts to the origin the host declared, not to any parent", async () => {
+        const incoming = {
+            root: "https://galaxy.example/galaxy/",
+            visualization_config: { dataset_id: "DATASET_1" },
+        };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+
+        const targets = [];
+        const originalParent = Object.getOwnPropertyDescriptor(window, "parent");
+        Object.defineProperty(window, "parent", {
+            value: { postMessage: (message, origin) => targets.push(origin) },
+            configurable: true,
+        });
+        wrapper.vm["postMessage"]();
+        if (originalParent) {
+            Object.defineProperty(window, "parent", originalParent);
+        }
+
+        expect(targets).toEqual(["https://galaxy.example"]);
+    });
+
+    test("a root carrying no origin falls back to any parent", async () => {
+        const wrapper = mountTarget({ incoming: { root: "/", visualization_config: {} } });
+        await wrapper.vm.$nextTick();
+
+        const targets = [];
+        const originalParent = Object.getOwnPropertyDescriptor(window, "parent");
+        Object.defineProperty(window, "parent", {
+            value: { postMessage: (message, origin) => targets.push(origin) },
+            configurable: true,
+        });
+        wrapper.vm["postMessage"]();
+        if (originalParent) {
+            Object.defineProperty(window, "parent", originalParent);
+        }
+
+        expect(targets).toEqual(["*"]);
+    });
+
     test("posts to the host window rather than its own", async () => {
         const incoming = { visualization_config: {} };
         const wrapper = mountTarget({ incoming });
@@ -139,6 +179,22 @@ describe("build user interface", () => {
         expect(own).toHaveLength(0);
     });
 
+    test("a later successful save clears the previous error", async () => {
+        const incoming = {
+            visualization_config: { dataset_id: "DATASET_1" },
+            visualization_id: "vis-1",
+            visualization_plugin: {},
+        };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+        vi.spyOn(visualizations, "visualizationsSave").mockRejectedValueOnce(new Error("fail"));
+        await wrapper.vm["save"]();
+        expect(wrapper.vm.errorMessage).toContain("Failed to save");
+        vi.spyOn(visualizations, "visualizationsSave").mockResolvedValueOnce(undefined);
+        await wrapper.vm["save"]();
+        expect(wrapper.vm.errorMessage).toBe("");
+    });
+
     test("save failure sets error message", async () => {
         const incoming = { visualization_config: {}, visualization_plugin: {} };
         const wrapper = mountTarget({ incoming });
@@ -164,11 +220,65 @@ describe("build user interface", () => {
         expect(wrapper.vm.settingValues).toEqual({ foo: "bar", baz: "qux" });
     });
 
-    test("updateVisualizationId sets new id and posts message", async () => {
+    test("a save that creates records the new id and reports it as a create", async () => {
         const wrapper = mountTarget({ incoming: { visualization_config: {} } });
         await wrapper.vm.$nextTick();
-        wrapper.vm["updateVisualizationId"]("NEW_ID");
+        vi.spyOn(visualizations, "visualizationsSave").mockResolvedValueOnce("NEW_ID");
+        expect(await wrapper.vm["save"]()).toEqual({ status: "created" });
         expect(wrapper.vm.currentVisualizationId).toBe("NEW_ID");
+    });
+
+    test("a create that yields no id is reported as an error", async () => {
+        const wrapper = mountTarget({ incoming: { visualization_config: {} } });
+        await wrapper.vm.$nextTick();
+        vi.spyOn(visualizations, "visualizationsSave").mockResolvedValueOnce(undefined);
+        expect(await wrapper.vm["save"]()).toEqual({
+            status: "error",
+            message: "Verify that you are logged in and Galaxy is accessible.",
+        });
+        expect(wrapper.vm.errorMessage).toContain("Verify that you are logged in");
+    });
+
+    test("a hidden setting cleared with undefined is not persisted", async () => {
+        const incoming = {
+            visualization_config: { dataset_id: "DATASET_1", settings: { job_dataset_id: "abc123" } },
+            visualization_id: "vis-1",
+            visualization_plugin: { settings: [{ name: "job_dataset_id", type: "hidden" }] },
+        };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+        const saved = vi.spyOn(visualizations, "visualizationsSave").mockResolvedValue(undefined);
+
+        await wrapper.vm["save"]();
+        expect(saved.mock.lastCall[3].settings.job_dataset_id).toBe("abc123");
+
+        wrapper.vm["update"]({ settings: { job_dataset_id: undefined } });
+        await wrapper.vm["save"]();
+        const persisted = JSON.parse(JSON.stringify(saved.mock.lastCall[3]));
+        expect("job_dataset_id" in persisted.settings).toBe(false);
+        saved.mockRestore();
+    });
+
+    test("a successful save tells the host the state is saved", async () => {
+        const incoming = {
+            visualization_config: { dataset_id: "DATASET_1" },
+            visualization_id: "vis-1",
+            visualization_plugin: {},
+        };
+        const wrapper = mountTarget({ incoming });
+        await wrapper.vm.$nextTick();
+        const host = [];
+        const originalParent = Object.getOwnPropertyDescriptor(window, "parent");
+        Object.defineProperty(window, "parent", {
+            value: { postMessage: (message) => host.push(message) },
+            configurable: true,
+        });
+        vi.spyOn(visualizations, "visualizationsSave").mockResolvedValueOnce(undefined);
+        await wrapper.vm["save"]();
+        if (originalParent) {
+            Object.defineProperty(window, "parent", originalParent);
+        }
+        expect(host.filter((message) => message.visualization_saved)).toHaveLength(1);
     });
 
     test("updateVisualizationTitle sets new title and posts message", async () => {

@@ -8,7 +8,6 @@ import {
     CloudArrowUpIcon,
     Square3Stack3DIcon,
 } from "@heroicons/vue/24/outline";
-import { visualizationsCreate, visualizationsUpdate } from "@/api/visualizations";
 import InputForm from "@/components/inputs/InputForm.vue";
 import InputRepeats from "@/components/inputs/InputRepeats.vue";
 import AlertNotify from "@/components/AlertNotify.vue";
@@ -16,8 +15,14 @@ import ApiStatus from "@/components/ApiStatus.vue";
 import ChartsLogo from "@/components/ChartsLogo.vue";
 import SideChat from "@/components/SideChat.vue";
 import SideButton from "@/components/SideButton.vue";
-import type { InputElementType, InputValuesType, MessageType, TabType, TranscriptMessageType } from "@/types";
-import { errorMessageAsString } from "@/utilities/simpleError";
+import type {
+    InputElementType,
+    InputValuesType,
+    MessageType,
+    SaveResultType,
+    TabType,
+    TranscriptMessageType,
+} from "@/types";
 import { toBoolean } from "@/utilities/toBoolean";
 
 const props = defineProps<{
@@ -27,6 +32,7 @@ const props = defineProps<{
     pluginDescription: string;
     pluginHtml: string;
     pluginName: string;
+    save: () => Promise<SaveResultType>;
     settingInputs: InputElementType[];
     settingValues: InputValuesType;
     specValues: InputValuesType;
@@ -43,7 +49,6 @@ const emit = defineEmits<{
     (event: "update:tab", newTab: TabType): void;
     (event: "update:tracks", newValues: InputValuesType[]): void;
     (event: "update:transcripts", newValues: TranscriptMessageType[]): void;
-    (event: "update:visualization-id", newId: string): void;
     (event: "update:visualization-title", newTitle: string): void;
     (event: "toggle"): void;
 }>();
@@ -66,35 +71,10 @@ const showTabs = computed(() => {
 
 // Save or create the visualization
 async function onSave(): Promise<void> {
-    try {
-        if (props.visualizationId) {
-            await visualizationsUpdate(props.visualizationId, props.visualizationTitle, {
-                dataset_id: props.datasetId,
-                settings: props.settingValues,
-                tracks: props.trackValues,
-                transcripts: props.transcriptValues,
-            });
-            message.value = "Successfully saved.";
-            messageType.value = "success";
-        } else {
-            const newVisualizationId = await visualizationsCreate(props.pluginName, props.visualizationTitle, {
-                dataset_id: props.datasetId,
-                settings: props.settingValues,
-                tracks: props.trackValues,
-                transcripts: props.transcriptValues,
-            });
-            if (newVisualizationId) {
-                message.value = "Successfully created.";
-                messageType.value = "success";
-                emit("update:visualization-id", newVisualizationId);
-            } else {
-                message.value = "Verify that you are logged in and Galaxy is accessible.";
-                messageType.value = "error";
-            }
-        }
-    } catch (err) {
-        message.value = errorMessageAsString(err);
-        messageType.value = "error";
+    const result = await props.save();
+    if (result.status !== "error") {
+        message.value = result.status === "created" ? "Successfully created." : "Successfully saved.";
+        messageType.value = "success";
     }
 }
 

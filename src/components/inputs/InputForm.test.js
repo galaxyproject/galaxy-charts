@@ -204,11 +204,9 @@ describe("InputForm.vue", () => {
         expect(wrapper.emitted("update:values").pop()[0].textareaInput).toBe("Updated textarea");
     });
 
-    test("passes isAuto, isText, isNumber to InputDataColumn", () => {
+    test("passes the declaration to InputDataColumn, which reads its own flags", () => {
         const colInput = wrapper.findComponent(InputDataColumn);
-        expect(colInput.props("isAuto")).toBe(true);
-        expect(colInput.props("isText")).toBe(true);
-        expect(colInput.props("isNumber")).toBe(true);
+        expect(colInput.props("input")).toMatchObject({ type: "data_column", is_auto: "true" });
     });
 
     test("reinitializes values reactively when props.values changes", async () => {
@@ -281,5 +279,33 @@ describe("InputForm.vue", () => {
         await input.vm.$emit("update:value", "typing");
         expect(wrapper.emitted("update:values")).toBeTruthy();
         expect(wrapper.emitted("update:values")[0][0].instantText).toBe("typing");
+    });
+
+    test("a hidden input renders no control and no label", async () => {
+        await wrapper.setProps({
+            inputs: [
+                { name: "visibleText", type: "text", label: "Visible" },
+                { name: "job_dataset_id", type: "hidden", label: "Job dataset" },
+            ],
+            values: { visibleText: "shown", job_dataset_id: "abc123" },
+        });
+        expect(wrapper.text()).toContain("Visible");
+        expect(wrapper.text()).not.toContain("Job dataset");
+        expect(wrapper.findAll("input").length).toBe(1);
+    });
+
+    test("a hidden value is still emitted, so it is persisted", async () => {
+        await wrapper.setProps({
+            inputs: [
+                { name: "visibleText", type: "text", label: "Visible" },
+                { name: "job_dataset_id", type: "hidden" },
+            ],
+            values: { visibleText: "shown", job_dataset_id: "abc123" },
+        });
+        await wrapper.find("input").setValue("changed");
+        expect(wrapper.emitted("update:values").pop()[0]).toEqual({
+            visibleText: "changed",
+            job_dataset_id: "abc123",
+        });
     });
 });

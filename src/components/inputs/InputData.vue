@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { historiesGetContents } from "@/api/histories";
-import { useDatasetStore } from "@/store/datasetStore";
+import { getOptions, HISTORY_LIMIT } from "@/store/getOptions";
 import InputSelect from "@/components/inputs/InputSelect.vue";
+import type { OptionInputType } from "@/schema/inputOptions";
 import type { InputOptionType } from "@/types";
-
-const { getDataset } = useDatasetStore();
-
-const LIMIT = 100;
 
 type ValueType = {
     id: string;
@@ -18,7 +14,7 @@ type ValueType = {
 
 const props = defineProps<{
     datasetId?: string;
-    extension?: string;
+    input: OptionInputType;
     optional?: boolean;
 }>();
 
@@ -30,14 +26,9 @@ async function loadDatasets(query?: string): Promise<void> {
     if (props.datasetId) {
         loading.value = true;
         try {
-            const { data: dataset } = await getDataset(props.datasetId);
-            const contents = await historiesGetContents(dataset.history_id, query, props.extension, LIMIT);
-            if (contents && contents.length > 0) {
-                const options = contents.map((x: ValueType) => ({
-                    label: `${x.hid}: ${x.name}`,
-                    value: { id: x.id, extension: x.extension, hid: x.hid, name: x.name },
-                }));
-                if (contents.length >= LIMIT) {
+            const options = await getOptions(props.input, { datasetId: props.datasetId, query });
+            if (options.length > 0) {
+                if (options.length >= HISTORY_LIMIT) {
                     options.push({ label: "...filter for more", value: null, disabled: true });
                 }
                 currentOptions.value = options;

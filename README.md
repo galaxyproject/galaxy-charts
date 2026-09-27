@@ -21,17 +21,17 @@ any framework of your choice.
 Galaxy Charts separates the visualization framework from its user
 interface:
 
--   **Contract:** Input types, configuration shapes,
-    option sources, defaults, and conditional inputs.
--   **Runtime:** Headless visualization semantics such as resolving
-    declared input options against Galaxy.
--   **UI:** Optional Vue components for configuring and embedding
-    visualizations.
+- **Contract:** Input types, configuration shapes,
+  option sources, defaults, and conditional inputs.
+- **Runtime:** Headless visualization semantics such as resolving
+  declared input options against Galaxy.
+- **UI:** Optional Vue components for configuring and embedding
+  visualizations.
 
 The same runtime semantics used by the Galaxy Charts UI are available to
 headless consumers through:
 
-``` js
+```js
 import { getOptions } from "galaxy-charts/runtime";
 ```
 
@@ -44,7 +44,7 @@ while preserving the same visualization semantics.
 The easiest way to start a visualization is with the [Galaxy Charts
 Starter Template](https://github.com/guerler/galaxy-charts-starter):
 
-``` bash
+```bash
 npx degit guerler/galaxy-charts-starter my-viz
 cd my-viz
 npm install
@@ -56,28 +56,28 @@ a visualization against Galaxy datasets.
 
 You can also install Galaxy Charts directly:
 
-``` bash
+```bash
 npm install galaxy-charts
 ```
 
 ## ✨ Features
 
--   **Galaxy visualization contract** --- shared input and configuration
-    semantics for Galaxy visualization plugins.
--   **Headless runtime** --- consume visualization semantics without
-    depending on Vue or the Galaxy UI.
--   **Dynamic options** --- resolve dataset columns, history datasets,
-    Galaxy data tables, remote option sources, and declared options.
--   **Conditional inputs** --- define configuration structures whose
-    available inputs depend on other selections.
--   **Vue 3 UI** --- optional reusable components for generated
-    configuration forms and visualization interfaces.
--   **Galaxy integration** --- connect visualization configuration and
-    runtime behavior directly to Galaxy.
--   **Framework independent visualizations** --- visualization
-    implementations can use plain JavaScript or any UI framework.
--   **Vite-based development** --- fast local development and production
-    builds.
+- **Galaxy visualization contract** --- shared input and configuration
+  semantics for Galaxy visualization plugins.
+- **Headless runtime** --- consume visualization semantics without
+  depending on Vue or the Galaxy UI.
+- **Dynamic options** --- resolve dataset columns, history datasets,
+  Galaxy data tables, remote option sources, and declared options.
+- **Conditional inputs** --- define configuration structures whose
+  available inputs depend on other selections.
+- **Vue 3 UI** --- optional reusable components for generated
+  configuration forms and visualization interfaces.
+- **Galaxy integration** --- connect visualization configuration and
+  runtime behavior directly to Galaxy.
+- **Framework independent visualizations** --- visualization
+  implementations can use plain JavaScript or any UI framework.
+- **Vite-based development** --- fast local development and production
+  builds.
 
 ## 🔌 Plugins
 

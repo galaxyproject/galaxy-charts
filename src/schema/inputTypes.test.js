@@ -115,3 +115,19 @@ describe("the registry is complete and consumable", () => {
         expect(inputTypeRegistry("x").types.data.stores.additionalProperties).toEqual({});
     });
 });
+
+describe("the identity a selected value carries", () => {
+    test("an empty id is not an id, in the schema as at runtime", () => {
+        for (const type of ["data", "data_table", "data_json"]) {
+            expect(INPUT_TYPES[type].stores.safeParse({ id: "" }).success).toBe(false);
+            expect(INPUT_TYPES[type].stores.safeParse({ id: "x" }).success).toBe(true);
+        }
+    });
+
+    test("the published schema says so too", () => {
+        const { types } = inputTypeRegistry("test");
+        for (const type of ["data", "data_table", "data_json"]) {
+            expect(types[type].stores.properties.id.minLength).toBe(1);
+        }
+    });
+});

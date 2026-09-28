@@ -139,3 +139,17 @@ describe("helpers", () => {
         expect(optionValue({ label: "c", value: null })).toBeUndefined();
     });
 });
+
+describe("an option needs an id to be selectable", () => {
+    test("a remote entry without one is dropped, as a table row without one is", () => {
+        const entries = [null, "hg19", 42, [], { id: "hg18", name: "Human" }, { name: "Nameless" }, { id: "" }];
+        const options = optionsFor({ name: "genome", type: "data_json", url: "https://x" }, entries);
+        expect(options.map((o) => o.value.id)).toEqual(["hg18"]);
+    });
+
+    test("a remote list that is not a list yields nothing", () => {
+        const input = { name: "genome", type: "data_json", url: "https://x" };
+        expect(optionsFor(input, { genomes: [] })).toEqual([]);
+        expect(optionsFor(input)).toEqual([]);
+    });
+});

@@ -8,7 +8,7 @@ export type CoercionType = "number" | "boolean";
 
 /** A selected history dataset. */
 export const SelectedDataset = z.looseObject({
-    id: z.string(),
+    id: z.string().min(1),
     extension: z.string().optional(),
     hid: z.number().int().optional(),
     name: z.string().optional(),
@@ -16,7 +16,7 @@ export const SelectedDataset = z.looseObject({
 
 /** A selected tool data table row. */
 export const SelectedDataTableRow = z.looseObject({
-    id: z.string(),
+    id: z.string().min(1),
     columns: z.array(z.string()).optional(),
     row: z.array(z.string()).optional(),
     table: z.string().optional(),
@@ -24,7 +24,7 @@ export const SelectedDataTableRow = z.looseObject({
 
 /** A selected remote json entry. */
 export const SelectedJsonEntry = z.looseObject({
-    id: z.string(),
+    id: z.string().min(1),
     name: z.string().optional(),
 });
 

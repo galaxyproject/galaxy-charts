@@ -28,13 +28,6 @@ export interface DataTablePayloadType {
     table: string;
 }
 
-/** Payload for `data_json`. */
-export interface DataJsonPayloadType {
-    id: string;
-    name?: string;
-    [key: string]: unknown;
-}
-
 function datasetColumnOptions(input: OptionInputType, dataset: Required<DatasetPayloadType>): Array<InputOptionType> {
     return parseColumns(dataset, toBoolean(input.is_auto), toBoolean(input.is_text), toBoolean(input.is_number));
 }
@@ -82,15 +75,22 @@ function dataTableOptions(tables: Array<DataTablePayloadType>): Array<InputOptio
     return mergeUniqueOptions(tables.map((payload) => oneTableEntries(payload).map(([, option]) => option)));
 }
 
-function dataJsonOptions(entries: Array<DataJsonPayloadType>): Array<InputOptionType> {
-    return entries.map((entry) => ({ label: entry.name || entry.id, value: { ...entry } }));
+function dataJsonOptions(payload: unknown): Array<InputOptionType> {
+    const entries: Array<unknown> = Array.isArray(payload) ? payload : [];
+    return entries.flatMap((entry) => {
+        if (entry === null || typeof entry !== "object" || !("id" in entry) || typeof entry.id !== "string") {
+            return [];
+        }
+        const name = "name" in entry && typeof entry.name === "string" ? entry.name : "";
+        return entry.id ? [{ label: name || entry.id, value: { ...entry } }] : [];
+    });
 }
 
 /** The values an input may hold, from the payload its kind draws on. */
 export function optionsFor(input: OptionInputType, payload?: unknown): Array<InputOptionType> {
     switch (INPUT_TYPES[input.type]?.options?.kind) {
         case "data_json":
-            return dataJsonOptions((payload ?? []) as Array<DataJsonPayloadType>);
+            return dataJsonOptions(payload);
         case "data_table":
             return dataTableOptions((payload ?? []) as Array<DataTablePayloadType>);
         case "dataset_column":

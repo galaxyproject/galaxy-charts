@@ -1,12 +1,12 @@
 import type {
-    InputAtomicType,
     InputElementType,
     InputValuesType,
+    InputValueType,
     PluginConfigType,
     PluginType,
     TranscriptMessageType,
 } from "@/types";
-import { inputTypeFallback } from "@/schema/inputTypes";
+import { coerceInputValue, inputTypeFallback } from "@/schema/inputTypes";
 import { toBoolean } from "./toBoolean";
 
 /** The optional string flags an input declares, which a schema fallback may require. */
@@ -30,16 +30,11 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
 }
 
 // Format value according to input type
-function formatValue(input: InputElementType, inputValue: InputAtomicType): InputAtomicType {
+function formatValue(input: InputElementType, inputValue: InputValueType): InputValueType {
     // The schema owns the fallback, so a value resolves here rather than when an input mounts.
-    let value =
+    const value =
         inputValue ?? input.value ?? inputTypeFallback(input.type, (flag) => toBoolean(input[flag as InputFlagType]));
-    if (["float", "integer"].includes(input.type)) {
-        value = Number(value);
-    } else if (input.type === "boolean") {
-        value = toBoolean(value);
-    }
-    return value;
+    return coerceInputValue(input.type, value);
 }
 
 // Format conditional values based on test cases

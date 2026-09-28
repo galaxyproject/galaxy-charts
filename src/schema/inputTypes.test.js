@@ -74,6 +74,22 @@ describe("the published registry matches what the inputs actually write", () => 
     });
 });
 
+describe("the registry publishes how a value is coerced", () => {
+    test("the numeric types share one coercion and a boolean names its own", () => {
+        const { types } = inputTypeRegistry("test");
+        expect(types.integer.coerce).toBe("number");
+        expect(types.float.coerce).toBe("number");
+        expect(types.boolean.coerce).toBe("boolean");
+    });
+
+    test("a type that stores what it is given names none", () => {
+        const { types } = inputTypeRegistry("test");
+        for (const type of ["text", "select", "data_column", "data", "data_table", "data_json"]) {
+            expect(types[type].coerce, `'${type}' declares a coercion it does not apply`).toBeUndefined();
+        }
+    });
+});
+
 describe("the registry is complete and consumable", () => {
     test("every input type the form renders is declared", async () => {
         const form = await import("@/components/inputs/InputForm.vue?raw");

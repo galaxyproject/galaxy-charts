@@ -27,6 +27,10 @@ export interface EmitSaveType {
 /** Inputs */
 export type InputAtomicType = boolean | string | number | null | undefined;
 
+/** One input's value: atomic, or the structured value a resolved option carries. `stores` owns
+ * that structure; nothing handling a value interprets it. */
+export type InputValueType = InputAtomicType | Record<string, unknown>;
+
 export interface InputElementType {
     cases?: Array<{
         value: string;

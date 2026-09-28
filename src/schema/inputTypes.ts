@@ -1,5 +1,10 @@
 /** What each input type stores, so consumers need not infer it from a plugin's XML. */
+import type { InputAtomicType, InputValueType } from "../types";
 import { z } from "zod";
+// Relative: vite.config.js imports this module outside vite's alias resolution.
+import { toBoolean } from "../utilities/toBoolean";
+
+export type CoercionType = "number" | "boolean";
 
 /** A selected history dataset. */
 export const SelectedDataset = z.looseObject({
@@ -31,6 +36,8 @@ export interface InputTypeSpec {
     bounds?: string[];
     options?: { kind: OptionKindType; from?: string; filters?: string[] };
     nests?: "conditional";
+    /** Applied once a value resolves, never before. */
+    coerce?: CoercionType;
     /** Value to store when neither the config nor the plugin's `<value>` supplies one. `requires`
      * names a flag the input must declare for the fallback to apply. Dataset-independent only: a
      * default that needs column metadata cannot be resolved here. */
@@ -38,12 +45,12 @@ export interface InputTypeSpec {
 }
 
 export const INPUT_TYPES: Record<string, InputTypeSpec> = {
-    boolean: { stores: z.boolean() },
+    boolean: { stores: z.boolean(), coerce: "boolean" },
     color: { stores: z.string() },
     text: { stores: z.string() },
     textarea: { stores: z.string() },
-    integer: { stores: z.number().int(), bounds: ["min", "max"] },
-    float: { stores: z.number(), bounds: ["min", "max"] },
+    integer: { stores: z.number().int(), bounds: ["min", "max"], coerce: "number" },
+    float: { stores: z.number(), bounds: ["min", "max"], coerce: "number" },
     select: { stores: z.string(), options: { kind: "declared", from: "data" } },
     // `is_number` and `is_text` filter which columns are offered, not what is stored.
     data_column: {
@@ -75,6 +82,18 @@ export function inputTypeFallback(type: string, declares: (flag: string) => bool
         return undefined;
     }
     return !fallback.requires || declares(fallback.requires) ? fallback.value : undefined;
+}
+
+export function coerceInputValue(type: string, value: InputValueType): InputValueType {
+    switch (INPUT_TYPES[type]?.coerce) {
+        case "number":
+            return Number(value);
+        case "boolean":
+            // Only scalar types declare a coercion, so a coerced value is never the object arm.
+            return toBoolean(value as InputAtomicType);
+        default:
+            return value;
+    }
 }
 
 /** Plain data, for consumers in other languages. */

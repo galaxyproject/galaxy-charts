@@ -123,6 +123,30 @@ describe("parsePlugin function", () => {
         consoleSpy.mockRestore();
     });
 
+    test("leaves a number unset when nothing resolves, rather than storing NaN or 0", async () => {
+        const plugin = {
+            settings: [
+                { name: "none", type: "integer" },
+                { name: "empty", type: "integer", value: "" },
+                { name: "word", type: "float", value: "abc" },
+            ],
+            tracks: [],
+        };
+        const result = await parsePlugin(plugin, {});
+        expect(result.settings).toEqual({ none: undefined, empty: undefined, word: undefined });
+    });
+
+    test("still reads a number a saved config wrote as text", async () => {
+        const plugin = { settings: [{ name: "n", type: "integer" }], tracks: [] };
+        expect((await parsePlugin(plugin, { settings: { n: "5" } })).settings).toEqual({ n: 5 });
+    });
+
+    test("reads an unset switch as off, from the fallback the boolean type declares", async () => {
+        const plugin = { settings: [{ name: "b", type: "boolean" }], tracks: [] };
+        expect((await parsePlugin(plugin, {})).settings).toEqual({ b: false });
+        expect(INPUT_TYPES.boolean.fallback).toEqual({ value: "false" });
+    });
+
     test("Formats integer values correctly", async () => {
         const testPlugin = {
             settings: [{ name: "maxItems", type: "integer", value: "10" }],

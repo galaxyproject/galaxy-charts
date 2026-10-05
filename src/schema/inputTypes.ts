@@ -45,7 +45,8 @@ export interface InputTypeSpec {
 }
 
 export const INPUT_TYPES: Record<string, InputTypeSpec> = {
-    boolean: { stores: z.boolean(), coerce: "boolean" },
+    // An unset switch is off, so the form and a plugin read the same value without a <value>.
+    boolean: { stores: z.boolean(), coerce: "boolean", fallback: { value: "false" } },
     color: { stores: z.string() },
     text: { stores: z.string() },
     textarea: { stores: z.string() },
@@ -84,10 +85,20 @@ export function inputTypeFallback(type: string, declares: (flag: string) => bool
     return !fallback.requires || declares(fallback.requires) ? fallback.value : undefined;
 }
 
+/** A number, or undefined for a value that states none: "" and "abc" resolve to nothing, not 0 or NaN. */
+function numberOf(value: InputValueType): number | undefined {
+    const parsed = typeof value === "number" ? value : String(value).trim() === "" ? NaN : Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+/** The resolved value as its type stores it. Nothing resolved is left unset rather than coerced. */
 export function coerceInputValue(type: string, value: InputValueType): InputValueType {
+    if (value === undefined || value === null) {
+        return undefined;
+    }
     switch (INPUT_TYPES[type]?.coerce) {
         case "number":
-            return Number(value);
+            return numberOf(value);
         case "boolean":
             // Only scalar types declare a coercion, so a coerced value is never the object arm.
             return toBoolean(value as InputAtomicType);

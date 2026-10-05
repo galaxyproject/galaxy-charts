@@ -57,5 +57,6 @@ describe("the runtime entry stays headless", () => {
         expect(modules).toContain(path.join("src", "store", "getOptions.ts"));
         expect(modules).toContain(path.join("src", "schema", "inputOptions.ts"));
         expect(modules).toContain(path.join("src", "utilities", "parsePlugin.ts"));
+        expect(modules).toContain(path.join("src", "schema", "validateValues.ts"));
     });
 });

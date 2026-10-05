@@ -17,14 +17,15 @@ export default defineConfig({
         },
     },
     plugins: [
+        // Per-file declarations in their own directory. A rolled-up file would be named after
+        // package.json's "types", which is the component library's, and would skip or overwrite it.
         dts({
-            entry: path.resolve(import.meta.dirname, "lib/galaxy-charts-runtime.ts"),
-            outDir: path.resolve(import.meta.dirname, "dist"),
-            rollupTypes: true,
+            outDir: path.resolve(import.meta.dirname, "dist/galaxy-charts-runtime-types"),
+            rollupTypes: false,
             tsConfigFilePath: path.resolve(import.meta.dirname, "tsconfig.json"),
             copyDtsFiles: false,
             include: ["lib/galaxy-charts-runtime.ts", "src/**/*.ts"],
-            exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*"],
+            exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/**/*.test.*"],
         }),
     ],
     resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") } },

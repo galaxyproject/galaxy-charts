@@ -67,3 +67,22 @@ describe("the runtime entry's public surface", () => {
         expect(Object.keys(runtime).sort()).toEqual(["getOptions", "parseValues", "selectCase", "validateValues"]);
     });
 });
+
+describe("the runtime entry ships its own typings", () => {
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
+    const runtimeTypes = pkg.exports["./runtime"].types;
+
+    // A rolled-up declaration file is named after package.json's "types", so the runtime build
+    // skipped its own and rolled the component library's again; 0.1.16 shipped with none.
+    test("they are not the component library's file", () => {
+        expect(runtimeTypes).not.toBe(pkg.types);
+        expect(runtimeTypes).not.toBe(pkg.exports["."].types);
+    });
+
+    test("they are emitted where the runtime build writes them", () => {
+        const config = fs.readFileSync(path.join(ROOT, "vite.config.runtime.js"), "utf8");
+        const outDir = /outDir: path\.resolve\(import\.meta\.dirname, "([^"]+)"\)/.exec(config)?.[1];
+        expect(outDir).toBeTruthy();
+        expect(path.normalize(runtimeTypes)).toBe(path.normalize(`./${outDir}/lib/galaxy-charts-runtime.d.ts`));
+    });
+});

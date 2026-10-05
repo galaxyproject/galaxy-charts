@@ -19,7 +19,7 @@
         },
         "./galaxy-charts.inputs.json": "./dist/galaxy-charts.inputs.json",
         "./runtime": {
-            "types": "./dist/galaxy-charts.runtime.d.ts",
+            "types": "./dist/galaxy-charts-runtime-types/lib/galaxy-charts-runtime.d.ts",
             "import": "./dist/galaxy-charts.runtime.js"
         }
     },

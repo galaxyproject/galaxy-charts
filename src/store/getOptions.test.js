@@ -34,6 +34,21 @@ describe("getOptions", () => {
         expect(options).toEqual([{ label: "Column: 2", value: "1" }]);
     });
 
+    test("one client reuses what it fetched; another client fetches for itself", async () => {
+        const reply = (columns) => ({ api: vi.fn(async () => ({ metadata_column_types: columns })), url: vi.fn() });
+        const input = { type: "data_column" };
+        const early = reply({});
+        expect(await resolveOptions(input, { datasetId: "d9", client: early })).toEqual([]);
+        early.api.mockResolvedValue({ metadata_column_types: { 0: "int" } });
+        expect(await resolveOptions(input, { datasetId: "d9", client: early })).toEqual([]);
+        expect(early.api).toHaveBeenCalledOnce();
+        // A later unit of work passes its own client and sees the dataset as it is now.
+        const later = reply({ 0: "int" });
+        expect(await resolveOptions(input, { datasetId: "d9", client: later })).toEqual([
+            { label: "Column: 1", value: "0" },
+        ]);
+    });
+
     test("with no dataset there is nothing to offer", async () => {
         expect(await getOptions({ type: "data_column" }, {})).toEqual([]);
         expect(await getOptions({ type: "data" }, {})).toEqual([]);

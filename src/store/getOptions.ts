@@ -18,18 +18,18 @@ export interface OptionContextType {
 }
 
 function fetchDataset(client: ClientType, datasetId: string) {
-    return getCache(`dataset:${datasetId}`, () => client.api(`api/datasets/${datasetId}`));
+    return getCache(client, `dataset:${datasetId}`, () => client.api(`api/datasets/${datasetId}`));
 }
 
 function fetchDataTable(client: ClientType, table: string) {
-    return getCache(`table:${table}`, async () => {
+    return getCache(client, `table:${table}`, async () => {
         const data = (await client.api(`api/tool_data/${table}`)) as Record<string, unknown>;
         return { ...data, table };
     });
 }
 
 function fetchJsonEntries(client: ClientType, url: string) {
-    return getCache(`json:${url}`, () => client.url(url));
+    return getCache(client, `json:${url}`, () => client.url(url));
 }
 
 /** Skips a table that cannot be read. */

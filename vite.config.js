@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, runnerImport } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import Checker from "vite-plugin-checker";
 import path from "path";
@@ -13,7 +13,8 @@ function emitInputTypeRegistry() {
     return {
         name: "emit-input-type-registry",
         async closeBundle() {
-            const { inputTypeRegistry } = await import("./src/schema/inputTypes.ts");
+            const { module } = await runnerImport("./src/schema/inputTypes.ts");
+            const { inputTypeRegistry } = module;
             const { version } = JSON.parse(readFileSync("./package.json", "utf8"));
             writeFileSync(
                 path.resolve(import.meta.dirname, "dist/galaxy-charts.inputs.json"),

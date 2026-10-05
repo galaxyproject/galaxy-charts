@@ -56,5 +56,6 @@ describe("the runtime entry stays headless", () => {
     test("it does reach the option resolution it exists to expose", () => {
         expect(modules).toContain(path.join("src", "store", "getOptions.ts"));
         expect(modules).toContain(path.join("src", "schema", "inputOptions.ts"));
+        expect(modules).toContain(path.join("src", "utilities", "parsePlugin.ts"));
     });
 });

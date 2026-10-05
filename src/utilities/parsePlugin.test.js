@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from "vitest";
-import { parsePlugin } from "./parsePlugin";
+import { parsePlugin, parseValues, selectCase } from "./parsePlugin";
 import { INPUT_TYPES, inputTypeRegistry } from "@/schema/inputTypes";
 import { useColumnsStore } from "@/store/columnsStore";
 
@@ -248,5 +248,53 @@ describe("a hidden setting is persisted without a control", () => {
 
     test("it offers no options, so no fetch is ever attempted for it", () => {
         expect(INPUT_TYPES.hidden.options).toBeUndefined();
+    });
+});
+
+describe("one case selection, shared by the parser and its headless callers", () => {
+    const conditional = {
+        name: "mode",
+        type: "conditional",
+        test_param: { name: "kind", type: "select", value: "b" },
+        cases: [
+            { value: "a", inputs: [{ name: "x", type: "integer", value: "1" }] },
+            { value: "b", inputs: [{ name: "y", type: "text", value: "z" }] },
+            { value: "true", inputs: [] },
+        ],
+    };
+
+    test("a stored test value selects its case", () => {
+        expect(selectCase(conditional, { kind: "a" })?.value).toBe("a");
+    });
+
+    test("nothing stored falls back to the test parameter's default", () => {
+        expect(selectCase(conditional, {})?.value).toBe("b");
+    });
+
+    test("labels compare as strings, so a stored boolean selects the case its text names", () => {
+        expect(selectCase(conditional, { kind: true })?.value).toBe("true");
+    });
+
+    test("a value naming no case selects none, which the parser then leaves unexpanded", async () => {
+        expect(selectCase(conditional, { kind: "zzz" })).toBeUndefined();
+        const result = await parsePlugin(
+            { settings: [conditional], tracks: [] },
+            { settings: { mode: { kind: "zzz" } } },
+        );
+        expect(result.settings).toEqual({ mode: { kind: "zzz" } });
+    });
+
+    test("one input resolves alone as it does among the others", async () => {
+        const inputs = [
+            { name: "n", type: "integer", value: "3" },
+            { name: "b", type: "boolean" },
+            { name: "c", type: "data_column", is_auto: "true" },
+            { name: "t", type: "text" },
+            conditional,
+        ];
+        const parsed = (await parsePlugin({ settings: inputs, tracks: [] }, {})).settings;
+        for (const input of inputs) {
+            expect(parseValues([input], {})[input.name]).toEqual(parsed[input.name]);
+        }
     });
 });

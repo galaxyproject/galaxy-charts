@@ -31,11 +31,14 @@ export type InputAtomicType = boolean | string | number | null | undefined;
  * that structure; nothing handling a value interprets it. */
 export type InputValueType = InputAtomicType | Record<string, unknown>;
 
+/** One case of a conditional: the test value that selects it and the inputs it adds. */
+export interface InputCaseType {
+    value: string;
+    inputs: Array<InputElementType>;
+}
+
 export interface InputElementType {
-    cases?: Array<{
-        value: string;
-        inputs: Array<InputElementType>;
-    }>;
+    cases?: Array<InputCaseType>;
     data?: Array<{ label: string; value: string }>;
     deferred?: boolean;
     extension?: string;

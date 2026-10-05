@@ -1,4 +1,5 @@
 import type {
+    InputCaseType,
     InputElementType,
     InputValuesType,
     InputValueType,
@@ -37,6 +38,17 @@ function formatValue(input: InputElementType, inputValue: InputValueType): Input
     return coerceInputValue(input.type, value);
 }
 
+/** The case a conditional's stored values select: its stored test value, else the test parameter's
+ * default, matched against each case's label as a string. Undefined when no case matches. */
+export function selectCase(input: InputElementType, values: InputValuesType = {}): InputCaseType | undefined {
+    const testName = input.test_param?.name;
+    if (!testName) {
+        return undefined;
+    }
+    const testValue = values[testName] ?? input.test_param?.value;
+    return input.cases?.find((inputCase) => String(inputCase.value) === String(testValue));
+}
+
 // Format conditional values based on test cases
 function formatConditional(input: InputElementType, values: InputValuesType = {}): InputValuesType {
     let result = { ...values };
@@ -44,15 +56,13 @@ function formatConditional(input: InputElementType, values: InputValuesType = {}
 
     if (!testName) {
         console.error(`[charts] Test parameter has no name: ${input.name}.`);
-    } else {
-        const testValue = result[testName] ?? input.test_param?.value;
-        for (const inputCase of input.cases || []) {
-            if (String(inputCase.value) === String(testValue)) {
-                result[testName] = inputCase.value;
-                if (inputCase.inputs?.length) {
-                    result = parseValues(inputCase.inputs, result);
-                }
-            }
+        return result;
+    }
+    const inputCase = selectCase(input, result);
+    if (inputCase) {
+        result[testName] = inputCase.value;
+        if (inputCase.inputs?.length) {
+            result = parseValues(inputCase.inputs, result);
         }
     }
     return result;

@@ -6,7 +6,7 @@
 import { z } from "zod";
 import type { InputElementType, InputValuesType } from "../types";
 import { selectCase } from "../utilities/parsePlugin";
-import { INPUT_TYPES } from "./inputTypes";
+import { declaredNumber, INPUT_TYPES } from "./inputTypes";
 
 /** One departure, at a dotted path relative to the values that were checked. Branch on `code`: its
  * fields are the contract. `message` is the schema library's wording, for people, and may change. */
@@ -23,15 +23,6 @@ const isObject = (value: unknown): value is InputValuesType =>
 
 const join = (path: string, name: string) => (path ? `${path}.${name}` : name);
 
-/** A declared bound, or undefined when the plugin states none it could mean. */
-function bound(text: string | undefined): number | undefined {
-    if (text === undefined || String(text).trim() === "") {
-        return undefined;
-    }
-    const value = Number(text);
-    return Number.isFinite(value) ? value : undefined;
-}
-
 function checkValue(input: InputElementType, value: unknown, path: string): Array<ValueIssueType> {
     const stores = INPUT_TYPES[input.type]?.stores;
     if (stores) {
@@ -45,7 +36,7 @@ function checkValue(input: InputElementType, value: unknown, path: string): Arra
     if (offered.length && !offered.includes(value as string)) {
         return [{ code: "not_offered", path, name: input.name, offered }];
     }
-    const [min, max] = [bound(input.min), bound(input.max)];
+    const [min, max] = [declaredNumber(input.min), declaredNumber(input.max)];
     if (typeof value === "number" && ((min !== undefined && value < min) || (max !== undefined && value > max))) {
         return [{ code: "out_of_bounds", path, name: input.name, min, max }];
     }

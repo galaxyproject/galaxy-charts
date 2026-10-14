@@ -1,10 +1,13 @@
 /** What each input type stores, so consumers need not infer it from a plugin's XML. */
-import type { InputAtomicType, InputValueType } from "../types";
+import type { InputAtomicType, InputElementType, InputValueType } from "../types";
 import { z } from "zod";
 // Relative: vite.config.js imports this module outside vite's alias resolution.
 import { toBoolean } from "../utilities/toBoolean";
 
 export type CoercionType = "number" | "boolean";
+
+/** The flags a `data_column` may declare. */
+export type InputFlagType = "is_auto" | "is_text" | "is_number";
 
 /** A selected history dataset. */
 export const SelectedDataset = z.looseObject({
@@ -41,7 +44,7 @@ export interface InputTypeSpec {
     /** Value to store when neither the config nor the plugin's `<value>` supplies one. `requires`
      * names a flag the input must declare for the fallback to apply. Dataset-independent only: a
      * default that needs column metadata cannot be resolved here. */
-    fallback?: { value: string; requires?: string };
+    fallback?: { value: string; requires?: InputFlagType };
 }
 
 export const INPUT_TYPES: Record<string, InputTypeSpec> = {
@@ -77,7 +80,7 @@ export const INPUT_TYPES: Record<string, InputTypeSpec> = {
 };
 
 /** The value an input stores when nothing supplies one, or undefined. */
-export function inputTypeFallback(type: string, declares: (flag: string) => boolean): string | undefined {
+export function inputTypeFallback(type: string, declares: (flag: InputFlagType) => boolean): string | undefined {
     const fallback = INPUT_TYPES[type]?.fallback;
     if (!fallback) {
         return undefined;
@@ -105,6 +108,21 @@ export function coerceInputValue(type: string, value: InputValueType): InputValu
         default:
             return value;
     }
+}
+
+/** A declared number such as a bound, or undefined when the text states none: "" and "abc" are not 0. */
+export function declaredNumber(text: unknown): number | undefined {
+    const value = Number(text);
+    return String(text ?? "").trim() !== "" && Number.isFinite(value) ? value : undefined;
+}
+
+/** The value an input stores when nothing else supplies one: its declared value, else its type's
+ * fallback, as the type stores it. */
+export function declaredDefault(
+    input: Pick<InputElementType, "type"> & Partial<Pick<InputElementType, "value" | InputFlagType>>,
+): InputValueType {
+    const fallback = inputTypeFallback(input.type, (flag) => toBoolean(input[flag]));
+    return coerceInputValue(input.type, input.value ?? fallback);
 }
 
 /** Plain data, for consumers in other languages. */

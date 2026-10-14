@@ -7,11 +7,7 @@ import type {
     PluginType,
     TranscriptMessageType,
 } from "@/types";
-import { coerceInputValue, inputTypeFallback } from "@/schema/inputTypes";
-import { toBoolean } from "./toBoolean";
-
-/** The optional string flags an input declares, which a schema fallback may require. */
-type InputFlagType = "is_auto" | "is_text" | "is_number";
+import { coerceInputValue, declaredDefault } from "@/schema/inputTypes";
 
 interface ParsedPlugin {
     plugin: PluginType;
@@ -33,9 +29,9 @@ export async function parsePlugin(plugin: PluginType, config: PluginConfigType =
 // Format value according to input type
 function formatValue(input: InputElementType, inputValue: InputValueType): InputValueType {
     // The schema owns the fallback, so a value resolves here rather than when an input mounts.
-    const value =
-        inputValue ?? input.value ?? inputTypeFallback(input.type, (flag) => toBoolean(input[flag as InputFlagType]));
-    return coerceInputValue(input.type, value);
+    return inputValue === undefined || inputValue === null
+        ? declaredDefault(input)
+        : coerceInputValue(input.type, inputValue);
 }
 
 /** The case a conditional's stored values select: its stored test value, else the test parameter's

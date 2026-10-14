@@ -183,6 +183,29 @@ describe("InputForm.vue", () => {
         expect(lastEmitted.integerInput).toBe(7);
     });
 
+    test("reads declared bounds as schema generation and validation do", async () => {
+        await wrapper.setProps({
+            inputs: [
+                { name: "empty", type: "integer", min: "", max: "10" },
+                { name: "invalid", type: "float", min: "abc", max: " " },
+                { name: "lower", type: "integer", min: " 2 " },
+                { name: "both", type: "integer", min: "1", max: "9" },
+            ],
+            values: {},
+        });
+        const bounds = wrapper
+            .findAllComponents(NInputNumber)
+            .map((number) => [number.props("min"), number.props("max")]);
+        expect(bounds).toEqual([
+            [undefined, 10],
+            [undefined, undefined],
+            [2, undefined],
+            [1, 9],
+        ]);
+        const sliders = wrapper.findAllComponents(NSlider);
+        expect(sliders.map((slider) => [slider.props("min"), slider.props("max")])).toEqual([[1, 9]]);
+    });
+
     test("renders fallback n-input for unknown input type", async () => {
         await wrapper.setProps({
             inputs: [{ name: "customInput", type: "custom-type" }],

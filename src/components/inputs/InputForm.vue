@@ -7,6 +7,7 @@ import InputDataColumn from "@/components/inputs/InputDataColumn.vue";
 import InputDataJson from "@/components/inputs/InputDataJson.vue";
 import InputDataTable from "@/components/inputs/InputDataTable.vue";
 import { optionsFor, scalarOptions } from "@/schema/inputOptions";
+import { declaredNumber } from "@/schema/inputTypes";
 import { toBoolean } from "@/utilities/toBoolean";
 import type { InputElementType, InputValuesType } from "@/types";
 
@@ -106,18 +107,18 @@ watch(
                     @update:value="onUpdate" />
                 <div v-else-if="['float', 'integer'].includes(input.type)">
                     <n-slider
-                        v-if="input.min !== undefined && input.max !== undefined"
+                        v-if="declaredNumber(input.min) !== undefined && declaredNumber(input.max) !== undefined"
                         class="mb-2"
                         v-model:value="currentValues[input.name]"
-                        :min="Number(input.min)"
-                        :max="Number(input.max)"
+                        :min="declaredNumber(input.min)"
+                        :max="declaredNumber(input.max)"
                         :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
                         @update:value="onUpdate" />
                     <n-input-number
                         v-model:value="currentValues[input.name]"
                         size="small"
-                        :min="Number(input.min)"
-                        :max="Number(input.max)"
+                        :min="declaredNumber(input.min)"
+                        :max="declaredNumber(input.max)"
                         :step="input.type === 'float' ? NUMBER_STEP_SIZE : 1"
                         @update:value="onUpdate" />
                 </div>

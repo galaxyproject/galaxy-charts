@@ -1,7 +1,10 @@
 import { describe, test, expect, vi } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 
-import { INPUT_TYPES, inputTypeRegistry, SelectedDataset } from "@/schema/inputTypes";
+import { declaredDefault, declaredNumber, INPUT_TYPES, inputTypeRegistry, SelectedDataset } from "@/schema/inputTypes";
+import { parametersSchema } from "@/schema/parametersSchema";
+import { validateValues } from "@/schema/validateValues";
+import { parseValues } from "@/utilities/parsePlugin";
 import InputData from "@/components/inputs/InputData.vue";
 import { parseColumns } from "@/utilities/parseColumns";
 
@@ -129,5 +132,51 @@ describe("the identity a selected value carries", () => {
         for (const type of ["data", "data_table", "data_json"]) {
             expect(types[type].stores.properties.id.minLength).toBe(1);
         }
+    });
+});
+
+describe("declared values", () => {
+    test("a bound is a number only where the text states one", () => {
+        expect([" 3 ", "-1.5", 0].map(declaredNumber)).toEqual([3, -1.5, 0]);
+        expect(["", " ", "abc", undefined].map(declaredNumber)).toEqual([undefined, undefined, undefined, undefined]);
+    });
+
+    test("a default is the declared value, else the type's fallback, as the type stores it", () => {
+        expect(declaredDefault({ type: "integer", value: " 4 " })).toBe(4);
+        expect(declaredDefault({ type: "integer", value: "wide" })).toBeUndefined();
+        expect(declaredDefault({ type: "boolean", value: "True" })).toBe(true);
+        expect(declaredDefault({ type: "boolean" })).toBe(false);
+        expect(declaredDefault({ type: "data_column", is_auto: "TRUE" })).toBe("auto");
+        expect(declaredDefault({ type: "data_column" })).toBeUndefined();
+        expect(declaredDefault({ type: "data_column", is_auto: "true", value: "2" })).toBe("2");
+    });
+
+    test("bounds mean the same to the schema and the validator", () => {
+        const input = { name: "n", type: "integer", min: " 3 ", max: "" };
+        const schema = parametersSchema({ name: "p", settings: [input] }).properties.settings.properties.n;
+        expect(schema.minimum).toBe(3);
+        expect(schema).not.toHaveProperty("maximum");
+        expect(validateValues([input], { n: 2 })[0]).toMatchObject({ code: "out_of_bounds", min: 3, max: undefined });
+        expect(validateValues([input], { n: 1000 })).toEqual([]);
+    });
+
+    test("a default inside nested conditionals is the one the schema states", () => {
+        const leaf = { name: "leaf", type: "data_column", is_auto: "TRUE" };
+        const inner = {
+            name: "inner",
+            type: "conditional",
+            test_param: { name: "mode", type: "select", value: "x" },
+            cases: [{ value: "x", inputs: [leaf] }],
+        };
+        const outer = {
+            name: "outer",
+            type: "conditional",
+            test_param: { name: "kind", type: "select", value: "a" },
+            cases: [{ value: "a", inputs: [inner] }],
+        };
+        expect(parseValues([outer], {})).toEqual({ outer: { kind: "a", inner: { mode: "x", leaf: "auto" } } });
+        const absent = (schema) => schema.oneOf.at(-1).properties;
+        const settings = parametersSchema({ name: "p", settings: [outer] }).properties.settings.properties;
+        expect(absent(absent(settings.outer).inner).leaf.default).toBe("auto");
     });
 });

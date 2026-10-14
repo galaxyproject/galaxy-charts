@@ -5,17 +5,11 @@ import { z } from "zod";
 import type { InputCaseType, InputElementType, PluginType } from "../types";
 import { selectCase } from "../utilities/parsePlugin";
 import { toBoolean } from "../utilities/toBoolean";
-import { coerceInputValue, INPUT_TYPES, inputTypeFallback } from "./inputTypes";
+import { declaredDefault, declaredNumber, INPUT_TYPES } from "./inputTypes";
 
 type SchemaType = Record<string, unknown>;
 
 const BOUND_KEYWORDS: Record<string, string> = { min: "minimum", max: "maximum" };
-
-/** A declared number, or undefined when the declaration states none. */
-function declaredNumber(text: unknown): number | undefined {
-    const value = Number(text);
-    return String(text ?? "").trim() !== "" && Number.isFinite(value) ? value : undefined;
-}
 
 function declared(input: InputElementType, key: string): unknown {
     return input[key as keyof InputElementType];
@@ -95,8 +89,7 @@ function inputSchema(input: InputElementType): SchemaType {
         }
         schema.gx_source = source;
     }
-    const value = input.value ?? inputTypeFallback(input.type, (flag) => toBoolean(declared(input, flag) as string));
-    const fallback = coerceInputValue(input.type, value);
+    const fallback = declaredDefault(input);
     if (fallback !== undefined && typeof fallback !== "object") {
         schema.default = fallback;
     }

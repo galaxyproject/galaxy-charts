@@ -64,7 +64,13 @@ describe("the runtime entry stays headless", () => {
 describe("the runtime entry's public surface", () => {
     test("is exactly the option lookup and the input contract", async () => {
         const runtime = await import("../lib/galaxy-charts-runtime");
-        expect(Object.keys(runtime).sort()).toEqual(["getOptions", "parseValues", "selectCase", "validateValues"]);
+        expect(Object.keys(runtime).sort()).toEqual([
+            "getOptions",
+            "parametersSchema",
+            "parseValues",
+            "selectCase",
+            "validateValues",
+        ]);
     });
 });
 

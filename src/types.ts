@@ -55,6 +55,8 @@ export interface InputElementType {
     rows?: string;
     tables?: Array<string>;
     test_param?: {
+        help?: string;
+        label?: string;
         name: string;
         type: string;
         data?: Array<{ label: string; value: string }>;

@@ -82,7 +82,7 @@ export function parseValues(inputs?: Array<InputElementType>, values?: InputValu
 // Parse tracks with nested values
 function parseTracks(inputs?: Array<InputElementType>, tracks?: Array<InputValuesType>): Array<InputValuesType> {
     const values = [...(tracks || [])];
-    if (inputs) {
+    if (inputs?.length) {
         if (values.length === 0) {
             values.push({});
         }

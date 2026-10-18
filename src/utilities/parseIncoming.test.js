@@ -14,6 +14,7 @@ describe("parseIncoming function", () => {
         const result = parseIncoming(mockIncoming);
         expect(result).toEqual({
             root: "/dashboard",
+            visualizationEmbedded: false,
             visualizationConfig: { type: "bar", settings: {} },
             visualizationId: "12345",
             visualizationPlugin: { name: "BarChart", version: "1.0.0" },
@@ -25,6 +26,7 @@ describe("parseIncoming function", () => {
         const result = parseIncoming({});
         expect(result).toEqual({
             root: "/",
+            visualizationEmbedded: false,
             visualizationConfig: {},
             visualizationId: null,
             visualizationPlugin: {},
@@ -37,11 +39,18 @@ describe("parseIncoming function", () => {
         const result = parseIncoming();
         expect(result).toEqual({
             root: "/dashboard",
+            visualizationEmbedded: false,
             visualizationConfig: { type: "bar", settings: {} },
             visualizationId: "12345",
             visualizationPlugin: { name: "BarChart", version: "1.0.0" },
             visualizationTitle: "Charts Report",
         });
+    });
+
+    test("only an explicit true marks the plugin as embedded", () => {
+        expect(parseIncoming({ visualization_embedded: true }).visualizationEmbedded).toBe(true);
+        expect(parseIncoming({ visualization_embedded: false }).visualizationEmbedded).toBe(false);
+        expect(parseIncoming({ visualization_embedded: "true" }).visualizationEmbedded).toBe(false);
     });
 
     test("Throws an error if container element is missing", () => {

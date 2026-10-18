@@ -2,6 +2,7 @@ import type { PluginConfigType, PluginIncomingType, PluginType } from "@/types";
 
 interface ParsedIncoming {
     root: string;
+    visualizationEmbedded: boolean;
     visualizationConfig: PluginConfigType;
     visualizationId: string | null;
     visualizationPlugin: PluginType;
@@ -21,11 +22,19 @@ export function parseIncoming(incoming?: PluginIncomingType, container = "app"):
 
     // Parse incoming data
     const root = incoming?.root ?? "/";
+    const visualizationEmbedded = incoming?.visualization_embedded === true;
     const visualizationConfig = incoming?.visualization_config ?? {};
     const visualizationId = incoming?.visualization_id ?? null;
     const visualizationPlugin = incoming?.visualization_plugin ?? {};
     const visualizationTitle = incoming?.visualization_title ?? "Unnamed Visualization";
 
     // Parse chart dict
-    return { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle };
+    return {
+        root,
+        visualizationEmbedded,
+        visualizationConfig,
+        visualizationId,
+        visualizationPlugin,
+        visualizationTitle,
+    };
 }

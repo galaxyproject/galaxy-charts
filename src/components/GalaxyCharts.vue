@@ -33,10 +33,8 @@ const props = defineProps<{
 }>();
 
 // Parse incoming visualization details
-const { root, visualizationConfig, visualizationId, visualizationPlugin, visualizationTitle } = parseIncoming(
-    props.incoming,
-    props.container,
-);
+const { root, visualizationConfig, visualizationEmbedded, visualizationId, visualizationPlugin, visualizationTitle } =
+    parseIncoming(props.incoming, props.container);
 // References with reactive types
 const currentCollapse = ref<boolean>(props.collapse);
 const currentTab = ref<TabType | undefined>(props.tab);
@@ -284,7 +282,7 @@ function update({ collapse, settings, tab, tracks, transcripts }: EmitUpdateType
             :plugin-description="pluginDescription"
             :plugin-html="pluginHtml"
             :plugin-name="pluginName"
-            :save="save"
+            :save="visualizationEmbedded ? undefined : save"
             :setting-inputs="settingInputs"
             :setting-values="settingValues"
             :spec-values="specValues"

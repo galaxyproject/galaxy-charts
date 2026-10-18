@@ -99,6 +99,7 @@ export interface PluginConfigType {
 
 export interface PluginIncomingType {
     root?: string;
+    visualization_embedded?: boolean;
     visualization_config?: PluginConfigType;
     visualization_id?: string;
     visualization_plugin?: PluginType;

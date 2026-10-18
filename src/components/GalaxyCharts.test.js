@@ -280,6 +280,28 @@ describe("build user interface", () => {
         expect(wrapper.vm.errorMessage).toContain("Verify that you are logged in");
     });
 
+    test("the save button shows unless the plugin is embedded", async () => {
+        const config = { dataset_id: "DATASET_1" };
+        const plugin = { settings: [{ name: "color", type: "text" }] };
+        for (const [visualizationEmbedded, shown] of [
+            [undefined, true],
+            [false, true],
+            [true, false],
+        ]) {
+            const wrapper = mountTarget({
+                collapse: false,
+                incoming: {
+                    visualization_embedded: visualizationEmbedded,
+                    visualization_config: config,
+                    visualization_plugin: plugin,
+                },
+            });
+            await new Promise((resolve) => setTimeout(resolve, 0));
+            const titles = wrapper.findAllComponents(SideButton).map((button) => button.props("title"));
+            expect(titles.includes("Save")).toBe(shown);
+        }
+    });
+
     test("a hidden setting cleared with undefined is not persisted", async () => {
         const incoming = {
             visualization_config: { dataset_id: "DATASET_1", settings: { job_dataset_id: "abc123" } },

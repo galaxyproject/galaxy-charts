@@ -32,7 +32,7 @@ const props = defineProps<{
     pluginDescription: string;
     pluginHtml: string;
     pluginName: string;
-    save: () => Promise<SaveResultType>;
+    save?: () => Promise<SaveResultType>;
     settingInputs: InputElementType[];
     settingValues: InputValuesType;
     specValues: InputValuesType;
@@ -71,10 +71,12 @@ const showTabs = computed(() => {
 
 // Save or create the visualization
 async function onSave(): Promise<void> {
-    const result = await props.save();
-    if (result.status !== "error") {
-        message.value = result.status === "created" ? "Successfully created." : "Successfully saved.";
-        messageType.value = "success";
+    if (props.save) {
+        const result = await props.save();
+        if (result.status !== "error") {
+            message.value = result.status === "created" ? "Successfully created." : "Successfully saved.";
+            messageType.value = "success";
+        }
     }
 }
 
@@ -113,6 +115,7 @@ function onUpdateVisualizationTitle(newTitle: string): void {
             </div>
             <div>
                 <SideButton
+                    v-if="props.save"
                     :circle="true"
                     button-class="mr-2"
                     :icon="CloudArrowUpIcon"

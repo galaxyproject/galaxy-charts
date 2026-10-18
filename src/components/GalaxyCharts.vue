@@ -60,6 +60,8 @@ const currentVisualizationTitle = ref<string>(visualizationTitle);
 // Target origin for host messages
 const hostOrigin = toOrigin(root) ?? "*";
 
+let savedState: string | undefined;
+
 // Store values in config store
 const configStore = useConfigStore();
 configStore.setCredentials(props.credentials || "include");
@@ -78,6 +80,7 @@ parsePlugin(visualizationPlugin, visualizationConfig).then(({ plugin, settings, 
     trackInputs.value = plugin.tracks || [];
     trackValues.value = tracks;
     transcriptValues.value = transcripts;
+    savedState = currentState();
 });
 
 // Get visualization dataset id
@@ -109,8 +112,13 @@ function onToggle() {
     updateCollapse(!currentCollapse.value);
 }
 
+function currentState(): string {
+    return JSON.stringify([serialize(), currentVisualizationTitle.value]);
+}
+
 // Send a message to the parent container
-function postMessage(visualizationSaved = false) {
+function postMessage() {
+    const visualizationSaved = savedState !== undefined && currentState() === savedState;
     try {
         window.parent.postMessage(
             {
@@ -196,7 +204,8 @@ async function save({ settings, tracks, transcripts }: EmitSaveType = {}): Promi
         if (newVisualizationId) {
             currentVisualizationId.value = newVisualizationId;
         }
-        postMessage(true);
+        savedState = currentState();
+        postMessage();
         return { status: created ? "created" : "updated" };
     } catch (e) {
         return fail(`Failed to save: ${e}`);

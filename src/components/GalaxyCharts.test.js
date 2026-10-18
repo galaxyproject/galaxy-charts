@@ -1,5 +1,5 @@
-import { describe, test, expect } from "vitest";
-import { mount } from "@vue/test-utils";
+import { describe, test, expect, vi } from "vitest";
+import { flushPromises, mount } from "@vue/test-utils";
 
 import * as visualizations from "@/api/visualizations";
 import ChartsLogo from "@/components/ChartsLogo.vue";
@@ -99,16 +99,57 @@ describe("build user interface", () => {
         expect(wrapper.vm.errorMessage).toContain("Failed to postMessage");
     });
 
-    test("postMessage reports whether the state is saved", async () => {
-        const incoming = { visualization_config: {} };
-        const wrapper = mountTarget({ incoming });
-        await wrapper.vm.$nextTick();
-        const posted = [];
-        window.postMessage = (message) => posted.push(message);
-        wrapper.vm["postMessage"]();
-        wrapper.vm["postMessage"](true);
-        await wrapper.vm.$nextTick();
-        expect(posted.map((m) => m.visualization_saved)).toEqual([false, true]);
+    describe("whether the state is saved", () => {
+        const incoming = {
+            visualization_config: { dataset_id: "DATASET_1", settings: { locus: "chr1:1-100" } },
+            visualization_id: "vis-1",
+            visualization_plugin: { name: "igv" },
+            visualization_title: "My view",
+        };
+
+        async function opened() {
+            const wrapper = mountTarget({ incoming });
+            await flushPromises();
+            const posted = [];
+            window.postMessage = (message) => posted.push(message);
+            const saved = () => posted.map((m) => m.visualization_saved);
+            return { wrapper, saved };
+        }
+
+        test("an update that changes nothing is not unsaved work", async () => {
+            const { wrapper, saved } = await opened();
+            wrapper.vm["update"]({ settings: { locus: "chr1:1-100" } });
+            expect(saved()).toEqual([true]);
+        });
+
+        test("a change is unsaved until it is undone", async () => {
+            const { wrapper, saved } = await opened();
+            wrapper.vm["update"]({ settings: { locus: "chr2:1-100" } });
+            wrapper.vm["update"]({ settings: { locus: "chr1:1-100" } });
+            expect(saved()).toEqual([false, true]);
+        });
+
+        test("a rename is a change", async () => {
+            const { wrapper, saved } = await opened();
+            wrapper.vm["updateVisualizationTitle"]("Renamed");
+            expect(saved()).toEqual([false]);
+        });
+
+        test("a save makes the current state the saved one", async () => {
+            const { wrapper, saved } = await opened();
+            vi.spyOn(visualizations, "visualizationsSave").mockResolvedValueOnce(undefined);
+            await wrapper.vm["save"]({ settings: { locus: "chr2:1-100" } });
+            wrapper.vm["update"]({ settings: { locus: "chr2:1-100" } });
+            wrapper.vm["update"]({ settings: { locus: "chr1:1-100" } });
+            expect(saved()).toEqual([false, true, true, false]);
+        });
+
+        test("a failed save leaves the work unsaved", async () => {
+            const { wrapper, saved } = await opened();
+            vi.spyOn(visualizations, "visualizationsSave").mockRejectedValueOnce(new Error("fail"));
+            await wrapper.vm["save"]({ settings: { locus: "chr2:1-100" } });
+            expect(saved()).toEqual([false]);
+        });
     });
 
     test("posts to the origin the host declared, not to any parent", async () => {

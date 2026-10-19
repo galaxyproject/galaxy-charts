@@ -48,9 +48,7 @@ const heading = title ?? style.defaultTitle;
 ---
 
 <aside class:list={["callout not-prose my-4 rounded-md border-l-4 p-4", style.border, style.bg]}>
-    <div class:list={["callout-title text-sm font-semibold mb-2 uppercase tracking-wide", style.label]}>
-        {heading}
-    </div>
+    <div class:list={["callout-title text-sm font-semibold mb-2 uppercase tracking-wide", style.label]}>{heading}</div>
     <div class="callout-body text-sm text-gray-700 dark:text-gray-200">
         <slot />
     </div>

@@ -28,24 +28,20 @@ const currentPath = Astro.url.pathname;
 ---
 
 <SiteShell pageTitle={pageTitle} pageDescription={pageDescription} faviconHref={faviconHref} showSidebar={showSidebar}>
-    {
-        showSidebar && (
-            <header
-                slot="mobile-bar"
-                class="lg:hidden fixed top-0 left-0 right-0 h-14 z-50 flex items-center justify-between px-4 bg-[var(--sidebar-bg)] border-b border-[var(--sidebar-border)]">
-                <BrandMark site={site} />
-                <MobileNav nav={nav} currentPath={currentPath} client:only="vue" />
-            </header>
-        )
-    }
+    {showSidebar && (
+        <header
+            slot="mobile-bar"
+            class="lg:hidden fixed top-0 left-0 right-0 h-14 z-50 flex items-center justify-between px-4 bg-[var(--sidebar-bg)] border-b border-[var(--sidebar-border)]">
+            <BrandMark site={site} />
+            <MobileNav nav={nav} currentPath={currentPath} client:only="vue" />
+        </header>
+    )}
     {showSidebar && <Sidebar slot="sidebar" site={site} nav={nav} social={social} currentPath={currentPath} />}
-    {
-        bare ? (
+    {bare ? (
+        <slot />
+    ) : (
+        <div class="flex-1 p-4 sm:p-6 lg:p-pad bg-grid">
             <slot />
-        ) : (
-            <div class="flex-1 p-4 sm:p-6 lg:p-pad bg-grid">
-                <slot />
-            </div>
-        )
-    }
+        </div>
+    )}
 </SiteShell>

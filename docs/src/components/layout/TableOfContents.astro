@@ -11,22 +11,20 @@ const { headings, title = "On this page" } = Astro.props;
 const filtered = visibleHeadings(headings);
 ---
 
-{
-    hasToc(headings) && (
-        <nav class="toc text-sm" aria-label="Table of Contents">
-            <h2 class="text-xs font-semibold uppercase tracking-wider text-[var(--surface-muted)] mb-3">{title}</h2>
-            <ul class="list-none p-0 m-0">
-                {filtered.map((heading) => (
-                    <li class={`toc-item toc-depth-${heading.depth}`}>
-                        <a href={`#${heading.slug}`} class="toc-link">
-                            {heading.text}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    )
-}
+{hasToc(headings) && (
+    <nav class="toc text-sm" aria-label="Table of Contents">
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-[var(--surface-muted)] mb-3">{title}</h2>
+        <ul class="list-none p-0 m-0">
+            {filtered.map((heading) => (
+                <li class={`toc-item toc-depth-${heading.depth}`}>
+                    <a href={`#${heading.slug}`} class="toc-link">
+                        {heading.text}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </nav>
+)}
 
 <style>
     /* TOC links share the sidebar's `--sidebar-*` palette so left-nav and

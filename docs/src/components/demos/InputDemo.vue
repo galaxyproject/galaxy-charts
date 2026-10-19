@@ -18,16 +18,7 @@ interface Option {
 }
 
 type InputType =
-    | "boolean"
-    | "color"
-    | "data"
-    | "data_json"
-    | "data_table"
-    | "float"
-    | "integer"
-    | "select"
-    | "text"
-    | "textarea";
+    "boolean" | "color" | "data" | "data_json" | "data_table" | "float" | "integer" | "select" | "text" | "textarea";
 
 interface Props {
     type: InputType;

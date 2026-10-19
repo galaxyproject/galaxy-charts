@@ -48,46 +48,40 @@ const navTitleClass = "font-semibold text-galaxy-primary dark:text-galaxy-gold";
                 <slot />
             </div>
 
-            {
-                (prev || next) && (
-                    <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
-                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-[var(--surface-border)]">
-                            {prev ? (
-                                <a
-                                    href={resolveHref(prev.href, prev.external)}
-                                    class:list={[navLinkClass, "sm:flex-1"]}>
-                                    <div class={navLabelClass}>Previous page</div>
-                                    <div class={navTitleClass}>
-                                        <span aria-hidden="true">←</span> {prev.label}
-                                    </div>
-                                </a>
-                            ) : (
-                                <div class="sm:flex-1" />
-                            )}
-                            {next ? (
-                                <a
-                                    href={resolveHref(next.href, next.external)}
-                                    class:list={[navLinkClass, "sm:flex-1 text-right"]}>
-                                    <div class={navLabelClass}>Next page</div>
-                                    <div class={navTitleClass}>
-                                        {next.label} <span aria-hidden="true">→</span>
-                                    </div>
-                                </a>
-                            ) : (
-                                <div class="sm:flex-1" />
-                            )}
-                        </div>
-                    </footer>
-                )
-            }
+            {(prev || next) && (
+                <footer class="px-6 sm:px-8 pb-6 sm:pb-8">
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-6 border-t border-[var(--surface-border)]">
+                        {prev ? (
+                            <a href={resolveHref(prev.href, prev.external)} class:list={[navLinkClass, "sm:flex-1"]}>
+                                <div class={navLabelClass}>Previous page</div>
+                                <div class={navTitleClass}>
+                                    <span aria-hidden="true">←</span> {prev.label}
+                                </div>
+                            </a>
+                        ) : (
+                            <div class="sm:flex-1" />
+                        )}
+                        {next ? (
+                            <a
+                                href={resolveHref(next.href, next.external)}
+                                class:list={[navLinkClass, "sm:flex-1 text-right"]}>
+                                <div class={navLabelClass}>Next page</div>
+                                <div class={navTitleClass}>
+                                    {next.label} <span aria-hidden="true">→</span>
+                                </div>
+                            </a>
+                        ) : (
+                            <div class="sm:flex-1" />
+                        )}
+                    </div>
+                </footer>
+            )}
         </article>
 
-        {
-            showToc && (
-                <aside class="hidden lg:block lg:w-56 lg:flex-shrink-0 lg:sticky lg:self-start lg:overflow-y-auto lg:top-pad lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]">
-                    <TableOfContents headings={headings} />
-                </aside>
-            )
-        }
+        {showToc && (
+            <aside class="hidden lg:block lg:w-56 lg:flex-shrink-0 lg:sticky lg:self-start lg:overflow-y-auto lg:top-pad lg:max-h-[calc(100vh-var(--spacing-pad)-var(--spacing-toc-buffer))]">
+                <TableOfContents headings={headings} />
+            </aside>
+        )}
     </div>
 </BaseLayout>

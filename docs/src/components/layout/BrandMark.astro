@@ -27,18 +27,16 @@ const sizeClass = large ? "h-10 w-auto" : "h-8 w-auto";
 ---
 
 <a href={homeHref} class="brand-mark inline-flex items-center">
-    {
-        forceDark && logoDarkSrc ? (
-            <img src={logoDarkSrc} alt={site.logo.alt} class={sizeClass} />
-        ) : logoDarkSrc ? (
-            <>
-                <img src={logoLightSrc} alt={site.logo.alt} class={`${sizeClass} block dark:hidden`} />
-                <img src={logoDarkSrc} alt={site.logo.alt} class={`${sizeClass} hidden dark:block`} />
-            </>
-        ) : (
-            <img src={logoLightSrc} alt={site.logo.alt} class={sizeClass} />
-        )
-    }
+    {forceDark && logoDarkSrc ? (
+        <img src={logoDarkSrc} alt={site.logo.alt} class={sizeClass} />
+    ) : logoDarkSrc ? (
+        <>
+            <img src={logoLightSrc} alt={site.logo.alt} class={`${sizeClass} block dark:hidden`} />
+            <img src={logoDarkSrc} alt={site.logo.alt} class={`${sizeClass} hidden dark:block`} />
+        </>
+    ) : (
+        <img src={logoLightSrc} alt={site.logo.alt} class={sizeClass} />
+    )}
 </a>
 
 <style>

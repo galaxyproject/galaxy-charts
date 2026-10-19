@@ -28,20 +28,18 @@ const ICONS: Record<SocialLink["icon"], string> = {
 ---
 
 <div class={className}>
-    {
-        links.map((link) => (
-            <a
-                href={link.href}
-                class="social-icon text-gray-400 hover:text-galaxy-gold"
-                aria-label={link.label}
-                target="_blank"
-                rel="noopener">
-                <svg class={size} fill="currentColor" viewBox="0 0 24 24">
-                    <path d={ICONS[link.icon]} />
-                </svg>
-            </a>
-        ))
-    }
+    {links.map((link) => (
+        <a
+            href={link.href}
+            class="social-icon text-gray-400 hover:text-galaxy-gold"
+            aria-label={link.label}
+            target="_blank"
+            rel="noopener">
+            <svg class={size} fill="currentColor" viewBox="0 0 24 24">
+                <path d={ICONS[link.icon]} />
+            </svg>
+        </a>
+    ))}
 </div>
 
 <style>

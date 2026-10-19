@@ -11,6 +11,7 @@
 .DS_Store
 .vscode/*
 coverage
+diff.txt
 dist
 dist-ssr
 docs/.astro

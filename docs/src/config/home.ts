@@ -30,9 +30,9 @@ export interface FeaturesHeader {
 }
 
 export const hero: HeroConfig = {
-    name: "Galaxy Visualization",
+    name: "Galaxy Charts",
     text: "Plugin Framework",
-    tagline: "Develop, test and deploy JavaScript plugins.",
+    tagline: "Develop, test and deploy browser plugins for Galaxy.",
     actions: [
         { text: "What is Galaxy Charts?", href: "/introduction", variant: "brand" },
         { text: "Examples", href: "/example-igv", variant: "alt" },
@@ -54,19 +54,19 @@ export const features: Feature[] = [
         title: "Standalone",
         subtitle: "No Galaxy required for development",
         description:
-            "Build your visualization in an independent, standalone environment with modern tools like Vite and Vue 3.",
+            "Build your plugin in an independent, standalone environment with modern tools like Vite and Vue 3.",
         iconPath: ICON_MONITOR,
     },
     {
         title: "Data Access",
         subtitle: "Connect to any Galaxy instance",
-        description: "Connect to local or public Galaxy instances to test your visualization with real-world data.",
+        description: "Connect to local or public Galaxy instances to test your plugin with real-world data.",
         iconPath: ICON_LINK,
     },
     {
         title: "Deployment",
         subtitle: "Easy to publish",
-        description: "When your visualization is ready, deploy it to Galaxy for use by researchers worldwide.",
+        description: "When your plugin is ready, deploy it to Galaxy for use by researchers worldwide.",
         iconPath: ICON_UPLOAD,
     },
 ];

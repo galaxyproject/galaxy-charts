@@ -2,7 +2,7 @@ import type { SiteConfig, SocialLink } from "./types";
 
 export const site: SiteConfig = {
     title: "Galaxy Charts",
-    description: "Documentation for Galaxy Charts — develop, test and deploy JavaScript plugins for Galaxy.",
+    description: "Documentation for Galaxy Charts — develop, test and deploy browser plugins for Galaxy.",
     logo: {
         src: "galaxy-charts-logo.svg",
         srcDark: "galaxy-charts-logo-white.svg",

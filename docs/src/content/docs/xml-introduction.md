@@ -1,12 +1,12 @@
 ---
-title: Introducing the Visualization Framework
-description: Galaxy Visualizations are configured using XML files.
+title: Introducing the Plugin Framework
+description: Galaxy browser plugins are configured using XML files.
 ---
 
-Galaxy Visualizations are configured using XML files. The files contain Visualization specific attributes such as the `name`, `description` and `entry_point`.
+Galaxy browser plugins are configured using XML files. The files contain plugin specific attributes such as the `name`, `description` and `entry_point`.
 
 ```xml
-<visualization name="MY_VISUALIZATION">
+<visualization name="MY_PLUGIN">
     <description>MY_DESCRIPTION</description>
     <entry_point src="index.js" css="index.css" />
     ...
@@ -15,22 +15,22 @@ Galaxy Visualizations are configured using XML files. The files contain Visualiz
 
 This XML template includes the following variables:
 
-| Variable             | Description                                                                                           |
-| -------------------- | ----------------------------------------------------------------------------------------------------- |
-| **MY_VISUALIZATION** | Specifies the name of the visualization.                                                              |
-| **MY_DESCRIPTION**   | Provides a brief description of the visualization, including references if it's a third-party plugin. |
+| Variable           | Description                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| **MY_PLUGIN**      | Specifies the name of the plugin.                                                              |
+| **MY_DESCRIPTION** | Provides a brief description of the plugin, including references if it's a third-party plugin. |
 
 ## Help
 
-The `<help>` section provides **markdown-formatted documentation** that will be shown inside Galaxy's user interface when the visualization is launched. Use this to describe the purpose of your visualization, usage instructions, supported data types, and any other relevant guidance.
+The `<help>` section provides **markdown-formatted documentation** that will be shown inside Galaxy's user interface when the plugin is launched. Use this to describe the purpose of your plugin, usage instructions, supported data types, and any other relevant guidance.
 
 ```xml
-<visualization name="MY_VISUALIZATION">
+<visualization name="MY_PLUGIN">
     ...
     <help format="markdown"><![CDATA[
-    # What is My Visualization?
+    # What is My Plugin?
 
-    This visualization displays...
+    This plugin displays...
     ]]></help>
 </visualization>
 ```
@@ -54,7 +54,7 @@ Create a macro file e.g. `macro.xml`, and define `macros` like this:
 In your main XML file, include and reuse the `macros` like this:
 
 ```xml
-<visualization name="MY_VISUALIZATION">
+<visualization name="MY_PLUGIN">
     <macros>
         <import>macro.xml</import>
     </macros>

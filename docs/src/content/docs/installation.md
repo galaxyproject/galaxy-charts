@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Set up a new Galaxy Charts visualization project using the Galaxy Charts UI starter.
+description: Set up a new Galaxy Charts plugin project using the Galaxy Charts UI starter.
 ---
 
 The [Galaxy Charts UI](/galaxy-charts/introduction#galaxy-charts-ui) starter is the quickest path when you want auto-generated forms and Vue helpers. For other stacks, see the [Vite-only approach](/galaxy-charts/xml-framework#building-a-vite-plugin-vanillavuereact-and-more).
@@ -10,24 +10,24 @@ The [Galaxy Charts UI](/galaxy-charts/introduction#galaxy-charts-ui) starter is 
 1. Sign in to your [GitHub](https://github.com) account.
 2. Go to the [Galaxy Charts Starter](https://github.com/guerler/galaxy-charts-starter) repository.
 3. Click on **Use this template** and select **Create a new repository**.
-4. Name your new repository (e.g., `MY_VISUALIZATION`), then complete the setup by clicking **Create repository**.
+4. Name your new repository (e.g., `MY_PLUGIN`), then complete the setup by clicking **Create repository**.
 
 ## 2. Clone Your Repository
 
 Open a terminal window and clone your newly created repository:
 
 ```bash
-git clone https://github.com/USERNAME/MY_VISUALIZATION
+git clone https://github.com/USERNAME/MY_PLUGIN
 ```
 
-Replace USERNAME with your GitHub username and MY_VISUALIZATION with your repository name.
+Replace USERNAME with your GitHub username and MY_PLUGIN with your repository name.
 
-## 3. Initialize Your Visualization Project
+## 3. Initialize Your Plugin Project
 
 Navigate to your project directory and set up the environment:
 
 ```bash
-cd MY_VISUALIZATION
+cd MY_PLUGIN
 npm install
 npm run dev
 ```
@@ -42,8 +42,8 @@ Open a web browser and navigate to the localhost URL displayed in your terminal 
 
 🎉 **Congratulations!**
 
-Your Galaxy visualization repository is set up and ready for development. Follow the instructions on the splash screen and refer to these docs as you build your custom visualization.
+Your Galaxy plugin repository is set up and ready for development. Follow the instructions on the splash screen and refer to these docs as you build your custom plugin.
 
-When you're ready to publish, refer to the [Deploy to Galaxy](/galaxy-charts/deploy-plugin) section to share your visualization with the Galaxy community.
+When you're ready to publish, refer to the [Deploy to Galaxy](/galaxy-charts/deploy-plugin) section to share your plugin with the Galaxy community.
 
 Thank you for your contribution!

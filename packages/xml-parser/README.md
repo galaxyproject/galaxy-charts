@@ -1,1 +1,1 @@
-Retrieves Galaxy visualization XML files using Axios and converts them to JSON format.
+Retrieves Galaxy plugin XML files using Axios and converts them to JSON format.

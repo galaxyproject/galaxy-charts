@@ -20,7 +20,7 @@ export const nav: NavConfig = {
                 { label: "Niivue", href: "/example-niivue" },
                 { label: "Plotly", href: "/example-plotly" },
                 { label: "Vitessce", href: "/example-vitessce" },
-                { label: "All Visualizations", href: "https://usegalaxy.org/visualizations", external: true },
+                { label: "Visit Galaxy", href: "https://usegalaxy.org/visualizations", external: true },
             ],
         },
         {

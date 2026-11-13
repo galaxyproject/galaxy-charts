@@ -2,6 +2,7 @@
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
+    roots: ["<rootDir>/src"],
     moduleFileExtensions: ["ts", "js", "json", "node"], // Ensure TypeScript files are recognized
     transform: {
         "^.+\\.ts$": "ts-jest", // Use ts-jest for TypeScript files

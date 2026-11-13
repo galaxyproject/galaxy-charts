@@ -38,14 +38,15 @@
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@heroicons/vue": "^2.2.0",
+        "@microsoft/api-extractor": "^7.60.1",
         "@tailwindcss/vite": "^4.3.3",
-        "@types/dompurify": "^3.2.0",
         "@types/markdown-it": "^14.2.0",
         "@vitejs/plugin-vue": "^6.0.10",
         "@vitest/browser": "^5.0.5",
         "@vitest/coverage-istanbul": "^5.0.5",
         "@vitest/eslint-plugin": "^1.6.27",
         "@vitest/ui": "^5.0.5",
+        "@vue/language-core": "^3.3.14",
         "@vue/test-utils": "^2.5.1",
         "ajv": "^8.20.0",
         "dompurify": "^3.4.17",
@@ -62,12 +63,31 @@
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.71.2",
         "vite": "^8.3.4",
-        "vite-plugin-checker": "^0.14.5",
+        "vite-plugin-checker": "^1.0.0",
         "vite-plugin-css-injected-by-js": "^5.0.2",
-        "vite-plugin-dts": "^4.5.4",
+        "vite-plugin-dts": "^5.1.2",
         "vitest": "^5.0.5",
         "vue": "^3.5.44",
         "vue-tsc": "^3.3.13",
         "zod": "^4.6.7"
+    },
+    "overrides": {
+        "glob": "^14.0.2",
+        "minimatch": "^11.0.1"
+    },
+    "allowScripts": {
+        "fsevents": false
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=24.15",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11",
+            "onFail": "error"
+        }
     }
 }

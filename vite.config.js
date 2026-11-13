@@ -52,14 +52,13 @@ export default defineConfig({
             },
         }),
         dts({
-            entry: path.resolve(import.meta.dirname, "lib/galaxy-charts.ts"),
-            outDir: path.resolve(import.meta.dirname, "dist"),
-            rollupTypes: true,
-            tsConfigFilePath: path.resolve(import.meta.dirname, "tsconfig.json"),
+            processor: "vue",
+            outDirs: path.resolve(import.meta.dirname, "dist"),
+            bundleTypes: true,
+            tsconfigPath: path.resolve(import.meta.dirname, "tsconfig.json"),
             copyDtsFiles: false,
             include: ["lib/**/*", "src/**/*"],
             exclude: ["dist/**/*", "docs/**/*", "node_modules/**/*", "src/App.vue", "src/Plugin.vue"],
-            logLevel: "debug",
         }),
     ],
     resolve: {

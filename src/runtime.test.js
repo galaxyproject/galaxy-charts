@@ -87,7 +87,7 @@ describe("the runtime entry ships its own typings", () => {
 
     test("they are emitted where the runtime build writes them", () => {
         const config = fs.readFileSync(path.join(ROOT, "vite.config.runtime.js"), "utf8");
-        const outDir = /outDir: path\.resolve\(import\.meta\.dirname, "([^"]+)"\)/.exec(config)?.[1];
+        const outDir = /outDirs: path\.resolve\(import\.meta\.dirname, "([^"]+)"\)/.exec(config)?.[1];
         expect(outDir).toBeTruthy();
         expect(path.normalize(runtimeTypes)).toBe(path.normalize(`./${outDir}/lib/galaxy-charts-runtime.d.ts`));
     });

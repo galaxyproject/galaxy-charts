@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE visualization SYSTEM "../../visualization.dtd">
-<visualization name="MY_VISUALIZATION">
+<visualization name="MY_PLUGIN">
     <description>MY_DESCRIPTION</description>
     <data_sources>
         <data_source>

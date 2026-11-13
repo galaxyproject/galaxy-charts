@@ -5,7 +5,7 @@ export interface HeroAction {
 }
 
 export interface HeroConfig {
-    /** Eyebrow text above the headline (e.g. "Galaxy Visualization"). */
+    /** Eyebrow text above the headline (e.g. "Galaxy Charts"). */
     name?: string;
     text: string;
     tagline?: string;

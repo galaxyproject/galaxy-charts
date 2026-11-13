@@ -1,6 +1,6 @@
 {
     "name": "galaxy-charts",
-    "description": "Galaxy Charts",
+    "description": "Browser plugin framework for Galaxy",
     "keywords": [
         "galaxy",
         "charts"
